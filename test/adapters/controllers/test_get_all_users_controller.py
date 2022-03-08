@@ -4,9 +4,9 @@ from src.infra.repositories.user_repository_mock import UserRepositoryMock
 from src.adapters.helpers.http_models import HttpRequest, Ok
 
 
-class Test_GetAllSubjectsController:
+class Test_GetAllUsersController:
 
-    def test_get_all_subjects_controller(self):
+    def test_get_all_users_controller(self):
 
         getAllUsersController = GetAllUsersController(UserRepositoryMock())
         req = HttpRequest(query=None)
