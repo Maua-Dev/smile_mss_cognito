@@ -6,7 +6,7 @@ from src.domain.usecases.get_user_by_cpfrne_usecase import GetUserByCpfRneUsecas
 from src.domain.repositories.user_repository_interface import IUserRepository
 
 
-class GetAllUserByCpfRneController:
+class GetUserByCpfRneController:
 
     def __init__(self, userRepository: IUserRepository) -> None:
         self._getAllUserByCpfRneUseCase = GetUserByCpfRneUsecase(userRepository)
@@ -17,7 +17,10 @@ class GetAllUserByCpfRneController:
             return BadRequest('Missing parameter.')
 
         try:
-            user = await self._getAllUserByCpfRneUseCase(int(req.query['cpfRne']))
+            if not req.query['cpfRne'].isdigit():
+                return BadRequest('Invalid parameter.')
+
+            user = await self._getAllUserByCpfRneUseCase(req.query['cpfRne'])
             response = user
             if user is None:
                 raise NoItemsFound('')

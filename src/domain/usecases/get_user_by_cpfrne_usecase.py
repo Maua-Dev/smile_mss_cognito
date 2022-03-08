@@ -8,10 +8,9 @@ class GetUserByCpfRneUsecase:
     def __init__(self, userRepository: IUserRepository):
         self._userRepository = userRepository
 
-    def __call__(self, cpf_rne: int) -> User:
+    async def __call__(self, cpf_rne: int) -> User:
         try:
-            user = self._userRepository.getUserByCpfRne(cpfRne=cpf_rne)
-            print(user)
+            user = await self._userRepository.getUserByCpfRne(cpfRne=int(cpf_rne))
 
             if user is None:
                 raise NoItemsFound('')

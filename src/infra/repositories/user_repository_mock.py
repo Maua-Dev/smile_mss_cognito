@@ -9,7 +9,7 @@ class UserRepositoryMock(IUserRepository):
         super().__init__()
         self._users = [
             User(name='user1', cpfRne=12345678910, role='student'),
-            User(name='user2', cpfRne=12345678910, role='admin'),
+            User(name='user2', cpfRne=12345678911, role='admin'),
         ]
 
     def getAllUsers(self) -> List[User]:
@@ -21,7 +21,6 @@ class UserRepositoryMock(IUserRepository):
     async def getUserByCpfRne(self, cpfRne: int) -> User:
         user: User = None
         for userx in self._users:
-            print(userx)
             if userx.cpfRne == cpfRne:
                 user = userx
         return user

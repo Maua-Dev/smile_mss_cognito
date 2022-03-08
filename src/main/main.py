@@ -2,7 +2,7 @@ from fastapi import FastAPI, Response, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import PlainTextResponse
 from src.adapters.controllers.get_all_users_controller import GetAllUsersController
-from src.adapters.controllers.get_user_by_cpfrne_controller import GetAllUserByCpfRneController
+from src.adapters.controllers.get_user_by_cpfrne_controller import GetUserByCpfRneController
 from src.adapters.errors.http_exception import HttpException
 from src.adapters.helpers.http_models import HttpRequest
 from src.main.users.module import Modular
@@ -32,7 +32,7 @@ def getAllusers(response: Response):
 
 @app.get("/user/{cpfRne}")
 async def getStudentusers(cpfRne: int, response: Response):
-    getAllUserByCpfRne = Modular.getInject(GetAllUserByCpfRneController)
+    getAllUserByCpfRne = Modular.getInject(GetUserByCpfRneController)
     req = HttpRequest(query={'cpfRne': cpfRne})
     print(req)
     print(getAllUserByCpfRne)

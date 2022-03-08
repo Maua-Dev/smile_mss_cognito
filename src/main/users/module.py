@@ -2,7 +2,7 @@
 from typing import Any
 
 from src.adapters.controllers.get_all_users_controller import GetAllUsersController
-from src.adapters.controllers.get_user_by_cpfrne_controller import GetAllUserByCpfRneController
+from src.adapters.controllers.get_user_by_cpfrne_controller import GetUserByCpfRneController
 from src.domain.usecases.get_all_users_usecase import GetAllUsersUsecase
 from src.infra.repositories.user_repository_mock import UserRepositoryMock
 
@@ -37,7 +37,7 @@ class Module:
         return [
             GetAllUsersController,
             GetAllUsersUsecase,
-            GetAllUserByCpfRneController,
+            GetUserByCpfRneController,
             UserRepositoryMock
         ]
 
