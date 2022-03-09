@@ -11,7 +11,7 @@ class Test_Student():
     def test_create_valid_user(self):
         user =  User(name='Joao do Teste', cpfRne=12345678911, ra=19003315, role=ROLE.PROFESSOR,
                  accessLevel=ACCESS_LEVEL.ADMIN, createdAt=datetime(2022, 2, 15, 23, 15),
-                 updatedAt=datetime(2022, 2, 15, 23, 15)
+                 updatedAt=datetime(2022, 2, 15, 23, 15), email='bruno@gmail.com'
                 )
         assert len(user.name) > 0
         assert user.name == 'Joao Do Teste'
@@ -46,4 +46,11 @@ class Test_Student():
                  accessLevel=ACCESS_LEVEL.ADMIN, createdAt=datetime(2022, 2, 15, 23, 15),
                  updatedAt=datetime(2022, 2, 15, 23, 15)
             )
+
+    def test_create_invalid_student4(self):
+        with pytest.raises(EntityError):
+            User(name='Joao do Teste', cpfRne=12345678911, ra=19003315, role=ROLE.PROFESSOR,
+                        accessLevel=ACCESS_LEVEL.ADMIN, createdAt=datetime(2022, 2, 15, 23, 15),
+                        updatedAt=datetime(2022, 2, 15, 23, 15), email="bruno@"
+                        )
 

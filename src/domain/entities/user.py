@@ -2,6 +2,7 @@ from datetime import datetime
 from typing import Optional, List
 from pydantic.main import BaseModel
 from pydantic import validator
+import re
 
 from src.domain.entities.enums import ROLE, ACCESS_LEVEL
 from src.domain.errors.errors import EntityError
@@ -12,6 +13,7 @@ class User(BaseModel):
     cpfRne: int
     password: Optional[str]
     ra: Optional[int]
+    email: Optional[str]
     role: ROLE
     accessLevel: ACCESS_LEVEL
     createdAt: datetime
@@ -59,5 +61,12 @@ class User(BaseModel):
         if v is None:
             raise EntityError('accessLevel')
         return v
+
+    @validator('email')
+    def email_is_valid(cls, v: str) -> str:
+        if not re.fullmatch(r'[^@]+@[^@]+\.[^@]+', v):
+            raise EntityError('email')
+        return v
+
 
 
