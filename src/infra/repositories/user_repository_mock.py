@@ -34,5 +34,11 @@ class UserRepositoryMock(IUserRepository):
                 user = userx
         return user
 
-    async def checkUserByPropriety(self, propriety: str, value: str):
-        return True
+    async def checkUserByPropriety(self, propriety: str, value: str) -> bool:
+        for userx in self._users:
+            if getattr(userx, propriety) == value:
+                return True
+        return False
+
+    async def createUser(self, user: User):
+        self._users.append(user)

@@ -12,3 +12,11 @@ class IUserRepository(ABC):
     @abstractmethod
     def getAllUsers(self) -> List[User]:
         pass
+
+    @abstractmethod
+    async def checkUserByPropriety(self, propriety: str, value: str) -> bool:
+        pass
+
+    @abstractmethod
+    async def createUser(self, user: User):
+        pass

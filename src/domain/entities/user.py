@@ -24,7 +24,7 @@ class User(BaseModel):
     def name_is_not_empty(cls,v: str)-> str:
         if len(v) == 0:
             raise EntityError('Name')
-        return v.title()
+        return v.title() #todo é isso mesmo?
 
     @validator('cpfRne')
     def cpfRne_is_not_invalid(cls, v: int) -> int:
