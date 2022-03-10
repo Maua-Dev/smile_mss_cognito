@@ -52,3 +52,10 @@ class UserRepositoryMock(IUserRepository):
 
         self._users[cont] = user
 
+    async def deleteUser(self, cpfRne: int):
+        cont = 0
+        for userx in self._users:
+            if userx.cpfRne == cpfRne:
+                self._users.pop(cont)
+                break
+            cont += 1
