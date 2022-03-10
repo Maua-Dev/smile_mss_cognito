@@ -10,14 +10,14 @@ from src.domain.usecases.get_all_users_usecase import GetAllUsersUsecase
 from src.domain.usecases.get_user_by_cpfrne_usecase import GetUserByCpfRneUsecase
 from src.infra.repositories.user_repository_mock import UserRepositoryMock
 
-class Test_GetAllUsersUsecase:
+class Test_CreateUserUsecase:
 
     @pytest.mark.asyncio
     async def test_create_valid_user(self):
         newUser = User(name='Joana da Testa', cpfRne=12345678914, ra=20004239, role=ROLE.PROFESSOR,
                  accessLevel=ACCESS_LEVEL.ADMIN, createdAt=datetime(2022, 2, 15, 23, 15),
                  updatedAt=datetime(2022, 2, 20, 23, 15), email='joana@testa.com'
-             )
+                )
 
         repository = UserRepositoryMock()
 
