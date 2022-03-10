@@ -21,7 +21,7 @@ class UpdateUserUsecase:
 
             await self._userRepository.updateUser(user)
 
-        except NoItemsFound as error:
+        except (NonExistentUser) as error:
             raise NonExistentUser(error.message)
 
         except Exception as error:
