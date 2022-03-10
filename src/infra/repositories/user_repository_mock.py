@@ -32,6 +32,8 @@ class UserRepositoryMock(IUserRepository):
         for userx in self._users:
             if userx.cpfRne == cpfRne:
                 user = userx
+                break
+            pass
         return user
 
     async def checkUserByPropriety(self, propriety: str, value: str) -> bool:

@@ -6,7 +6,7 @@ from src.domain.usecases.get_user_by_cpfrne_usecase import GetUserByCpfRneUsecas
 from src.infra.repositories.user_repository_mock import UserRepositoryMock
 
 
-class Test_CreateUserUsecase:
+class Test_DeleteUserUsecase:
 
     @pytest.mark.asyncio
     async def test_delete_valid_user(self):
