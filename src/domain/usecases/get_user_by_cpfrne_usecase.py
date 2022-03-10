@@ -1,5 +1,5 @@
 from src.domain.entities.user import User
-from src.domain.errors.errors import UnexpectedError, NoItemsFound
+from src.domain.errors.errors import UnexpectedError, NoItemsFound, NonExistentUser
 from src.domain.repositories.user_repository_interface import IUserRepository
 
 
@@ -13,13 +13,14 @@ class GetUserByCpfRneUsecase:
             user = await self._userRepository.getUserByCpfRne(cpfRne=int(cpf_rne))
 
             if user is None:
-                raise NoItemsFound('')
+                raise NonExistentUser('')
 
             return user
 
-        except NoItemsFound:
-            raise NoItemsFound('GetUserByCpfRne')
+        except (NoItemsFound, NonExistentUser) as error:
+            raise NonExistentUser(str(error))
 
         except Exception as error:
             raise UnexpectedError('GetUserByCpfRne', str(error))
+
 
