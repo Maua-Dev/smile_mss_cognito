@@ -10,7 +10,7 @@ class UpdateUserUsecase:
         self._userRepository = userRepository
         self.immutable_fields = ['cpfRne', 'ra']
 
-    async def __call__(self, user: User):
+    async def __call__(self, user: User): #TODO don`t update Null values
         try:
             # Check if immutable fields are changed
             getUserByCpfRneUsecase = GetUserByCpfRneUsecase(self._userRepository)
