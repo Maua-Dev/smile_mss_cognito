@@ -12,7 +12,7 @@ class CreateUserUsecase:
         try:
 
             duplicitySensitive = ['cpfRne', 'email', 'ra']
-            for field in duplicitySensitive: #TODO isso está sendo o(n^2)
+            for field in duplicitySensitive: #TODO isso está sendo o(n^2) - implementar logica dentro do repo
                 if await self._userRepository.checkUserByPropriety(propriety=field, value=getattr(user, field)):
                     raise UserAlreadyExists(f'Propriety ${field} = "${getattr(user, field)}" already exists')
 
