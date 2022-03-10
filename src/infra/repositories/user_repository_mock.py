@@ -42,3 +42,13 @@ class UserRepositoryMock(IUserRepository):
 
     async def createUser(self, user: User):
         self._users.append(user)
+
+    async def updateUser(self, user: User):
+        cont = 0
+        for userx in self._users:
+            if userx.cpfRne == user.cpfRne:
+                break
+            cont += 1
+
+        self._users[cont] = user
+

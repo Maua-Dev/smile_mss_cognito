@@ -12,11 +12,9 @@ class EntityError(BaseError):
     def __init__(self, message: str):
         super().__init__(f'Field {message} is not valid.')
 
-
 class UnexpectedError(BaseError):
     def __init__(self, message: str, cause: str):
         super().__init__(f'Usecase {message} have failed. {cause}')
-
 
 class NoItemsFound(BaseError):
     def __init__(self, message: str):
@@ -25,3 +23,7 @@ class NoItemsFound(BaseError):
 class UserAlreadyExists(BaseError):
     def __init__(self, message: str):
         super().__init__(f'User already exists. Message: {message}')
+
+class NonExistentUser(BaseError):
+    def __init__(self, message: str):
+        super().__init__(f'User not found. Message: {message}')

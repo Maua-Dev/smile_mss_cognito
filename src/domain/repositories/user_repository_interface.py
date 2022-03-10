@@ -20,3 +20,7 @@ class IUserRepository(ABC):
     @abstractmethod
     async def createUser(self, user: User):
         pass
+
+    @abstractmethod
+    async def updateUser(self, user: User):
+        pass
