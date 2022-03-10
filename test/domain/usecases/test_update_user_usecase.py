@@ -56,7 +56,7 @@ class Test_UpdateUserUsecase:
 
         updateUserUsecase = UpdateUserUsecase(repository)
 
-        with pytest.raises((UnexpectedError, NonExistentUser)):
+        with pytest.raises(NonExistentUser):
             await updateUserUsecase(newUser)
 
         getUserByCpfRneUsecase = GetUserByCpfRneUsecase(repository)

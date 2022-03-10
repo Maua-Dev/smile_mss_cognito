@@ -1,7 +1,7 @@
 from src.adapters.errors.http_exception import HttpException
 from src.adapters.helpers.http_models import HttpRequest, HttpResponse, BadRequest, Ok, NoContent, InternalServerError
 from src.domain.entities.user import User
-from src.domain.errors.errors import UnexpectedError, NoItemsFound
+from src.domain.errors.errors import UnexpectedError, NoItemsFound, NonExistentUser
 from src.domain.usecases.get_user_by_cpfrne_usecase import GetUserByCpfRneUsecase
 from src.domain.repositories.user_repository_interface import IUserRepository
 
@@ -23,10 +23,10 @@ class GetUserByCpfRneController:
             user = await self._getAllUserByCpfRneUseCase(req.query['cpfRne'])
             response = user
             if user is None:
-                raise NoItemsFound('')
+                raise NonExistentUser('')
             return Ok(response)
 
-        except NoItemsFound:
+        except (NoItemsFound, NonExistentUser):
             return NoContent()
 
         except UnexpectedError as e:
