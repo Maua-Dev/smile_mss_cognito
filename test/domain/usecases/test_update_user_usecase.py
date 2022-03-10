@@ -56,7 +56,31 @@ class Test_UpdateUserUsecase:
 
         updateUserUsecase = UpdateUserUsecase(repository)
 
-        with pytest.raises(UnexpectedError):
+        with pytest.raises((UnexpectedError, NonExistentUser)):
+            await updateUserUsecase(newUser)
+
+        getUserByCpfRneUsecase = GetUserByCpfRneUsecase(repository)
+        userNotUpdated = await getUserByCpfRneUsecase(12345678910)
+
+        assert userNotUpdated.name == 'User1'
+        assert userNotUpdated.cpfRne == 12345678910
+        assert userNotUpdated.ra == 19003315
+        assert userNotUpdated.role == ROLE.STUDENT
+
+    @pytest.mark.asyncio
+    async def test_update_existent_user_invalid2(self):
+        newUser = User(name='user1', cpfRne=12345678910, ra=19003315, role=ROLE.STUDENT,
+                 accessLevel=ACCESS_LEVEL.USER, createdAt=datetime(2022, 3, 8, 22, 10),
+                 updatedAt=datetime(2022, 3, 8, 22, 15), email="bruno@bruno.com"
+                )
+        newUser.ra = 19003318
+        newUser.name = 'user1_'
+
+        repository = UserRepositoryMock()
+
+        updateUserUsecase = UpdateUserUsecase(repository)
+
+        with pytest.raises((UnexpectedError, NonExistentUser)):
             await updateUserUsecase(newUser)
 
         getUserByCpfRneUsecase = GetUserByCpfRneUsecase(repository)
