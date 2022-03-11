@@ -43,7 +43,8 @@ class Test_CognitoRepository():
         repo = UserRepositoryCognito()
         response = await repo.confirmUserCreation(user_dto, "317405")
 
-    @pytest.mark.asyncio
+    # @pytest.mark.asyncio
+    @pytest.mark.skip(reason="Cognito not set up")
     async def test_get_all_user(self):
         repo = UserRepositoryCognito()
         response = repo.getAllUsers()
