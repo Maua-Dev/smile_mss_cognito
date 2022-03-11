@@ -8,7 +8,7 @@ class CreateUserUsecase:
     def __init__(self, userRepository: IUserRepository):
         self._userRepository = userRepository
 
-    async def __call__(self, user: User):
+    async def __call__(self, user: User) -> int:
         try:
 
             duplicitySensitive = ['cpfRne', 'email', 'ra']
@@ -20,7 +20,7 @@ class CreateUserUsecase:
                 if await self._userRepository.checkUserByPropriety(propriety=field, value=getattr(user, field)):
                     raise UserAlreadyExists(f'Propriety ${field} = "${getattr(user, field)}" already exists')
 
-            await self._userRepository.createUser(user)
+            return await self._userRepository.createUser(user)
 
 
         except Exception as error:
