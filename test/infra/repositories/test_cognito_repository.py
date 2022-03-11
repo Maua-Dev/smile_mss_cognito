@@ -10,6 +10,13 @@ from src.infra.repositories.cognito_repository import UserRepositoryCognito
 
 class Test_CognitoRepository():
 
+    # {'ResponseMetadata': {'RequestId': 'ac0e0475-7807-4ff9-a40a-9a70ea606b34', 'HTTPStatusCode': 200,
+    #                       'HTTPHeaders': {'date': 'Fri, 11 Mar 2022 01:33:52 GMT',
+    #                                       'content-type': 'application/x-amz-json-1.1', 'content-length': '2',
+    #                                       'connection': 'keep-alive',
+    #                                       'x-amzn-requestid': 'ac0e0475-7807-4ff9-a40a-9a70ea606b34'},
+    #                       'RetryAttempts': 0}}
+
     @pytest.mark.skip(reason="Cognito not set up")
     # @pytest.mark.asyncio
     async def test_create_valid_user(self):
@@ -22,6 +29,17 @@ class Test_CognitoRepository():
 
         repo = UserRepositoryCognito()
         response = await repo.createUser(user_dto)
-        print(response)
-        str(response)
+
+    # @pytest.mark.asyncio
+    @pytest.mark.skip(reason="Cognito not set up")
+    async def test_confirm_creation_valid_user(self):
+        user = User(name='Bruno_Vilardi', cpfRne=12345678910, ra=19003315, role=ROLE.STUDENT,
+                 accessLevel=ACCESS_LEVEL.USER, createdAt=datetime(2022, 3, 8, 22, 10),
+                 updatedAt=datetime(2022, 3, 8, 22, 15), email="brunovilardibueno@gmail.com",
+                 password="Teste123!"
+             )
+        user_dto = CognitoUserDTO(user.dict())
+
+        repo = UserRepositoryCognito()
+        response = await repo.confirmUserCreation(user_dto, "317405")
 

@@ -33,13 +33,15 @@ class UserRepositoryCognito(IUserRepository):
         return response
 
 
-    async def confirmUserCreation(self, user: CognitoUserDTO, code: int):
+    async def confirmUserCreation(self, user: CognitoUserDTO, code: str):
 
         response = self._client.confirm_sign_up(
             ClientId=self._clientId,
             Username=user.name,
             ConfirmationCode=code
         )
+
+        return response
 
     async def updateUser(self, user: User):
         pass
