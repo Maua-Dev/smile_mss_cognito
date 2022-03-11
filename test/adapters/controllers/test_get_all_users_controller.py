@@ -1,5 +1,7 @@
 from datetime import datetime
 
+import pytest
+
 from src.adapters.controllers.get_all_users_controller import GetAllUsersController
 from src.adapters.viewmodels.user_viewmodel import GetUserModel
 from src.domain.entities.enums import ACCESS_LEVEL, ROLE
@@ -10,11 +12,12 @@ from src.adapters.helpers.http_models import HttpRequest, Ok
 
 class Test_GetAllUsersController:
 
-    def test_get_all_users_controller(self):
+    @pytest.mark.asyncio
+    async def test_get_all_users_controller(self):
 
         getAllUsersController = GetAllUsersController(UserRepositoryMock())
         req = HttpRequest(query=None)
-        answer = getAllUsersController(req)
+        answer = await getAllUsersController(req)
 
         assert type(answer) == Ok
         assert type(answer.body) is dict

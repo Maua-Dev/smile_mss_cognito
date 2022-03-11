@@ -21,7 +21,7 @@ class UserRepositoryMock(IUserRepository):
              )
         ]
 
-    def getAllUsers(self) -> List[User]:
+    async def getAllUsers(self) -> List[User]:
         if len(self._users) > 0:
             return self._users, len(self._users)
         else:

@@ -9,9 +9,10 @@ from src.infra.repositories.user_repository_mock import UserRepositoryMock
 
 class Test_GetAllUsersUsecase:
 
-    def test_get_all_users(self):
+    @pytest.mark.asyncio
+    async def test_get_all_users(self):
         getAllUsersUsecase = GetAllUsersUsecase(UserRepositoryMock())
-        users, count = getAllUsersUsecase()
+        users, count = await getAllUsersUsecase()
         assert len(users) > 0
         assert len(users) == 2
         assert count == len(users)
