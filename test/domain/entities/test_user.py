@@ -6,7 +6,7 @@ from src.domain.entities.enums import ROLE, ACCESS_LEVEL
 from src.domain.entities.user import User
 from src.domain.errors.errors import EntityError
 
-class Test_Student():
+class Test_User():
 
     def test_create_valid_user(self):
         user =  User(name='Joao do Teste', cpfRne=12345678911, ra=19003315, role=ROLE.PROFESSOR,

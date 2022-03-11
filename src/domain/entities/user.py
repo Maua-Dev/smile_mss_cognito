@@ -16,8 +16,8 @@ class User(BaseModel):
     email: Optional[str]
     role: ROLE
     accessLevel: ACCESS_LEVEL
-    createdAt: datetime
-    updatedAt: datetime
+    createdAt: Optional[datetime]
+    updatedAt: Optional[datetime]
 
 
     @validator('name')
