@@ -48,8 +48,7 @@ class Test_CognitoRepository():
     async def test_get_all_user(self):
         repo = UserRepositoryCognito()
         response = repo.getAllUsers()
-        userCognito = CognitoUserDTO.fromKeyValuePair(response['Users'][0]['Attributes'])
-        print(userCognito)
+        userCognito = response[0]
         user = User(name='Bruno_Vilardi', cpfRne=12345678910, ra=19003315, role=ROLE.STUDENT,
                  accessLevel=ACCESS_LEVEL.USER, createdAt=datetime(2022, 3, 8, 22, 10),
                  updatedAt=datetime(2022, 3, 8, 22, 15), email="brunovilardibueno@gmail.com",
@@ -62,4 +61,5 @@ class Test_CognitoRepository():
         assert user_dto.role == userCognito.role
         assert user_dto.accessLevel == userCognito.accessLevel
         assert user_dto.email == userCognito.email
+
 

@@ -22,16 +22,16 @@ async def internal_exception_handler(request: Request, exc: HttpException):
     return PlainTextResponse(exc.body, status_code=exc.status_code)
 
 @app.get("/")
-def getAllusers(response: Response):
+async def getAllusers(response: Response):
     getAllUsersController = Modular.getInject(GetAllUsersController)
     req = HttpRequest(query=None)
-    result = getAllUsersController(req)
+    result = await getAllUsersController(req)
     response.status_code = status.get(result.status_code)
     return result.body
 
 
 @app.get("/user/{cpfRne}")
-async def getStudentusers(cpfRne: int, response: Response):
+async def geUser(cpfRne: int, response: Response):
     getAllUserByCpfRne = Modular.getInject(GetUserByCpfRneController)
     req = HttpRequest(query={'cpfRne': cpfRne})
     print(req)

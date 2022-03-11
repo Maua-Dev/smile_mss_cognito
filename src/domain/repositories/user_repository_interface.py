@@ -10,7 +10,7 @@ class IUserRepository(ABC):
         pass
 
     @abstractmethod
-    def getAllUsers(self) -> List[User]:
+    async def getAllUsers(self) -> List[User]:
         pass
 
     @abstractmethod

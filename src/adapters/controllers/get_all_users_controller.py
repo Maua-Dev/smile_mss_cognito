@@ -10,13 +10,13 @@ class GetAllUsersController:
     def __init__(self, userRepository: IUserRepository) -> None:
         self._getAllusersUsecase = GetAllUsersUsecase(userRepository)
 
-    def __call__(self, req: HttpRequest) -> HttpResponse:
+    async def __call__(self, req: HttpRequest) -> HttpResponse:
 
         if req.query is not None:
             return BadRequest('No parameters allowed.')
 
         try:
-            users, count = self._getAllusersUsecase()
+            users, count = await self._getAllusersUsecase()
             cleanUsers = list(map(lambda user: GetUserModel.parse_obj(user), users))
             response = {"users": cleanUsers, "count": count}
             return Ok(response)

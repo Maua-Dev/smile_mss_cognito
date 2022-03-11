@@ -7,9 +7,9 @@ class GetAllUsersUsecase:
     def __init__(self, userRepository: IUserRepository):
         self._userRepository = userRepository
 
-    def __call__(self):
+    async def __call__(self):
         try:
-            users, count = self._userRepository.getAllUsers()
+            users, count = await self._userRepository.getAllUsers()
 
             if users is None:
                 raise NoItemsFound('')

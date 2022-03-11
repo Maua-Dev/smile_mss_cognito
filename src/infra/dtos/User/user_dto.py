@@ -4,6 +4,7 @@ from wsgiref.validate import validator
 import json
 
 from src.domain.entities.enums import ACCESS_LEVEL, ROLE
+from src.domain.entities.user import User
 from src.infra.dtos.db_base import DbBaseModel
 
 
@@ -20,6 +21,17 @@ class CognitoUserDTO(DbBaseModel):
         for i in self.to_dict():
             if data.get(i) and i != 'password':
                 self.userAttributes.append(defaultDataTemplate(i, str(data[i])))
+
+
+    def toEntity(self):
+        return User(
+        name=self.name,
+        cpfRne=self.cpfRne,
+        ra=self.ra,
+        email=self.email,
+        role=self.role,
+        accessLevel=self.accessLevel
+        )
 
     @staticmethod
     def fromKeyValuePair(data: dict):
