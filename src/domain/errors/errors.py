@@ -27,3 +27,7 @@ class UserAlreadyExists(BaseError):
 class NonExistentUser(BaseError):
     def __init__(self, message: str):
         super().__init__(f'User not found. Message: {message}')
+
+class IncompleteUser(BaseError):
+    def __init__(self, message: str):
+        super().__init__(f'User missing information. Message: {message}')

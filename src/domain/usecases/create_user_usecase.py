@@ -1,5 +1,5 @@
 from src.domain.entities.user import User
-from src.domain.errors.errors import UserAlreadyExists, UnexpectedError
+from src.domain.errors.errors import UserAlreadyExists, UnexpectedError, IncompleteUser
 from src.domain.repositories.user_repository_interface import IUserRepository
 
 
@@ -12,7 +12,11 @@ class CreateUserUsecase:
         try:
 
             duplicitySensitive = ['cpfRne', 'email', 'ra']
-            for field in duplicitySensitive: #TODO isso está sendo o(n^2) - implementar logica dentro do repo
+            requiredFields = ['name', 'cpfRne', 'email', 'password']
+            for f in requiredFields:
+                if getattr(user, f) is None:
+                    raise IncompleteUser(f'field "{f}" is required')
+            for field in duplicitySensitive: #TODO isso está ruim - implementar logica dentro do repo
                 if await self._userRepository.checkUserByPropriety(propriety=field, value=getattr(user, field)):
                     raise UserAlreadyExists(f'Propriety ${field} = "${getattr(user, field)}" already exists')
 

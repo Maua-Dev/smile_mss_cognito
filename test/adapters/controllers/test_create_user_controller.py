@@ -17,9 +17,11 @@ class TestCreateUserController:
             "cpfRne": 12345678913,
             "ra": 20001236,
             "role": ROLE.PROFESSOR,
+            "email": "user@teste.com",
             "accessLevel": ACCESS_LEVEL.ADMIN,
             "createdAt": datetime(2022, 2, 15, 23, 15),
-            "updatedAt": datetime(2022, 2, 15, 23, 15)
+            "updatedAt": datetime(2022, 2, 15, 23, 15),
+            "password": '123456'
         })
 
         createUserController = CreateUserController(UserRepositoryMock())
@@ -35,7 +37,8 @@ class TestCreateUserController:
             "role": '',
             "accessLevel": '',
             "createdAt": datetime(2022, 2, 15, 23, 15),
-            "updatedAt": datetime(2022, 2, 15, 23, 15)
+            "updatedAt": datetime(2022, 2, 15, 23, 15),
+            "password": '123456'
         })
 
         createUserController = CreateUserController(UserRepositoryMock())
@@ -67,7 +70,8 @@ class TestCreateUserController:
             "role": '',
             "accessLevel": '',
             "createdAt": datetime(2022, 2, 15, 23, 15),
-            "updatedAt": datetime(2022, 2, 15, 23, 15)
+            "updatedAt": datetime(2022, 2, 15, 23, 15),
+            "password": '123456'
         })
 
         createUserController = CreateUserController(UserRepositoryMock())
@@ -83,7 +87,8 @@ class TestCreateUserController:
             "role": 'qualquerCoisa',
             "accessLevel": '',
             "createdAt": datetime(2022, 2, 15, 23, 15),
-            "updatedAt": datetime(2022, 2, 15, 23, 15)
+            "updatedAt": datetime(2022, 2, 15, 23, 15),
+            "password": '123456'
         })
 
         createUserController = CreateUserController(UserRepositoryMock())
@@ -99,7 +104,8 @@ class TestCreateUserController:
             "role": 'qualquerCoisa',
             "accessLevel": '',
             "createdAt": "2022-02-15T23:15",
-            "updatedAt": datetime(2022, 2, 15, 23, 15)
+            "updatedAt": datetime(2022, 2, 15, 23, 15),
+            "password": '123456'
         })
 
         createUserController = CreateUserController(UserRepositoryMock())

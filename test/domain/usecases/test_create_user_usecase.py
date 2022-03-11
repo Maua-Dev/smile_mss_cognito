@@ -16,7 +16,7 @@ class Test_CreateUserUsecase:
     async def test_create_valid_user(self):
         newUser = User(name='Joana da Testa', cpfRne=12345678914, ra=20004239, role=ROLE.PROFESSOR,
                  accessLevel=ACCESS_LEVEL.ADMIN, createdAt=datetime(2022, 2, 15, 23, 15),
-                 updatedAt=datetime(2022, 2, 20, 23, 15), email='joana@testa.com'
+                 updatedAt=datetime(2022, 2, 20, 23, 15), email='joana@testa.com', password='123456'
                 )
 
         repository = UserRepositoryMock()
