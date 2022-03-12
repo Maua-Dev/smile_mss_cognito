@@ -18,10 +18,10 @@ class GetUserByCpfRneController:
             return BadRequest('Missing parameter.')
 
         try:
-            if not req.query['cpfRne'].isdigit():
-                return BadRequest('Invalid parameter.')
+            if  type(req.query['cpfRne']) != int:
+                return BadRequest('Invalid parameter. (Cpf value should be Int) ')
 
-            user = await self._getAllUserByCpfRneUseCase(req.query['cpfRne'])
+            user = await self._getAllUserByCpfRneUseCase(int(req.query['cpfRne']))
             response = GetUserModel.parse_obj(user)
 
             if user is None:

@@ -11,7 +11,7 @@ class Test_GetUserByCpfRneController:
     @pytest.mark.asyncio
     async def test_get_user_by_cpfrne_controller(self):
         getUserByCpfrneController = GetUserByCpfRneController(UserRepositoryMock())
-        req = HttpRequest(query={'cpfRne': '12345678910'})
+        req = HttpRequest(query={'cpfRne': 12345678910})
         answer = await getUserByCpfrneController(req)
 
         assert type(answer.body) is GetUserModel
@@ -20,7 +20,7 @@ class Test_GetUserByCpfRneController:
     @pytest.mark.asyncio
     async def test_get_user_by_cpfrne_controller_no_item_found(self):
         getUserByCpfrneController = GetUserByCpfRneController(UserRepositoryMock())
-        req = HttpRequest(query={'cpfRne': '12345678912'})
+        req = HttpRequest(query={'cpfRne': 12345678912})
         answer = await getUserByCpfrneController(req)
 
         assert type(answer) is NoContent
@@ -29,7 +29,7 @@ class Test_GetUserByCpfRneController:
     @pytest.mark.asyncio
     async def test_get_user_by_cpfrne_controller_controller_error(self):
         getUserByCpfrneController = GetUserByCpfRneController(UserRepositoryMock())
-        req = HttpRequest(query={'cpfRne': 'string'})
+        req = HttpRequest(query={'cpfRne': '12345678912'})
         answer = await getUserByCpfrneController(req)
 
         assert type(answer) is BadRequest

@@ -11,8 +11,8 @@ class UserRepositoryCognito(IUserRepository):
 
     def __init__(self):
         self._client = boto3.client("cognito-idp", region_name="us-east-1")
-        self._clientId = "oj4658u0c8uu5m186r68geitv"
-        self._userPoolId = "us-east-1_zYP24SO9E"
+        self._clientId = "r5vor1epl6fclrfhovtlgiujh"
+        self._userPoolId = "us-east-1_o2K6XlMyg"
 
 
     async def getUserByCpfRne(self, cpfRne: int) -> User:
@@ -20,7 +20,6 @@ class UserRepositoryCognito(IUserRepository):
             UserPoolId=self._userPoolId,
             Username=str(cpfRne)
         )
-        print(response)
         return CognitoUserDTO.fromKeyValuePair(data=response["UserAttributes"]).toEntity()
 
     async def getAllUsers(self) -> List[User]:
