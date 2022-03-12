@@ -1,5 +1,5 @@
 from src.adapters.errors.http_exception import HttpException
-from src.adapters.viewmodels.user_viewmodel import GetUserModel
+from src.adapters.viewmodels.get_user_model import GetUserModel
 from src.domain.errors.errors import UnexpectedError, NoItemsFound
 from src.domain.repositories.user_repository_interface import IUserRepository
 from src.domain.usecases.get_all_users_usecase import GetAllUsersUsecase

@@ -31,3 +31,11 @@ class NonExistentUser(BaseError):
 class IncompleteUser(BaseError):
     def __init__(self, message: str):
         super().__init__(f'User missing information. Message: {message}')
+
+class InvalidCode(BaseError):
+    def __init__(self, message: str):
+        super().__init__(f'Invalid code. Message: {message}')
+
+class InvalidCredentials(BaseError):
+    def __init__(self, message: str):
+        super().__init__(f'Invalid credentials. Message: {message}')

@@ -1,6 +1,6 @@
 from src.adapters.errors.http_exception import HttpException
 from src.adapters.helpers.http_models import HttpRequest, HttpResponse, BadRequest, Ok, NoContent, InternalServerError
-from src.adapters.viewmodels.user_viewmodel import GetUserModel
+from src.adapters.viewmodels.get_user_model import GetUserModel
 from src.domain.entities.user import User
 from src.domain.errors.errors import UnexpectedError, NoItemsFound, NonExistentUser
 from src.domain.usecases.get_user_by_cpfrne_usecase import GetUserByCpfRneUsecase

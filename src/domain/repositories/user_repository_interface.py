@@ -18,7 +18,7 @@ class IUserRepository(ABC):
         pass
 
     @abstractmethod
-    async def createUser(self, user: User):
+    async def createUser(self, user: User) -> int:
         pass
 
     @abstractmethod
@@ -27,4 +27,12 @@ class IUserRepository(ABC):
 
     @abstractmethod
     async def deleteUser(self, userCpfRne: int):
+        pass
+
+    @abstractmethod
+    async def confirmUserCreation(self, user: User, code: int):
+        pass
+
+    @abstractmethod
+    async def loginUser(self, user: User):
         pass

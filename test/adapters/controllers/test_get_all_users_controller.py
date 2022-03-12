@@ -3,7 +3,7 @@ from datetime import datetime
 import pytest
 
 from src.adapters.controllers.get_all_users_controller import GetAllUsersController
-from src.adapters.viewmodels.user_viewmodel import GetUserModel
+from src.adapters.viewmodels.get_user_model import GetUserModel
 from src.domain.entities.enums import ACCESS_LEVEL, ROLE
 from src.domain.entities.user import User
 from src.infra.repositories.user_repository_mock import UserRepositoryMock

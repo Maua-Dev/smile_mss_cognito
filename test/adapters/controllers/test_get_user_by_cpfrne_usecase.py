@@ -1,6 +1,6 @@
 import pytest
 from src.adapters.controllers.get_user_by_cpfrne_controller import GetUserByCpfRneController
-from src.adapters.viewmodels.user_viewmodel import GetUserModel
+from src.adapters.viewmodels.get_user_model import GetUserModel
 from src.infra.repositories.user_repository_mock import UserRepositoryMock
 from src.adapters.helpers.http_models import HttpRequest, NoContent, BadRequest
 from src.domain.entities.user import User

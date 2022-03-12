@@ -8,16 +8,17 @@ from src.domain.repositories.user_repository_interface import IUserRepository
 
 
 class UserRepositoryMock(IUserRepository):
+
     def __init__(self) -> None:
         super().__init__()
         self._users = [
             User(name='user1', cpfRne=12345678910, ra=19003315, role=ROLE.STUDENT,
                  accessLevel=ACCESS_LEVEL.USER, createdAt=datetime(2022, 3, 8, 22, 10),
-                 updatedAt=datetime(2022, 3, 8, 22, 15), email="bruno@bruno.com"
+                 updatedAt=datetime(2022, 3, 8, 22, 15), email="bruno@bruno.com", password="123456"
              ),
             User(name='user2', cpfRne=12345678911, ra=20001231, role=ROLE.PROFESSOR,
                  accessLevel=ACCESS_LEVEL.ADMIN, createdAt=datetime(2022, 2, 15, 23, 15),
-                 updatedAt=datetime(2022, 2, 15, 23, 15)
+                 updatedAt=datetime(2022, 2, 15, 23, 15), password="123456"
              )
         ]
 
@@ -44,6 +45,18 @@ class UserRepositoryMock(IUserRepository):
 
     async def createUser(self, user: User):
         self._users.append(user)
+
+    async def confirmUserCreation(self, user: User, code: int):
+        pass
+
+    async def loginUser(self, cpfRne: int, password: str) -> str:
+        u = await self.getUserByCpfRne(cpfRne)
+        if u is None:
+            return None
+        if u.password == password:
+            return "validToken"
+        return None
+
 
     async def updateUser(self, user: User):
         cont = 0

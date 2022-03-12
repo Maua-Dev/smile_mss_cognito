@@ -16,7 +16,7 @@ class Test_GetUserByCpfRneUsecase:
         user = await getUserByCpfRne(12345678910)
         assert user == User(name='user1', cpfRne=12345678910, ra=19003315, role=ROLE.STUDENT,
                  accessLevel=ACCESS_LEVEL.USER, createdAt=datetime(2022, 3, 8, 22, 10),
-                 updatedAt=datetime(2022, 3, 8, 22, 15), email='bruno@bruno.com'
+                 updatedAt=datetime(2022, 3, 8, 22, 15), email='bruno@bruno.com', password="123456"
                         )
 
     @pytest.mark.asyncio
@@ -25,7 +25,7 @@ class Test_GetUserByCpfRneUsecase:
         user = await getUserByCpfRne(12345678911)
         assert user == User(name='user2', cpfRne=12345678911, ra=20001231, role=ROLE.PROFESSOR,
                  accessLevel=ACCESS_LEVEL.ADMIN, createdAt=datetime(2022, 2, 15, 23, 15),
-                 updatedAt=datetime(2022, 2, 15, 23, 15)
+                 updatedAt=datetime(2022, 2, 15, 23, 15), password="123456"
                         )
 
     @pytest.mark.asyncio
