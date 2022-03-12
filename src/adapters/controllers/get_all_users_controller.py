@@ -8,7 +8,7 @@ from src.adapters.helpers.http_models import BadRequest, HttpRequest, HttpRespon
 
 class GetAllUsersController:
     def __init__(self, userRepository: IUserRepository) -> None:
-        self._getAllusersUsecase = GetAllUsersUsecase(userRepository)
+        self._getAllUsersUsecase = GetAllUsersUsecase(userRepository)
 
     async def __call__(self, req: HttpRequest) -> HttpResponse:
 
@@ -16,7 +16,7 @@ class GetAllUsersController:
             return BadRequest('No parameters allowed.')
 
         try:
-            users, count = await self._getAllusersUsecase()
+            users, count = await self._getAllUsersUsecase()
             cleanUsers = list(map(lambda user: GetUserModel.parse_obj(user), users))
             response = {"users": cleanUsers, "count": count}
             return Ok(response)

@@ -34,7 +34,7 @@ class IUserRepository(ABC):
         pass
 
     @abstractmethod
-    async def loginUser(self, user: User):
+    async def loginUser(self, cpfRne: int, password: str):
         pass
 
     @abstractmethod
