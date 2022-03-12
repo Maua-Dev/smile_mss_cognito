@@ -14,10 +14,6 @@ class IUserRepository(ABC):
         pass
 
     @abstractmethod
-    async def checkUserByPropriety(self, propriety: str, value: str) -> bool:
-        pass
-
-    @abstractmethod
     async def createUser(self, user: User) -> int:
         pass
 

@@ -3,7 +3,7 @@ from typing import List
 
 from src.domain.entities.enums import ROLE, ACCESS_LEVEL
 from src.domain.entities.user import User
-from src.domain.errors.errors import UnexpectedError, InvalidToken
+from src.domain.errors.errors import UnexpectedError, InvalidToken, UserAlreadyExists
 from src.domain.repositories.user_repository_interface import IUserRepository
 
 
@@ -44,6 +44,10 @@ class UserRepositoryMock(IUserRepository):
         return False
 
     async def createUser(self, user: User):
+        duplicitySensitive = ['cpfRne', 'email', 'ra']
+        for field in duplicitySensitive:
+            if await self.checkUserByPropriety(propriety=field, value=getattr(user, field)):
+                raise UserAlreadyExists(f'Propriety ${field} = "${getattr(user, field)}" already exists')
         self._users.append(user)
 
     async def confirmUserCreation(self, user: User, code: int):

@@ -34,9 +34,6 @@ class UserRepositoryCognito(IUserRepository):
         return users, len(response["Users"])
 
 
-    async def checkUserByPropriety(self, propriety: str, value: str) -> bool:
-        pass
-
     async def createUser(self, user: User):
         user_dto = CognitoUserDTO(user.dict())
 
