@@ -39,3 +39,7 @@ class InvalidCode(BaseError):
 class InvalidCredentials(BaseError):
     def __init__(self, message: str):
         super().__init__(f'Invalid credentials. Message: {message}')
+
+class InvalidToken(BaseError):
+    def __init__(self, message: str):
+        super().__init__(f'Invalid token. Message: {message}')

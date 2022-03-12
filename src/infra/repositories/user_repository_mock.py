@@ -3,7 +3,7 @@ from typing import List
 
 from src.domain.entities.enums import ROLE, ACCESS_LEVEL
 from src.domain.entities.user import User
-from src.domain.errors.errors import UnexpectedError
+from src.domain.errors.errors import UnexpectedError, InvalidToken
 from src.domain.repositories.user_repository_interface import IUserRepository
 
 
@@ -75,4 +75,11 @@ class UserRepositoryMock(IUserRepository):
         return None
 
     async def checkToken(self, cpfRne: int, token: str):
-        pass
+        splitToken = token.split("-")
+        if len(splitToken) != 2:
+            return False
+        if splitToken[0] != "validToken":
+            return False
+        if splitToken[1] != str(cpfRne):
+            return False
+        return True
