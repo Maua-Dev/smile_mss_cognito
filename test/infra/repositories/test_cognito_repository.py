@@ -17,8 +17,8 @@ class Test_CognitoRepository():
     #                                       'x-amzn-requestid': 'ac0e0475-7807-4ff9-a40a-9a70ea606b34'},
     #                       'RetryAttempts': 0}}
 
-    # @pytest.mark.skip(reason="Cognito not set up")
-    @pytest.mark.asyncio
+    @pytest.mark.skip(reason="Cognito not set up")
+    # @pytest.mark.asyncio
     async def test_create_valid_user(self):
         user = User(name='Bruno Vilardi', cpfRne=12345678919, ra=19003315, role=ROLE.STUDENT,
                  accessLevel=ACCESS_LEVEL.USER, createdAt=datetime(2022, 3, 8, 22, 10),
