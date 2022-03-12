@@ -16,7 +16,12 @@ class UserRepositoryCognito(IUserRepository):
 
 
     async def getUserByCpfRne(self, cpfRne: int) -> User:
-        pass
+        response = self._client.admin_get_user(
+            UserPoolId=self._userPoolId,
+            Username=str(cpfRne)
+        )
+        print(response)
+        return CognitoUserDTO.fromKeyValuePair(data=response["UserAttributes"]).toEntity()
 
     async def getAllUsers(self) -> List[User]:
         response = self._client.list_users(
