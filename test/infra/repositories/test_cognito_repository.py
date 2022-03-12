@@ -20,7 +20,7 @@ class Test_CognitoRepository():
     # @pytest.mark.skip(reason="Cognito not set up")
     @pytest.mark.asyncio
     async def test_create_valid_user(self):
-        user = User(name='Bruno Vilardi', cpfRne=12345678911, ra=19003315, role=ROLE.STUDENT,
+        user = User(name='Bruno Vilardi', cpfRne=12345678919, ra=19003315, role=ROLE.STUDENT,
                  accessLevel=ACCESS_LEVEL.USER, createdAt=datetime(2022, 3, 8, 22, 10),
                  updatedAt=datetime(2022, 3, 8, 22, 15), email="brunovilardibueno@gmail.com",
                  password="Teste123!"
@@ -28,7 +28,8 @@ class Test_CognitoRepository():
 
 
         repo = UserRepositoryCognito()
-        response = await repo.createUser(user)
+        await repo.createUser(user)
+        # await repo.confirmUserCreationAdmin(user.cpfRne)
 
     # @pytest.mark.asyncio
     @pytest.mark.skip(reason="Cognito not set up")

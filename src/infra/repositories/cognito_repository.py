@@ -35,11 +35,20 @@ class UserRepositoryCognito(IUserRepository):
     async def createUser(self, user: User):
         user_dto = CognitoUserDTO(user.dict())
 
-        return self._client.sign_up(
+        self._client.sign_up(
             ClientId=self._clientId,
             Username=str(user_dto.cpfRne),
             Password=user_dto.password,
             UserAttributes=user_dto.userAttributes,
+        )
+        await self.confirmUserCreationAdmin(user_dto.cpfRne)
+
+
+    async def confirmUserCreationAdmin(self, cpfRne: int):
+        return self._client.admin_confirm_sign_up(
+            UserPoolId=self._userPoolId,
+            Username=str(cpfRne),
+
         )
 
     async def confirmUserCreation(self, user: CognitoUserDTO, code: str):
