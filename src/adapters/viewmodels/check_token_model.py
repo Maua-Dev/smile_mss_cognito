@@ -5,21 +5,19 @@ class CheckTokenModel:
     token: str
     cpfRne: int
     tokenValidated: bool
-    errorMessage: Optional[str]
+    errorMessage: str
 
-    def __init__(self, token: str, cpfRne: int, tokenValidated: bool, errorMessage: Optional[str]):
+    def __init__(self, token: str, cpfRne: int, tokenValidated: bool, errorMessage: str = None):
         self.token = token
         self.cpfRne = cpfRne
         self.tokenValidated = tokenValidated
         self.errorMessage = errorMessage
 
     def to_dict(self):
-        d = {
+        return {
             'token': self.token,
             'cpfRne': self.cpfRne,
             'tokenValidated': self.tokenValidated,
+            'errorMessage': self.errorMessage
         }
-        if self.errorMessage is not None:
-            d['errorMessage'] = self.errorMessage
 
-        return d
