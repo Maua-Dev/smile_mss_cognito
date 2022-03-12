@@ -61,7 +61,7 @@ class UserRepositoryCognito(IUserRepository):
         )
 
     async def loginUser(self, cpfRne: int, password: str):
-        response = await self._client.initiate_auth(
+        response = self._client.initiate_auth(
             ClientId=self._clientId,
             AuthFlow='USER_PASSWORD_AUTH',
             AuthParameters={

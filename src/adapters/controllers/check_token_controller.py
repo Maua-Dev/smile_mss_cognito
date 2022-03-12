@@ -1,7 +1,10 @@
+import botocore.errorfactory
 from pydantic import ValidationError
+import boto3
 
 from src.adapters.errors.http_exception import HttpException
 from src.adapters.helpers.http_models import BadRequest, HttpRequest, HttpResponse, InternalServerError, Ok
+from src.adapters.viewmodels.check_token_model import CheckTokenModel
 from src.adapters.viewmodels.login_user_model import LoginUserModel
 from src.domain.errors.errors import UnexpectedError, EntityError, NonExistentUser, InvalidCredentials, InvalidToken
 from src.domain.repositories.user_repository_interface import IUserRepository
@@ -22,15 +25,24 @@ class CheckTokenController:
 
         try:
             token_validated = await self._checkTokenUsecase(req.body["cpfRne"], req.body["token"])
-            response = {"tokenValidated": True}
-            return Ok(response)
+            checkTokenModel = CheckTokenModel(
+                token=req.body["token"],
+                cpfRne=req.body["cpfRne"],
+                tokenValidated=token_validated)
+            return Ok(checkTokenModel.to_dict())
 
-        except InvalidToken:
-            return BadRequest({"tokenValidated": False})
+        except (InvalidToken, UnexpectedError) as e:
+            checkTokenModel = CheckTokenModel(
+                token=req.body["token"],
+                cpfRne=req.body["cpfRne"],
+                tokenValidated=False,
+                errorMessage= e.message)
+            return BadRequest(checkTokenModel.to_dict())
 
-        except KeyError as e:
-            return BadRequest('Missing parameter: ' + e.args[0])
-
-        except (UnexpectedError, Exception) as e:
-            err = InternalServerError(e.message)
-            return HttpException(message=err.body, status_code=err.status_code)
+        except Exception as e:
+            checkTokenModel = CheckTokenModel(
+                token=req.body["token"],
+                cpfRne=req.body["cpfRne"],
+                tokenValidated=False,
+                errorMessage=e.args[0])
+            return BadRequest(checkTokenModel.to_dict())

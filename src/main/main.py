@@ -32,53 +32,69 @@ async def getAllusers(response: Response):
     getAllUsersController = Modular.getInject(GetAllUsersController)
     req = HttpRequest(query=None)
     result = await getAllUsersController(req)
-    return result
+
+    response.status_code = status.get(result.status_code)
+    return result.body
 
 
 @app.get("/user/{cpfRne}")
 async def geUser(cpfRne: int, response: Response):
     getAllUserByCpfRne = Modular.getInject(GetUserByCpfRneController)
     req = HttpRequest(query={'cpfRne': cpfRne})
-    print(req)
-    print(getAllUserByCpfRne)
     result = await getAllUserByCpfRne(req)
+
     response.status_code = status.get(result.status_code)
     return result.body
 
+
 @app.post("/user")
-async def root(request: Request):
+async def root(request: Request, response: Response):
     createUserController = Modular.getInject(CreateUserController)
     req = HttpRequest(body=await request.json())
     result = await createUserController(req)
-    return result
+
+    response.status_code = status.get(result.status_code)
+    return result.body
 
 @app.put("/user")
-async def root(request: Request):
+async def root(request: Request, response: Response):
     updateUserController = Modular.getInject(UpdateUserController)
     req = HttpRequest(body=await request.json())
     result = await updateUserController(req)
-    return result
+
+    response.status_code = status.get(result.status_code)
+    return result.body
+
 
 @app.delete("/user")
-async def root(request: Request):
+async def root(request: Request, response: Response):
     deleteUserController = Modular.getInject(DeleteUserController)
     req = HttpRequest(body=await request.json())
     result = await deleteUserController(req)
-    return result
+
+    response.status_code = status.get(result.status_code)
+    return result.body
 
 @app.post("/login")
-async def login(request: Request):
+async def login(request: Request, response: Response):
     loginUserController = Modular.getInject(LoginUserController)
     req = HttpRequest(body=await request.json())
     result = await loginUserController(req)
-    return result
+
+
+    response.status_code = status.get(result.status_code)
+    return result.body
+
 
 @app.post("/checkToken")
-async def checkToken(request: Request):
+async def checkToken(request: Request, response: Response):
     checkTokenController = Modular.getInject(CheckTokenController)
     req = HttpRequest(body=await request.json())
     result = await checkTokenController(req)
-    return result
+
+
+    response.status_code = status.get(result.status_code)
+    return result.body
 
 
 

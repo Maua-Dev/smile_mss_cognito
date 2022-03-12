@@ -48,8 +48,8 @@ class Module:
             DeleteUserController,
             LoginUserController,
             UpdateUserController,
-            # UserRepositoryCognito
-            UserRepositoryMock
+            UserRepositoryCognito
+            # UserRepositoryMock
         ]
 
 
