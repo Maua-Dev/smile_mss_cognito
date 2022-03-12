@@ -9,7 +9,7 @@ class CheckTokenUsecase:
 
     async def __call__(self, cpfRne: int, token: str) -> bool:
 
-        validatedToken = self._userRepository.checkToken(cpfRne, token)
+        validatedToken = await self._userRepository.checkToken(cpfRne, token)
 
         if not validatedToken:
             raise InvalidToken('Invalid Token')
