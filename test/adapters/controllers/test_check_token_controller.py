@@ -21,7 +21,10 @@ class Test_CheckTokenController:
         response = await checkTokenController(request)
         assert response.status_code == 200
         assert response.body == {
-            'tokenValidated': True
+        "token": "validToken-12345678910",
+        "cpfRne": 12345678910,
+        "tokenValidated": True,
+        "errorMessage": None
         }
 
     @pytest.mark.asyncio
