@@ -23,8 +23,9 @@ class Test_LoginUserUsecase:
 
         loginUserUsecase = LoginUserUsecase(repository)
         token = await loginUserUsecase(cpf_rne, password)
+        expectedToken = 'validToken-' + str(cpf_rne)
 
-        assert token is 'validToken'
+        assert token == expectedToken
 
     @pytest.mark.asyncio
     async def test_login_invalid_user(self):

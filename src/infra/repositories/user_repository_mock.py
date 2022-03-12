@@ -49,15 +49,6 @@ class UserRepositoryMock(IUserRepository):
     async def confirmUserCreation(self, user: User, code: int):
         pass
 
-    async def loginUser(self, cpfRne: int, password: str) -> str:
-        u = await self.getUserByCpfRne(cpfRne)
-        if u is None:
-            return None
-        if u.password == password:
-            return "validToken"
-        return None
-
-
     async def updateUser(self, user: User):
         cont = 0
         for userx in self._users:
@@ -74,3 +65,14 @@ class UserRepositoryMock(IUserRepository):
                 self._users.pop(cont)
                 break
             cont += 1
+
+    async def loginUser(self, cpfRne: int, password: str) -> str:
+        u = await self.getUserByCpfRne(cpfRne)
+        if u is None:
+            return None
+        if u.password == password:
+            return "validToken-" + str(cpfRne)
+        return None
+
+    async def checkToken(self, cpfRne: int, token: str):
+        pass
