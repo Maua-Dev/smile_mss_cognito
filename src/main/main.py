@@ -101,7 +101,7 @@ async def checkToken(request: Request, response: Response):
     response.status_code = status.get(result.status_code)
     return result.body
 
-@app.get("/refreshToken")
+@app.post("/refreshToken")
 async def refreshToken(request: Request, response: Response):
     refreshTokenController = Modular.getInject(RefreshTokenController)
     req = HttpRequest(body=await request.json())
