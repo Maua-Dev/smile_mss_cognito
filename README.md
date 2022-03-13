@@ -1,0 +1,16 @@
+# smile_mss_cognito
+
+## Overview
+
+Esse é um repositório para o mss de  gerenciamento dos usuários da Smile 2022
+
+
+## Documentação
+
+Documentação pode ser acessada [aqui](https://documenter.getpostman.com/view/16858667/UVsJvS83) (aproveite também a rota /docs gerada automaticamente pelo FastAPI)
+
+
+## Uso
+
+
+
