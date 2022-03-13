@@ -75,6 +75,7 @@ class Test_UpdateUserUsecase:
                 )
         newUser.ra = 19003318
         newUser.name = 'user1_'
+        newUser.cpfRne = 12345678915
 
         repository = UserRepositoryMock()
 
