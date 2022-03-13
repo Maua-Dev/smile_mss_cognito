@@ -23,7 +23,3 @@ class UpdateUserUsecase:
 
         except (NonExistentUser) as error:
             raise NonExistentUser(error.message)
-
-        except Exception as error:
-            raise UnexpectedError('UpdateUser', str(error))
-

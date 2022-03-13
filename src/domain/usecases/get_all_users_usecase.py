@@ -19,6 +19,4 @@ class GetAllUsersUsecase:
         except NoItemsFound:
             raise NoItemsFound('GetAllUsers')
 
-        except Exception as error:
-            raise UnexpectedError('GetAllUsers', str(error))
 

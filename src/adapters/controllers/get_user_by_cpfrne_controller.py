@@ -31,7 +31,7 @@ class GetUserByCpfRneController:
         except (NoItemsFound, NonExistentUser):
             return NoContent()
 
-        except UnexpectedError as e:
+        except (UnexpectedError, Exception) as e:
             err = InternalServerError(e.message)
             return HttpException(message=err.body, status_code=err.status_code)
 

@@ -24,6 +24,6 @@ class GetAllUsersController:
         except NoItemsFound:
             return NoContent()
 
-        except UnexpectedError as e:
-            err = InternalServerError(e.message)
+        except (UnexpectedError, Exception) as e:
+            err = InternalServerError(e.args[0])
             return HttpException(message=err.body, status_code=err.status_code)

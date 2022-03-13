@@ -20,7 +20,5 @@ class GetUserByCpfRneUsecase:
         except (NoItemsFound, NonExistentUser) as error:
             raise NonExistentUser(str(error))
 
-        except Exception as error:
-            raise UnexpectedError('GetUserByCpfRne', str(error))
 
 

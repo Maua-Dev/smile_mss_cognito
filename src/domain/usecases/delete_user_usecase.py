@@ -20,6 +20,4 @@ class DeleteUserUsecase:
         except (NoItemsFound, NonExistentUser) as error:
             raise NonExistentUser(error.message)
 
-        except Exception as error:
-            raise UnexpectedError('UpdateUser', str(error))
 
