@@ -24,4 +24,4 @@ class DeleteUserController:
             return BadRequest(e.message)
 
         except Exception as e:
-            return InternalServerError(str(e))
+            return InternalServerError(e.args[0])
