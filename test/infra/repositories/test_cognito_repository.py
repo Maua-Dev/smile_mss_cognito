@@ -71,8 +71,8 @@ class Test_CognitoRepository():
 
 
 
-    # @pytest.mark.skip(reason="Cognito not set up")
-    @pytest.mark.asyncio
+    @pytest.mark.skip(reason="Cognito not set up")
+    # @pytest.mark.asyncio
     async def test_login_user(self):
         cpfRne = 12345678919
         password = "Teste123!"
@@ -93,8 +93,8 @@ class Test_CognitoRepository():
         print(response)
         assert response.email == 'brunovilardibueno@gmail.com'
 
-    # @pytest.mark.skip(reason="Cognito not set up")
-    @pytest.mark.asyncio
+    @pytest.mark.skip(reason="Cognito not set up")
+    # @pytest.mark.asyncio
     async def test_get_refresh_token(self):
         cpfRne = 12345678919
         repo = UserRepositoryCognito()
