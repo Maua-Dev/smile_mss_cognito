@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 
 import pytest
@@ -6,6 +7,11 @@ from src.domain.entities.enums import ROLE, ACCESS_LEVEL
 from src.domain.entities.user import User
 from src.infra.dtos.User.user_dto import CognitoUserDTO
 from src.infra.repositories.cognito_repository import UserRepositoryCognito
+
+
+os.environ['AWS_REGION_COGNITO'] = 'sa-east-1'
+os.environ['CLIENT_ID'] = '4dk6rsjblaqgojd7p8r3iqqc9t'
+os.environ['USER_POOL_ID'] = 'sa-east-1_evH0iIa68'
 
 
 class Test_CognitoRepository():
@@ -50,7 +56,7 @@ class Test_CognitoRepository():
         repo = UserRepositoryCognito()
         response, numberUsers = await repo.getAllUsers()
         userCognito = response[0]
-        user = User(name='Bruno Vilardi', cpfRne=12345678910, ra=19003315, role=ROLE.STUDENT,
+        user = User(name='Bruno Vilardi', cpfRne=12345678919, ra=19003315, role=ROLE.STUDENT,
                  accessLevel=ACCESS_LEVEL.USER, createdAt=datetime(2022, 3, 8, 22, 10),
                  updatedAt=datetime(2022, 3, 8, 22, 15), email="brunovilardibueno@gmail.com",
                  password="Teste123!"
@@ -68,11 +74,12 @@ class Test_CognitoRepository():
     @pytest.mark.skip(reason="Cognito not set up")
     # @pytest.mark.asyncio
     async def test_login_user(self):
-        cpfRne = 12345678910
+        cpfRne = 12345678919
         password = "Teste123!"
         repo = UserRepositoryCognito()
         response = await repo.loginUser(cpfRne, password)
-        assert response.get('accessToken') is not None
+        assert response[0] is not None
+        assert response[1] is not None
 
     @pytest.mark.skip(reason="Cognito not set up")
     # @pytest.mark.asyncio
@@ -82,6 +89,19 @@ class Test_CognitoRepository():
         response = await repo.getUserByCpfRne(cpfRne)
         print(response)
         assert response.email == 'brunovilardibueno@gmail.com'
+
+    # @pytest.mark.skip(reason="Cognito not set up")
+    @pytest.mark.asyncio
+    async def test_get_refresh_token(self):
+        cpfRne = 12345678919
+        repo = UserRepositoryCognito()
+        accessToken, refreshToken = await repo.loginUser(cpfRne, "Teste123!")
+        tokens = await repo.refreshToken(refreshToken)
+        accessTokenRefresh, refreshTokenRefresh = tokens
+        assert accessTokenRefresh is not None
+        assert refreshTokenRefresh == refreshToken
+
+
 
 
 

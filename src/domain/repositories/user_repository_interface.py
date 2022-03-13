@@ -30,9 +30,13 @@ class IUserRepository(ABC):
         pass
 
     @abstractmethod
-    async def loginUser(self, cpfRne: int, password: str):
+    async def loginUser(self, cpfRne: int, password: str) -> (str, str):  # accessToken, refreshToken
         pass
 
     @abstractmethod
     async def checkToken(self, cpfRne: int, token: str):
+        pass
+
+    @abstractmethod
+    async def refreshToken(self, refreshToken: str) -> (str, str):  # accessToken, refreshToken
         pass

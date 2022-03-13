@@ -11,6 +11,7 @@ from src.adapters.controllers.delete_user_controller import DeleteUserController
 from src.adapters.controllers.get_all_users_controller import GetAllUsersController
 from src.adapters.controllers.get_user_by_cpfrne_controller import GetUserByCpfRneController
 from src.adapters.controllers.login_user_controller import LoginUserController
+from src.adapters.controllers.refresh_token_controller import RefreshTokenController
 from src.adapters.controllers.update_user_controller import UpdateUserController
 from src.adapters.errors.http_exception import HttpException
 from src.adapters.helpers.http_models import HttpRequest, HttpResponse
@@ -100,5 +101,12 @@ async def checkToken(request: Request, response: Response):
     response.status_code = status.get(result.status_code)
     return result.body
 
+@app.get("/refreshToken")
+async def refreshToken(request: Request, response: Response):
+    refreshTokenController = Modular.getInject(RefreshTokenController)
+    req = HttpRequest(body=await request.json())
+    result = await refreshTokenController(req)
 
+    response.status_code = status.get(result.status_code)
+    return result.body
 

@@ -87,3 +87,13 @@ class UserRepositoryMock(IUserRepository):
         if splitToken[1] != str(cpfRne):
             return False
         return True
+
+    async def refreshToken(self, refreshToken: str) -> (str, str):
+        splitToken = refreshToken.split("-") # token, cpf
+        if len(splitToken) != 2:
+            return None, None
+        if splitToken[0] != "validRefreshToken":
+            return None, None
+        if await self.getUserByCpfRne(int(splitToken[1])) is None:
+            return None, None
+        return "validAccessToken-" + splitToken[1], refreshToken

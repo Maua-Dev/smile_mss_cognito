@@ -73,7 +73,7 @@ class UserRepositoryCognito(IUserRepository):
                 'PASSWORD': password
             }
         )
-        return response["AuthenticationResult"]['AccessToken']
+        return response["AuthenticationResult"]['AccessToken'], response["AuthenticationResult"]['RefreshToken']
 
     async def checkToken(self, cpfRne: int, token: str):
         response = self._client.get_user(
@@ -84,6 +84,16 @@ class UserRepositoryCognito(IUserRepository):
             if attr['Name'] == 'custom:cpfRne' and attr['Value'] == str(cpfRne):
                 return True
         return False
+
+    async def refreshToken(self, refreshToken: str) -> (str, str):
+        response = self._client.initiate_auth(
+            ClientId=self._clientId,
+            AuthFlow='REFRESH_TOKEN_AUTH',
+            AuthParameters={
+                'REFRESH_TOKEN': refreshToken
+            }
+        )
+        return response["AuthenticationResult"]['AccessToken'], refreshToken
 
     async def updateUser(self, user: User):
         pass
