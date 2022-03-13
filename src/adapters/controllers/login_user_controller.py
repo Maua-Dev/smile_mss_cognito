@@ -20,9 +20,10 @@ class LoginUserController:
             return BadRequest('Missing body.')
 
         try:
-            token = await self._loginUserUsecase(req.body["cpfRne"], req.body["password"])
-            response = {"token": token}
-            return Ok(response)
+            tokens = await self._loginUserUsecase(req.body["cpfRne"], req.body["password"])
+            accessToken, refreshToken = tokens
+            loginUserModel = LoginUserModel(accessToken=accessToken, refreshToken=refreshToken)
+            return Ok(loginUserModel.toDict())
 
 
         except InvalidCredentials as e:

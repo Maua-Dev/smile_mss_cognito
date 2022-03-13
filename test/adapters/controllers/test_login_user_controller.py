@@ -20,7 +20,8 @@ class Test_LoginUserController:
         response = await loginUserController(request)
         assert response.status_code == 200
         assert response.body == {
-            'token': f'validToken-{12345678910}'
+            'access_token': f'validAccessToken-{12345678910}',
+            'refresh_token': f'validRefreshToken-{12345678910}'
         }
 
     @pytest.mark.asyncio
