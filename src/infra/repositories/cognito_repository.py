@@ -11,7 +11,7 @@ from src.infra.dtos.User.user_dto import CognitoUserDTO
 class UserRepositoryCognito(IUserRepository):
 
     def __init__(self):
-        region = os.getenv("AWS_REGION")
+        region = os.getenv("AWS_REGION_COGNITO")
         userPoolId = os.getenv("USER_POOL_ID")
         clientId = os.getenv("CLIENT_ID")
 
