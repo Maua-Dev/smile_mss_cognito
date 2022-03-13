@@ -1,0 +1,59 @@
+name: CD_lambda
+
+on:
+  workflow_dispatch:
+
+
+jobs:
+
+  DeployToAWS:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      # setar python para 3.9
+      - name: Setup Python
+        uses: actions/setup-python@v2.3.1
+        with:
+          python-version: 3.9.6
+
+      # configurar venv
+      - name: Create Virtual Enviroment
+        run: python -m venv venv
+      - name: Install Dependencies
+        run: |
+          source venv/bin/activate; \
+          pip install -r requirements.txt \
+
+      - name: Get Root Directory
+        id: root_directory
+        run: echo "::set-output name=name::$(pwd)"
+     # ROOT:  ${{ steps.root_directory.outputs.name }}
+
+      - name: Zip the app
+        run:  | 
+          mkdir function; \
+          cp -R src function; \
+          cp -R venv/lib/python3.9/site-packages/* function; \
+          cd function; \
+          zip -r function.zip *; 
+          mv function.zip  ${{ steps.root_directory.outputs.name }}\
+      
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: sa-east-1 # HARD CODED
+
+      - name: Upload zip on S3 Bucket
+        run: aws s3 cp function.zip s3://devmaua-lambda-functions/${{ github.event.repository.name }}/function.zip # HARD CODED
+
+
+    # Atualizar lambda
+      - name: Update Lambda Source Code
+        run: aws lambda update-function-code --function-name ${{ github.event.repository.name }} --s3-bucket devmaua-lambda-functions --s3-key ${{ github.event.repository.name }}/function.zip
+
+
+
