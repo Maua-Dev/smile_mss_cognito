@@ -51,11 +51,21 @@ class UserRepositoryCognito(IUserRepository):
 
 
     async def confirmUserCreationAdmin(self, cpfRne: int):
-        return self._client.admin_confirm_sign_up(
+        self._client.admin_confirm_sign_up(
             UserPoolId=self._userPoolId,
             Username=str(cpfRne),
 
         )
+        self._client.admin_update_user_attributes(
+            UserPoolId=self._userPoolId,
+            Username=str(cpfRne),
+            UserAttributes=[
+                {
+                    'Name': 'email_verified',
+                    'Value': 'true'
+                },
+            ])
+
 
     async def confirmUserCreation(self, user: CognitoUserDTO, code: str):
         return self._client.confirm_sign_up(
