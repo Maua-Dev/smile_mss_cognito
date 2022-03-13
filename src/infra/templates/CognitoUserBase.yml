@@ -46,6 +46,8 @@ Resources:
     Properties:
       ClientName: !Sub ${AuthName}-client
       GenerateSecret: false
+      AccessTokenValidity: 24 #hours
+      RefreshTokenValidity: 7 #days
       UserPoolId: !Ref UserPool
       ExplicitAuthFlows:
         - ALLOW_USER_PASSWORD_AUTH
