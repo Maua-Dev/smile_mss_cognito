@@ -12,5 +12,8 @@ Documentação pode ser acessada [aqui](https://documenter.getpostman.com/view/1
 
 ## Uso
 
+Api Url: https://b574ab6867.execute-api.sa-east-1.amazonaws.com/dev/smile-mss-cognito
+
+Doc diretamente da api [aqui](https://b574ab6867.execute-api.sa-east-1.amazonaws.com/dev/smile-mss-cognito/docs)
 
 
