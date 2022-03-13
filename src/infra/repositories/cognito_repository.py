@@ -64,8 +64,8 @@ class UserRepositoryCognito(IUserRepository):
             ConfirmationCode=code
         )
 
-    async def loginUser(self, cpfRne: int, password: str):
-        response = self._client.initiate_auth(
+    async def loginUser(self, cpfRne: int, password: str) -> dict:
+        responseLogin = self._client.initiate_auth(
             ClientId=self._clientId,
             AuthFlow='USER_PASSWORD_AUTH',
             AuthParameters={
@@ -73,7 +73,17 @@ class UserRepositoryCognito(IUserRepository):
                 'PASSWORD': password
             }
         )
-        return response["AuthenticationResult"]['AccessToken'], response["AuthenticationResult"]['RefreshToken']
+        responseGetUser = self._client.get_user(
+            AccessToken=responseLogin["AuthenticationResult"]["AccessToken"]
+        )
+
+        user = CognitoUserDTO.fromKeyValuePair(data=responseGetUser["UserAttributes"]).toEntity()
+
+        dictResponse = user.dict()
+        dictResponse["accessToken"] = responseLogin["AuthenticationResult"]["AccessToken"]
+        dictResponse["refreshToken"] = responseLogin["AuthenticationResult"]["RefreshToken"]
+
+        return dictResponse
 
     async def checkToken(self, cpfRne: int, token: str):
         response = self._client.get_user(

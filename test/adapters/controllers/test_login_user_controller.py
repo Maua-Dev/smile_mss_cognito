@@ -21,7 +21,11 @@ class Test_LoginUserController:
         assert response.status_code == 200
         assert response.body == {
             'access_token': f'validAccessToken-{12345678910}',
-            'refresh_token': f'validRefreshToken-{12345678910}'
+            'refresh_token': f'validRefreshToken-{12345678910}',
+            'role': ROLE.STUDENT.value,
+            'access_level': ACCESS_LEVEL.USER.value,
+            'cpf_rne': 12345678910,
+            'email': 'bruno@bruno.com'
         }
 
     @pytest.mark.asyncio

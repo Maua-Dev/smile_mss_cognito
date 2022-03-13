@@ -22,12 +22,18 @@ class Test_LoginUserUsecase:
         repository = UserRepositoryMock()
 
         loginUserUsecase = LoginUserUsecase(repository)
-        accessToken, refreshToken = await loginUserUsecase(cpf_rne, password)
+        data = await loginUserUsecase(cpf_rne, password)
         expectedAcessToken = 'validAccessToken-' + str(cpf_rne)
         expectedRefreshToken = 'validRefreshToken-' + str(cpf_rne)
 
-        assert accessToken == expectedAcessToken
-        assert refreshToken == expectedRefreshToken
+        assert data["accessToken"] == expectedAcessToken
+        assert data["refreshToken"] == expectedRefreshToken
+        assert data["cpfRne"] == cpf_rne
+        assert data["accessLevel"] == ACCESS_LEVEL.USER
+        assert data["role"] == ROLE.STUDENT
+        assert data["name"] == 'User1'
+        assert data["email"] == 'bruno@bruno.com'
+
 
     @pytest.mark.asyncio
     async def test_login_invalid_user(self):

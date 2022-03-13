@@ -70,13 +70,17 @@ class UserRepositoryMock(IUserRepository):
                 break
             cont += 1
 
-    async def loginUser(self, cpfRne: int, password: str) -> (str, str):
+    async def loginUser(self, cpfRne: int, password: str) -> dict:
         u = await self.getUserByCpfRne(cpfRne)
         if u is None:
             return None
         if u.password == password:
-            return "validAccessToken-" + str(cpfRne), "validRefreshToken-" + str(cpfRne)
-        return None, None
+            dictResponse = u.dict()
+            dictResponse.pop('password')
+            dictResponse["accessToken"] = "validAccessToken-" + str(cpfRne)
+            dictResponse["refreshToken"] = "validRefreshToken-" + str(cpfRne)
+            return dictResponse
+        return None
 
     async def checkToken(self, cpfRne: int, token: str):
         splitToken = token.split("-")

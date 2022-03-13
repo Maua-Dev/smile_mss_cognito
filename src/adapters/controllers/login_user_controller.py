@@ -20,9 +20,8 @@ class LoginUserController:
             return BadRequest('Missing body.')
 
         try:
-            tokens = await self._loginUserUsecase(req.body["cpfRne"], req.body["password"])
-            accessToken, refreshToken = tokens
-            loginUserModel = LoginUserModel(accessToken=accessToken, refreshToken=refreshToken)
+            data = await self._loginUserUsecase(req.body["cpfRne"], req.body["password"])
+            loginUserModel = LoginUserModel.fromDict(data=data)
             return Ok(loginUserModel.toDict())
 
 
