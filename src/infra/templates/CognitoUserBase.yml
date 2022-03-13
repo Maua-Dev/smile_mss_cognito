@@ -12,8 +12,11 @@ Resources:
     Type: "AWS::Cognito::UserPool"
     Properties:
       UserPoolName: !Sub ${AuthName}-user-pool
-      AutoVerifiedAttributes:
+#      AutoVerifiedAttributes:
+#        - email
+      AliasAttributes:
         - email
+        - preferred_username
       Schema:
         - Name: name
           AttributeDataType: String
