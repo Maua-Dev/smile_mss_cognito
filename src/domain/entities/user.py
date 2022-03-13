@@ -34,7 +34,7 @@ class User(BaseModel):
 
     @validator('ra')
     def ra_is_not_invalid(cls, v: int) -> int:
-        if len(str(v)) != 8:
+        if v != None and len(str(v)) != 8:
             raise EntityError('ra')
         return v
 

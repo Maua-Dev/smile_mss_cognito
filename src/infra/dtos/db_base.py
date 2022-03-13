@@ -18,9 +18,9 @@ class DbBaseModel():
 
     def __init__(self, data: dict):
         self.name = data.get('name')
-        self.cpfRne = int(data.get('cpfRne'))
+        self.cpfRne = int(data.get('cpfRne')) if data.get('cpfRne') else None
         self.password = data.get('password')
-        self.ra = int(data.get('ra'))
+        self.ra = int(data.get('ra')) if data.get('ra') else None
         self.email = data.get('email')
         self.role = data.get('role')
         self.accessLevel = data.get('accessLevel')
