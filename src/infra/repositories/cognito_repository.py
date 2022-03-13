@@ -1,3 +1,4 @@
+import os
 from typing import List
 
 import boto3 as boto3
@@ -10,9 +11,13 @@ from src.infra.dtos.User.user_dto import CognitoUserDTO
 class UserRepositoryCognito(IUserRepository):
 
     def __init__(self):
-        self._client = boto3.client("cognito-idp", region_name="us-east-1")
-        self._clientId = "r5vor1epl6fclrfhovtlgiujh"
-        self._userPoolId = "us-east-1_o2K6XlMyg"
+        region = os.getenv("AWS_REGION")
+        userPoolId = os.getenv("USER_POOL_ID")
+        clientId = os.getenv("CLIENT_ID")
+
+        self._client = boto3.client("cognito-idp", region_name=region)
+        self._clientId = clientId
+        self._userPoolId = userPoolId
 
 
     async def getUserByCpfRne(self, cpfRne: int) -> User:
