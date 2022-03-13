@@ -23,6 +23,20 @@ class Test_User():
         assert user.ra == 19003315
         assert user.password is None
 
+    def test_create_valid_user2(self):
+        user =  User(name='Joao do Teste', cpfRne=12345678911, ra=19003315, role=ROLE.SPEAKER,
+                 accessLevel=ACCESS_LEVEL.SPEAKER, createdAt=datetime(2022, 2, 15, 23, 15),
+                 updatedAt=datetime(2022, 2, 15, 23, 15), email='bruno@gmail.com'
+                )
+        assert len(user.name) > 0
+        assert user.name == 'Joao Do Teste'
+        assert len(str(user.cpfRne)) == 11
+        assert user.role == ROLE.SPEAKER
+        assert user.accessLevel == ACCESS_LEVEL.SPEAKER
+        assert user.createdAt == datetime(2022, 2, 15, 23, 15)
+        assert user.updatedAt == datetime(2022, 2, 15, 23, 15)
+        assert user.ra == 19003315
+        assert user.password is None
 
 
 
