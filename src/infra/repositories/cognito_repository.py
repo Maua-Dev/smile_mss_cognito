@@ -95,15 +95,11 @@ class UserRepositoryCognito(IUserRepository):
 
         return dictResponse
 
-    async def checkToken(self, cpfRne: int, token: str):
+    async def checkToken(self, accessToken: str):
         response = self._client.get_user(
-            AccessToken=token
+            AccessToken=accessToken
         )
-
-        for attr in response['UserAttributes']:
-            if attr['Name'] == 'custom:cpfRne' and attr['Value'] == str(cpfRne):
-                return True
-        return False
+        return CognitoUserDTO.fromKeyValuePair(data=response["UserAttributes"]).toEntity().dict()
 
     async def refreshToken(self, refreshToken: str) -> (str, str):
         response = self._client.initiate_auth(

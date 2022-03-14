@@ -13,25 +13,22 @@ class Test_CheckTokenController:
     @pytest.mark.asyncio
     async def test_check_token_valid_token_controller(self):
         request = HttpRequest(body={
-            'cpfRne': 12345678910,
-            'token': 'validToken-12345678910',
+            'access_token': 'validAccessToken-12345678910'
         })
 
         checkTokenController = CheckTokenController(UserRepositoryMock())
         response = await checkTokenController(request)
         assert response.status_code == 200
         assert response.body == {
-        "token": "validToken-12345678910",
-        "cpfRne": 12345678910,
-        "tokenValidated": True,
-        "errorMessage": None
+            'token_validated': True,
+            'role': ROLE.STUDENT.value,
+            'access_level': ACCESS_LEVEL.USER.value,
         }
 
     @pytest.mark.asyncio
     async def test_check_token_invalid_token_controller(self):
         request = HttpRequest(body={
-            'cpfRne': 12345678910,
-            'token': 'validToken-12345678914',
+            'token': 'invalidAccessToken-12345678910',
         })
 
         loginUserController = LoginUserController(UserRepositoryMock())

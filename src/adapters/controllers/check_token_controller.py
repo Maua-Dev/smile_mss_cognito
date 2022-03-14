@@ -24,25 +24,18 @@ class CheckTokenController:
             return BadRequest('Missing body.')
 
         try:
-            token_validated = await self._checkTokenUsecase(req.body["cpfRne"], req.body["token"])
-            checkTokenModel = CheckTokenModel(
-                token=req.body["token"],
-                cpfRne=req.body["cpfRne"],
-                tokenValidated=token_validated)
-            return Ok(checkTokenModel.to_dict())
+            data = await self._checkTokenUsecase(req.body["access_token"])
+            checkTokenModel = CheckTokenModel.fromDict(data)
+            return Ok(checkTokenModel.toDict())
 
         except (InvalidToken, UnexpectedError) as e:
-            checkTokenModel = CheckTokenModel(
-                token=req.body["token"],
-                cpfRne=req.body["cpfRne"],
-                tokenValidated=False,
-                errorMessage= e.message)
-            return BadRequest(checkTokenModel.to_dict())
+            return BadRequest({
+                'tokenValidated': False,
+                'errorMessage': e.args[0]
+                })
 
         except Exception as e:
-            checkTokenModel = CheckTokenModel(
-                token=req.body["token"],
-                cpfRne=req.body["cpfRne"],
-                tokenValidated=False,
-                errorMessage=e.args[0])
-            return BadRequest(checkTokenModel.to_dict())
+            return BadRequest({
+                'tokenValidated': False,
+                'errorMessage': e.args[0]
+            })

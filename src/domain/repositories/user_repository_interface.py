@@ -34,7 +34,7 @@ class IUserRepository(ABC):
         pass
 
     @abstractmethod
-    async def checkToken(self, cpfRne: int, token: str):
+    async def checkToken(self, token: str) -> dict: # user data
         pass
 
     @abstractmethod

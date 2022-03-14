@@ -7,12 +7,13 @@ class CheckTokenUsecase:
     def __init__(self, userRepository: IUserRepository):
         self._userRepository = userRepository
 
-    async def __call__(self, cpfRne: int, token: str) -> bool:
+    async def __call__(self, token: str) -> dict:
 
-        validatedToken = await self._userRepository.checkToken(cpfRne, token)
+        data = await self._userRepository.checkToken(token)
 
-        if not validatedToken:
+        if not data:
             raise InvalidToken('Invalid Token')
+        data["tokenValidated"] = True
 
-        return True
+        return data
 

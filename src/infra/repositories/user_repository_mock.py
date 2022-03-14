@@ -82,15 +82,19 @@ class UserRepositoryMock(IUserRepository):
             return dictResponse
         return None
 
-    async def checkToken(self, cpfRne: int, token: str):
+    async def checkToken(self, token: str) -> dict:
         splitToken = token.split("-")
         if len(splitToken) != 2:
-            return False
-        if splitToken[0] != "validToken":
-            return False
-        if splitToken[1] != str(cpfRne):
-            return False
-        return True
+            return None
+        if splitToken[0] != "validAccessToken":
+            return None
+
+        cpfRne = int(splitToken[1])
+        user = await self.getUserByCpfRne(cpfRne)
+        if user is None:
+            return None
+        return user.dict()
+
 
     async def refreshToken(self, refreshToken: str) -> (str, str):
         splitToken = refreshToken.split("-") # token, cpf
