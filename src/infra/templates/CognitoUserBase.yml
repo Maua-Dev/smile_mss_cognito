@@ -17,6 +17,8 @@ Resources:
       AliasAttributes:
         - email
         - preferred_username
+      EmailVerificationSubject: "Confirmação de cadastro na SMILE 2022"
+      EmailVerificationMessage: "Olá,\n\nPara confirmar seu cadastro na SMILE 2022, use o código: {####} ou clique no link: LINK_FUTURO \n\nAtenciosamente,\nEquipe SMILE 2022"
       Schema:
         - Name: name
           AttributeDataType: String
