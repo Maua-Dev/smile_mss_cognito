@@ -16,11 +16,12 @@ class LoginUserController:
 
         if req.query is not None:
             return BadRequest('No parameters allowed.')
-        if req.body is None:
-            return BadRequest('Missing body.')
+        if not {'login', 'password'}.issubset(set(req.body)):
+            return BadRequest('Missing login and/or password.')
+
 
         try:
-            data = await self._loginUserUsecase(req.body["cpfRne"], req.body["password"])
+            data = await self._loginUserUsecase(req.body["login"], req.body["password"])
             loginUserModel = LoginUserModel.fromDict(data=data)
             return Ok(loginUserModel.toDict())
 

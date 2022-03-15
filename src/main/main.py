@@ -55,7 +55,7 @@ async def getUser(cpfRne: int, response: Response):
 @app.post("/user")
 async def createUser(request: Request, response: Response):
     createUserController = Modular.getInject(CreateUserController)
-    req = HttpRequest(body=await request.json())
+    req = HttpRequest(body= await request.body())
     result = await createUserController(req)
 
     response.status_code = status.get(result.status_code)
@@ -83,7 +83,8 @@ async def createUser(request: Request, response: Response):
 @app.post("/login")
 async def login(request: Request, response: Response):
     loginUserController = Modular.getInject(LoginUserController)
-    req = HttpRequest(body=await request.json())
+
+    req = HttpRequest(body=await request.body())
     result = await loginUserController(req)
 
 

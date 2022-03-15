@@ -12,7 +12,7 @@ class Test_LoginUserController:
     @pytest.mark.asyncio
     async def test_login_valid_user_controller(self):
         request = HttpRequest(body={
-            'cpfRne': 12345678910,
+            'login': 12345678910,
             'password': '123456',
         })
 
@@ -31,7 +31,7 @@ class Test_LoginUserController:
     @pytest.mark.asyncio
     async def test_login_invalid_user_controller(self):
         request = HttpRequest(body={
-            'cpfRne': 12345678910,
+            'login': 12345678910,
             'password': '1234567',
         })
 
@@ -42,7 +42,7 @@ class Test_LoginUserController:
     @pytest.mark.asyncio
     async def test_login_non_existent_user_controller(self):
         request = HttpRequest(body={
-            'cpfRne': 12345678918,
+            'login': 12345678918,
             'password': '123456',
         })
 
