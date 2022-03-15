@@ -27,17 +27,18 @@ class CheckTokenController:
                 return BadRequest('Invalid token.')
             access_token = token[1]
             data = await self._checkTokenUsecase(access_token)
+            data["validToken"] = True
             checkTokenModel = CheckTokenModel.fromDict(data)
             return Ok(checkTokenModel.toDict())
 
         except (InvalidToken, UnexpectedError) as e:
             return BadRequest({
-                'tokenValidated': False,
+                'validToken': False,
                 'errorMessage': e.args[0]
                 })
 
         except Exception as e:
             return BadRequest({
-                'tokenValidated': False,
+                'validToken': False,
                 'errorMessage': e.args[0]
             })

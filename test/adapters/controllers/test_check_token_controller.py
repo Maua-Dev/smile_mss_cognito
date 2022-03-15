@@ -22,7 +22,8 @@ class Test_CheckTokenController:
             'role': ROLE.STUDENT.value,
             'access_level': ACCESS_LEVEL.USER.value,
             'cpf_rne': 12345678910,
-            'email': 'bruno@bruno.com'
+            'email': 'bruno@bruno.com',
+            'valid_token': True
         }
     @pytest.mark.asyncio
     async def test_check_token_invalid_token_controller(self):
