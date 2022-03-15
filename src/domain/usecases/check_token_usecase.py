@@ -13,7 +13,6 @@ class CheckTokenUsecase:
 
         if not data:
             raise InvalidToken('Invalid Token')
-        data["tokenValidated"] = True
 
         return data
 

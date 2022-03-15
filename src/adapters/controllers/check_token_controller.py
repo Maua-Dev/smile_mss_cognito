@@ -20,11 +20,13 @@ class CheckTokenController:
 
         if req.query is not None:
             return BadRequest('No parameters allowed.')
-        if req.body is None:
-            return BadRequest('Missing body.')
 
         try:
-            data = await self._checkTokenUsecase(req.body["access_token"])
+            token = req.headers.get('Authorization').split(' ')
+            if len(token) != 2 or token[0] != 'Bearer':
+                return BadRequest('Invalid token.')
+            access_token = token[1]
+            data = await self._checkTokenUsecase(access_token)
             checkTokenModel = CheckTokenModel.fromDict(data)
             return Ok(checkTokenModel.toDict())
 

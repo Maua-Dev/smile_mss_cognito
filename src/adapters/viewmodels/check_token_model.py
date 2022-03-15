@@ -1,30 +1,31 @@
-from typing import Optional
-
 from src.domain.entities.enums import ROLE, ACCESS_LEVEL
 
 
-class CheckTokenModel:
-    tokenValidated: bool
+class CheckTokenModel():
     role: ROLE
-    accessLevel: ACCESS_LEVEL
+    accesslevel: ACCESS_LEVEL
+    cpfRne: int
+    email: str
 
-    def __init__(self, tokenValidated: bool, role: ROLE, accessLevel: ACCESS_LEVEL):
-        self.tokenValidated = tokenValidated
+    def __init__(self, role: str, accesslevel: str, cpfRne: int, email: str):
         self.role = role
-        self.accessLevel = accessLevel
+        self.accesslevel = accesslevel
+        self.cpfRne = cpfRne
+        self.email = email
 
     @staticmethod
-    def fromDict(obj: dict) -> 'CheckTokenModel':
+    def fromDict(data: dict):
         return CheckTokenModel(
-            tokenValidated=obj['tokenValidated'],
-            role=ROLE(obj['role']),
-            accessLevel=ACCESS_LEVEL(obj['accessLevel'])
+        role = data['role'],
+        accesslevel = data['accessLevel'],
+        cpfRne = data['cpfRne'],
+        email = data['email']
         )
 
     def toDict(self):
         return {
-            'token_validated': self.tokenValidated,
             'role': self.role.value,
-            'access_level': self.accessLevel.value
+            'access_level': self.accesslevel.value,
+            'cpf_rne': self.cpfRne,
+            'email': self.email
         }
-

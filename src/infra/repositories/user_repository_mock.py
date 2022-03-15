@@ -93,8 +93,9 @@ class UserRepositoryMock(IUserRepository):
         user = await self.getUserByCpfRne(cpfRne)
         if user is None:
             return None
-        return user.dict()
-
+        data = user.dict()
+        data.pop('password')
+        return data
 
     async def refreshToken(self, refreshToken: str) -> (str, str):
         splitToken = refreshToken.split("-") # token, cpf

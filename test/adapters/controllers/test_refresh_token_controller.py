@@ -12,9 +12,8 @@ class Test_RefreshTokenController:
 
     @pytest.mark.asyncio
     async def test_refresh_valid_token_controller(self):
-        request = HttpRequest(body={
-            'refresh_token': "validRefreshToken-12345678910",
-        })
+        header = {"Authorization": "Bearer validRefreshToken-12345678910"}
+        request = HttpRequest(headers=header)
 
         refreshTokenController = RefreshTokenController(UserRepositoryMock())
         response = await refreshTokenController(request)
@@ -26,9 +25,8 @@ class Test_RefreshTokenController:
 
     @pytest.mark.asyncio
     async def test_login_invalid_token_controller(self):
-        request = HttpRequest(body={
-            'refresh_token': "invalidRefreshToken-12345678910",
-        })
+        header = {"Authorization": "Bearer invalidRefreshToken-12345678910"}
+        request = HttpRequest(headers=header)
 
         refreshTokenController = RefreshTokenController(UserRepositoryMock())
         response = await refreshTokenController(request)
@@ -36,9 +34,8 @@ class Test_RefreshTokenController:
 
     @pytest.mark.asyncio
     async def test_login_non_existent_user_token_controller(self):
-        request = HttpRequest(body={
-            'refresh_token': "validRefreshToken-12345678918",
-        })
+        header = {"Authorization": "Bearer validRefreshToken-12345678918"}
+        request = HttpRequest(headers=header)
 
         refreshTokenController = RefreshTokenController(UserRepositoryMock())
         response = await refreshTokenController(request)

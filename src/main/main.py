@@ -91,20 +91,19 @@ async def login(request: Request, response: Response):
     return result.body
 
 
-@app.post("/checkToken")
+@app.get("/checkToken")  #login com access_token
 async def checkToken(request: Request, response: Response):
     checkTokenController = Modular.getInject(CheckTokenController)
-    req = HttpRequest(body=await request.json())
+    req = HttpRequest(headers=request.headers)
     result = await checkTokenController(req)
-
 
     response.status_code = status.get(result.status_code)
     return result.body
 
-@app.post("/refreshToken")
+@app.get("/refreshToken") # recebe refresh_token via header e retorna só access_token atualizado
 async def refreshToken(request: Request, response: Response):
     refreshTokenController = Modular.getInject(RefreshTokenController)
-    req = HttpRequest(body=await request.json())
+    req = HttpRequest(headers=request.headers)
     result = await refreshTokenController(req)
 
     response.status_code = status.get(result.status_code)

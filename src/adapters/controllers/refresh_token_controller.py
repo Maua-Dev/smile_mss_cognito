@@ -18,11 +18,13 @@ class RefreshTokenController:
 
         if req.query is not None:
             return BadRequest('No parameters allowed.')
-        if req.body is None:
-            return BadRequest('Missing body.')
 
         try:
-            tokens = await self._refreshTokenUsecase(req.body["refresh_token"])
+            token = req.headers.get('Authorization').split(' ')
+            if len(token) != 2 or token[0] != 'Bearer':
+                return BadRequest('Invalid token.')
+            refreshToken = token[1]
+            tokens = await self._refreshTokenUsecase(refreshToken)
             accessToken, refreshToken = tokens
             refreshTokenModel = RefreshTokenModel(accessToken=accessToken, refreshToken=refreshToken)
             return Ok(refreshTokenModel.toDict())
