@@ -8,7 +8,7 @@ from src.domain.entities.enums import ROLE, ACCESS_LEVEL
 from src.infra.repositories.user_repository_mock import UserRepositoryMock
 
 
-class Test_LoginUserController:
+class Test_ChangePasswordController:
 
     @pytest.mark.asyncio
     async def test_change_valid_cpfRne_controller(self):
