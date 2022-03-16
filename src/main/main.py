@@ -5,7 +5,9 @@ from fastapi import FastAPI, Response, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import PlainTextResponse
 
+from src.adapters.controllers.change_password_controller import ChangePasswordController
 from src.adapters.controllers.check_token_controller import CheckTokenController
+from src.adapters.controllers.confirm_change_password_controller import ConfirmChangePasswordController
 from src.adapters.controllers.create_user_controller import CreateUserController
 from src.adapters.controllers.delete_user_controller import DeleteUserController
 from src.adapters.controllers.get_all_users_controller import GetAllUsersController
@@ -110,3 +112,22 @@ async def refreshToken(request: Request, response: Response):
     response.status_code = status.get(result.status_code)
     return result.body
 
+@app.put("/changePassword")
+async def changePassword(request: Request, response: Response):
+    changePasswordController = Modular.getInject(ChangePasswordController)
+
+    req = HttpRequest(body=await request.json())
+    result = await changePasswordController(req)
+
+    response.status_code = status.get(result.status_code)
+    return result.body
+
+@app.post("/changePassword")
+async def confirmChangePassword(request: Request, response: Response):
+    confirmChangePasswordController = Modular.getInject(ConfirmChangePasswordController)
+
+    req = HttpRequest(body=await request.json())
+    result = await confirmChangePasswordController(req)
+
+    response.status_code = status.get(result.status_code)
+    return result.body
