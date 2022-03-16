@@ -22,6 +22,6 @@ class Test_GetAllUsersUsecase:
                 ) in users
         assert User(name='user2', cpfRne=12345678911, ra=20001231, role=ROLE.PROFESSOR,
                  accessLevel=ACCESS_LEVEL.ADMIN, createdAt=datetime(2022, 2, 15, 23, 15),
-                 updatedAt=datetime(2022, 2, 15, 23, 15), password="123456"
+                 updatedAt=datetime(2022, 2, 15, 23, 15), password="123456", email="user2@user.com"
              ) in users
 
