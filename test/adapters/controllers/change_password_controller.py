@@ -27,7 +27,8 @@ class Test_ChangePasswordController:
     @pytest.mark.asyncio
     async def test_change_valid_email_controller(self):
         request = HttpRequest(body={
-            'login': "user2@user.com"
+            'login': "user2@user.com",
+            'message': ""
         })
 
         changePasswordController = ChangePasswordController(UserRepositoryMock())
