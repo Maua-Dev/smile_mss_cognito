@@ -9,11 +9,6 @@ from src.infra.dtos.User.user_dto import CognitoUserDTO
 from src.infra.repositories.cognito_repository import UserRepositoryCognito
 
 
-os.environ['AWS_REGION_COGNITO'] = 'sa-east-1'
-os.environ['CLIENT_ID'] = '4dk6rsjblaqgojd7p8r3iqqc9t'
-os.environ['USER_POOL_ID'] = 'sa-east-1_evH0iIa68'
-
-
 class Test_CognitoRepository():
 
     # {'ResponseMetadata': {'RequestId': 'ac0e0475-7807-4ff9-a40a-9a70ea606b34', 'HTTPStatusCode': 200,
@@ -111,6 +106,15 @@ class Test_CognitoRepository():
         accessToken = "eyJraWQiOiJHbW1ESWNlTjhCakhPWXorNDgxUG9nUzN2NUU4QjY3SkN3eUNsOSsxV1FRPSIsImFsZyI6IlJTMjU2In0.eyJvcmlnaW5fanRpIjoiNmZmMjU1OTYtYmI1Mi00YWNiLTk5NDYtZmMxNTc3ODQwZjlkIiwic3ViIjoiMzA4YzE5NTgtZDQ4MC00OGNlLTg0NjctOGUzMjlhODc0NWUxIiwiZXZlbnRfaWQiOiJiOTlkN2YyNi1lZGQwLTRiMjMtOTYyOC04MTMyMjkyNjQwMTgiLCJ0b2tlbl91c2UiOiJhY2Nlc3MiLCJzY29wZSI6ImF3cy5jb2duaXRvLnNpZ25pbi51c2VyLmFkbWluIiwiYXV0aF90aW1lIjoxNjQ3MjE2NTAzLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAuc2EtZWFzdC0xLmFtYXpvbmF3cy5jb21cL3NhLWVhc3QtMV9OWTZJZlpicEIiLCJleHAiOjE2NDczMDI5MDMsImlhdCI6MTY0NzIxNjUwMywianRpIjoiMThlMGI5MjAtMjYwZi00MjI5LWE4ZDEtMjEzMjZiYWI2YjRlIiwiY2xpZW50X2lkIjoiMXVya2lnbnJtM2c5ZzE4c2M1NnVhbDgyaHAiLCJ1c2VybmFtZSI6IjEyMzQ5Njk0ODg5In0.qWN6vxhoTRv__0MAwNgHbpX5AgsRCfK91rKqjGKlxRO5w89SX5ulO4b9iFMfQhSkSYSNMkoIcwQBSES7em8e7uvUmt00eRAW5xkx6E3YTtLYKZgvcFkv88TmWQm21S842gypOOFq6GA-b_NnLJEknyedX-6jdta3SdNhUD1tE2P71CY8JDjwSF-YGq-Ean1sGirEbFk1YcS7RN6V7VxrHe9F6xalHoZtl_QeF7-MVaqT_u0Ee9oPprVyQUmMAhBAJ2X72uzyb8Bac03wRRlIUbL6dkj6zUHEapLT087mX7mxG4NG3_fnNCgyMWiMTJNSWEMpCVP2uTsIR8Dfo8OgnQ"
         repo = UserRepositoryCognito()
         response = await repo.checkToken(accessToken)
+        assert response is not None
+
+
+    @pytest.mark.skip(reason="Cognito not set up")
+    # @pytest.mark.asyncio
+    async def test_change_password(self):
+        cpf = 22752461350
+        repo = UserRepositoryCognito()
+        response = await repo.changePassword(str(cpf))
         assert response is not None
 
 

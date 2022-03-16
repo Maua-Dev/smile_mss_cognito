@@ -30,7 +30,7 @@ class IUserRepository(ABC):
         pass
 
     @abstractmethod
-    async def loginUser(self, cpfRne: int, password: str) -> dict:  # accessToken, refreshToken
+    async def loginUser(self, cpfRne: int, password: str) -> dict:  # accessToken, refreshToken #todo change to login
         pass
 
     @abstractmethod
@@ -39,4 +39,12 @@ class IUserRepository(ABC):
 
     @abstractmethod
     async def refreshToken(self, refreshToken: str) -> (str, str):  # accessToken, refreshToken
+        pass
+
+    @abstractmethod
+    async def changePassword(self, login: str) -> bool:
+        pass
+
+    @abstractmethod
+    async def confirmChangePassword(self, login: str, oldPassword: str, newPassword: str) -> bool:
         pass

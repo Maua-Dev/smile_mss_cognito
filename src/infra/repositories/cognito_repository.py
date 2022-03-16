@@ -10,6 +10,7 @@ from src.infra.dtos.User.user_dto import CognitoUserDTO
 
 class UserRepositoryCognito(IUserRepository):
 
+
     def __init__(self):
         region = os.environ.get("AWS_REGION_COGNITO")
         userPoolId = os.environ.get("USER_POOL_ID")
@@ -111,8 +112,20 @@ class UserRepositoryCognito(IUserRepository):
         )
         return response["AuthenticationResult"]['AccessToken'], refreshToken
 
+    async def changePassword(self, login: str) -> bool:
+        response = self._client.forgot_password(
+            ClientId=self._clientId,
+            Username=login
+        )
+        return response["ResponseMetadata"]["HTTPStatusCode"] == 200
+
+    async def confirmChangePassword(self, login: str, oldPassword: str, newPassword: str) -> bool:
+        pass
+
+
     async def updateUser(self, user: User):
         pass
 
     async def deleteUser(self, userCpfRne: int):
         pass
+

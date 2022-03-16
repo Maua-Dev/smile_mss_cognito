@@ -15,11 +15,11 @@ class UserRepositoryMock(IUserRepository):
             User(name='user1', cpfRne=12345678910, ra=19003315, role=ROLE.STUDENT,
                  accessLevel=ACCESS_LEVEL.USER, createdAt=datetime(2022, 3, 8, 22, 10),
                  updatedAt=datetime(2022, 3, 8, 22, 15), email="bruno@bruno.com", password="123456"
-             ),
+                 ),
             User(name='user2', cpfRne=12345678911, ra=20001231, role=ROLE.PROFESSOR,
                  accessLevel=ACCESS_LEVEL.ADMIN, createdAt=datetime(2022, 2, 15, 23, 15),
-                 updatedAt=datetime(2022, 2, 15, 23, 15), password="123456"
-             )
+                 updatedAt=datetime(2022, 2, 15, 23, 15), password="123456", email="user2@user.com"
+                 )
         ]
 
     async def getAllUsers(self) -> List[User]:
@@ -98,7 +98,7 @@ class UserRepositoryMock(IUserRepository):
         return data
 
     async def refreshToken(self, refreshToken: str) -> (str, str):
-        splitToken = refreshToken.split("-") # token, cpf
+        splitToken = refreshToken.split("-")  # token, cpf
         if len(splitToken) != 2:
             return None, None
         if splitToken[0] != "validRefreshToken":
@@ -106,3 +106,20 @@ class UserRepositoryMock(IUserRepository):
         if await self.getUserByCpfRne(int(splitToken[1])) is None:
             return None, None
         return "validAccessToken-" + splitToken[1], refreshToken
+
+    async def changePassword(self, login: str) -> bool:
+        user = None
+        if login.isdigit():
+            user = await self.getUserByCpfRne(int(login))
+        if user:
+            return True
+
+        for userx in self._users:
+            if userx.email == login:
+                return True
+        return False
+
+
+
+    async def confirmChangePassword(self, login: str, oldPassword: str, newPassword: str) -> bool:
+        pass
