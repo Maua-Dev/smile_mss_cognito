@@ -117,6 +117,17 @@ class Test_CognitoRepository():
         response = await repo.changePassword(str(cpf))
         assert response is not None
 
+    @pytest.mark.skip(reason="Cognito not set up")
+    # @pytest.mark.asyncio
+    async def test_confirm_change_password(self):
+        cpf = 22752461350
+        code = 811937
+
+        repo = UserRepositoryCognito()
+        response = await repo.confirmChangePassword(login=str(cpf), newPassword="Teste123!", code=str(code))
+        assert response
+
+
 
 
 

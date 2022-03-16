@@ -46,5 +46,5 @@ class IUserRepository(ABC):
         pass
 
     @abstractmethod
-    async def confirmChangePassword(self, login: str, oldPassword: str, newPassword: str) -> bool:
+    async def confirmChangePassword(self, login: str, newPassword:str, code: str) -> bool:
         pass

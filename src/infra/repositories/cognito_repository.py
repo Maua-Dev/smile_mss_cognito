@@ -119,8 +119,14 @@ class UserRepositoryCognito(IUserRepository):
         )
         return response["ResponseMetadata"]["HTTPStatusCode"] == 200
 
-    async def confirmChangePassword(self, login: str, oldPassword: str, newPassword: str) -> bool:
-        pass
+    async def confirmChangePassword(self, login: str, newPassword: str, code: str) -> bool:
+        response = self._client.confirm_forgot_password(
+            ClientId=self._clientId,
+            Username=login,
+            Password=newPassword,
+            ConfirmationCode=code
+        )
+        return response["ResponseMetadata"]["HTTPStatusCode"] == 200
 
 
     async def updateUser(self, user: User):

@@ -121,5 +121,25 @@ class UserRepositoryMock(IUserRepository):
 
 
 
-    async def confirmChangePassword(self, login: str, oldPassword: str, newPassword: str) -> bool:
-        pass
+    async def confirmChangePassword(self, login: str, newPassword: str, code: str) -> bool:
+        # code = 123456
+
+        # Check code
+        if code != "123456":
+            return False
+
+        # Update user password
+        user = None
+        if login.isdigit():
+            user = await self.getUserByCpfRne(int(login))
+        if user:
+            user.password = newPassword
+            return True
+        for userx in self._users:
+            if userx.email == login:
+                userx.password = newPassword
+                return True
+        return False
+
+
+
