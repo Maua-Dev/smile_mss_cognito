@@ -2,7 +2,7 @@ from pydantic import ValidationError
 
 from src.adapters.errors.http_exception import HttpException
 from src.domain.entities.user import User
-from src.domain.errors.errors import UnexpectedError, NoItemsFound, EntityError
+from src.domain.errors.errors import UnexpectedError, NoItemsFound, EntityError, InvalidCredentials, UserAlreadyExists
 from src.domain.repositories.user_repository_interface import IUserRepository
 from src.domain.usecases.create_user_usecase import CreateUserUsecase
 from src.adapters.helpers.http_models import BadRequest, HttpRequest, HttpResponse, InternalServerError, Ok, NoContent
@@ -30,6 +30,12 @@ class CreateUserController:
 
         except ValidationError:
             return BadRequest("Invalid parameters.")
+
+        except InvalidCredentials as e:
+            return BadRequest(e.message)
+
+        except UserAlreadyExists as e:
+            return BadRequest(e.message)
 
         except UnexpectedError as e:
             err = InternalServerError(e.message)

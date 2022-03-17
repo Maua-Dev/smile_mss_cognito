@@ -19,7 +19,6 @@ class LoginUserController:
         if not {'login', 'password'}.issubset(set(req.body)):
             return BadRequest('Missing login and/or password.')
 
-
         try:
             data = await self._loginUserUsecase(req.body["login"], req.body["password"])
             loginUserModel = LoginUserModel.fromDict(data=data)
@@ -27,6 +26,9 @@ class LoginUserController:
 
 
         except InvalidCredentials as e:
+            return BadRequest(e.message)
+
+        except NonExistentUser as e:
             return BadRequest(e.message)
 
         except KeyError as e:

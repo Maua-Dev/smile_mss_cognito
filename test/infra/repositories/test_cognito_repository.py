@@ -5,6 +5,7 @@ import pytest
 
 from src.domain.entities.enums import ROLE, ACCESS_LEVEL
 from src.domain.entities.user import User
+from src.domain.errors.errors import NonExistentUser
 from src.infra.dtos.User.user_dto import CognitoUserDTO
 from src.infra.repositories.cognito_repository import UserRepositoryCognito
 
@@ -69,15 +70,20 @@ class Test_CognitoRepository():
     @pytest.mark.skip(reason="Cognito not set up")
     # @pytest.mark.asyncio
     async def test_login_user(self):
-        cpfRne = 12345678919
-        password = "Teste123!"
-        repo = UserRepositoryCognito()
-        response = await repo.loginUser(cpfRne, password)
-        assert response is not None
-        assert response.get('accessToken') is not None
-        assert response.get('refreshToken') is not None
-        assert response.get('name') == 'Bruno Vilardi'
-        assert response.get('cpfRne') == cpfRne
+        try:
+            cpfRne = 12345678919
+            password = "Teste123!dfasdasd"
+            repo = UserRepositoryCognito()
+            response = await repo.loginUser(cpfRne, password)
+            assert response is not None
+            assert response.get('accessToken') is not None
+            assert response.get('refreshToken') is not None
+            assert response.get('name') == 'Bruno Vilardi'
+            assert response.get('cpfRne') == cpfRne
+        except NonExistentUser as e:
+            assert e
+        except Exception as e:
+            assert e
 
     @pytest.mark.skip(reason="Cognito not set up")
     # @pytest.mark.asyncio

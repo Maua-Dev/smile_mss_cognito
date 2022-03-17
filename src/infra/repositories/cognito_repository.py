@@ -2,8 +2,11 @@ import os
 from typing import List
 
 import boto3 as boto3
+from botocore.exceptions import ClientError
 
 from src.domain.entities.user import User
+from src.domain.errors.errors import InvalidCredentials, NonExistentUser, BaseError, UserAlreadyExists, InvalidToken, \
+    EntityError
 from src.domain.repositories.user_repository_interface import IUserRepository
 from src.infra.dtos.User.user_dto import CognitoUserDTO
 
@@ -22,33 +25,65 @@ class UserRepositoryCognito(IUserRepository):
 
 
     async def getUserByCpfRne(self, cpfRne: int) -> User:
-        response = self._client.admin_get_user(
-            UserPoolId=self._userPoolId,
-            Username=str(cpfRne)
-        )
-        return CognitoUserDTO.fromKeyValuePair(data=response["UserAttributes"]).toEntity()
+        try:
+            response = self._client.admin_get_user(
+                UserPoolId=self._userPoolId,
+                Username=str(cpfRne)
+            )
+            return CognitoUserDTO.fromKeyValuePair(data=response["UserAttributes"]).toEntity()
+        except ClientError as e:
+            errorCode = e.response.get('Error').get('Code')
+            if errorCode == 'NotAuthorizedException':
+                raise InvalidCredentials("You don`t have permission to access this resource")
+            elif errorCode == 'UserNotFoundException':
+                raise NonExistentUser(f"{cpfRne}")
+            else:
+                raise
 
     async def getAllUsers(self) -> List[User]:
-        response = self._client.list_users(
-            UserPoolId=self._userPoolId
-        )
-        users = []
-        for user in response["Users"]:
-            cognitoUserDTO = CognitoUserDTO.fromKeyValuePair(data=user["Attributes"])
-            users.append(cognitoUserDTO.toEntity())
-        return users, len(response["Users"])
+        try:
+            response = self._client.list_users(
+                UserPoolId=self._userPoolId
+            )
+            users = []
+            for user in response["Users"]:
+                cognitoUserDTO = CognitoUserDTO.fromKeyValuePair(data=user["Attributes"])
+                users.append(cognitoUserDTO.toEntity())
+            return users, len(response["Users"])
+        except ClientError as e:
+            errorCode = e.response.get('Error').get('Code')
+            if errorCode == 'NotAuthorizedException':
+                raise InvalidCredentials("You don`t have permission to access this resource")
+            else:
+                raise
 
 
     async def createUser(self, user: User):
-        user_dto = CognitoUserDTO(user.dict())
+        try:
+            user_dto = CognitoUserDTO(user.dict())
 
-        self._client.sign_up(
-            ClientId=self._clientId,
-            Username=str(user_dto.cpfRne),
-            Password=user_dto.password,
-            UserAttributes=user_dto.userAttributes,
-        )
-        await self.confirmUserCreationAdmin(user_dto.cpfRne)
+            self._client.sign_up(
+                ClientId=self._clientId,
+                Username=str(user_dto.cpfRne),
+                Password=user_dto.password,
+                UserAttributes=user_dto.userAttributes,
+            )
+            await self.confirmUserCreationAdmin(user_dto.cpfRne)
+        except ClientError as e:
+            errorCode = e.response.get('Error').get('Code')
+            if errorCode == 'NotAuthorizedException':
+                raise InvalidCredentials("You don`t have permission to access this resource")
+            elif errorCode == 'InvalidParameterException':
+                raise EntityError("Invalid parameter")
+            elif errorCode == 'AliasExistsException':
+                raise UserAlreadyExists("Alias already exists")
+            elif errorCode == 'UserNotFoundException':
+                raise NonExistentUser(f"{user.cpfRne}")
+            else:
+                raise BaseError(message=e.response.get('Error').get('Message'))
+
+
+
 
 
     async def confirmUserCreationAdmin(self, cpfRne: int):
@@ -69,64 +104,122 @@ class UserRepositoryCognito(IUserRepository):
 
 
     async def confirmUserCreation(self, user: CognitoUserDTO, code: str):
-        return self._client.confirm_sign_up(
-            ClientId=self._clientId,
-            Username=str(user.cpfRne),
-            ConfirmationCode=code
-        )
+        try:
+            return self._client.confirm_sign_up(
+                ClientId=self._clientId,
+                Username=str(user.cpfRne),
+                ConfirmationCode=code
+            )
+        except ClientError as e:
+            errorCode = e.response.get('Error').get('Code')
+            if errorCode == 'NotAuthorizedException':
+                raise InvalidCredentials("You don`t have permission to access this resource")
+            elif errorCode == 'InvalidParameterException':
+                raise BaseError("Invalid parameter")
+            elif errorCode == 'CodeMismatchException':
+                raise InvalidCredentials("Invalid confirmation code")
+            elif errorCode == 'ExpiredCodeException':
+                raise InvalidCredentials("Expired confirmation code")
+            raise BaseError(message=e.response.get('Error').get('Message'))
 
     async def loginUser(self, cpfRne: int, password: str) -> dict:
-        responseLogin = self._client.initiate_auth(
-            ClientId=self._clientId,
-            AuthFlow='USER_PASSWORD_AUTH',
-            AuthParameters={
-                'USERNAME': str(cpfRne),
-                'PASSWORD': password
-            }
-        )
-        responseGetUser = self._client.get_user(
-            AccessToken=responseLogin["AuthenticationResult"]["AccessToken"]
-        )
+        try:
+            responseLogin = self._client.initiate_auth(
+                ClientId=self._clientId,
+                AuthFlow='USER_PASSWORD_AUTH',
+                AuthParameters={
+                    'USERNAME': str(cpfRne),
+                    'PASSWORD': password
+                }
+            )
+            responseGetUser = self._client.get_user(
+                AccessToken=responseLogin["AuthenticationResult"]["AccessToken"]
+            )
 
-        user = CognitoUserDTO.fromKeyValuePair(data=responseGetUser["UserAttributes"]).toEntity()
+            user = CognitoUserDTO.fromKeyValuePair(data=responseGetUser["UserAttributes"]).toEntity()
 
-        dictResponse = user.dict()
-        dictResponse["accessToken"] = responseLogin["AuthenticationResult"]["AccessToken"]
-        dictResponse["refreshToken"] = responseLogin["AuthenticationResult"]["RefreshToken"]
+            dictResponse = user.dict()
+            dictResponse["accessToken"] = responseLogin["AuthenticationResult"]["AccessToken"]
+            dictResponse["refreshToken"] = responseLogin["AuthenticationResult"]["RefreshToken"]
+            return dictResponse
 
-        return dictResponse
+        except ClientError as e:
+            errorCode = e.response.get('Error').get('Code')
+            if errorCode == 'NotAuthorizedException':
+                raise InvalidCredentials(message="User or password invalid")
+            elif errorCode == 'UserNotFoundException':
+                raise NonExistentUser(message=f"{cpfRne}")
+            elif errorCode == 'UserNotConfirmedException':
+                raise InvalidCredentials(message="User not confirmed")
+            else:
+                raise BaseError(message=e.response.get('Error').get('Message'))
+
+
 
     async def checkToken(self, accessToken: str):
-        response = self._client.get_user(
-            AccessToken=accessToken
-        )
-        return CognitoUserDTO.fromKeyValuePair(data=response["UserAttributes"]).toEntity().dict()
+        try:
+            response = self._client.get_user(
+                AccessToken=accessToken
+            )
+            return CognitoUserDTO.fromKeyValuePair(data=response["UserAttributes"]).toEntity().dict()
+        except ClientError as e:
+            errorCode = e.response.get('Error').get('Code')
+            if errorCode == 'NotAuthorizedException':
+                raise InvalidToken(message="Invalid or expired Token")
+            else:
+                raise BaseError(message=e.response.get('Error').get('Message'))
 
     async def refreshToken(self, refreshToken: str) -> (str, str):
-        response = self._client.initiate_auth(
-            ClientId=self._clientId,
-            AuthFlow='REFRESH_TOKEN_AUTH',
-            AuthParameters={
-                'REFRESH_TOKEN': refreshToken
-            }
-        )
-        return response["AuthenticationResult"]['AccessToken'], refreshToken
+        try:
+            response = self._client.initiate_auth(
+                ClientId=self._clientId,
+                AuthFlow='REFRESH_TOKEN_AUTH',
+                AuthParameters={
+                    'REFRESH_TOKEN': refreshToken
+                }
+            )
+            return response["AuthenticationResult"]['AccessToken'], refreshToken
+        except ClientError as e:
+            errorCode = e.response.get('Error').get('Code')
+            if errorCode == 'NotAuthorizedException':
+                raise InvalidToken(message="Invalid or expired Token")
+            else:
+                raise BaseError(message=e.response.get('Error').get('Message'))
 
     async def changePassword(self, login: str) -> bool:
-        response = self._client.forgot_password(
-            ClientId=self._clientId,
-            Username=login
-        )
-        return response["ResponseMetadata"]["HTTPStatusCode"] == 200
+        try:
+            response = self._client.forgot_password(
+                ClientId=self._clientId,
+                Username=login
+            )
+            return response["ResponseMetadata"]["HTTPStatusCode"] == 200
+        except ClientError as e:
+            errorCode = e.response.get('Error').get('Code')
+            if errorCode == 'UserNotFoundException':
+                raise NonExistentUser(message=f"{login}")
+            elif errorCode == 'UserNotConfirmedException':
+                raise BaseError(message="User not confirmed")
+            else:
+                raise BaseError(message=e.response.get('Error').get('Message'))
+
 
     async def confirmChangePassword(self, login: str, newPassword: str, code: str) -> bool:
-        response = self._client.confirm_forgot_password(
-            ClientId=self._clientId,
-            Username=login,
-            Password=newPassword,
-            ConfirmationCode=code
-        )
-        return response["ResponseMetadata"]["HTTPStatusCode"] == 200
+        try:
+            response = self._client.confirm_forgot_password(
+                ClientId=self._clientId,
+                Username=login,
+                Password=newPassword,
+                ConfirmationCode=code
+            )
+            return response["ResponseMetadata"]["HTTPStatusCode"] == 200
+        except ClientError as e:
+            errorCode = e.response.get('Error').get('Code')
+            if errorCode == 'CodeMismatchException':
+                raise InvalidCredentials(message="Invalid confirmation code")
+            elif errorCode == 'UserNotFoundException':
+                raise NonExistentUser(message=f"{login}")
+            else:
+                raise BaseError(message=e.response.get('Error').get('Message'))
 
 
     async def updateUser(self, user: User):

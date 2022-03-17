@@ -26,7 +26,7 @@ class UserAlreadyExists(BaseError):
 
 class NonExistentUser(BaseError):
     def __init__(self, message: str):
-        super().__init__(f'User not found. Message: {message}')
+        super().__init__(f'User not found. Message: User with login {message} does not exist')
 
 class IncompleteUser(BaseError):
     def __init__(self, message: str):
