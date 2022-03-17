@@ -14,13 +14,11 @@ class TestCreateUserController:
     async def test_create_valid_user_controller(self):
         request = HttpRequest(body={
             "name": 'user3',
-            "cpfRne": 12345678913,
+            "cpf_rne": 12345678913,
             "ra": 20001236,
-            "role": ROLE.PROFESSOR,
+            "role": ROLE.PROFESSOR.value,
             "email": "user@teste.com",
-            "accessLevel": ACCESS_LEVEL.ADMIN,
-            "createdAt": datetime(2022, 2, 15, 23, 15),
-            "updatedAt": datetime(2022, 2, 15, 23, 15),
+            "access_level": ACCESS_LEVEL.ADMIN.value,
             "password": '123456'
         })
 
@@ -32,12 +30,10 @@ class TestCreateUserController:
     async def test_create_invalid_cpfRne_user_controller(self):
         request = HttpRequest(body={
             "name": 'user3',
-            "cpfRne": 12345678,
+            "cpf_rne": 12345678,
             "ra": 20001236,
             "role": '',
-            "accessLevel": '',
-            "createdAt": datetime(2022, 2, 15, 23, 15),
-            "updatedAt": datetime(2022, 2, 15, 23, 15),
+            "access_level": '',
             "password": '123456'
         })
 
@@ -49,10 +45,10 @@ class TestCreateUserController:
     async def test_create_invalid_ra_user_controller(self):
         request = HttpRequest(body={
             "name": 'user3',
-            "cpfRne": 12345678913,
+            "cpf_rne": 12345678913,
             "ra": 205001236,
             "role": '',
-            "accessLevel": '',
+            "access_level": '',
             "createdAt": datetime(2022, 2, 15, 23, 15),
             "updatedAt": datetime(2022, 2, 15, 23, 15)
         })
@@ -65,12 +61,10 @@ class TestCreateUserController:
     async def test_create_invalid_ra2_user_controller(self):
         request = HttpRequest(body={
             "name": 'user3',
-            "cpfRne": 12345678913,
+            "cpf_rne": 12345678913,
             "ra": 19.00331-5,
             "role": '',
-            "accessLevel": '',
-            "createdAt": datetime(2022, 2, 15, 23, 15),
-            "updatedAt": datetime(2022, 2, 15, 23, 15),
+            "access_level": '',
             "password": '123456'
         })
 
@@ -82,10 +76,10 @@ class TestCreateUserController:
     async def test_create_invalid_role_user_controller(self):
         request = HttpRequest(body={
             "name": 'user3',
-            "cpfRne": 12345678913,
+            "cpf_rne": 12345678913,
             "ra": 19003315,
             "role": 'qualquerCoisa',
-            "accessLevel": '',
+            "access_level": '',
             "createdAt": datetime(2022, 2, 15, 23, 15),
             "updatedAt": datetime(2022, 2, 15, 23, 15),
             "password": '123456'
@@ -99,10 +93,10 @@ class TestCreateUserController:
     async def test_create_invalid_date_user_controller(self):
         request = HttpRequest(body={
             "name": 'user3',
-            "cpfRne": 12345678913,
+            "cpf_rne": 12345678913,
             "ra": 19003315,
             "role": 'qualquerCoisa',
-            "accessLevel": '',
+            "access_level": '',
             "createdAt": "2022-02-15T23:15",
             "updatedAt": datetime(2022, 2, 15, 23, 15),
             "password": '123456'
