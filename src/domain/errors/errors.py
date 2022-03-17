@@ -22,7 +22,7 @@ class NoItemsFound(BaseError):
 
 class UserAlreadyExists(BaseError):
     def __init__(self, message: str):
-        super().__init__(f'User already exists. Message: {message}')
+        super().__init__(f'User already exists. User login: {message}')
 
 class NonExistentUser(BaseError):
     def __init__(self, message: str):

@@ -77,6 +77,8 @@ class UserRepositoryCognito(IUserRepository):
                 raise EntityError("Invalid parameter")
             elif errorCode == 'AliasExistsException':
                 raise UserAlreadyExists("Alias already exists")
+            elif errorCode == 'UsernameExistsException':
+                raise UserAlreadyExists(f"{user.cpfRne}")
             elif errorCode == 'UserNotFoundException':
                 raise NonExistentUser(f"{user.cpfRne}")
             else:
