@@ -34,26 +34,6 @@ app.add_middleware(
 async def internal_exception_handler(request: Request, exc: HttpException):
     return PlainTextResponse(exc.body, status_code=exc.status_code)
 
-@app.get("/user/all")
-async def getAllusers(response: Response):
-    getAllUsersController = Modular.getInject(GetAllUsersController)
-    req = HttpRequest(query=None)
-    result = await getAllUsersController(req)
-
-    response.status_code = status.get(result.status_code)
-    return result.body
-
-
-@app.get("/user/{cpfRne}")
-async def getUser(cpfRne: int, response: Response):
-    getAllUserByCpfRne = Modular.getInject(GetUserByCpfRneController)
-    req = HttpRequest(query={'cpfRne': cpfRne})
-    result = await getAllUserByCpfRne(req)
-
-    response.status_code = status.get(result.status_code)
-    return result.body
-
-
 @app.post("/user")
 async def createUser(request: Request, response: Response):
     createUserController = Modular.getInject(CreateUserController)
@@ -63,24 +43,7 @@ async def createUser(request: Request, response: Response):
     response.status_code = status.get(result.status_code)
     return result.body
 
-# @app.put("/user")
-# async def updateUser(request: Request, response: Response):
-#     updateUserController = Modular.getInject(UpdateUserController)
-#     req = HttpRequest(body=await request.json())
-#     result = await updateUserController(req)
-#
-#     response.status_code = status.get(result.status_code)
-#     return result.body
-#
-#
-# @app.delete("/user")
-# async def deleteUser(request: Request, response: Response):
-#     deleteUserController = Modular.getInject(DeleteUserController)
-#     req = HttpRequest(body=await request.json())
-#     result = await deleteUserController(req)
-#
-#     response.status_code = status.get(result.status_code)
-#     return result.body
+
 
 @app.post("/login")
 async def login(request: Request, response: Response):
@@ -131,3 +94,46 @@ async def confirmChangePassword(request: Request, response: Response):
 
     response.status_code = status.get(result.status_code)
     return result.body
+
+
+
+# @app.get("/user/all")
+# async def getAllusers(response: Response):
+#     getAllUsersController = Modular.getInject(GetAllUsersController)
+#     req = HttpRequest(query=None)
+#     result = await getAllUsersController(req)
+#
+#     response.status_code = status.get(result.status_code)
+#     return result.body
+#
+#
+# @app.get("/user/{cpfRne}")
+# async def getUser(cpfRne: int, response: Response):
+#     getAllUserByCpfRne = Modular.getInject(GetUserByCpfRneController)
+#     req = HttpRequest(query={'cpfRne': cpfRne})
+#     result = await getAllUserByCpfRne(req)
+#
+#     response.status_code = status.get(result.status_code)
+#     return result.body
+
+
+
+
+# @app.put("/user")
+# async def updateUser(request: Request, response: Response):
+#     updateUserController = Modular.getInject(UpdateUserController)
+#     req = HttpRequest(body=await request.json())
+#     result = await updateUserController(req)
+#
+#     response.status_code = status.get(result.status_code)
+#     return result.body
+#
+#
+# @app.delete("/user")
+# async def deleteUser(request: Request, response: Response):
+#     deleteUserController = Modular.getInject(DeleteUserController)
+#     req = HttpRequest(body=await request.json())
+#     result = await deleteUserController(req)
+#
+#     response.status_code = status.get(result.status_code)
+#     return result.body
