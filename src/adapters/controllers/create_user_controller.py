@@ -20,6 +20,9 @@ class CreateUserController:
             return BadRequest('Missing body.')
 
         try:
+            req.body['cpfRne'] = req.body['cpf_rne']
+            req.body['accessLevel'] = req.body['access_level']
+
             user = User.parse_obj(req.body)
             await self._createUserUsecase(user)
             response = {f"User {user.name} created."}
