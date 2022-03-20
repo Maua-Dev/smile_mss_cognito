@@ -11,7 +11,7 @@ from src.infra.repositories.user_repository_mock import UserRepositoryMock
 class TestCreateUserController:
     mockUser = {
         "name": 'user1',
-        "cpfRne": 12345678910,
+        "cpfRne": '75599469093',
         "ra": 19003315,
         "role": ROLE.STUDENT,
         "accessLevel": ACCESS_LEVEL.USER,
@@ -35,7 +35,7 @@ class TestCreateUserController:
     @pytest.mark.asyncio
     async def test_update_invalid_cpfRne_user_controller(self):
         u = self.mockUser.copy()
-        u['cpfRne'] = 12345678
+        u['cpfRne'] = 62813878084
 
         request = HttpRequest(body=u)
 
@@ -46,7 +46,7 @@ class TestCreateUserController:
     @pytest.mark.asyncio
     async def test_update_valid_cpfRne_user_controller(self):
         u = self.mockUser.copy()
-        u['cpfRne'] = 12345678615
+        u['cpfRne'] = 46608874057
 
         request = HttpRequest(body=u)
 

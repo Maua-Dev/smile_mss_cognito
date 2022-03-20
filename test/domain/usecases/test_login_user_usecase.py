@@ -16,7 +16,7 @@ class Test_LoginUserUsecase:
     @pytest.mark.asyncio
     async def test_login_valid_user(self):
 
-        cpf_rne = 12345678910
+        cpf_rne = '75599469093'
         password = '123456'
 
         repository = UserRepositoryMock()
@@ -37,7 +37,7 @@ class Test_LoginUserUsecase:
 
     @pytest.mark.asyncio
     async def test_login_invalid_user(self):
-        cpf_rne = 12345678910
+        cpf_rne = '75599469093'
         password = '1234567'
 
         repository = UserRepositoryMock()
@@ -48,7 +48,7 @@ class Test_LoginUserUsecase:
 
     @pytest.mark.asyncio
     async def test_login_non_existent_user(self):
-        cpf_rne = 12345678918
+        cpf_rne = '27550611033'
         password = '123456'
 
         repository = UserRepositoryMock()

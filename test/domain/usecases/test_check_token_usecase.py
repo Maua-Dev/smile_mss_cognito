@@ -14,7 +14,7 @@ class Test_CheckTokenUsecase:
 
         repository = UserRepositoryMock()
 
-        cpf_rne = 12345678910
+        cpf_rne = '75599469093'
         accessToken = f'validAccessToken-{cpf_rne}'
 
         checkTokenUsecase = CheckTokenUsecase(repository)
@@ -29,7 +29,7 @@ class Test_CheckTokenUsecase:
     async def test_check_token_invalid_token(self):
 
 
-        cpf_rne = 12345678910
+        cpf_rne = 75599469093
         refreshToken = f'invalidAccessToken-{cpf_rne}'
 
         repository = UserRepositoryMock()
@@ -39,9 +39,9 @@ class Test_CheckTokenUsecase:
             await checkTokenUsecase(refreshToken)
 
     @pytest.mark.asyncio
-    async def test_refresh_token_invalid_token2(self):
+    async def test_check_invalid_token2(self):
 
-        cpf_rne = 12345678918
+        cpf_rne = '30238808084'
         refreshToken = f'validAccessToken-{cpf_rne}'
 
         repository = UserRepositoryMock()

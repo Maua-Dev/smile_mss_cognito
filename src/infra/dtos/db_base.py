@@ -7,7 +7,7 @@ from src.domain.entities.enums import ACCESS_LEVEL, ROLE
 
 class DbBaseModel():
     name: str
-    cpfRne: int
+    cpfRne: str
     password: Optional[str]
     ra: Optional[int]
     email: Optional[str]
@@ -18,7 +18,7 @@ class DbBaseModel():
 
     def __init__(self, data: dict):
         self.name = data.get('name')
-        self.cpfRne = int(data.get('cpfRne')) if data.get('cpfRne') else None
+        self.cpfRne = data.get('cpfRne') if data.get('cpfRne') else None
         self.password = data.get('password')
         self.ra = int(data.get('ra')) if data.get('ra') else None
         self.email = data.get('email')

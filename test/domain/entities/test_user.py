@@ -9,7 +9,7 @@ from src.domain.errors.errors import EntityError
 class Test_User():
 
     def test_create_valid_user(self):
-        user =  User(name='Joao do Teste', cpfRne=12345678911, ra=19003315, role=ROLE.PROFESSOR,
+        user =  User(name='Joao do Teste', cpfRne=75599469093, ra=19003315, role=ROLE.PROFESSOR,
                  accessLevel=ACCESS_LEVEL.ADMIN, createdAt=datetime(2022, 2, 15, 23, 15),
                  updatedAt=datetime(2022, 2, 15, 23, 15), email='bruno@gmail.com'
                 )
@@ -24,7 +24,7 @@ class Test_User():
         assert user.password is None
 
     def test_create_valid_user2(self):
-        user =  User(name='Joao do Teste', cpfRne=12345678911, ra=19003315, role=ROLE.SPEAKER,
+        user =  User(name='Joao do Teste', cpfRne='01948697092', ra=19003315, role=ROLE.SPEAKER,
                  accessLevel=ACCESS_LEVEL.SPEAKER, createdAt=datetime(2022, 2, 15, 23, 15),
                  updatedAt=datetime(2022, 2, 15, 23, 15), email='bruno@gmail.com'
                 )
@@ -40,30 +40,30 @@ class Test_User():
 
 
 
-    def test_create_invalid_student1(self):
+    def test_create_invalid_user1(self):
         with pytest.raises(EntityError):
-            User(name='', cpfRne=12345678911, ra=19003315, role=ROLE.PROFESSOR,
+            User(name='', cpfRne=75599469093, ra=19003315, role=ROLE.PROFESSOR,
                 accessLevel=ACCESS_LEVEL.ADMIN, createdAt=datetime(2022, 2, 15, 23, 15),
                 updatedAt=datetime(2022, 2, 15, 23, 15)
             )
 
-    def test_create_invalid_student2(self):
+    def test_create_invalid_user2(self):
         with pytest.raises(EntityError):
-            User(name='Joao do teste', cpfRne=1234567891, ra=19003315, role=ROLE.PROFESSOR,
+            User(name='Joao do teste', cpfRne=7559946909, ra=19003315, role=ROLE.PROFESSOR,
                  accessLevel=ACCESS_LEVEL.ADMIN, createdAt=datetime(2022, 2, 15, 23, 15),
                  updatedAt=datetime(2022, 2, 15, 23, 15)
              )
 
-    def test_create_invalid_student3(self):
+    def test_create_invalid_user3(self):
         with pytest.raises(EntityError):
             User(name='Joao do teste', cpfRne=1234567891, ra=19003315, role="PROFESSOR",
                  accessLevel=ACCESS_LEVEL.ADMIN, createdAt=datetime(2022, 2, 15, 23, 15),
                  updatedAt=datetime(2022, 2, 15, 23, 15)
             )
 
-    def test_create_invalid_student4(self):
+    def test_create_invalid_user4(self):
         with pytest.raises(EntityError):
-            User(name='Joao do Teste', cpfRne=12345678911, ra=19003315, role=ROLE.PROFESSOR,
+            User(name='Joao do Teste', cpfRne=75599469093, ra=19003315, role=ROLE.PROFESSOR,
                         accessLevel=ACCESS_LEVEL.ADMIN, createdAt=datetime(2022, 2, 15, 23, 15),
                         updatedAt=datetime(2022, 2, 15, 23, 15), email="bruno@"
                         )

@@ -14,7 +14,7 @@ class Test_ChangePasswordController:
     @pytest.mark.asyncio
     async def test_change_valid_cpfRne_controller(self):
         request = HttpRequest(body={
-            'login': 12345678910,
+            'login': '75599469093',
             'new_password': 'teste!!!123',
             'confirmation_code': '123456'
         })
@@ -27,7 +27,7 @@ class Test_ChangePasswordController:
             'result': True,
             'message': ''
         }
-        u = await repository.getUserByCpfRne(12345678910)
+        u = await repository.getUserByCpfRne('75599469093')
         assert u.password == 'teste!!!123'
 
     @pytest.mark.asyncio
@@ -46,7 +46,7 @@ class Test_ChangePasswordController:
             'result': True,
             'message': ''
         }
-        u = await repository.getUserByCpfRne(12345678911)
+        u = await repository.getUserByCpfRne('64968222041')
         assert u.password == 'teste!!!123'
 
     @pytest.mark.asyncio
@@ -65,8 +65,7 @@ class Test_ChangePasswordController:
             'result': False,
             'message': 'User not found, invalid confirmation code or weak new password.'
         }
-        u = await repository.getUserByCpfRne(12345678911)
-        assert u.password != 'teste!!!123'
+
 
 
 

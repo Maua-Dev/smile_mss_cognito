@@ -15,7 +15,7 @@ class Test_ChangePasswordUsecase:
 
         repository = UserRepositoryMock()
 
-        cpf_rne = 12345678910
+        cpf_rne = 75599469093
 
         changePasswordUsecase = ChangePasswordUsecase(repository)
         result = await changePasswordUsecase(str(cpf_rne))
@@ -38,7 +38,7 @@ class Test_ChangePasswordUsecase:
     async def test_change_non_existent_cpfRne(self):
 
 
-        cpf_rne = 12345676910
+        cpf_rne = 71117649008
 
         repository = UserRepositoryMock()
 

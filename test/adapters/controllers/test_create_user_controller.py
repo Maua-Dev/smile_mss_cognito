@@ -14,7 +14,7 @@ class TestCreateUserController:
     async def test_create_valid_user_controller(self):
         request = HttpRequest(body={
             "name": 'user3',
-            "cpf_rne": 12345678913,
+            "cpf_rne": '46864806049',
             "ra": 20001236,
             "role": ROLE.PROFESSOR.value,
             "email": "user@teste.com",
@@ -30,7 +30,7 @@ class TestCreateUserController:
     async def test_create_invalid_cpfRne_user_controller(self):
         request = HttpRequest(body={
             "name": 'user3',
-            "cpf_rne": 12345678,
+            "cpf_rne": '46864806149',
             "ra": 20001236,
             "role": '',
             "access_level": '',
@@ -45,7 +45,7 @@ class TestCreateUserController:
     async def test_create_invalid_ra_user_controller(self):
         request = HttpRequest(body={
             "name": 'user3',
-            "cpf_rne": 12345678913,
+            "cpf_rne": '49975288030',
             "ra": 205001236,
             "role": '',
             "access_level": '',
@@ -61,7 +61,7 @@ class TestCreateUserController:
     async def test_create_invalid_ra2_user_controller(self):
         request = HttpRequest(body={
             "name": 'user3',
-            "cpf_rne": 12345678913,
+            "cpf_rne": '49975288030',
             "ra": 19.00331-5,
             "role": '',
             "access_level": '',
@@ -76,7 +76,7 @@ class TestCreateUserController:
     async def test_create_invalid_role_user_controller(self):
         request = HttpRequest(body={
             "name": 'user3',
-            "cpf_rne": 12345678913,
+            "cpf_rne": '11315156091',
             "ra": 19003315,
             "role": 'qualquerCoisa',
             "access_level": '',
@@ -93,7 +93,7 @@ class TestCreateUserController:
     async def test_create_invalid_date_user_controller(self):
         request = HttpRequest(body={
             "name": 'user3',
-            "cpf_rne": 12345678913,
+            "cpf_rne": '11315156091',
             "ra": 19003315,
             "role": 'qualquerCoisa',
             "access_level": '',

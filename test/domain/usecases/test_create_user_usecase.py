@@ -14,7 +14,7 @@ class Test_CreateUserUsecase:
 
     @pytest.mark.asyncio
     async def test_create_valid_user(self):
-        newUser = User(name='Joana da Testa', cpfRne=12345678914, ra=20004239, role=ROLE.PROFESSOR,
+        newUser = User(name='Joana da Testa', cpfRne='84458081098', ra=20004239, role=ROLE.PROFESSOR,
                  accessLevel=ACCESS_LEVEL.ADMIN, createdAt=datetime(2022, 2, 15, 23, 15),
                  updatedAt=datetime(2022, 2, 20, 23, 15), email='joana@testa.com', password='123456'
                 )
@@ -24,7 +24,7 @@ class Test_CreateUserUsecase:
         # confirm user does not exist yet
         getUserByCpfRne = GetUserByCpfRneUsecase(repository)
         with pytest.raises(NonExistentUser):
-            await getUserByCpfRne(12345678914)
+            await getUserByCpfRne('84458081098')
 
 
         # create user
@@ -32,11 +32,11 @@ class Test_CreateUserUsecase:
         await createUserUsecase(newUser)
 
         # confirm user exists
-        createdUser = await getUserByCpfRne(12345678914)
+        createdUser = await getUserByCpfRne('84458081098')
         assert createdUser is not None
 
         assert createdUser.name == 'Joana Da Testa'
-        assert createdUser.cpfRne == 12345678914
+        assert createdUser.cpfRne == '84458081098'
         assert createdUser.ra == 20004239
         assert createdUser.role == ROLE.PROFESSOR
         assert createdUser.accessLevel == ACCESS_LEVEL.ADMIN

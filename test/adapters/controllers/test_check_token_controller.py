@@ -12,7 +12,7 @@ class Test_CheckTokenController:
 
     @pytest.mark.asyncio
     async def test_check_token_valid_token_controller(self):
-        header = {"Authorization": "Bearer validAccessToken-12345678910"}
+        header = {"Authorization": "Bearer validAccessToken-75599469093"}
         request = HttpRequest(headers=header)
 
         checkTokenController = CheckTokenController(UserRepositoryMock())
@@ -21,13 +21,13 @@ class Test_CheckTokenController:
         assert response.body == {
             'role': ROLE.STUDENT.value,
             'access_level': ACCESS_LEVEL.USER.value,
-            'cpf_rne': 12345678910,
+            'cpf_rne': '75599469093',
             'email': 'bruno@bruno.com',
             'valid_token': True
         }
     @pytest.mark.asyncio
     async def test_check_token_invalid_token_controller(self):
-        header = {"Authorization": "Bearer invalidAccessToken-12345678910"}
+        header = {"Authorization": "Bearer invalidAccessToken-75599469093"}
         request = HttpRequest(headers=header)
 
         checkTokenController = CheckTokenController(UserRepositoryMock())
@@ -36,7 +36,7 @@ class Test_CheckTokenController:
 
     @pytest.mark.asyncio
     async def test_check_token_invalid_token_controller2(self):
-        header = {"Authorization": "Random validAccessToken-12345678910"}
+        header = {"Authorization": "Random validAccessToken-75599469093"}
         request = HttpRequest(headers=header)
 
         checkTokenController = CheckTokenController(UserRepositoryMock())
