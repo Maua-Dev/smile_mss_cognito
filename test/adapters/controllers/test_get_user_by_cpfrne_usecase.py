@@ -9,24 +9,27 @@ from src.domain.entities.user import User
 class Test_GetUserByCpfRneController:
 
     @pytest.mark.asyncio
+    @pytest.mark.skip(reason="Get controller will no be used anymore")
     async def test_get_user_by_cpfrne_controller(self):
         getUserByCpfrneController = GetUserByCpfRneController(UserRepositoryMock())
-        req = HttpRequest(query={'cpfRne': 12345678910})
+        req = HttpRequest(query={'cpfRne': '75599469093'})
         answer = await getUserByCpfrneController(req)
 
         assert type(answer.body) is GetUserModel
         assert answer.status_code == 200
 
     @pytest.mark.asyncio
+    @pytest.mark.skip(reason="Get controller will no be used anymore")
     async def test_get_user_by_cpfrne_controller_no_item_found(self):
         getUserByCpfrneController = GetUserByCpfRneController(UserRepositoryMock())
-        req = HttpRequest(query={'cpfRne': 12345678912})
+        req = HttpRequest(query={'cpfRne': '19971667045'})
         answer = await getUserByCpfrneController(req)
 
         assert type(answer) is NoContent
         assert answer.status_code == 204
 
     @pytest.mark.asyncio
+    @pytest.mark.skip(reason="Get controller will no be used anymore")
     async def test_get_user_by_cpfrne_controller_controller_error(self):
         getUserByCpfrneController = GetUserByCpfRneController(UserRepositoryMock())
         req = HttpRequest(query={'cpfRne': '12345678912'})

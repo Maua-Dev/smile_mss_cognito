@@ -13,7 +13,7 @@ class Test_ChangePasswordController:
     @pytest.mark.asyncio
     async def test_change_valid_cpfRne_controller(self):
         request = HttpRequest(body={
-            'login': 12345678910
+            'login': 75599469093
         })
 
         changePasswordController = ChangePasswordController(UserRepositoryMock())
@@ -42,7 +42,7 @@ class Test_ChangePasswordController:
     @pytest.mark.asyncio
     async def test_change_non_existent_cpfRne_controller(self):
         request = HttpRequest(body={
-            'login': 12325698910
+            'login': 27550611033
         })
 
         changePasswordController = ChangePasswordController(UserRepositoryMock())

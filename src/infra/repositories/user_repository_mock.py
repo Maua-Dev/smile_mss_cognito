@@ -12,11 +12,11 @@ class UserRepositoryMock(IUserRepository):
     def __init__(self) -> None:
         super().__init__()
         self._users = [
-            User(name='user1', cpfRne=12345678910, ra=19003315, role=ROLE.STUDENT,
+            User(name='user1', cpfRne='75599469093', ra=19003315, role=ROLE.STUDENT,
                  accessLevel=ACCESS_LEVEL.USER, createdAt=datetime(2022, 3, 8, 22, 10),
                  updatedAt=datetime(2022, 3, 8, 22, 15), email="bruno@bruno.com", password="123456"
                  ),
-            User(name='user2', cpfRne=12345678911, ra=20001231, role=ROLE.PROFESSOR,
+            User(name='user2', cpfRne='64968222041', ra=20001231, role=ROLE.PROFESSOR,
                  accessLevel=ACCESS_LEVEL.ADMIN, createdAt=datetime(2022, 2, 15, 23, 15),
                  updatedAt=datetime(2022, 2, 15, 23, 15), password="123456", email="user2@user.com"
                  )
@@ -28,7 +28,7 @@ class UserRepositoryMock(IUserRepository):
         else:
             return None, 0
 
-    async def getUserByCpfRne(self, cpfRne: int) -> User:
+    async def getUserByCpfRne(self, cpfRne: str) -> User:
         user: User = None
         for userx in self._users:
             if userx.cpfRne == cpfRne:
@@ -62,7 +62,7 @@ class UserRepositoryMock(IUserRepository):
 
         self._users[cont] = user
 
-    async def deleteUser(self, cpfRne: int):
+    async def deleteUser(self, cpfRne: str):
         cont = 0
         for userx in self._users:
             if userx.cpfRne == cpfRne:
@@ -70,7 +70,7 @@ class UserRepositoryMock(IUserRepository):
                 break
             cont += 1
 
-    async def loginUser(self, cpfRne: int, password: str) -> dict:
+    async def loginUser(self, cpfRne: str, password: str) -> dict:
         u = await self.getUserByCpfRne(cpfRne)
         if u is None:
             return None
@@ -89,7 +89,7 @@ class UserRepositoryMock(IUserRepository):
         if splitToken[0] != "validAccessToken":
             return None
 
-        cpfRne = int(splitToken[1])
+        cpfRne = splitToken[1]
         user = await self.getUserByCpfRne(cpfRne)
         if user is None:
             return None
@@ -103,14 +103,14 @@ class UserRepositoryMock(IUserRepository):
             return None, None
         if splitToken[0] != "validRefreshToken":
             return None, None
-        if await self.getUserByCpfRne(int(splitToken[1])) is None:
+        if await self.getUserByCpfRne(splitToken[1]) is None:
             return None, None
         return "validAccessToken-" + splitToken[1], refreshToken
 
     async def changePassword(self, login: str) -> bool:
         user = None
         if login.isdigit():
-            user = await self.getUserByCpfRne(int(login))
+            user = await self.getUserByCpfRne(login)
         if user:
             return True
 
@@ -131,7 +131,7 @@ class UserRepositoryMock(IUserRepository):
         # Update user password
         user = None
         if login.isdigit():
-            user = await self.getUserByCpfRne(int(login))
+            user = await self.getUserByCpfRne(login)
         if user:
             user.password = newPassword
             return True
