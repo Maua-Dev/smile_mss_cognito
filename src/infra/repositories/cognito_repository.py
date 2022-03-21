@@ -88,7 +88,7 @@ class UserRepositoryCognito(IUserRepository):
 
 
 
-    async def confirmUserCreationAdmin(self, cpfRne: int):
+    async def confirmUserCreationAdmin(self, cpfRne: str):
         self._client.admin_confirm_sign_up(
             UserPoolId=self._userPoolId,
             Username=str(cpfRne),
