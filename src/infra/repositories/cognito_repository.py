@@ -57,10 +57,34 @@ class UserRepositoryCognito(IUserRepository):
             else:
                 raise
 
+    async def _checkIfUserExists(self, user) -> str:
+
+        emailUsers = self._client.list_users(
+            UserPoolId=self._userPoolId,
+            Filter=f"email = \"{user.email}\""
+        )
+        raUsers = self._client.list_users(
+            UserPoolId=self._userPoolId,
+            Filter=f"preferred_username = \"{user.ra}\""
+        )
+        if len(emailUsers["Users"]) > 0:
+            return "email"
+        elif len(raUsers["Users"]) > 0:
+            return "ra"
+        return None
+
+
+
+
+
 
     async def createUser(self, user: User):
         try:
             user_dto = CognitoUserDTO(user.dict())
+
+            userAlreadyExist = await self._checkIfUserExists(user)
+            if userAlreadyExist:
+                raise UserAlreadyExists(f"{userAlreadyExist}")
 
             self._client.sign_up(
                 ClientId=self._clientId,
@@ -68,7 +92,8 @@ class UserRepositoryCognito(IUserRepository):
                 Password=user_dto.password,
                 UserAttributes=user_dto.userAttributes,
             )
-            await self.confirmUserCreationAdmin(user_dto.cpfRne)
+            await self._confirmUserCreationAdmin(user_dto.cpfRne, user_dto.ra)
+
         except ClientError as e:
             errorCode = e.response.get('Error').get('Code')
             if errorCode == 'NotAuthorizedException':
@@ -88,7 +113,7 @@ class UserRepositoryCognito(IUserRepository):
 
 
 
-    async def confirmUserCreationAdmin(self, cpfRne: str):
+    async def _confirmUserCreationAdmin(self, cpfRne: str, ra:str):
         self._client.admin_confirm_sign_up(
             UserPoolId=self._userPoolId,
             Username=str(cpfRne),
@@ -102,6 +127,10 @@ class UserRepositoryCognito(IUserRepository):
                     'Name': 'email_verified',
                     'Value': 'true'
                 },
+                {
+                    'Name': 'preferred_username',
+                    'Value': str(ra)
+                }
             ])
 
 

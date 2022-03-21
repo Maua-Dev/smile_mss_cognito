@@ -36,6 +36,10 @@ Resources:
           AttributeDataType: String
           Mutable: false
           Required: false
+        - Name: preferred_username
+          AttributeDataType: String
+          Mutable: false
+          Required: false
         - Name: accessLevel
           AttributeDataType: String
           Mutable: true

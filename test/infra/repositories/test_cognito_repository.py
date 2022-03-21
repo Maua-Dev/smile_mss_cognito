@@ -133,6 +133,20 @@ class Test_CognitoRepository():
         response = await repo.confirmChangePassword(login=str(cpf), newPassword="Teste123!", code=str(code))
         assert response
 
+    @pytest.mark.skip(reason="Cognito not set up")
+    # @pytest.mark.asyncio
+    async def test_user_exists(self):
+        user = User(name='Bruno Vilardi', cpfRne=35578159001, ra=19005434, role=ROLE.STUDENT,
+                 accessLevel=ACCESS_LEVEL.USER, createdAt=datetime(2022, 3, 8, 22, 10),
+                 updatedAt=datetime(2022, 3, 8, 22, 15), email="brunovilardibueno@gmail.com",
+                 password="Teste123!"
+             )
+
+        repo = UserRepositoryCognito()
+        response = await repo._checkIfUserExists(user)
+        assert response
+
+
 
 
 

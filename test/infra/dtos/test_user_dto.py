@@ -30,6 +30,7 @@ class Test_CognitoUserDTO():
             {'Name': 'email', 'Value': 'bruno@bruno.com'},
             {'Name': 'custom:accessLevel', 'Value': ACCESS_LEVEL.ADMIN.value},
             {'Name': 'custom:role', 'Value': ROLE.PROFESSOR.value}
+
         ]
         for att in expectedAttributes:
             assert att in userAttributes

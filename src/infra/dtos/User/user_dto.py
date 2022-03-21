@@ -21,6 +21,8 @@ class CognitoUserDTO(DbBaseModel):
         for i in self.to_dict():
             if data.get(i) and i != 'password':
                 self.userAttributes.append(defaultDataTemplate(i, str(data[i])))
+        # adds preferred_username as RA (so it can be filtered aftwards)
+        self.preferedUsername = defaultDataTemplate('ra', str(data['ra']))
 
 
     def toEntity(self):
