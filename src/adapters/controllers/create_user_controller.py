@@ -23,6 +23,9 @@ class CreateUserController:
             req.body['cpfRne'] = req.body['cpf_rne']
             req.body['accessLevel'] = req.body['access_level']
 
+            # removes keys that have no value
+            req.body = {k: v for k, v in req.body.items() if v is not None}
+
             user = User.parse_obj(req.body)
             await self._createUserUsecase(user)
             response = {f"User {user.name} created."}

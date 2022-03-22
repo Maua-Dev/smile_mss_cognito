@@ -63,14 +63,18 @@ class UserRepositoryCognito(IUserRepository):
             UserPoolId=self._userPoolId,
             Filter=f"email = \"{user.email}\""
         )
-        raUsers = self._client.list_users(
-            UserPoolId=self._userPoolId,
-            Filter=f"preferred_username = \"{user.ra}\""
-        )
         if len(emailUsers["Users"]) > 0:
             return "email"
-        elif len(raUsers["Users"]) > 0:
-            return "ra"
+
+
+        if user.ra:
+            raUsers = self._client.list_users(
+                UserPoolId=self._userPoolId,
+                Filter=f"preferred_username = \"{user.ra}\""
+            )
+            if len(raUsers["Users"]) > 0:
+                return "ra"
+
         return None
 
 
