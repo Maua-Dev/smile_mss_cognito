@@ -123,19 +123,26 @@ class UserRepositoryCognito(IUserRepository):
             Username=str(cpfRne),
 
         )
-        self._client.admin_update_user_attributes(
-            UserPoolId=self._userPoolId,
-            Username=str(cpfRne),
-            UserAttributes=[
-                {
+
+        attributes = [
+            {
                     'Name': 'email_verified',
                     'Value': 'true'
-                },
+                }
+        ]
+        if ra:
+            attributes.append(
                 {
                     'Name': 'preferred_username',
                     'Value': str(ra)
                 }
-            ])
+            )
+
+        self._client.admin_update_user_attributes(
+            UserPoolId=self._userPoolId,
+            Username=str(cpfRne),
+            UserAttributes=attributes
+            )
 
 
     async def confirmUserCreation(self, user: CognitoUserDTO, code: str):
