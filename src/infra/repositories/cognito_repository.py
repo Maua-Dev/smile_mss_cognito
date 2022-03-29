@@ -2,6 +2,7 @@ import os
 from typing import List
 
 import boto3 as boto3
+from jose import jwt
 from botocore.exceptions import ClientError
 
 from src.domain.entities.user import User
@@ -230,9 +231,19 @@ class UserRepositoryCognito(IUserRepository):
 
     async def changePassword(self, login: str) -> bool:
         try:
+            userCognitoDTO = self._client.admin_get_user(
+                UserPoolId=self._userPoolId,
+                Username=login
+            )
+            user = CognitoUserDTO.fromKeyValuePair(data=userCognitoDTO["UserAttributes"]).toEntity()
+
             response = self._client.forgot_password(
                 ClientId=self._clientId,
-                Username=login
+                Username=login,
+                ClientMetadata={
+                    'login': user.email,
+                    'endpoint': "http://teste.com/esqueci-minha-senha"
+                }
             )
             return response["ResponseMetadata"]["HTTPStatusCode"] == 200
         except ClientError as e:
