@@ -2,7 +2,6 @@ import os
 from typing import List
 
 import boto3 as boto3
-from jose import jwt
 from botocore.exceptions import ClientError
 
 from src.domain.entities.user import User
