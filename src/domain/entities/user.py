@@ -18,6 +18,9 @@ class User(BaseModel):
     accessLevel: ACCESS_LEVEL
     createdAt: Optional[datetime]
     updatedAt: Optional[datetime]
+    socialName: Optional[str]
+    acceptedTerms: Optional[bool]
+    acceptedNotifications: Optional[bool]
 
 
     @staticmethod
@@ -94,6 +97,25 @@ class User(BaseModel):
         if not re.fullmatch(r'[^@]+@[^@]+\.[^@]+', v):
             raise EntityError('email')
         return v
+
+    @validator('socialName')
+    def socialName_is_not_empty(cls, v: str) -> str:
+        if v and len(v) == 0:
+            raise EntityError('socialName')
+        return v
+
+    @validator('acceptedTerms')
+    def acceptedTerms_is_not_bool(cls, v: bool) -> bool:
+        if not v and v is not None:
+            raise EntityError('acceptedTerms')
+        return v
+
+    @validator('acceptedNotifications')
+    def acceptedNotifications_is_not_bool(cls, v: bool) -> bool:
+        if v and not isinstance(v, bool):
+            raise EntityError('acceptedNotifications')
+        return v
+
 
 
 

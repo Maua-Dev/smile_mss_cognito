@@ -12,6 +12,7 @@ class GetUserModel(BaseModel):
     ra: Optional[int]
     role: ROLE
     accessLevel: ACCESS_LEVEL
+    socialName: Optional[str]
 
 
 

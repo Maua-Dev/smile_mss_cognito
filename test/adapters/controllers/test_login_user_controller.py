@@ -25,7 +25,28 @@ class Test_LoginUserController:
             'role': ROLE.STUDENT.value,
             'access_level': ACCESS_LEVEL.USER.value,
             'cpf_rne': '75599469093',
-            'email': 'bruno@bruno.com'
+            'email': 'bruno@bruno.com',
+            'social_name': 'Bruno',
+        }
+
+    @pytest.mark.asyncio
+    async def test_login_valid_user_controller_no_socialName(self):
+        request = HttpRequest(body={
+            'login': '64968222041',
+            'password': '123456',
+        })
+
+        loginUserController = LoginUserController(UserRepositoryMock())
+        response = await loginUserController(request)
+        assert response.status_code == 200
+        assert response.body == {
+            'access_token': f'validAccessToken-{64968222041}',
+            'refresh_token': f'validRefreshToken-{64968222041}',
+            'role': ROLE.PROFESSOR.value,
+            'access_level': ACCESS_LEVEL.ADMIN.value,
+            'cpf_rne': '64968222041',
+            'email': 'user2@user.com',
+            'social_name': None,
         }
 
     @pytest.mark.asyncio

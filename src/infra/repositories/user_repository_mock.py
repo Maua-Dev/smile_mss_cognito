@@ -14,11 +14,13 @@ class UserRepositoryMock(IUserRepository):
         self._users = [
             User(name='user1', cpfRne='75599469093', ra=19003315, role=ROLE.STUDENT,
                  accessLevel=ACCESS_LEVEL.USER, createdAt=datetime(2022, 3, 8, 22, 10),
-                 updatedAt=datetime(2022, 3, 8, 22, 15), email="bruno@bruno.com", password="123456"
+                 updatedAt=datetime(2022, 3, 8, 22, 15), email="bruno@bruno.com", password="123456",
+                 acceptedTerms=True, acceptedNotifications=False, socialName="Bruno",
                  ),
             User(name='user2', cpfRne='64968222041', ra=20001231, role=ROLE.PROFESSOR,
                  accessLevel=ACCESS_LEVEL.ADMIN, createdAt=datetime(2022, 2, 15, 23, 15),
-                 updatedAt=datetime(2022, 2, 15, 23, 15), password="123456", email="user2@user.com"
+                 updatedAt=datetime(2022, 2, 15, 23, 15), password="123456", email="user2@user.com",
+                 acceptedTerms=True, acceptedNotifications=True
                  )
         ]
 

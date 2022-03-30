@@ -13,14 +13,14 @@ class CognitoUserDTO(DbBaseModel):
 
     def __init__(self, data: dict):
         super().__init__(data)
-        customAttributes = ['accessLevel', 'cpfRne', 'ra', 'role']
+        customAttributes = ['accessLevel', 'cpfRne', 'ra', 'role', 'acceptedTerms', 'acceptedNotific', 'socialName']
         defaultDataTemplate = lambda field, value: {
             "Name": field if field not in customAttributes else f"custom:{field}",
             "Value": value
         }
         for i in self.to_dict():
-            if data.get(i) and i != 'password':
-                self.userAttributes.append(defaultDataTemplate(i, str(data[i])))
+            if self.__getattribute__(i) and i != 'password':
+                self.userAttributes.append(defaultDataTemplate(i, str(self.__getattribute__(i))))
 
 
     def toEntity(self):
@@ -30,7 +30,10 @@ class CognitoUserDTO(DbBaseModel):
         ra=self.ra,
         email=self.email,
         role=self.role,
-        accessLevel=self.accessLevel
+        accessLevel=self.accessLevel,
+        acceptedTerms=self.acceptedTerms,
+        acceptedNotifications=self.acceptedNotific,
+        socialName=self.socialName
         )
 
     @staticmethod
@@ -40,7 +43,8 @@ class CognitoUserDTO(DbBaseModel):
             field = i['Name'].removeprefix('custom:')
             try:
                 value = i['Value'] if (field != 'accessLevel' and field != 'role') else ACCESS_LEVEL(i['Value']) if field == 'accessLevel' else ROLE(i['Value'])
-                dataDict[field] = value
+                fixedField = field if field != 'acceptedNotific' else 'acceptedNotifications'
+                dataDict[fixedField] = value
             except:
                 pass
         return CognitoUserDTO(dataDict)

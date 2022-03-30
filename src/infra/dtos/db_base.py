@@ -13,6 +13,9 @@ class DbBaseModel():
     email: Optional[str]
     role: ROLE
     accessLevel: ACCESS_LEVEL
+    acceptedTerms: Optional[bool]
+    acceptedNotific: Optional[bool]
+    socialName: Optional[str]
     createdAt: Optional[datetime]
     updatedAt: Optional[datetime]
 
@@ -24,6 +27,9 @@ class DbBaseModel():
         self.email = data.get('email')
         self.role = data.get('role')
         self.accessLevel = data.get('accessLevel')
+        self.socialName = data.get('socialName')
+        self.acceptedTerms = eval(str(data.get('acceptedTerms'))) if data.get('acceptedTerms') else None
+        self.acceptedNotific = eval(str(data.get('acceptedNotifications'))) if data.get('acceptedNotifications') else None
         # self.createdAt = data.get('createdAt')
         # self.updatedAt = data.get('updatedAt')
 

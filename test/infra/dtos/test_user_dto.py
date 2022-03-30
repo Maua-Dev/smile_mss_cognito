@@ -1,4 +1,5 @@
 from datetime import datetime
+import pytest
 
 from src.domain.entities.enums import ROLE, ACCESS_LEVEL
 from src.domain.entities.user import User
@@ -10,7 +11,8 @@ class Test_CognitoUserDTO():
     def test_create_valid_user(self):
         user = User(name='Joao do Teste', cpfRne='93523844070', ra=19003315, role=ROLE.PROFESSOR,
                     accessLevel=ACCESS_LEVEL.ADMIN, createdAt=datetime(2022, 2, 15, 23, 15),
-                    updatedAt=datetime(2022, 2, 15, 23, 15), email='bruno@bruno.com'
+                    updatedAt=datetime(2022, 2, 15, 23, 15), email='bruno@bruno.com',
+                    acceptedTerms=True, acceptedNotifications=True, socialName='Bruno',
                     )
 
         userCognitoDto = CognitoUserDTO(user.dict())
@@ -21,6 +23,9 @@ class Test_CognitoUserDTO():
         assert userCognitoDto.ra == 19003315
         assert userCognitoDto.password is None
         assert userCognitoDto.email == 'bruno@bruno.com'
+        assert userCognitoDto.acceptedTerms == True
+        assert userCognitoDto.acceptedNotific == True
+        assert userCognitoDto.socialName == 'Bruno'
         userAttributes = userCognitoDto.userAttributes
 
         expectedAttributes = [
@@ -29,9 +34,38 @@ class Test_CognitoUserDTO():
             {'Name': 'custom:ra', 'Value': '19003315'},
             {'Name': 'email', 'Value': 'bruno@bruno.com'},
             {'Name': 'custom:accessLevel', 'Value': ACCESS_LEVEL.ADMIN.value},
-            {'Name': 'custom:role', 'Value': ROLE.PROFESSOR.value}
-
+            {'Name': 'custom:role', 'Value': ROLE.PROFESSOR.value},
+            {'Name': 'custom:acceptedTerms', 'Value': 'True'},
+            {'Name': 'custom:acceptedNotific', 'Value': 'True'},
+            {'Name': 'custom:socialName', 'Value': 'Bruno'},
         ]
+
         for att in expectedAttributes:
             assert att in userAttributes
+
+
+
+    def test_parse_valid_user(self):
+        user = User(name='Joao do Teste', cpfRne='93523844070', ra=19003315, role=ROLE.PROFESSOR,
+                    accessLevel=ACCESS_LEVEL.ADMIN, email='bruno@bruno.com',
+                    acceptedTerms=True, acceptedNotifications=True, socialName='Bruno',
+                    )
+
+        expectedAttributes = [
+            {'Name': 'name', 'Value': 'Joao Do Teste'},
+            {'Name': 'custom:cpfRne', 'Value': '93523844070'},
+            {'Name': 'custom:ra', 'Value': '19003315'},
+            {'Name': 'email', 'Value': 'bruno@bruno.com'},
+            {'Name': 'custom:accessLevel', 'Value': ACCESS_LEVEL.ADMIN.value},
+            {'Name': 'custom:role', 'Value': ROLE.PROFESSOR.value},
+            {'Name': 'custom:acceptedTerms', 'Value': 'True'},
+            {'Name': 'custom:acceptedNotific', 'Value': 'True'},
+            {'Name': 'custom:socialName', 'Value': 'Bruno'},
+        ]
+
+        userCognitoDto = CognitoUserDTO.fromKeyValuePair(expectedAttributes)
+        userParsed = userCognitoDto.toEntity()
+        assert user == userParsed
+
+
 
