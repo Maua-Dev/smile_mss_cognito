@@ -1,25 +1,20 @@
-import os
-from typing import List
-
 from fastapi import FastAPI, Response, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import PlainTextResponse
+from starlette.responses import RedirectResponse
 
 from src.adapters.controllers.change_password_controller import ChangePasswordController
 from src.adapters.controllers.check_token_controller import CheckTokenController
 from src.adapters.controllers.confirm_change_password_controller import ConfirmChangePasswordController
+from src.adapters.controllers.confirm_user_creation_controller import ConfirmUserCreationController
 from src.adapters.controllers.create_user_controller import CreateUserController
-from src.adapters.controllers.delete_user_controller import DeleteUserController
-from src.adapters.controllers.get_all_users_controller import GetAllUsersController
-from src.adapters.controllers.get_user_by_cpfrne_controller import GetUserByCpfRneController
 from src.adapters.controllers.login_user_controller import LoginUserController
 from src.adapters.controllers.refresh_token_controller import RefreshTokenController
-from src.adapters.controllers.update_user_controller import UpdateUserController
 from src.adapters.errors.http_exception import HttpException
-from src.adapters.helpers.http_models import HttpRequest, HttpResponse
-from src.domain.entities.user import User
-from src.main.users.module import Modular
+from src.adapters.helpers.http_models import HttpRequest
 from src.main.helpers.status import status
+from src.main.users.module import Modular
+import os
 
 app = FastAPI()
 app.add_middleware(
@@ -43,6 +38,22 @@ async def createUser(request: Request, response: Response):
     response.status_code = status.get(result.status_code)
     return result.body
 
+@app.post("/confirmUserCreation")
+async def confirmUserCreation(request: Request, response: Response):
+    confirmUserCreationController = Modular.getInject(ConfirmUserCreationController)
+    # get form data
+    formData = await request.form()
+    body = {
+        'login': formData.get('login'),
+        'code': formData.get('code')
+    }
+    req = HttpRequest(body=body)
+    result = await confirmUserCreationController(req)
+    if result.status_code == 200:
+        response = RedirectResponse(url=f"{os.environ['FRONT_END_ENDPOINT']}/login/cadastro/", status_code=303)
+        return response
+    response.status_code = status.get(result.status_code)
+    return result.body
 
 
 @app.post("/login")

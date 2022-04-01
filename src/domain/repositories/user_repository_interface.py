@@ -22,15 +22,15 @@ class IUserRepository(ABC):
         pass
 
     @abstractmethod
-    async def deleteUser(self, userCpfRne: int):
+    async def deleteUser(self, cpfRne: int):
         pass
 
     @abstractmethod
-    async def confirmUserCreation(self, user: User, code: int):
+    async def confirmUserCreation(self, login: str, code: int):
         pass
 
     @abstractmethod
-    async def loginUser(self, cpfRne: int, password: str) -> dict:  # accessToken, refreshToken #todo change to login
+    async def loginUser(self, login: str, password: str) -> dict:  # accessToken, refreshToken #todo change to login
         pass
 
     @abstractmethod

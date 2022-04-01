@@ -96,7 +96,7 @@ class UserRepositoryCognito(IUserRepository):
                 Password=user_dto.password,
                 UserAttributes=user_dto.userAttributes,
             )
-            await self._confirmUserCreationAdmin(user_dto.cpfRne, user_dto.ra)
+            # await self._confirmUserCreationAdmin(user_dto.cpfRne, user_dto.ra)
 
         except ClientError as e:
             errorCode = e.response.get('Error').get('Code')
@@ -145,11 +145,21 @@ class UserRepositoryCognito(IUserRepository):
             )
 
 
-    async def confirmUserCreation(self, user: CognitoUserDTO, code: str):
+    async def confirmUserCreation(self, login: str, code: str):
         try:
+            userResult = self._client.list_users(
+                UserPoolId=self._userPoolId,
+                Filter=f'sub = "{login}"'
+            )
+            user = userResult["Users"][0]
+            userParsed = CognitoUserDTO.fromKeyValuePair(data=user["Attributes"])
+
+            if not userParsed:
+                raise NonExistentUser(f"{login}")
+
             return self._client.confirm_sign_up(
                 ClientId=self._clientId,
-                Username=str(user.cpfRne),
+                Username=userParsed.cpfRne,
                 ConfirmationCode=code
             )
         except ClientError as e:
@@ -240,8 +250,7 @@ class UserRepositoryCognito(IUserRepository):
                 ClientId=self._clientId,
                 Username=login,
                 ClientMetadata={
-                    'login': user.email,
-                    'endpoint': "http://teste.com/esqueci-minha-senha"
+                    'login': user.email
                 }
             )
             return response["ResponseMetadata"]["HTTPStatusCode"] == 200

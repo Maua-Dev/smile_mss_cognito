@@ -26,5 +26,5 @@ class Test_GetAllUsersController:
         assert answer.body['count'] == 2
         assert answer.status_code == 200
 
-        for i in UserRepositoryMock()._users:
+        for i in UserRepositoryMock()._confirmedUsers:
             assert GetUserModel.parse_obj(i) in answer.body['users']

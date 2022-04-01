@@ -5,6 +5,7 @@ import pytest
 from src.domain.entities.enums import ACCESS_LEVEL, ROLE
 from src.domain.entities.user import User
 from src.domain.errors.errors import NoItemsFound, NonExistentUser
+from src.domain.usecases.confirm_user_creation_usecase import ConfirmUserCreationUsecase
 from src.domain.usecases.create_user_usecase import CreateUserUsecase
 from src.domain.usecases.get_all_users_usecase import GetAllUsersUsecase
 from src.domain.usecases.get_user_by_cpfrne_usecase import GetUserByCpfRneUsecase
@@ -31,6 +32,10 @@ class Test_CreateUserUsecase:
         # create user
         createUserUsecase = CreateUserUsecase(repository)
         await createUserUsecase(newUser)
+
+        # confirm user
+        confirmUserUseCase = ConfirmUserCreationUsecase(repository)
+        await confirmUserUseCase('84458081098', '1234567')
 
         # confirm user exists
         createdUser = await getUserByCpfRne('84458081098')
