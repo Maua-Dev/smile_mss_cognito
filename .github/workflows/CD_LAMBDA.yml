@@ -1,7 +1,10 @@
 name: CD_lambda
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - dev
+      - homolog
 
 
 jobs:
@@ -38,22 +41,36 @@ jobs:
           cd function; \
           zip -r function.zip *; 
           mv function.zip  ${{ steps.root_directory.outputs.name }}\
+
+      - name: Setup Enviroments
+        uses: jannekem/run-python-script-action@v1
+        id: setup_env
+        with:
+          script: |
+            import os
+            stage = os.environ['github.ref_name'].upper()
+            set_output('AWS_ACCESS_KEY_ID', os.environ[f'AWS_ACCESS_KEY_ID_{stage}'])
+            set_output('AWS_SECRET_ACCESS_KEY', os.environ[f'AWS_SECRET_ACCESS_KEY_{stage}'])
+            set_output('S3_BUCKET', os.environ[f'S3_BUCKET_{stage}'])
+            set_output('AWS_REGION', os.environ[f'AWS_REGION_{stage}'])
+            
+
       
 
-      - name: Configure AWS Credentials
+      - name: Configure AWS Credentials (DEV)
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: sa-east-1 # HARD CODED
+          aws-access-key-id: ${{ steps.setup_env.outputs.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ steps.setup_env.outputs..AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ steps.setup_env.outputs.AWS_REGION }}
 
       - name: Upload zip on S3 Bucket
-        run: aws s3 cp function.zip s3://devmaua-lambda-functions/${{ github.event.repository.name }}/function.zip # HARD CODED
+        run: aws s3 cp function.zip s3://${{ steps.setup_env.outputs.S3_BUCKET }}/${{ github.event.repository.name }}/function.zip # HARD CODED
 
 
     # Atualizar lambda
       - name: Update Lambda Source Code
-        run: aws lambda update-function-code --function-name ${{ github.event.repository.name }} --s3-bucket devmaua-lambda-functions --s3-key ${{ github.event.repository.name }}/function.zip
+        run: aws lambda update-function-code --function-name ${{ github.event.repository.name }} --s3-bucket ${{ steps.setup_env.outputs.S3_BUCKET }} --s3-key ${{ github.event.repository.name }}/function.zip
 
 
 
