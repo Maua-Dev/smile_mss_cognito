@@ -46,15 +46,19 @@ jobs:
       - name: Setup Enviroments
         uses: jannekem/run-python-script-action@v1
         id: setup_env
+        env:
+          secrets: ${{ secrets }}
         with:
           script: |
             import os
             print(os.environ['GITHUB_ENV'])
+            print(os.environ['secrets'])
             stage = os.environ['GITHUB_REF_NAME'].upper()
             set_output('AWS_ACCESS_KEY_ID', os.environ[f'AWS_ACCESS_KEY_ID_{stage}'])
             set_output('AWS_SECRET_ACCESS_KEY', os.environ[f'AWS_SECRET_ACCESS_KEY_{stage}'])
             set_output('S3_BUCKET', os.environ[f'S3_BUCKET_{stage}'])
             set_output('AWS_REGION', os.environ[f'AWS_REGION_{stage}'])
+        
             
 
       
