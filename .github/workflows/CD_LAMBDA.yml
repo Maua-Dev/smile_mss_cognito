@@ -62,7 +62,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ steps.setup_env.outputs.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ steps.setup_env.outputs..AWS_SECRET_ACCESS_KEY }}
+          aws-secret-access-key: ${{ steps.setup_env.outputs.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ steps.setup_env.outputs.AWS_REGION }}
 
       - name: Upload zip on S3 Bucket
