@@ -49,6 +49,8 @@ jobs:
         with:
           script: |
             import os
+            print(os.environ)
+            print(os.environ['GITHUB_ENV'])
             stage = os.environ['github.ref_name'].upper()
             set_output('AWS_ACCESS_KEY_ID', os.environ[f'AWS_ACCESS_KEY_ID_{stage}'])
             set_output('AWS_SECRET_ACCESS_KEY', os.environ[f'AWS_SECRET_ACCESS_KEY_{stage}'])
