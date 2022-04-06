@@ -47,7 +47,7 @@ jobs:
         uses: jannekem/run-python-script-action@v1
         id: setup_env
         env:
-          secrets: ${{ toJson(secrets) }}
+          SECRETS: ${{ toJson(secrets) }}
         with:
           script: |
             import os
