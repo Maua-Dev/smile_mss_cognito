@@ -63,15 +63,8 @@ def lambda_handler(event, context):
 
             message = f"""Olá, <br> <br>
 
-            Para confirmar seu cadastro na SMILE 2022 clique no botão: <br> <br> 
-
-            <form action="{API_ENDPOINT}/confirmUserCreation" method="POST" target="_blank">
-                <input type="hidden" id="login" name="login" value="{subId}">
-                <input type="hidden" id="code" name="code" value="{code}">
-                <input type="submit" value="Confirmar Cadastro">
-            </form> 
-
-        <br> <br>
+            Para confirmar seu cadastro na SMILE 2022 clique no link: <a><a id="link-confirmar-usuario" href="{FRONT_ENDPOINT}/confirmUserCreation?login={subId}&code={code}">confirmar usuário</a>
+            <br> <br> 
 
             Atenciosamente, <br> <br>
 

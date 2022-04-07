@@ -38,14 +38,15 @@ async def createUser(request: Request, response: Response):
     response.status_code = status.get(result.status_code)
     return result.body
 
-@app.post("/confirmUserCreation")
+@app.get("/confirmUserCreation")
 async def confirmUserCreation(request: Request, response: Response):
     confirmUserCreationController = Modular.getInject(ConfirmUserCreationController)
-    # get form data
-    formData = await request.form()
+    # get query params
+    queryData = request.query_params
+
     body = {
-        'login': formData.get('login'),
-        'code': formData.get('code')
+        'login': queryData.get('login'),
+        'code': queryData.get('code')
     }
     req = HttpRequest(body=body)
     result = await confirmUserCreationController(req)
