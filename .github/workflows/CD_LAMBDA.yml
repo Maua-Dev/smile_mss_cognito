@@ -76,6 +76,7 @@ jobs:
 
   DeployEmailFunction:
     runs-on: ubuntu-latest
+    if: path
     steps:
       - uses: actions/checkout@v2
 
@@ -120,5 +121,5 @@ jobs:
 
   # Atualizar lambda
       - name: Update Lambda Source Code
-        run: aws lambda update-function-code --function-name ${{ github.event.repository.name }} --s3-bucket ${{ steps.setup_env.outputs.S3_BUCKET }} --s3-key ${{ github.event.repository.name }}/custom_email/function.zip
+        run: aws lambda update-function-code --function-name CognitoCustomEmailFunction --s3-bucket ${{ steps.setup_env.outputs.S3_BUCKET }} --s3-key ${{ github.event.repository.name }}/custom_email/function.zip
 
