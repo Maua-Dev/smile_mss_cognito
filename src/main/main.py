@@ -29,7 +29,7 @@ app.add_middleware(
 async def internal_exception_handler(request: Request, exc: HttpException):
     return PlainTextResponse(exc.body, status_code=exc.status_code)
 
-@app.post("/user")
+@app.post("/user") #TODO só criar access level USER
 async def createUser(request: Request, response: Response):
     createUserController = Modular.getInject(CreateUserController)
     req = HttpRequest(body= await request.json())
