@@ -76,7 +76,6 @@ jobs:
 
   DeployEmailFunction:
     runs-on: ubuntu-latest
-    if: path
     steps:
       - uses: actions/checkout@v2
         -
