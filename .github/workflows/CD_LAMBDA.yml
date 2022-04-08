@@ -76,20 +76,10 @@ jobs:
 
 
 
-  DeployEmailFunction:
+  DeployEmailFunction: #TODO rodar apenas quando a funcao mudar
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
-      - name: Verify CustomEmailFunction changed
-        uses: tj-actions/verify-changed-files@v5.5
-        id: changed_files
-        with:
-          files: |
-             lambda_functions/forgot_password_custom_email.py
-            
-
-
   # setar python para 3.9
       - name: Setup Python
         uses: actions/setup-python@v2.3.1
@@ -126,7 +116,6 @@ jobs:
           aws-region: ${{ steps.setup_env.outputs.AWS_REGION }}
 
       - name: Upload zip on S3 Bucket
-        if: steps.changed_files.outputs.files_changed == 'true'
         run: aws s3 cp function.zip s3://${{ steps.setup_env.outputs.S3_BUCKET }}/${{ github.event.repository.name }}/custom_email/function.zip # HARD CODED
 
 
