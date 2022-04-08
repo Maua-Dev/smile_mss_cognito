@@ -38,6 +38,7 @@ def lambda_handler(event, context):
             <body style="font-family: Roboto; text-decoration: none; margin: 0; padding: 30px;">
                 <h1 id="titulo-email" style="font-family: Roboto; text-decoration: none; font-weight: 900; font-size: 10; margin: 0 0 10px;">Esqueceu a sua senha da Smile?</h1>
                 <p id="corpo-email" style="font-family: Roboto; text-decoration: none; font-weight: 400; font-size: 5; margin: 0 0 50px;">É rápido! Você apenas precisa clicar no botão abaixo:</p>
+                <br><br>
                 <a id="botao-recuperar-senha" href="{FRONT_ENDPOINT}/#/login/esqueci-minha-senha?login={login}&code={code}" style="font-family: Roboto; text-decoration: none; background-color: #004680; border-radius: 30px; color: #FFF; font-weight: 700; margin: 50px 0 0; padding: 20px;">Recuperar senha</a> 
                 <br>
                 <footer style="font-family: Roboto; text-decoration: none; background-color: #004680; width: 100vw; align-items: center; display: flex; justify-content: center; gap: 30px; margin: 100px 0 0 -30px; padding: 30px;">
