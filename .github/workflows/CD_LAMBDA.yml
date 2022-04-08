@@ -89,7 +89,7 @@ jobs:
       - name: Zip the app
         run: |
           mkdir function; \
-          zip function.zip lambda_functions/forgot_password_custom_email.py; 
+          zip -j function.zip lambda_functions/forgot_password_custom_email.py; 
 
       - name: Setup Enviroments
         uses: jannekem/run-python-script-action@v1
