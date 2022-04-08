@@ -78,7 +78,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        -
+
       - name: Verify CustomEmailFunction changed
         uses: tj-actions/verify-changed-files@v5.5
         id: changed_files
