@@ -47,7 +47,6 @@ def lambda_handler(event, context):
             
             </body>
             </html>
-
             """
 
             event["response"]["emailMessage"] = message
