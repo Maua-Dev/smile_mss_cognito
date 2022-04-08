@@ -18,7 +18,7 @@ class TestCreateUserController:
             "ra": 20001236,
             "role": ROLE.PROFESSOR.value,
             "email": "user@teste.com",
-            "access_level": ACCESS_LEVEL.ADMIN.value,
+            "access_level": ACCESS_LEVEL.USER.value,
             "password": '123456',
             "accepted_terms": True,
             "accepted_notifications": True
@@ -128,6 +128,24 @@ class TestCreateUserController:
             "email": "user@teste.com",
             "access_level": ACCESS_LEVEL.ADMIN.value,
             "password": '123456',
+            "accepted_notifications": True
+        })
+
+        createUserController = CreateUserController(UserRepositoryMock())
+        response = await createUserController(request)
+        assert response.status_code == 400
+
+    @pytest.mark.asyncio
+    async def test_create_with_admin_level_controller(self):
+        request = HttpRequest(body={
+            "name": 'user3',
+            "cpf_rne": '46864806049',
+            "ra": 20001236,
+            "role": ROLE.PROFESSOR.value,
+            "email": "user@teste.com",
+            "access_level": ACCESS_LEVEL.ADMIN.value,
+            "password": '123456',
+            "accepted_terms": True,
             "accepted_notifications": True
         })
 
