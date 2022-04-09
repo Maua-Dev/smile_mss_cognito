@@ -9,6 +9,7 @@ from src.domain.errors.errors import EntityError
 
 
 class User(BaseModel):
+    id: Optional[str]
     name: str
     cpfRne: str
     password: Optional[str]

@@ -10,9 +10,11 @@ from src.infra.dtos.db_base import DbBaseModel
 
 class CognitoUserDTO(DbBaseModel):
     userAttributes: List[dict] = []
+    userSub: str
 
     def __init__(self, data: dict):
         super().__init__(data)
+        self.userSub = data['sub'] if 'sub' in data else None
         customAttributes = ['accessLevel', 'cpfRne', 'ra', 'role', 'acceptedTerms', 'acceptedNotific', 'socialName']
         defaultDataTemplate = lambda field, value: {
             "Name": field if field not in customAttributes else f"custom:{field}",
@@ -33,7 +35,8 @@ class CognitoUserDTO(DbBaseModel):
         accessLevel=self.accessLevel,
         acceptedTerms=self.acceptedTerms,
         acceptedNotifications=self.acceptedNotific,
-        socialName=self.socialName
+        socialName=self.socialName,
+        id=self.userSub if self.userSub else None
         )
 
     @staticmethod
