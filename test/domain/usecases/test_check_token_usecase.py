@@ -23,7 +23,7 @@ class Test_CheckTokenUsecase:
         assert data['cpfRne'] == cpf_rne
         assert data['name'] == 'User1'
         assert data['email'] == 'bruno@bruno.com'
-        assert data['accessLevel'] ==  ACCESS_LEVEL.USER
+        assert data['accessLevel'] == ACCESS_LEVEL.USER
 
     @pytest.mark.asyncio
     async def test_check_token_invalid_token(self):

@@ -71,7 +71,7 @@ async def login(request: Request, response: Response):
     return result.body
 
 
-@app.get("/checkToken")  #login com access_token
+@app.get("/checkToken")
 async def checkToken(request: Request, response: Response):
     checkTokenController = Modular.getInject(CheckTokenController)
     req = HttpRequest(headers=request.headers)

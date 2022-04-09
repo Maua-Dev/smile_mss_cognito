@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+ mss_lambda:
+  build:
+   context: .
+  ports:
+  - 8080:8080
+  volumes:
+  - ./:/app
+  network_mode: bridge
+  hostname: localhost
