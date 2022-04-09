@@ -1,10 +1,12 @@
 from pydantic import ValidationError
 
 from src.adapters.errors.http_exception import HttpException
-from src.adapters.helpers.http_models import BadRequest, HttpRequest, HttpResponse, InternalServerError, Ok
+from src.adapters.helpers.http_models import BadRequest, HttpRequest, HttpResponse, InternalServerError, Ok, \
+    RedirectResponse, NotFound
 from src.adapters.viewmodels.change_password_model import ChangePasswordModel
 from src.adapters.viewmodels.login_user_model import LoginUserModel
-from src.domain.errors.errors import UnexpectedError, EntityError, NonExistentUser, InvalidCredentials
+from src.domain.errors.errors import UnexpectedError, EntityError, NonExistentUser, InvalidCredentials, \
+    UserAlreadyConfirmed
 from src.domain.repositories.user_repository_interface import IUserRepository
 from src.domain.usecases.change_password_usecase import ChangePasswordUsecase
 from src.domain.usecases.confirm_change_password_usecase import ConfirmChangePasswordUsecase
@@ -41,6 +43,16 @@ class ConfirmUserCreationController:
         except UnexpectedError as e:
             err = InternalServerError(e.message)
             return err
+
+        except NonExistentUser as e:
+            err = NotFound(e.message)
+            return err
+
+        except UserAlreadyConfirmed as e:
+            return RedirectResponse({
+                "message": e.message
+            }
+            )
 
         except Exception as e:
             err = InternalServerError(e.args[0])

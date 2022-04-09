@@ -3,7 +3,8 @@ from typing import List
 
 from src.domain.entities.enums import ROLE, ACCESS_LEVEL
 from src.domain.entities.user import User
-from src.domain.errors.errors import UnexpectedError, InvalidToken, UserAlreadyExists, InvalidCode, NonExistentUser
+from src.domain.errors.errors import UnexpectedError, InvalidToken, UserAlreadyExists, InvalidCode, NonExistentUser, \
+    UserAlreadyConfirmed
 from src.domain.repositories.user_repository_interface import IUserRepository
 
 
@@ -81,6 +82,8 @@ class UserRepositoryMock(IUserRepository):
                 break
         if not user:
             raise NonExistentUser(f'User not found')
+        if userx in self._confirmedUsers:
+            raise UserAlreadyConfirmed(f'User already confirmed')
         self._confirmedUsers.append(user)
         return True
 

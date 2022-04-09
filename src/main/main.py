@@ -53,8 +53,10 @@ async def confirmUserCreation(request: Request, response: Response):
     if result.status_code == 200:
         response = RedirectResponse(url=f"{os.environ['FRONT_END_ENDPOINT']}/#/login/cadastro/sucesso", status_code=303)
         return response
-    response.status_code = status.get(result.status_code)
-    return result.body
+    if result.status_code == 303:
+        response = RedirectResponse(url=f"{os.environ['FRONT_END_ENDPOINT']}/#/login/cadastro/sucesso", status_code=303)
+        return response
+    return Response(status_code=result.status_code, content=result.body)
 
 
 @app.post("/login")
