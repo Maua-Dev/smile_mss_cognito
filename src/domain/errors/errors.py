@@ -43,3 +43,7 @@ class InvalidCredentials(BaseError):
 class InvalidToken(BaseError):
     def __init__(self, message: str):
         super().__init__(f'Invalid token. Message: {message}')
+
+class UserAlreadyConfirmed(BaseError):
+    def __init__(self, message: str):
+        super().__init__(f'User already confirmed. Message: {message}')

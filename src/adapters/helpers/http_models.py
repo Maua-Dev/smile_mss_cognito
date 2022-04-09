@@ -35,3 +35,10 @@ class BadRequest(HttpResponse):
 class InternalServerError(HttpResponse):
     def __init__(self, body: Any) -> None:
         super().__init__(500, body)
+class NotFound(HttpResponse):
+    def __init__(self, body: Any) -> None:
+        super().__init__(404, body)
+class RedirectResponse(HttpResponse):
+    def __init__(self, body: dict) -> None:
+        super().__init__(303, None)
+        self.location = body

@@ -6,7 +6,7 @@ from botocore.exceptions import ClientError
 
 from src.domain.entities.user import User
 from src.domain.errors.errors import InvalidCredentials, NonExistentUser, BaseError, UserAlreadyExists, InvalidToken, \
-    EntityError
+    EntityError, UserAlreadyConfirmed
 from src.domain.repositories.user_repository_interface import IUserRepository
 from src.infra.dtos.User.user_dto import CognitoUserDTO
 
@@ -151,7 +151,16 @@ class UserRepositoryCognito(IUserRepository):
                 UserPoolId=self._userPoolId,
                 Filter=f'sub = "{login}"'
             )
-            user = userResult["Users"][0]
+            # check erros
+            userList = userResult["Users"]
+
+            if len(userList) == 0:
+                raise NonExistentUser(f"{login}")
+
+            if userList[0]["UserStatus"] == "CONFIRMED":
+                raise UserAlreadyConfirmed(f"{login} is already confirmed")
+
+            user = userList[0]
             userParsed = CognitoUserDTO.fromKeyValuePair(data=user["Attributes"])
 
             if not userParsed:
