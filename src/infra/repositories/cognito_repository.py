@@ -103,7 +103,7 @@ class UserRepositoryCognito(IUserRepository):
             if errorCode == 'NotAuthorizedException':
                 raise InvalidCredentials("You don`t have permission to access this resource")
             elif errorCode == 'InvalidParameterException':
-                raise EntityError("Invalid parameter")
+                raise EntityError(e.response.get('Error').get('Message'))
             elif errorCode == 'AliasExistsException':
                 raise UserAlreadyExists("Alias already exists")
             elif errorCode == 'UsernameExistsException':
