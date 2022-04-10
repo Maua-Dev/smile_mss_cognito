@@ -178,7 +178,7 @@ class UserRepositoryCognito(IUserRepository):
             if errorCode == 'NotAuthorizedException':
                 raise InvalidCredentials("You don`t have permission to access this resource")
             elif errorCode == 'InvalidParameterException':
-                raise BaseError("Invalid parameter")
+                raise BaseError(e.response.get('Error').get('Message'))
             elif errorCode == 'CodeMismatchException':
                 raise InvalidCredentials("Invalid confirmation code")
             elif errorCode == 'ExpiredCodeException':
