@@ -21,7 +21,7 @@ class CognitoUserDTO(DbBaseModel):
             "Value": value
         }
         for i in self.to_dict():
-            if self.__getattribute__(i) and i != 'password':
+            if self.__getattribute__(i) and i != 'password' and i != 'userSub':
                 self.userAttributes.append(defaultDataTemplate(i, str(self.__getattribute__(i))))
 
 
