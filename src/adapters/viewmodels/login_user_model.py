@@ -5,17 +5,19 @@ class LoginUserModel():
     accessToken: str
     refreshToken: str
     role: ROLE
-    accesslevel: ACCESS_LEVEL
+    accessLevel: ACCESS_LEVEL
     cpfRne: int
     email: str
     name: str
     socialName: str
+    certificateWithSocialName: str
 
-    def __init__(self, accessToken: str, refreshToken: str, role: str, accesslevel: str, cpfRne: int, email: str, socialName: str=None, name: str=None):
+    def __init__(self, certificateWithSocialName: str, accessToken: str, refreshToken: str, role: str, accesslevel: str, cpfRne: int, email: str, socialName: str=None, name: str=None):
         self.accessToken = accessToken
         self.refreshToken = refreshToken
         self.role = role
-        self.accesslevel = accesslevel
+        self.accessLevel = accesslevel
+        self.certificateWithSocialName = certificateWithSocialName
         self.cpfRne = cpfRne
         self.email = email
         self.socialName = socialName
@@ -31,7 +33,8 @@ class LoginUserModel():
         cpfRne = data['cpfRne'],
         email = data['email'],
         socialName = data.get('socialName'),
-        name = data.get('name')
+        name = data.get('name'),
+        certificateWithSocialName = data.get('certificateWithSocialName')
         )
 
     def toDict(self):
@@ -39,9 +42,10 @@ class LoginUserModel():
             'access_token': self.accessToken,
             'refresh_token': self.refreshToken,
             'role': self.role.value,
-            'access_level': self.accesslevel.value,
+            'access_level': self.accessLevel.value,
             'cpf_rne': self.cpfRne,
             'email': self.email,
             'social_name': self.socialName,
-            'name': self.name
+            'name': self.name,
+            'certificate_with_social_name': self.certificateWithSocialName
         }

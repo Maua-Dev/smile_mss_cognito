@@ -1,15 +1,10 @@
-from datetime import datetime
-
 import pytest
 
 from src.domain.entities.enums import ACCESS_LEVEL, ROLE
-from src.domain.entities.user import User
-from src.domain.errors.errors import NoItemsFound, NonExistentUser, InvalidCredentials
-from src.domain.usecases.create_user_usecase import CreateUserUsecase
-from src.domain.usecases.get_all_users_usecase import GetAllUsersUsecase
-from src.domain.usecases.get_user_by_cpfrne_usecase import GetUserByCpfRneUsecase
+from src.domain.errors.errors import InvalidCredentials
 from src.domain.usecases.login_user_usecase import LoginUserUsecase
 from src.infra.repositories.user_repository_mock import UserRepositoryMock
+
 
 class Test_LoginUserUsecase:
 

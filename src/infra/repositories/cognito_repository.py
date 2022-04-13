@@ -295,7 +295,26 @@ class UserRepositoryCognito(IUserRepository):
 
 
     async def updateUser(self, user: User):
-        pass
+        try:
+            userDTO = CognitoUserDTO(user.dict())
+            response = self._client.admin_update_user_attributes(
+                UserPoolId=self._userPoolId,
+                Username=user.cpfRne,
+                UserAttributes=userDTO.userAttributes
+            )
+            return response["ResponseMetadata"]["HTTPStatusCode"] == 200
+
+
+        except ClientError as e:
+            errorCode = e.response.get('Error').get('Code')
+            if errorCode == 'UserNotFoundException':
+                raise NonExistentUser(message=f"{user.cpfRne}")
+            elif errorCode == 'NotAuthorizedException':
+                raise InvalidToken(message="Invalid or expired Token")
+            elif errorCode == 'InvalidParameterException':
+                raise EntityError(e.response.get('Error').get('Message'))
+            else:
+                raise BaseError(message=e.response.get('Error').get('Message'))
 
     async def deleteUser(self, userCpfRne: int):
         pass

@@ -15,9 +15,11 @@ class DbBaseModel():
     accessLevel: ACCESS_LEVEL
     acceptedTerms: Optional[bool]
     acceptedNotific: Optional[bool]
+    certWithSocialName: Optional[bool]
     socialName: Optional[str]
     createdAt: Optional[datetime]
     updatedAt: Optional[datetime]
+
 
     def __init__(self, data: dict):
         self.name = data.get('name')
@@ -28,8 +30,9 @@ class DbBaseModel():
         self.role = data.get('role')
         self.accessLevel = data.get('accessLevel')
         self.socialName = data.get('socialName')
-        self.acceptedTerms = eval(str(data.get('acceptedTerms'))) if data.get('acceptedTerms') else None
-        self.acceptedNotific = eval(str(data.get('acceptedNotifications'))) if data.get('acceptedNotifications') else None
+        self.acceptedTerms = eval(str(data.get('acceptedTerms'))) if 'acceptedTerms' in data else None
+        self.acceptedNotific = eval(str(data.get('acceptedNotifications'))) if 'acceptedNotifications' in data else None
+        self.certWithSocialName = eval(str(data.get('certificateWithSocialName'))) if 'certificateWithSocialName' in data else None
         # self.createdAt = data.get('createdAt')
         # self.updatedAt = data.get('updatedAt')
 

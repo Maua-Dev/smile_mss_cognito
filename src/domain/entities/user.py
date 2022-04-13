@@ -22,6 +22,7 @@ class User(BaseModel):
     socialName: Optional[str]
     acceptedTerms: Optional[bool]
     acceptedNotifications: Optional[bool]
+    certificateWithSocialName: Optional[bool]
 
 
     @staticmethod
@@ -71,14 +72,10 @@ class User(BaseModel):
 
     @validator('createdAt')
     def createdAt_is_not_empty(cls, v: datetime) -> datetime:
-        if v is None:
-            raise EntityError('createdAt')
         return v
 
     @validator('updatedAt')
     def updatedAt_is_not_empty(cls, v: datetime) -> datetime:
-        if v is None:
-            raise EntityError('updatedAt')
         return v
 
     @validator('role')
@@ -115,6 +112,12 @@ class User(BaseModel):
     def acceptedNotifications_is_not_bool(cls, v: bool) -> bool:
         if v and not isinstance(v, bool):
             raise EntityError('acceptedNotifications')
+        return v
+
+    @validator('certificateWithSocialName')
+    def certificateWithSocialName_is_not_bool(cls, v: bool) -> bool:
+        if v and not isinstance(v, bool):
+            raise EntityError('certificateWithSocialName')
         return v
 
 

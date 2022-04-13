@@ -12,23 +12,17 @@ class Test_GetUserByCpfRneUsecase:
 
     @pytest.mark.asyncio
     async def test_get_user_by_cpfrne_1(self):
-        getUserByCpfRne = GetUserByCpfRneUsecase(UserRepositoryMock())
+        repo = UserRepositoryMock()
+        getUserByCpfRne = GetUserByCpfRneUsecase(repo)
         user = await getUserByCpfRne('75599469093')
-        assert user == User(name='user1', cpfRne='75599469093', ra=19003315, role=ROLE.STUDENT,
-                 accessLevel=ACCESS_LEVEL.USER, createdAt=datetime(2022, 3, 8, 22, 10),
-                 updatedAt=datetime(2022, 3, 8, 22, 15), email='bruno@bruno.com', password="123456",
-                 acceptedTerms=True, acceptedNotifications=False, socialName="Bruno",
-                        )
+        assert user == repo._confirmedUsers[0]
 
     @pytest.mark.asyncio
     async def test_get_user_by_cpfrne_2(self):
-        getUserByCpfRne = GetUserByCpfRneUsecase(UserRepositoryMock())
+        repo = UserRepositoryMock()
+        getUserByCpfRne = GetUserByCpfRneUsecase(repo)
         user = await getUserByCpfRne('64968222041')
-        assert user == User(name='user2', cpfRne='64968222041', ra=20001231, role=ROLE.PROFESSOR,
-                 accessLevel=ACCESS_LEVEL.ADMIN, createdAt=datetime(2022, 2, 15, 23, 15),
-                 updatedAt=datetime(2022, 2, 15, 23, 15), password="123456", email="user2@user.com",
-                 acceptedTerms=True, acceptedNotifications=True
-                        )
+        assert user == repo._confirmedUsers[1]
 
     @pytest.mark.asyncio
     async def test_get_user_by_non_existent_cpfrne(self):
