@@ -8,9 +8,10 @@ class LoginUserModel():
     accesslevel: ACCESS_LEVEL
     cpfRne: int
     email: str
+    name: str
     socialName: str
 
-    def __init__(self, accessToken: str, refreshToken: str, role: str, accesslevel: str, cpfRne: int, email: str, socialName: str=None):
+    def __init__(self, accessToken: str, refreshToken: str, role: str, accesslevel: str, cpfRne: int, email: str, socialName: str=None, name: str=None):
         self.accessToken = accessToken
         self.refreshToken = refreshToken
         self.role = role
@@ -18,6 +19,7 @@ class LoginUserModel():
         self.cpfRne = cpfRne
         self.email = email
         self.socialName = socialName
+        self.name = name
 
     @staticmethod
     def fromDict(data: dict):
@@ -28,7 +30,8 @@ class LoginUserModel():
         accesslevel = data['accessLevel'],
         cpfRne = data['cpfRne'],
         email = data['email'],
-        socialName = data.get('socialName')
+        socialName = data.get('socialName'),
+        name = data.get('name')
         )
 
     def toDict(self):
@@ -39,5 +42,6 @@ class LoginUserModel():
             'access_level': self.accesslevel.value,
             'cpf_rne': self.cpfRne,
             'email': self.email,
-            'social_name': self.socialName
+            'social_name': self.socialName,
+            'name': self.name
         }

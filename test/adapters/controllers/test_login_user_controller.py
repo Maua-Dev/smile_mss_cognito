@@ -27,6 +27,7 @@ class Test_LoginUserController:
             'cpf_rne': '75599469093',
             'email': 'bruno@bruno.com',
             'social_name': 'Bruno',
+            'name': 'User1'
         }
 
     @pytest.mark.asyncio
@@ -47,6 +48,7 @@ class Test_LoginUserController:
             'cpf_rne': '64968222041',
             'email': 'user2@user.com',
             'social_name': None,
+            'name': 'User2'
         }
 
     @pytest.mark.asyncio
