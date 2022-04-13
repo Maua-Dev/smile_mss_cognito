@@ -54,6 +54,7 @@ class Test_CognitoUserDTO():
         user = User(name='Joao do Teste', cpfRne='93523844070', ra=19003315, role=ROLE.PROFESSOR,
                     accessLevel=ACCESS_LEVEL.ADMIN, email='bruno@bruno.com',
                     acceptedTerms=True, acceptedNotifications=True, socialName='Bruno',
+                    certificateWithSocialName=False
                     )
 
         expectedAttributes = [
