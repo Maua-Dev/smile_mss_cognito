@@ -2,7 +2,7 @@ from pydantic import ValidationError
 
 from src.adapters.errors.http_exception import HttpException
 from src.domain.entities.user import User
-from src.domain.errors.errors import UnexpectedError, NoItemsFound, EntityError, NonExistentUser
+from src.domain.errors.errors import UnexpectedError, NoItemsFound, EntityError, NonExistentUser, InvalidToken
 from src.domain.repositories.user_repository_interface import IUserRepository
 from src.adapters.helpers.http_models import BadRequest, HttpRequest, HttpResponse, InternalServerError, Ok, NoContent
 from src.domain.usecases.update_user_usecase import UpdateUserUsecase
@@ -20,10 +20,23 @@ class UpdateUserController:
             return BadRequest('Missing body.')
 
         try:
-            user = User.parse_obj(req.body)
-            await self._updateUserUsecase(user)
-            response = {f"User {user.name} updated."}
+            token = req.headers.get('Authorization').split(' ')
+            if len(token) != 2 or token[0] != 'Bearer':
+                return BadRequest('Invalid token.')
+            accessToken = token[1]
+
+            userData = {
+                "name": req.body.get('name'),
+                "socialName": req.body.get('social_name'),
+                "certificateWithSocialName": req.body.get('certificate_with_social_name'),
+            }
+
+            await self._updateUserUsecase(userData, accessToken)
+            response = {f"User {userData['name']} updated."}
             return Ok(response)
+
+        except InvalidToken as e:
+            return BadRequest(e.message)
 
         except EntityError as e:
             return BadRequest(e.message)

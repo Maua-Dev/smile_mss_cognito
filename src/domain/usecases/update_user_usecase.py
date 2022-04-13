@@ -1,6 +1,7 @@
 from src.domain.entities.user import User
 from src.domain.errors.errors import UserAlreadyExists, UnexpectedError, NoItemsFound, NonExistentUser
 from src.domain.repositories.user_repository_interface import IUserRepository
+from src.domain.usecases.check_token_usecase import CheckTokenUsecase
 from src.domain.usecases.get_user_by_cpfrne_usecase import GetUserByCpfRneUsecase
 
 
@@ -8,18 +9,22 @@ class UpdateUserUsecase:
 
     def __init__(self, userRepository: IUserRepository):
         self._userRepository = userRepository
-        self.immutable_fields = ['cpfRne', 'ra']
+        # self.immutable_fields = ['cpfRne', 'ra', 'acceptedTerms', 'accessLevel', 'email']
+        self.mutatable_fields = ['name', 'socialName', 'acceptedNotifications', 'certificateWithSocialName']
 
-    async def __call__(self, user: User): #TODO nao atualizar valores nulos e precisar apenas do cpf para atualizar o resto
+    async def __call__(self, userData: dict, accessToken: str):
+        checkTokenUsecase = CheckTokenUsecase(self._userRepository)
         try:
-            # Check if immutable fields are changed
-            getUserByCpfRneUsecase = GetUserByCpfRneUsecase(self._userRepository)
-            oldUser = await getUserByCpfRneUsecase(user.cpfRne)
-            for field in self.immutable_fields:
-                if getattr(oldUser, field) != getattr(user, field):
-                    raise UnexpectedError(f'{field} is immutable')
+            oldUser = User.parse_obj(await checkTokenUsecase(accessToken))
 
-            await self._userRepository.updateUser(user)
+            for field in self.mutatable_fields:
+                if field in userData:
+                    setattr(oldUser, field, userData[field])
 
-        except (NonExistentUser) as error:
+            await self._userRepository.updateUser(oldUser)
+
+        except NonExistentUser as error:
             raise NonExistentUser(error.message)
+
+
+

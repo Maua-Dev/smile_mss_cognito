@@ -1,3 +1,5 @@
+import os
+
 from fastapi import FastAPI, Response, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import PlainTextResponse
@@ -10,11 +12,11 @@ from src.adapters.controllers.confirm_user_creation_controller import ConfirmUse
 from src.adapters.controllers.create_user_controller import CreateUserController
 from src.adapters.controllers.login_user_controller import LoginUserController
 from src.adapters.controllers.refresh_token_controller import RefreshTokenController
+from src.adapters.controllers.update_user_controller import UpdateUserController
 from src.adapters.errors.http_exception import HttpException
 from src.adapters.helpers.http_models import HttpRequest
 from src.main.helpers.status import status
 from src.main.users.module import Modular
-import os
 
 app = FastAPI()
 app.add_middleware(
@@ -111,43 +113,13 @@ async def confirmChangePassword(request: Request, response: Response):
 
 
 
-# @app.get("/user/all")
-# async def getAllusers(response: Response):
-#     getAllUsersController = Modular.getInject(GetAllUsersController)
-#     req = HttpRequest(query=None)
-#     result = await getAllUsersController(req)
-#
-#     response.status_code = status.get(result.status_code)
-#     return result.body
-#
-#
-# @app.get("/user/{cpfRne}")
-# async def getUser(cpfRne: int, response: Response):
-#     getAllUserByCpfRne = Modular.getInject(GetUserByCpfRneController)
-#     req = HttpRequest(query={'cpfRne': cpfRne})
-#     result = await getAllUserByCpfRne(req)
-#
-#     response.status_code = status.get(result.status_code)
-#     return result.body
+@app.put("/user")
+async def updateUser(request: Request, response: Response):
+    updateUserController = Modular.getInject(UpdateUserController)
+    body = await request.json()
+    req = HttpRequest(body=body, headers=request.headers)
+    result = await updateUserController(req)
 
+    response.status_code = status.get(result.status_code)
+    return result.body
 
-
-
-# @app.put("/user")
-# async def updateUser(request: Request, response: Response):
-#     updateUserController = Modular.getInject(UpdateUserController)
-#     req = HttpRequest(body=await request.json())
-#     result = await updateUserController(req)
-#
-#     response.status_code = status.get(result.status_code)
-#     return result.body
-#
-#
-# @app.delete("/user")
-# async def deleteUser(request: Request, response: Response):
-#     deleteUserController = Modular.getInject(DeleteUserController)
-#     req = HttpRequest(body=await request.json())
-#     result = await deleteUserController(req)
-#
-#     response.status_code = status.get(result.status_code)
-#     return result.body

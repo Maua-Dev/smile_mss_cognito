@@ -13,6 +13,7 @@ class Test_CognitoUserDTO():
                     accessLevel=ACCESS_LEVEL.ADMIN, createdAt=datetime(2022, 2, 15, 23, 15),
                     updatedAt=datetime(2022, 2, 15, 23, 15), email='bruno@bruno.com',
                     acceptedTerms=True, acceptedNotifications=True, socialName='Bruno',
+                    certificateWithSocialName=False
                     )
 
         userCognitoDto = CognitoUserDTO(user.dict())
@@ -26,6 +27,8 @@ class Test_CognitoUserDTO():
         assert userCognitoDto.acceptedTerms == True
         assert userCognitoDto.acceptedNotific == True
         assert userCognitoDto.socialName == 'Bruno'
+        assert userCognitoDto.certWithSocialName == False
+
         userAttributes = userCognitoDto.userAttributes
 
         expectedAttributes = [
@@ -38,6 +41,8 @@ class Test_CognitoUserDTO():
             {'Name': 'custom:acceptedTerms', 'Value': 'True'},
             {'Name': 'custom:acceptedNotific', 'Value': 'True'},
             {'Name': 'custom:socialName', 'Value': 'Bruno'},
+            {'Name': 'custom:certWithSocialName', 'Value': 'False'},
+
         ]
 
         for att in expectedAttributes:
@@ -61,11 +66,15 @@ class Test_CognitoUserDTO():
             {'Name': 'custom:acceptedTerms', 'Value': 'True'},
             {'Name': 'custom:acceptedNotific', 'Value': 'True'},
             {'Name': 'custom:socialName', 'Value': 'Bruno'},
+            {'Name': 'custom:certWithSocialName', 'Value': 'False'}
         ]
 
         userCognitoDto = CognitoUserDTO.fromKeyValuePair(expectedAttributes)
         userParsed = userCognitoDto.toEntity()
         assert user == userParsed
+        assert user.certificateWithSocialName == userParsed.certificateWithSocialName
+        assert user.socialName == userParsed.socialName
+        assert user.acceptedNotifications == userParsed.acceptedNotifications
 
 
 

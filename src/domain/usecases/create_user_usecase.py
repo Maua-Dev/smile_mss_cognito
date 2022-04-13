@@ -10,12 +10,15 @@ class CreateUserUsecase:
         self._userRepository = userRepository
 
     async def __call__(self, user: User) -> int:
-            requiredFields = ['name', 'cpfRne', 'email', 'password', 'acceptedNotifications', 'acceptedTerms']
-            for f in requiredFields:
-                if getattr(user, f) is None:
-                    raise IncompleteUser(f'field "{f}" is required')
+        requiredFields = ['name', 'cpfRne', 'email', 'password', 'acceptedNotifications', 'acceptedTerms']
+        for f in requiredFields:
+            if getattr(user, f) is None:
+                raise IncompleteUser(f'field "{f}" is required')
 
-            if user.accessLevel != ACCESS_LEVEL.USER:
-                raise EntityError('Cannot create a user with ACCESS LEVEL different than USER')
+        if user.accessLevel != ACCESS_LEVEL.USER:
+            raise EntityError('Cannot create a user with ACCESS LEVEL different than USER')
 
-            return await self._userRepository.createUser(user)
+        # Set default certificateWithSocialName based if user have social name
+        user.certificateWithSocialName = True if user.socialName else False
+
+        return await self._userRepository.createUser(user)
