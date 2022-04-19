@@ -19,12 +19,6 @@ from src.main.helpers.status import status
 from src.main.users.module import Modular
 
 app = FastAPI()
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 
 @app.exception_handler(HttpException)
