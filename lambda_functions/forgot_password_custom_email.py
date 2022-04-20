@@ -17,7 +17,9 @@ def lambda_handler(event, context):
 
             message = f"""Olá, <br> <br>
 
-            Para criar uma nova senha em seu cadastro da SMILE 2022 clique no link: <a id="botao-recuperar-senha" href="{FRONT_ENDPOINT}/#/login/esqueci-minha-senha/escolher-senha?code={code}&email={email}&emailProvider={emailProvider}
+            Para criar uma nova senha em seu cadastro da SMILE 2022 clique no link: <a id="botao-recuperar-senha" href="{FRONT_ENDPOINT}/#/login/esqueci-minha-senha/escolher-senha?code={code}&email={email}&emailProvider={emailProvider}">Recuperar senha</a>
+                                                                                     
+               
             <br> <br> 
 
             Atenciosamente, <br> <br>
