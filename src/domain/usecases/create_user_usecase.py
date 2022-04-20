@@ -20,5 +20,6 @@ class CreateUserUsecase:
 
         # Set default certificateWithSocialName based if user have social name
         user.certificateWithSocialName = True if user.socialName else False
+        user.socialName = user.socialName if user.socialName else ""
 
         return await self._userRepository.createUser(user)
