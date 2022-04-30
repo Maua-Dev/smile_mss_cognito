@@ -49,7 +49,7 @@ class UserRepositoryCognito(IUserRepository):
             for user in response["Users"]:
                 cognitoUserDTO = CognitoUserDTO.fromKeyValuePair(data=user["Attributes"])
                 users.append(cognitoUserDTO.toEntity())
-            return users, len(response["Users"])
+            return users
         except ClientError as e:
             errorCode = e.response.get('Error').get('Code')
             if errorCode == 'NotAuthorizedException':

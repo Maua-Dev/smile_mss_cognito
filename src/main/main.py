@@ -10,6 +10,7 @@ from src.adapters.controllers.check_token_controller import CheckTokenController
 from src.adapters.controllers.confirm_change_password_controller import ConfirmChangePasswordController
 from src.adapters.controllers.confirm_user_creation_controller import ConfirmUserCreationController
 from src.adapters.controllers.create_user_controller import CreateUserController
+from src.adapters.controllers.list_users_controller import ListUsersController
 from src.adapters.controllers.login_user_controller import LoginUserController
 from src.adapters.controllers.refresh_token_controller import RefreshTokenController
 from src.adapters.controllers.update_user_controller import UpdateUserController
@@ -24,6 +25,16 @@ app = FastAPI()
 @app.exception_handler(HttpException)
 async def internal_exception_handler(request: Request, exc: HttpException):
     return PlainTextResponse(exc.body, status_code=exc.status_code)
+
+@app.post("/listUsers")
+async def listUsers(request: Request, response: Response):
+    getAllUsersController = Modular.getInject(ListUsersController)
+    body = await request.json()
+    req = HttpRequest(body=body, headers=request.headers)
+    result = await getAllUsersController(req)
+
+    response.status_code = status.get(result.status_code)
+    return result.body
 
 @app.post("/user")
 async def createUser(request: Request, response: Response):

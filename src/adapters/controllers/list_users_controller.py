@@ -29,4 +29,4 @@ class ListUsersController:
             return BadRequest(e.message)
 
         except Exception as e:
-            return InternalServerError(e.message)
+            return InternalServerError(e.args[0])
