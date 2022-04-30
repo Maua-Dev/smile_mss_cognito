@@ -24,7 +24,7 @@ class Test_CheckTokenController:
             'cpf_rne': '75599469093',
             'email': 'bruno@bruno.com',
             'valid_token': True,
-            'id': None
+            'id': '1'
         }
     @pytest.mark.asyncio
     async def test_check_token_invalid_token_controller(self):
