@@ -17,18 +17,18 @@ class UserRepositoryMock(IUserRepository):
                  accessLevel=ACCESS_LEVEL.USER, createdAt=datetime(2022, 3, 8, 22, 10),
                  updatedAt=datetime(2022, 3, 8, 22, 15), email="bruno@bruno.com", password="123456",
                  acceptedTerms=True, acceptedNotifications=False, socialName="Bruno",
-                 certificateWithSocialName=True
+                 certificateWithSocialName=True, id=1
                  ),
             User(name='user2', cpfRne='64968222041', ra=20001231, role=ROLE.PROFESSOR,
                  accessLevel=ACCESS_LEVEL.ADMIN, createdAt=datetime(2022, 2, 15, 23, 15),
                  updatedAt=datetime(2022, 2, 15, 23, 15), password="123456", email="user2@user.com",
                  acceptedTerms=True, acceptedNotifications=True,
-                 certificateWithSocialName=False
+                 certificateWithSocialName=False, id=2
                  ),
             User(name='user3', cpfRne='54134054052', ra=20001231, role=ROLE.PROFESSOR,
                  accessLevel=ACCESS_LEVEL.ADMIN, createdAt=datetime(2022, 2, 15, 23, 15),
                  updatedAt=datetime(2022, 2, 15, 23, 15), password="123456", email="user3@user.com",
-                 acceptedTerms=True, acceptedNotifications=True
+                 acceptedTerms=True, acceptedNotifications=True, id=3
                  )
         ]
         self._confirmedUsers = [
@@ -38,9 +38,9 @@ class UserRepositoryMock(IUserRepository):
 
     async def getAllUsers(self) -> List[User]:
         if len(self._confirmedUsers) > 0:
-            return self._confirmedUsers, len(self._confirmedUsers)
+            return self._confirmedUsers
         else:
-            return None, 0
+            return None
 
     async def getUserByCpfRne(self, cpfRne: str) -> User:
         user: User = None

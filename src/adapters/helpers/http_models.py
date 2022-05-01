@@ -1,7 +1,8 @@
 from typing import Any, Dict, Optional
 
 class HttpRequest:
-    def __init__(self, headers: Optional[Dict[str, Any]] = None, body: Optional[Dict[str, Any]] = None, query: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, headers: Optional[Dict[str, Any]] = None, body: Optional[Dict[str, Any]] = None,
+                 query: Optional[Dict[str, Any]] = None) -> None:
         self.query = query
         self.body = body
         self.headers = headers
