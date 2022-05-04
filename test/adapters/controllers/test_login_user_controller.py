@@ -28,7 +28,8 @@ class Test_LoginUserController:
             'email': 'bruno@bruno.com',
             'social_name': 'Bruno',
             'name': 'User1',
-            'certificate_with_social_name': True
+            'certificate_with_social_name': True,
+            'id': '1'
         }
 
     @pytest.mark.asyncio
@@ -50,7 +51,8 @@ class Test_LoginUserController:
             'email': 'user2@user.com',
             'social_name': None,
             'name': 'User2',
-            'certificate_with_social_name': False
+            'certificate_with_social_name': False,
+            'id': '2'
         }
 
     @pytest.mark.asyncio
