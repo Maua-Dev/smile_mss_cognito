@@ -42,11 +42,30 @@ class UserRepositoryCognito(IUserRepository):
 
     async def getAllUsers(self) -> List[User]:
         try:
-            response = self._client.list_users(
-                UserPoolId=self._userPoolId
-            )
+
+            
+            users_remain = True
+            next_page = None
+            kwargs = {
+            'UserPoolId': self._userPoolId
+        }
+
+            while (users_remain):
+                responseUsers = []
+
+                if next_page:
+                    kwargs['PaginationToken'] = next_page
+                response = self._client.list_users(**kwargs)
+                
+                
+                responseUsers.extend(response["Users"])
+                next_page = response.get('PaginationToken', None)
+                users_remain = next_page is not None
+
+
+
             users = []
-            for user in response["Users"]:
+            for user in responseUsers["Users"]:
                 cognitoUserDTO = CognitoUserDTO.fromKeyValuePair(data=user["Attributes"])
                 users.append(cognitoUserDTO.toEntity())
             return users
