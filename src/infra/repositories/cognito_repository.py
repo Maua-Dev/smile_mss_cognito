@@ -48,7 +48,7 @@ class UserRepositoryCognito(IUserRepository):
             next_page = None
             kwargs = {
             'UserPoolId': self._userPoolId
-        }
+            }
 
             while (users_remain):
                 responseUsers = []
@@ -65,7 +65,7 @@ class UserRepositoryCognito(IUserRepository):
 
 
             users = []
-            for user in responseUsers["Users"]:
+            for user in responseUsers:
                 cognitoUserDTO = CognitoUserDTO.fromKeyValuePair(data=user["Attributes"])
                 users.append(cognitoUserDTO.toEntity())
             return users
