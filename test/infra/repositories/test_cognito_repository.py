@@ -146,6 +146,12 @@ class Test_CognitoRepository():
         response = await repo._checkIfUserExists(user)
         assert response
 
+    @pytest.mark.skip(reason="Cognito not set up")
+    # @pytest.mark.asyncio
+    async def test_get_all(self):
+        repo = UserRepositoryCognito()
+        response = await repo.getAllUsers()
+        assert response is not None
 
 
 

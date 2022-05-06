@@ -41,28 +41,23 @@ class UserRepositoryCognito(IUserRepository):
                 raise
 
     async def getAllUsers(self) -> List[User]:
-        try:
 
-            
+        try:
             users_remain = True
             next_page = None
             kwargs = {
             'UserPoolId': self._userPoolId
             }
+            responseUsers = []
 
             while (users_remain):
-                responseUsers = []
-
                 if next_page:
                     kwargs['PaginationToken'] = next_page
                 response = self._client.list_users(**kwargs)
                 
-                
                 responseUsers.extend(response["Users"])
                 next_page = response.get('PaginationToken', None)
                 users_remain = next_page is not None
-
-
 
             users = []
             for user in responseUsers:
