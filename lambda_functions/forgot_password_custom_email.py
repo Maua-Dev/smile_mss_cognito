@@ -34,7 +34,7 @@ def lambda_handler(event, context):
 
         # ================ SIGN UP =======================================
 
-        if event['triggerSource'] == 'CustomMessage_SignUp':
+        if event['triggerSource'] == 'CustomMessage_SignUp' or event['triggerSource'] == "CustomMessage_ResendCode":
             code = event['request']['codeParameter']
             subId = event['request']['userAttributes']['sub']
 

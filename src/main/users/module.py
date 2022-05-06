@@ -11,6 +11,7 @@ from src.adapters.controllers.get_user_by_cpfrne_controller import GetUserByCpfR
 from src.adapters.controllers.list_users_controller import ListUsersController
 from src.adapters.controllers.login_user_controller import LoginUserController
 from src.adapters.controllers.refresh_token_controller import RefreshTokenController
+from src.adapters.controllers.resend_creation_confirmation_controller import ResendCreationConfirmationController
 from src.adapters.controllers.update_user_controller import UpdateUserController
 from src.infra.repositories.cognito_repository import UserRepositoryCognito
 
@@ -54,7 +55,8 @@ class Module:
             ConfirmChangePasswordController,
             ConfirmUserCreationController,
             UserRepositoryCognito,
-            ListUsersController
+            ListUsersController,
+            ResendCreationConfirmationController,
             # UserRepositoryMock
         ]
 

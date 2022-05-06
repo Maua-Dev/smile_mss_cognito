@@ -333,3 +333,17 @@ class UserRepositoryCognito(IUserRepository):
     async def deleteUser(self, userCpfRne: int):
         pass
 
+
+    async def resendConfirmationCode(self, cpfRne: str) -> bool:
+        try:
+            response = self._client.resend_confirmation_code(
+                ClientId=self._clientId,
+                Username=cpfRne
+            )
+            return response["ResponseMetadata"]["HTTPStatusCode"] == 200
+        except ClientError as e:
+            errorCode = e.response.get('Error').get('Code')
+            if errorCode == 'UserNotFoundException':
+                raise NonExistentUser(message=f"{cpfRne}")
+            else:
+                raise BaseError(message=e.response.get('Error').get('Message'))

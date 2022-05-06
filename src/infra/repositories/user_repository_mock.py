@@ -170,5 +170,15 @@ class UserRepositoryMock(IUserRepository):
                 return True
         return False
 
+    async def resendConfirmationCode(self, cpfRne: str) -> bool:
+        user = await self.getUserByCpfRne(cpfRne)
+
+        if user is None:
+            raise NonExistentUser(f"{cpfRne}")
+
+        # Send email
+
+        return True
+
 
 
