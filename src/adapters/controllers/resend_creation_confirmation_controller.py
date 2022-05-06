@@ -52,6 +52,9 @@ class ResendCreationConfirmationController:
         except EntityError as e:
             return BadRequest(e.message)
 
+        except UserAlreadyConfirmed as e:
+            return BadRequest(e.message)
+
         except Exception as e:
             err = InternalServerError(e.args[0])
             return err
