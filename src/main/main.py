@@ -13,6 +13,7 @@ from src.adapters.controllers.create_user_controller import CreateUserController
 from src.adapters.controllers.list_users_controller import ListUsersController
 from src.adapters.controllers.login_user_controller import LoginUserController
 from src.adapters.controllers.refresh_token_controller import RefreshTokenController
+from src.adapters.controllers.resend_creation_confirmation_controller import ResendCreationConfirmationController
 from src.adapters.controllers.update_user_controller import UpdateUserController
 from src.adapters.errors.http_exception import HttpException
 from src.adapters.helpers.http_models import HttpRequest
@@ -125,6 +126,16 @@ async def updateUser(request: Request, response: Response):
     req = HttpRequest(body=body, headers=request.headers)
     result = await updateUserController(req)
 
+    response.status_code = status.get(result.status_code)
+    return result.body
+
+
+@app.put("/resendCreationConfirmation")
+async def resendCreationConfirmation(request: Request, response: Response):
+    resendConfirmationEmailController = Modular.getInject(ResendCreationConfirmationController)
+    body = await request.json()
+    req = HttpRequest(body=body)
+    result = await resendConfirmationEmailController(req)
     response.status_code = status.get(result.status_code)
     return result.body
 
