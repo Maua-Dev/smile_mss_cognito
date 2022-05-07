@@ -6,7 +6,7 @@ from botocore.exceptions import ClientError
 
 from src.domain.entities.user import User
 from src.domain.errors.errors import InvalidCredentials, NonExistentUser, BaseError, UserAlreadyExists, InvalidToken, \
-    EntityError, UserAlreadyConfirmed, UnexpectedError
+    EntityError, UserAlreadyConfirmed, UnexpectedError, UserNotConfirmed
 from src.domain.repositories.user_repository_interface import IUserRepository
 from src.infra.dtos.User.user_dto import CognitoUserDTO
 
@@ -227,7 +227,7 @@ class UserRepositoryCognito(IUserRepository):
             elif errorCode == 'UserNotFoundException':
                 raise NonExistentUser(message=f"{cpfRne}")
             elif errorCode == 'UserNotConfirmedException':
-                raise InvalidCredentials(message="User not confirmed")
+                raise UserNotConfirmed(message="User not confirmed")
             else:
                 raise BaseError(message=e.response.get('Error').get('Message'))
 

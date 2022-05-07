@@ -47,3 +47,7 @@ class InvalidToken(BaseError):
 class UserAlreadyConfirmed(BaseError):
     def __init__(self, message: str):
         super().__init__(f'User already confirmed. Message: {message}')
+
+class UserNotConfirmed(BaseError):
+    def __init__(self, message: str):
+        super().__init__(f'User is not confirmed. Message: {message}')
