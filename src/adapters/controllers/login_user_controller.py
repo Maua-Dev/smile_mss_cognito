@@ -3,7 +3,7 @@ from pydantic import ValidationError
 from src.adapters.errors.http_exception import HttpException
 from src.adapters.helpers.http_models import BadRequest, HttpRequest, HttpResponse, InternalServerError, Ok
 from src.adapters.viewmodels.login_user_model import LoginUserModel
-from src.domain.errors.errors import UnexpectedError, EntityError, NonExistentUser, InvalidCredentials
+from src.domain.errors.errors import UnexpectedError, EntityError, NonExistentUser, InvalidCredentials, UserNotConfirmed
 from src.domain.repositories.user_repository_interface import IUserRepository
 from src.domain.usecases.login_user_usecase import LoginUserUsecase
 
@@ -36,6 +36,11 @@ class LoginUserController:
 
         except UnexpectedError as e:
             err = InternalServerError(e.message)
+            return err
+
+        except UserNotConfirmed as e:
+            err = BadRequest(e.message)
+            err.status_code = 401
             return err
 
         except Exception as e:
