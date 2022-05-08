@@ -227,7 +227,7 @@ class UserRepositoryCognito(IUserRepository):
             elif errorCode == 'UserNotFoundException':
                 raise NonExistentUser(message=f"{cpfRne}")
             elif errorCode == 'UserNotConfirmedException':
-                raise UserNotConfirmed(message="User not confirmed")
+                raise UserNotConfirmed(message=f"{cpfRne}")
             else:
                 raise BaseError(message=e.response.get('Error').get('Message'))
 
@@ -284,7 +284,7 @@ class UserRepositoryCognito(IUserRepository):
             if errorCode == 'UserNotFoundException':
                 raise NonExistentUser(message=f"{login}")
             elif errorCode == 'UserNotConfirmedException':
-                raise BaseError(message="User not confirmed")
+                raise UserNotConfirmed(message=f"{login}")
             else:
                 raise BaseError(message=e.response.get('Error').get('Message'))
 
