@@ -20,7 +20,8 @@ class LoginUserController:
             return BadRequest('Missing login and/or password.')
 
         try:
-            data = await self._loginUserUsecase(req.body["login"], req.body["password"])
+            cleanLogin = req.body['login'].replace(' ', '')
+            data = await self._loginUserUsecase(cleanLogin, req.body["password"])
             loginUserModel = LoginUserModel.fromDict(data=data)
             return Ok(loginUserModel.toDict())
 
