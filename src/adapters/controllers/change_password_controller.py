@@ -23,7 +23,8 @@ class ChangePasswordController:
 
 
         try:
-            result = await self._changePasswordUsecase(str(req.body["login"]))
+            cleanLogin = str(req.body["login"]).replace(' ', '')
+            result = await self._changePasswordUsecase(cleanLogin)
             changePasswordModel = ChangePasswordModel(result=result)
             if not result:
                 changePasswordModel.message = "User not found"

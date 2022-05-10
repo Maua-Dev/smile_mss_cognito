@@ -28,7 +28,7 @@ class ResendCreationConfirmationController:
 
         try:
 
-            req.body['cpfRne'] = req.body['cpf_rne']
+            req.body['cpfRne'] = req.body['cpf_rne'].replace('.', '').replace('-', '').replace(' ', '')
 
             result = await self._resendCreationConfirmationUsecase(cpfRne=str(req.body['cpfRne']))
 
