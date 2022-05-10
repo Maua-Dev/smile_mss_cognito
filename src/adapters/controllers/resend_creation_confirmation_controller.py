@@ -53,7 +53,9 @@ class ResendCreationConfirmationController:
             return BadRequest(e.message)
 
         except UserAlreadyConfirmed as e:
-            return BadRequest(e.message)
+            error = BadRequest(e.message)
+            error.status_code = 401
+            return error
 
         except Exception as e:
             err = InternalServerError(e.args[0])
