@@ -345,5 +345,10 @@ class UserRepositoryCognito(IUserRepository):
             errorCode = e.response.get('Error').get('Code')
             if errorCode == 'UserNotFoundException':
                 raise NonExistentUser(message=f"{cpfRne}")
+            elif errorCode == 'InvalidParameterException':
+                if e.response.get('Error').get('Message') == 'User is already confirmed.':
+                    raise UserAlreadyConfirmed(message=f"{cpfRne}")
+                else:
+                    raise EntityError(e.response.get('Error').get('Message'))
             else:
                 raise BaseError(message=e.response.get('Error').get('Message'))
