@@ -13,7 +13,7 @@ class User(BaseModel):
     name: str
     cpfRne: str
     password: Optional[str]
-    ra: Optional[int]
+    ra: Optional[str]
     email: Optional[str]
     role: ROLE
     accessLevel: ACCESS_LEVEL
@@ -65,10 +65,10 @@ class User(BaseModel):
         return v
 
     @validator('ra')
-    def ra_is_not_invalid(cls, v: int) -> int:
+    def ra_is_not_invalid(cls, v: str) -> str:
         if v != None and len(str(v)) != 8:
             raise EntityError('ra')
-        return v
+        return str(v)
 
     @validator('createdAt')
     def createdAt_is_not_empty(cls, v: datetime) -> datetime:

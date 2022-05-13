@@ -24,7 +24,7 @@ class Test_User():
         assert user.accessLevel == ACCESS_LEVEL.ADMIN
         assert user.createdAt == datetime(2022, 2, 15, 23, 15)
         assert user.updatedAt == datetime(2022, 2, 15, 23, 15)
-        assert user.ra == 19003315
+        assert user.ra == '19003315'
         assert user.password is None
         assert user.email == 'bruno@gmail.com'
         assert user.socialName == 'Jonas'
@@ -45,7 +45,7 @@ class Test_User():
         assert user.accessLevel == ACCESS_LEVEL.SPEAKER
         assert user.createdAt == datetime(2022, 2, 15, 23, 15)
         assert user.updatedAt == datetime(2022, 2, 15, 23, 15)
-        assert user.ra == 19003315
+        assert user.ra == '19003315'
         assert user.password is None
         assert user.socialName == 'Jonas'
         assert user.acceptedTerms == True
@@ -65,7 +65,7 @@ class Test_User():
         assert user.accessLevel == ACCESS_LEVEL.SPEAKER
         assert user.createdAt == datetime(2022, 2, 15, 23, 15)
         assert user.updatedAt == datetime(2022, 2, 15, 23, 15)
-        assert user.ra == 19003315
+        assert user.ra == '19003315'
         assert user.password is None
         assert user.acceptedTerms == True
         assert user.acceptedNotifications == False
@@ -84,7 +84,7 @@ class Test_User():
         assert user.accessLevel == ACCESS_LEVEL.SPEAKER
         assert user.createdAt == datetime(2022, 2, 15, 23, 15)
         assert user.updatedAt == datetime(2022, 2, 15, 23, 15)
-        assert user.ra == 19003315
+        assert user.ra == '19003315'
         assert user.password is None
         assert user.acceptedNotifications == False
 
@@ -102,7 +102,7 @@ class Test_User():
         assert user.accessLevel == ACCESS_LEVEL.SPEAKER
         assert user.createdAt == datetime(2022, 2, 15, 23, 15)
         assert user.updatedAt == datetime(2022, 2, 15, 23, 15)
-        assert user.ra == 19003315
+        assert user.ra == '19003315'
         assert user.password is None
         assert user.acceptedTerms == True
 
@@ -119,7 +119,7 @@ class Test_User():
         assert user.accessLevel == ACCESS_LEVEL.SPEAKER
         assert user.createdAt == datetime(2022, 2, 15, 23, 15)
         assert user.updatedAt == datetime(2022, 2, 15, 23, 15)
-        assert user.ra == 19003315
+        assert user.ra == '19003315'
         assert user.password is None
 
     def test_create_invalid_user1(self):

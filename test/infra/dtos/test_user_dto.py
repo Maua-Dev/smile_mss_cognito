@@ -21,7 +21,7 @@ class Test_CognitoUserDTO():
         assert userCognitoDto.cpfRne == '93523844070'
         assert userCognitoDto.role == ROLE.PROFESSOR
         assert userCognitoDto.accessLevel == ACCESS_LEVEL.ADMIN
-        assert userCognitoDto.ra == 19003315
+        assert userCognitoDto.ra == '19003315'
         assert userCognitoDto.password is None
         assert userCognitoDto.email == 'bruno@bruno.com'
         assert userCognitoDto.acceptedTerms == True

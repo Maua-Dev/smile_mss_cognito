@@ -9,7 +9,7 @@ class DbBaseModel():
     name: str
     cpfRne: str
     password: Optional[str]
-    ra: Optional[int]
+    ra: Optional[str]
     email: Optional[str]
     role: ROLE
     accessLevel: ACCESS_LEVEL
@@ -25,7 +25,7 @@ class DbBaseModel():
         self.name = data.get('name')
         self.cpfRne = data.get('cpfRne') if data.get('cpfRne') else None
         self.password = data.get('password')
-        self.ra = int(data.get('ra')) if data.get('ra') else None
+        self.ra = str(data.get('ra')) if data.get('ra') else None
         self.email = data.get('email')
         self.role = data.get('role')
         self.accessLevel = data.get('accessLevel')

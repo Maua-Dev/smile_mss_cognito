@@ -43,7 +43,7 @@ class Test_CreateUserUsecase:
 
         assert createdUser.name == 'Joana Da Testa'
         assert createdUser.cpfRne == '84458081098'
-        assert createdUser.ra == 20004239
+        assert createdUser.ra == '20004239'
         assert createdUser.role == ROLE.PROFESSOR
         assert createdUser.accessLevel == ACCESS_LEVEL.USER
         assert createdUser.createdAt == datetime(2022, 2, 15, 23, 15)
@@ -84,7 +84,7 @@ class Test_CreateUserUsecase:
 
         assert createdUser.name == 'Joana Da Testa'
         assert createdUser.cpfRne == '84458081098'
-        assert createdUser.ra == 20004239
+        assert createdUser.ra == '20004239'
         assert createdUser.role == ROLE.PROFESSOR
         assert createdUser.accessLevel == ACCESS_LEVEL.USER
         assert createdUser.createdAt == datetime(2022, 2, 15, 23, 15)
