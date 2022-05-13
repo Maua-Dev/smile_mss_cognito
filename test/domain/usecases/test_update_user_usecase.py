@@ -98,7 +98,7 @@ class Test_UpdateUserUsecase:
 
         assert userNotUpdated.name == 'user1_'
         assert userNotUpdated.cpfRne == '75599469093'
-        assert userNotUpdated.ra == 19003315
+        assert userNotUpdated.ra == '19003315'
         assert userNotUpdated.role == ROLE.STUDENT
         assert userNotUpdated.accessLevel == ACCESS_LEVEL.USER
 

@@ -15,7 +15,7 @@ class TestCreateUserController:
         request = HttpRequest(body={
             "name": 'user3',
             "cpf_rne": '46864806049',
-            "ra": 20001236,
+            "ra": '20001236',
             "role": ROLE.PROFESSOR.value,
             "email": "user@teste.com",
             "access_level": ACCESS_LEVEL.USER.value,
@@ -33,7 +33,7 @@ class TestCreateUserController:
         request = HttpRequest(body={
             "name": 'user3',
             "cpf_rne": '46864806149',
-            "ra": 20001236,
+            "ra": '20001236',
             "role": '',
             "access_level": '',
             "password": '123456',
@@ -50,7 +50,7 @@ class TestCreateUserController:
         request = HttpRequest(body={
             "name": 'user3',
             "cpf_rne": '49975288030',
-            "ra": 205001236,
+            "ra": '205001236',
             "role": '',
             "access_level": '',
             "createdAt": datetime(2022, 2, 15, 23, 15),
@@ -85,7 +85,7 @@ class TestCreateUserController:
         request = HttpRequest(body={
             "name": 'user3',
             "cpf_rne": '11315156091',
-            "ra": 19003315,
+            "ra": '19003315',
             "role": 'qualquerCoisa',
             "access_level": '',
             "createdAt": datetime(2022, 2, 15, 23, 15),
@@ -104,7 +104,7 @@ class TestCreateUserController:
         request = HttpRequest(body={
             "name": 'user3',
             "cpf_rne": '11315156091',
-            "ra": 19003315,
+            "ra": '19003315',
             "role": 'qualquerCoisa',
             "access_level": '',
             "createdAt": "2022-02-15T23:15",
@@ -123,7 +123,7 @@ class TestCreateUserController:
         request = HttpRequest(body={
             "name": 'user4',
             "cpf_rne": '61046498070',
-            "ra": 20001236,
+            "ra": '20001236',
             "role": ROLE.PROFESSOR.value,
             "email": "user@teste.com",
             "access_level": ACCESS_LEVEL.ADMIN.value,
@@ -140,7 +140,7 @@ class TestCreateUserController:
         request = HttpRequest(body={
             "name": 'user3',
             "cpf_rne": '46864806049',
-            "ra": 20001236,
+            "ra": '20001236',
             "role": ROLE.PROFESSOR.value,
             "email": "user@teste.com",
             "access_level": ACCESS_LEVEL.ADMIN.value,
