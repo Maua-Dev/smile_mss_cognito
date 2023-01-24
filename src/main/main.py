@@ -116,16 +116,16 @@ async def changePassword(request: Request, response: Response):
     return result.body
 
 
-@app.post("/changePassword")
-async def confirmChangePassword(request: Request, response: Response):
-    confirmChangePasswordController = Modular.getInject(
-        ConfirmChangePasswordController)
+# @app.post("/changePassword")
+# async def confirmChangePassword(request: Request, response: Response):
+#     confirmChangePasswordController = Modular.getInject(
+#         ConfirmChangePasswordController)
 
-    req = HttpRequest(body=await request.json())
-    result = await confirmChangePasswordController(req)
+#     req = HttpRequest(body=await request.json())
+#     result = await confirmChangePasswordController(req)
 
-    response.status_code = status.get(result.status_code)
-    return result.body
+#     response.status_code = status.get(result.status_code)
+#     return result.body
 
 
 @app.put("/user")

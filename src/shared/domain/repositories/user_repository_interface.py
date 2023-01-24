@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
-from typing import List
-from src.domain.entities.user import User
+from typing import List, Tuple
+from src.shared.domain.entities.user import User
 
 
 class IUserRepository(ABC):
@@ -30,15 +30,17 @@ class IUserRepository(ABC):
         pass
 
     @abstractmethod
-    async def loginUser(self, login: str, password: str) -> dict:  # accessToken, refreshToken #todo change to login
+    # accessToken, refreshToken #todo change to login
+    async def loginUser(self, login: str, password: str) -> dict:
         pass
 
     @abstractmethod
-    async def checkToken(self, token: str) -> dict: # user data
+    async def checkToken(self, token: str) -> dict:  # user data
         pass
 
     @abstractmethod
-    async def refreshToken(self, refreshToken: str) -> (str, str):  # accessToken, refreshToken
+    # accessToken, refreshToken
+    async def refreshToken(self, refreshToken: str) -> Tuple[str, str]:
         pass
 
     @abstractmethod
@@ -46,5 +48,5 @@ class IUserRepository(ABC):
         pass
 
     @abstractmethod
-    async def confirmChangePassword(self, login: str, newPassword:str, code: str) -> bool:
+    async def confirmChangePassword(self, login: str, newPassword: str, code: str) -> bool:
         pass

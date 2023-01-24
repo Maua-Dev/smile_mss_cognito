@@ -1,12 +1,13 @@
 import botocore.errorfactory
 import boto3
 
-from src.adapters.errors.http_exception import HttpException
-from src.adapters.helpers.http_models import BadRequest, HttpRequest, HttpResponse, InternalServerError, Ok
+from src.shared.errors.http_exception import HttpException
+from src.shared.helpers.external_interfaces.http_models import HttpRequest, HttpResponse
+from src.shared.helpers.external_interfaces.http_codes import BadRequest, InternalServerError, OK
 from src.modules.check_token.app.check_token_viewmodel import CheckTokenModel
 from src.modules.login_user.app.login_user_viewmodel import LoginUserModel
-from src.domain.errors.errors import UnexpectedError, EntityError, NonExistentUser, InvalidCredentials, InvalidToken
-from src.domain.repositories.user_repository_interface import IUserRepository
+from src.shared.domain.errors.errors import UnexpectedError, EntityError, NonExistentUser, InvalidCredentials, InvalidToken
+from src.shared.domain.repositories.user_repository_interface import IUserRepository
 from src.modules.check_token.app.check_token_usecase import CheckTokenUsecase
 from src.modules.login_user.app.login_user_usecase import LoginUserUsecase
 
