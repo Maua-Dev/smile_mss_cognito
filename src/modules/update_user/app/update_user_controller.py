@@ -39,8 +39,8 @@ class UpdateUserController:
         except EntityError as e:
             return BadRequest(e.message)
 
-        except ValidationError:
-            return BadRequest("Invalid parameters.")
+        # except ValidationError:
+        #     return BadRequest("Invalid parameters.")
 
         except NonExistentUser as e:
             return BadRequest(e.message)

@@ -1,7 +1,7 @@
 import pytest
 
-from src.adapters.controllers.check_token_controller import CheckTokenController
-from src.adapters.controllers.login_user_controller import LoginUserController
+from src.modules.check_token.app.check_token_controller import CheckTokenController
+from src.modules.login_user.app.login_user_controller import LoginUserController
 from src.adapters.controllers.update_user_controller import UpdateUserController
 from src.adapters.helpers.http_models import HttpRequest
 from src.domain.entities.enums import ROLE, ACCESS_LEVEL
@@ -26,6 +26,7 @@ class Test_CheckTokenController:
             'valid_token': True,
             'id': '1'
         }
+
     @pytest.mark.asyncio
     async def test_check_token_invalid_token_controller(self):
         header = {"Authorization": "Bearer invalidAccessToken-75599469093"}
@@ -43,4 +44,3 @@ class Test_CheckTokenController:
         checkTokenController = CheckTokenController(UserRepositoryMock())
         response = await checkTokenController(request)
         assert response.status_code == 400
-

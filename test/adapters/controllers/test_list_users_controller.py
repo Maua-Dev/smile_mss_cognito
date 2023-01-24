@@ -1,6 +1,6 @@
 import pytest
 
-from src.adapters.controllers.list_users_controller import ListUsersController
+from src.modules.list_users.app.list_users_controller import ListUsersController
 from src.adapters.helpers.http_models import HttpRequest
 from src.infra.repositories.user_repository_mock import UserRepositoryMock
 
@@ -16,11 +16,11 @@ class Test_ListUsersController:
         id3 = 54
         token = "Bearer validAccessToken-64968222041"
 
-        req = HttpRequest(body=[id1, id2, id3], headers={'Authorization': token})
+        req = HttpRequest(body=[id1, id2, id3], headers={
+                          'Authorization': token})
 
         listUsersUsecase = ListUsersController(repository)
         res = await listUsersUsecase(req)
-
 
         assert res.status_code == 200
         assert res.body[id1]["cpfRne"] == repository._confirmedUsers[0].cpfRne

@@ -1,8 +1,8 @@
 import pytest
 
-from src.adapters.controllers.change_password_controller import ChangePasswordController
+from src.modules.change_password.app.change_password_controller import ChangePasswordController
 from src.adapters.controllers.confirm_change_password_controller import ConfirmChangePasswordController
-from src.adapters.controllers.login_user_controller import LoginUserController
+from src.modules.login_user.app.login_user_controller import LoginUserController
 from src.adapters.controllers.update_user_controller import UpdateUserController
 from src.adapters.helpers.http_models import HttpRequest
 from src.domain.entities.enums import ROLE, ACCESS_LEVEL
@@ -20,7 +20,8 @@ class Test_ChangePasswordController:
         })
 
         repository = UserRepositoryMock()
-        confirmChangePasswordController = ConfirmChangePasswordController(repository)
+        confirmChangePasswordController = ConfirmChangePasswordController(
+            repository)
         response = await confirmChangePasswordController(request)
         assert response.status_code == 200
         assert response.body == {
@@ -39,7 +40,8 @@ class Test_ChangePasswordController:
         })
 
         repository = UserRepositoryMock()
-        confirmChangePasswordController = ConfirmChangePasswordController(repository)
+        confirmChangePasswordController = ConfirmChangePasswordController(
+            repository)
         response = await confirmChangePasswordController(request)
         assert response.status_code == 200
         assert response.body == {
@@ -58,17 +60,11 @@ class Test_ChangePasswordController:
         })
 
         repository = UserRepositoryMock()
-        confirmChangePasswordController = ConfirmChangePasswordController(repository)
+        confirmChangePasswordController = ConfirmChangePasswordController(
+            repository)
         response = await confirmChangePasswordController(request)
         assert response.status_code == 400
         assert response.body == {
             'result': False,
             'message': 'User not found, invalid confirmation code or weak new password.'
         }
-
-
-
-
-
-
-

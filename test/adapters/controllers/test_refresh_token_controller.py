@@ -1,7 +1,7 @@
 import pytest
 
-from src.adapters.controllers.login_user_controller import LoginUserController
-from src.adapters.controllers.refresh_token_controller import RefreshTokenController
+from src.modules.login_user.app.login_user_controller import LoginUserController
+from src.modules.refresh_token.app.refresh_token_controller import RefreshTokenController
 from src.adapters.controllers.update_user_controller import UpdateUserController
 from src.adapters.helpers.http_models import HttpRequest
 from src.domain.entities.enums import ROLE, ACCESS_LEVEL
@@ -40,6 +40,3 @@ class Test_RefreshTokenController:
         refreshTokenController = RefreshTokenController(UserRepositoryMock())
         response = await refreshTokenController(request)
         assert response.status_code == 400
-
-
-
