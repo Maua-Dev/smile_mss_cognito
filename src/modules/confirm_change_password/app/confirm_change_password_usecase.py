@@ -1,5 +1,5 @@
-from src.domain.errors.errors import InvalidToken
-from src.domain.repositories.user_repository_interface import IUserRepository
+from src.shared.domain.errors.errors import InvalidToken
+from src.shared.domain.repositories.user_repository_interface import IUserRepository
 
 
 class ConfirmChangePasswordUsecase:
@@ -15,4 +15,3 @@ class ConfirmChangePasswordUsecase:
             pass
 
         return result
-

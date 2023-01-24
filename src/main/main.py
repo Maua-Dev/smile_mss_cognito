@@ -105,15 +105,15 @@ async def refreshToken(request: Request, response: Response):
     return result.body
 
 
-@app.put("/changePassword")
-async def changePassword(request: Request, response: Response):
-    changePasswordController = Modular.getInject(ChangePasswordController)
+# @app.put("/changePassword")
+# async def changePassword(request: Request, response: Response):
+#     changePasswordController = Modular.getInject(ChangePasswordController)
 
-    req = HttpRequest(body=await request.json())
-    result = await changePasswordController(req)
+#     req = HttpRequest(body=await request.json())
+#     result = await changePasswordController(req)
 
-    response.status_code = status.get(result.status_code)
-    return result.body
+#     response.status_code = status.get(result.status_code)
+#     return result.body
 
 
 # @app.post("/changePassword")
