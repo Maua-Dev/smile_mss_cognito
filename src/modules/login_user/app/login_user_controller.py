@@ -3,7 +3,7 @@ from src.adapters.helpers.http_models import BadRequest, HttpRequest, HttpRespon
 from src.modules.login_user.app.login_user_viewmodel import LoginUserModel
 from src.domain.errors.errors import UnexpectedError, EntityError, NonExistentUser, InvalidCredentials, UserNotConfirmed
 from src.domain.repositories.user_repository_interface import IUserRepository
-from src.domain.usecases.login_user_usecase import LoginUserUsecase
+from src.modules.login_user.app.login_user_usecase import LoginUserUsecase
 
 
 class LoginUserController:

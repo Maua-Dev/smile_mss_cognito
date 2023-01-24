@@ -2,10 +2,10 @@ import pytest
 
 from src.domain.entities.enums import ACCESS_LEVEL
 from src.domain.errors.errors import InvalidToken
-from src.domain.usecases.change_password_usecase import ChangePasswordUsecase
-from src.domain.usecases.check_token_usecase import CheckTokenUsecase
-from src.domain.usecases.confirm_change_password_usecase import ConfirmChangePasswordUsecase
-from src.domain.usecases.refresh_token_usecase import RefreshTokenUsecase
+from src.modules.change_password.app.change_password_usecase import ChangePasswordUsecase
+from src.modules.check_token.app.check_token_usecase import CheckTokenUsecase
+from src.modules.confirm_change_password.app.confirm_change_password_usecase import ConfirmChangePasswordUsecase
+from src.modules.refresh_token.app.refresh_token_usecase import RefreshTokenUsecase
 from src.infra.repositories.user_repository_mock import UserRepositoryMock
 
 
@@ -41,7 +41,6 @@ class Test_ConfirmChangePasswordUsecase:
         u = await repository.getUserByCpfRne('64968222041')
         assert u.password == "teste!!!"
 
-
     @pytest.mark.asyncio
     async def test_change_non_existent_user(self):
         repository = UserRepositoryMock()
@@ -55,8 +54,6 @@ class Test_ConfirmChangePasswordUsecase:
         assert not result
         u = await repository.getUserByCpfRne('64968222041')
         assert u.password != "teste!!!"
-
-
 
     @pytest.mark.asyncio
     async def test_change_invalid_code(self):

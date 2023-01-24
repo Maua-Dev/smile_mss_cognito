@@ -1,6 +1,6 @@
 import pytest
 
-from src.domain.usecases.list_users_usecase import ListUsersUsecase
+from src.modules.list_users.app.list_users_usecase import ListUsersUsecase
 from src.infra.repositories.user_repository_mock import UserRepositoryMock
 
 

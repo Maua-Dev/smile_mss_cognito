@@ -2,7 +2,7 @@ import pytest
 
 from src.domain.entities.enums import ACCESS_LEVEL, ROLE
 from src.domain.errors.errors import InvalidCredentials
-from src.domain.usecases.login_user_usecase import LoginUserUsecase
+from src.modules.login_user.app.login_user_usecase import LoginUserUsecase
 from src.infra.repositories.user_repository_mock import UserRepositoryMock
 
 
@@ -28,7 +28,6 @@ class Test_LoginUserUsecase:
         assert data["role"] == ROLE.STUDENT
         assert data["name"] == 'User1'
         assert data["email"] == 'bruno@bruno.com'
-
 
     @pytest.mark.asyncio
     async def test_login_invalid_user(self):

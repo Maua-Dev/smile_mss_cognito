@@ -2,7 +2,7 @@ from src.domain.entities.enums import ACCESS_LEVEL
 from src.domain.entities.user import User
 from src.domain.errors.errors import NonExistentUser, InvalidCredentials
 from src.domain.repositories.user_repository_interface import IUserRepository
-from src.domain.usecases.check_token_usecase import CheckTokenUsecase
+from src.modules.check_token.app.check_token_usecase import CheckTokenUsecase
 
 
 class ListUsersUsecase:
@@ -10,7 +10,8 @@ class ListUsersUsecase:
     def __init__(self, userRepository: IUserRepository):
         self._userRepository = userRepository
         # self.immutable_fields = ['cpfRne', 'ra', 'acceptedTerms', 'accessLevel', 'email']
-        self.mutatable_fields = ['name', 'socialName', 'acceptedNotifications', 'certificateWithSocialName']
+        self.mutatable_fields = [
+            'name', 'socialName', 'acceptedNotifications', 'certificateWithSocialName']
 
     async def __call__(self, userList: list, accessToken: str):
         checkTokenUsecase = CheckTokenUsecase(self._userRepository)
@@ -34,5 +35,3 @@ class ListUsersUsecase:
 
         except NonExistentUser as error:
             raise NonExistentUser(error.message)
-
-

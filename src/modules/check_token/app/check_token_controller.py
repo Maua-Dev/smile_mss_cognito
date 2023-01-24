@@ -7,8 +7,8 @@ from src.modules.check_token.app.check_token_viewmodel import CheckTokenModel
 from src.modules.login_user.app.login_user_viewmodel import LoginUserModel
 from src.domain.errors.errors import UnexpectedError, EntityError, NonExistentUser, InvalidCredentials, InvalidToken
 from src.domain.repositories.user_repository_interface import IUserRepository
-from src.domain.usecases.check_token_usecase import CheckTokenUsecase
-from src.domain.usecases.login_user_usecase import LoginUserUsecase
+from src.modules.check_token.app.check_token_usecase import CheckTokenUsecase
+from src.modules.login_user.app.login_user_usecase import LoginUserUsecase
 
 
 class CheckTokenController:

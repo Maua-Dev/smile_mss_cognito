@@ -1,8 +1,8 @@
 import pytest
 
 from src.domain.errors.errors import NonExistentUser
-from src.domain.usecases.delete_user_usecase import DeleteUserUsecase
-from src.domain.usecases.get_user_by_cpfrne_usecase import GetUserByCpfRneUsecase
+from src.modules.delete_user.app.delete_user_usecase import DeleteUserUsecase
+from src.modules.get_user.app.get_user_usecase import GetUserByCpfRneUsecase
 from src.infra.repositories.user_repository_mock import UserRepositoryMock
 
 

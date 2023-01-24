@@ -5,8 +5,8 @@ import pytest
 from src.domain.entities.enums import ACCESS_LEVEL, ROLE
 from src.domain.entities.user import User
 from src.domain.errors.errors import InvalidToken
-from src.domain.usecases.get_user_by_cpfrne_usecase import GetUserByCpfRneUsecase
-from src.domain.usecases.update_user_usecase import UpdateUserUsecase
+from src.modules.get_user.app.get_user_usecase import GetUserByCpfRneUsecase
+from src.modules.update_user.app.update_user_usecase import UpdateUserUsecase
 from src.infra.repositories.user_repository_mock import UserRepositoryMock
 
 
@@ -15,9 +15,10 @@ class Test_UpdateUserUsecase:
     @pytest.mark.asyncio
     async def test_update_existent_user(self):
         oldUser = User(name='user1', cpfRne='75599469093', ra=19003315, role=ROLE.STUDENT,
-                 accessLevel=ACCESS_LEVEL.USER, createdAt=datetime(2022, 3, 8, 22, 10),
-                 updatedAt=datetime(2022, 3, 8, 22, 15), email="bruno@bruno.com"
-                )
+                       accessLevel=ACCESS_LEVEL.USER, createdAt=datetime(
+                           2022, 3, 8, 22, 10),
+                       updatedAt=datetime(2022, 3, 8, 22, 15), email="bruno@bruno.com"
+                       )
 
         newUser = oldUser.copy()
         newUser.name = 'user1_'
@@ -45,9 +46,10 @@ class Test_UpdateUserUsecase:
     @pytest.mark.asyncio
     async def test_update_existent_user2(self):
         oldUser = User(name='user1', cpfRne='75599469093', ra=19003315, role=ROLE.STUDENT,
-                 accessLevel=ACCESS_LEVEL.USER, createdAt=datetime(2022, 3, 8, 22, 10),
-                 updatedAt=datetime(2022, 3, 8, 22, 15), email="bruno@bruno.com"
-                )
+                       accessLevel=ACCESS_LEVEL.USER, createdAt=datetime(
+                           2022, 3, 8, 22, 10),
+                       updatedAt=datetime(2022, 3, 8, 22, 15), email="bruno@bruno.com"
+                       )
 
         newUser = oldUser.copy()
         newUser.name = 'user2_'
@@ -75,13 +77,13 @@ class Test_UpdateUserUsecase:
         assert updatedUser.updatedAt == oldUser.updatedAt
         assert updatedUser.email == oldUser.email
 
-
     @pytest.mark.asyncio
     async def test_update_existent_user_access_level(self):
         oldUser = User(name='user1', cpfRne='75599469093', ra=19003315, role=ROLE.STUDENT,
-                 accessLevel=ACCESS_LEVEL.USER, createdAt=datetime(2022, 3, 8, 22, 10),
-                 updatedAt=datetime(2022, 3, 8, 22, 15), email="bruno@bruno.com"
-                )
+                       accessLevel=ACCESS_LEVEL.USER, createdAt=datetime(
+                           2022, 3, 8, 22, 10),
+                       updatedAt=datetime(2022, 3, 8, 22, 15), email="bruno@bruno.com"
+                       )
         newUser = oldUser.copy()
         newUser.name = 'user1_'
         newUser.accessLevel = ACCESS_LEVEL.ADMIN
@@ -89,7 +91,6 @@ class Test_UpdateUserUsecase:
         repository = UserRepositoryMock()
 
         updateUserUsecase = UpdateUserUsecase(repository)
-
 
         await updateUserUsecase(newUser.dict(), f"validAccessToken-{oldUser.cpfRne}")
 
@@ -102,11 +103,11 @@ class Test_UpdateUserUsecase:
         assert userNotUpdated.role == ROLE.STUDENT
         assert userNotUpdated.accessLevel == ACCESS_LEVEL.USER
 
-
     @pytest.mark.asyncio
     async def test_update_non_existent_user(self):
         newUser = User(name='Joana da Testa', cpfRne='27550611033', ra=20004239, role=ROLE.PROFESSOR,
-                       accessLevel=ACCESS_LEVEL.ADMIN, createdAt=datetime(2022, 2, 15, 23, 15),
+                       accessLevel=ACCESS_LEVEL.ADMIN, createdAt=datetime(
+                           2022, 2, 15, 23, 15),
                        updatedAt=datetime(2022, 2, 20, 23, 15), email='joana@testa.com'
                        )
         repository = UserRepositoryMock()

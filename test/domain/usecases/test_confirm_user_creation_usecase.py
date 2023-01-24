@@ -2,11 +2,11 @@ import pytest
 
 from src.domain.entities.enums import ACCESS_LEVEL
 from src.domain.errors.errors import InvalidToken, NonExistentUser, UserAlreadyConfirmed
-from src.domain.usecases.change_password_usecase import ChangePasswordUsecase
-from src.domain.usecases.check_token_usecase import CheckTokenUsecase
-from src.domain.usecases.confirm_change_password_usecase import ConfirmChangePasswordUsecase
-from src.domain.usecases.confirm_user_creation_usecase import ConfirmUserCreationUsecase
-from src.domain.usecases.refresh_token_usecase import RefreshTokenUsecase
+from src.modules.change_password.app.change_password_usecase import ChangePasswordUsecase
+from src.modules.check_token.app.check_token_usecase import CheckTokenUsecase
+from src.modules.confirm_change_password.app.confirm_change_password_usecase import ConfirmChangePasswordUsecase
+from src.modules.confirm_user_creation.app.confirm_user_creation_usecase import ConfirmUserCreationUsecase
+from src.modules.refresh_token.app.refresh_token_usecase import RefreshTokenUsecase
 from src.infra.repositories.user_repository_mock import UserRepositoryMock
 
 

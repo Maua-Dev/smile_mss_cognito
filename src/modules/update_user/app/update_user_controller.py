@@ -3,7 +3,7 @@ from src.domain.entities.user import User
 from src.domain.errors.errors import UnexpectedError, NoItemsFound, EntityError, NonExistentUser, InvalidToken
 from src.domain.repositories.user_repository_interface import IUserRepository
 from src.adapters.helpers.http_models import BadRequest, HttpRequest, HttpResponse, InternalServerError, Ok, NoContent
-from src.domain.usecases.update_user_usecase import UpdateUserUsecase
+from src.modules.update_user.app.update_user_usecase import UpdateUserUsecase
 
 
 class UpdateUserController:

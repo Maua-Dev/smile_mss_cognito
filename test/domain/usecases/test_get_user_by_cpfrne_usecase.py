@@ -5,8 +5,9 @@ import pytest
 from src.domain.entities.enums import ACCESS_LEVEL, ROLE
 from src.domain.entities.user import User
 from src.domain.errors.errors import NoItemsFound, NonExistentUser
-from src.domain.usecases.get_user_by_cpfrne_usecase import GetUserByCpfRneUsecase
+from src.modules.get_user.app.get_user_usecase import GetUserByCpfRneUsecase
 from src.infra.repositories.user_repository_mock import UserRepositoryMock
+
 
 class Test_GetUserByCpfRneUsecase:
 
@@ -31,4 +32,3 @@ class Test_GetUserByCpfRneUsecase:
             await getUserByCpfRne('27550611033')
         with pytest.raises(NonExistentUser):
             await getUserByCpfRne(1248)
-

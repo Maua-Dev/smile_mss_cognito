@@ -6,11 +6,11 @@ from src.modules.login_user.app.login_user_viewmodel import LoginUserModel
 from src.domain.errors.errors import UnexpectedError, EntityError, NonExistentUser, InvalidCredentials, \
     UserAlreadyConfirmed
 from src.domain.repositories.user_repository_interface import IUserRepository
-from src.domain.usecases.change_password_usecase import ChangePasswordUsecase
-from src.domain.usecases.confirm_change_password_usecase import ConfirmChangePasswordUsecase
-from src.domain.usecases.confirm_user_creation_usecase import ConfirmUserCreationUsecase
-from src.domain.usecases.login_user_usecase import LoginUserUsecase
-from src.domain.usecases.resend_creation_confirmation_usecase import ResendCreationConfirmationUsecase
+from src.modules.change_password.app.change_password_usecase import ChangePasswordUsecase
+from src.modules.confirm_change_password.app.confirm_change_password_usecase import ConfirmChangePasswordUsecase
+from src.modules.confirm_user_creation.app.confirm_user_creation_usecase import ConfirmUserCreationUsecase
+from src.modules.login_user.app.login_user_usecase import LoginUserUsecase
+from src.modules.resend_creation_confirmation.app.resend_creation_confirmation_usecase import ResendCreationConfirmationUsecase
 
 
 class ResendCreationConfirmationController:

@@ -2,7 +2,7 @@ from src.adapters.helpers.http_models import HttpResponse, HttpRequest, BadReque
 from src.modules.list_users.app.list_users_viewmodel import ListUsersModel
 from src.domain.errors.errors import NonExistentUser
 from src.domain.repositories.user_repository_interface import IUserRepository
-from src.domain.usecases.list_users_usecase import ListUsersUsecase
+from src.modules.list_users.app.list_users_usecase import ListUsersUsecase
 
 
 class ListUsersController:

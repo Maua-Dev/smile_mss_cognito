@@ -4,8 +4,8 @@ from src.modules.change_password.app.change_password_viewmodel import ChangePass
 from src.modules.login_user.app.login_user_viewmodel import LoginUserModel
 from src.domain.errors.errors import UnexpectedError, EntityError, NonExistentUser, InvalidCredentials, UserNotConfirmed
 from src.domain.repositories.user_repository_interface import IUserRepository
-from src.domain.usecases.change_password_usecase import ChangePasswordUsecase
-from src.domain.usecases.login_user_usecase import LoginUserUsecase
+from src.modules.change_password.app.change_password_usecase import ChangePasswordUsecase
+from src.modules.login_user.app.login_user_usecase import LoginUserUsecase
 
 
 class ChangePasswordController:

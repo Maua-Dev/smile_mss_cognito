@@ -3,7 +3,7 @@ from src.adapters.helpers.http_models import HttpRequest, HttpResponse, BadReque
 from src.modules.get_user.app.get_user_viewmodel import GetUserModel
 from src.domain.entities.user import User
 from src.domain.errors.errors import UnexpectedError, NoItemsFound, NonExistentUser
-from src.domain.usecases.get_user_by_cpfrne_usecase import GetUserByCpfRneUsecase
+from src.modules.get_user.app.get_user_usecase import GetUserByCpfRneUsecase
 from src.domain.repositories.user_repository_interface import IUserRepository
 
 

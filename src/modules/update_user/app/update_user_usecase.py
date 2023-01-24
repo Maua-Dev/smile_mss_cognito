@@ -1,8 +1,8 @@
 from src.domain.entities.user import User
 from src.domain.errors.errors import UserAlreadyExists, UnexpectedError, NoItemsFound, NonExistentUser
 from src.domain.repositories.user_repository_interface import IUserRepository
-from src.domain.usecases.check_token_usecase import CheckTokenUsecase
-from src.domain.usecases.get_user_by_cpfrne_usecase import GetUserByCpfRneUsecase
+from src.modules.check_token.app.check_token_usecase import CheckTokenUsecase
+from src.modules.get_user.app.get_user_usecase import GetUserByCpfRneUsecase
 
 
 class UpdateUserUsecase:
@@ -10,7 +10,8 @@ class UpdateUserUsecase:
     def __init__(self, userRepository: IUserRepository):
         self._userRepository = userRepository
         # self.immutable_fields = ['cpfRne', 'ra', 'acceptedTerms', 'accessLevel', 'email']
-        self.mutatable_fields = ['name', 'socialName', 'acceptedNotifications', 'certificateWithSocialName']
+        self.mutatable_fields = [
+            'name', 'socialName', 'acceptedNotifications', 'certificateWithSocialName']
 
     async def __call__(self, userData: dict, accessToken: str):
         checkTokenUsecase = CheckTokenUsecase(self._userRepository)
@@ -25,6 +26,3 @@ class UpdateUserUsecase:
 
         except NonExistentUser as error:
             raise NonExistentUser(error.message)
-
-
-

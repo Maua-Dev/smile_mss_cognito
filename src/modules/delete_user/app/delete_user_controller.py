@@ -1,7 +1,7 @@
 from src.adapters.helpers.http_models import HttpRequest, HttpResponse, BadRequest, InternalServerError, Ok
 from src.domain.errors.errors import NonExistentUser
 from src.domain.repositories.user_repository_interface import IUserRepository
-from src.domain.usecases.delete_user_usecase import DeleteUserUsecase
+from src.modules.delete_user.app.delete_user_usecase import DeleteUserUsecase
 
 
 class DeleteUserController:

@@ -1,7 +1,7 @@
 import pytest
 
 from src.domain.errors.errors import InvalidToken
-from src.domain.usecases.refresh_token_usecase import RefreshTokenUsecase
+from src.modules.refresh_token.app.refresh_token_usecase import RefreshTokenUsecase
 from src.infra.repositories.user_repository_mock import UserRepositoryMock
 
 
@@ -25,7 +25,6 @@ class Test_RefreshTokenUsecase:
 
     @pytest.mark.asyncio
     async def test_refresh_token_invalid_token(self):
-
 
         cpf_rne = '75599469093'
         refreshToken = f'invalidRefreshToken-{cpf_rne}'
