@@ -1,7 +1,7 @@
-fastapi
-pytest
-pytest-asyncio
-pytest-cov
-boto3
 mangum
 python-multipart
+
+pytest==6.2.5
+pytest-cov==4.0.0
+boto3==1.24.88
+python-dotenv==0.21.0

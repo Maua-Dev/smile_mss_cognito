@@ -1,5 +1,3 @@
-from pydantic import ValidationError
-
 from src.adapters.errors.http_exception import HttpException
 from src.domain.entities.user import User
 from src.domain.errors.errors import UnexpectedError, NoItemsFound, EntityError, NonExistentUser, InvalidToken

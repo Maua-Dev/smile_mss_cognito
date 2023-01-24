@@ -1,8 +1,6 @@
-from pydantic import ValidationError
-
 from src.adapters.errors.http_exception import HttpException
 from src.adapters.helpers.http_models import BadRequest, HttpRequest, HttpResponse, InternalServerError, Ok
-from src.adapters.viewmodels.login_user_model import LoginUserModel
+from src.modules.login_user.app.login_user_viewmodel import LoginUserModel
 from src.domain.errors.errors import UnexpectedError, EntityError, NonExistentUser, InvalidCredentials, UserNotConfirmed
 from src.domain.repositories.user_repository_interface import IUserRepository
 from src.domain.usecases.login_user_usecase import LoginUserUsecase
@@ -24,7 +22,6 @@ class LoginUserController:
             data = await self._loginUserUsecase(cleanLogin, req.body["password"])
             loginUserModel = LoginUserModel.fromDict(data=data)
             return Ok(loginUserModel.toDict())
-
 
         except InvalidCredentials as e:
             return BadRequest(e.message)

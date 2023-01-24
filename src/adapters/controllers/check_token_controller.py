@@ -1,11 +1,10 @@
 import botocore.errorfactory
-from pydantic import ValidationError
 import boto3
 
 from src.adapters.errors.http_exception import HttpException
 from src.adapters.helpers.http_models import BadRequest, HttpRequest, HttpResponse, InternalServerError, Ok
-from src.adapters.viewmodels.check_token_model import CheckTokenModel
-from src.adapters.viewmodels.login_user_model import LoginUserModel
+from src.modules.check_token.app.check_token_viewmodel import CheckTokenModel
+from src.modules.login_user.app.login_user_viewmodel import LoginUserModel
 from src.domain.errors.errors import UnexpectedError, EntityError, NonExistentUser, InvalidCredentials, InvalidToken
 from src.domain.repositories.user_repository_interface import IUserRepository
 from src.domain.usecases.check_token_usecase import CheckTokenUsecase
@@ -35,7 +34,7 @@ class CheckTokenController:
             return BadRequest({
                 'validToken': False,
                 'errorMessage': e.args[0]
-                })
+            })
 
         except Exception as e:
             return BadRequest({

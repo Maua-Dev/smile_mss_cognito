@@ -1,9 +1,7 @@
-from pydantic import ValidationError
-
 from src.adapters.errors.http_exception import HttpException
 from src.adapters.helpers.http_models import BadRequest, HttpRequest, HttpResponse, InternalServerError, Ok
-from src.adapters.viewmodels.login_user_model import LoginUserModel
-from src.adapters.viewmodels.refresh_token_model import RefreshTokenModel
+from src.modules.login_user.app.login_user_viewmodel import LoginUserModel
+from src.modules.refresh_token.app.refresh_token_viewmodel import RefreshTokenModel
 from src.domain.errors.errors import UnexpectedError, EntityError, NonExistentUser, InvalidCredentials, InvalidToken
 from src.domain.repositories.user_repository_interface import IUserRepository
 from src.domain.usecases.login_user_usecase import LoginUserUsecase
@@ -26,9 +24,9 @@ class RefreshTokenController:
             refreshToken = token[1]
             tokens = await self._refreshTokenUsecase(refreshToken)
             accessToken, refreshToken = tokens
-            refreshTokenModel = RefreshTokenModel(accessToken=accessToken, refreshToken=refreshToken)
+            refreshTokenModel = RefreshTokenModel(
+                accessToken=accessToken, refreshToken=refreshToken)
             return Ok(refreshTokenModel.toDict())
-
 
         except InvalidToken as e:
             return BadRequest(e.message)

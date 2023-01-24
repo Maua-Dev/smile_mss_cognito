@@ -1,5 +1,5 @@
 from src.adapters.helpers.http_models import HttpResponse, HttpRequest, BadRequest, Ok, InternalServerError
-from src.adapters.viewmodels.list_users_model import ListUsersModel
+from src.modules.list_users.app.list_users_viewmodel import ListUsersModel
 from src.domain.errors.errors import NonExistentUser
 from src.domain.repositories.user_repository_interface import IUserRepository
 from src.domain.usecases.list_users_usecase import ListUsersUsecase

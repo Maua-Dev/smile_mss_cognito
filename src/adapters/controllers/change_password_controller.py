@@ -1,9 +1,7 @@
-from pydantic import ValidationError
-
 from src.adapters.errors.http_exception import HttpException
 from src.adapters.helpers.http_models import BadRequest, HttpRequest, HttpResponse, InternalServerError, Ok
-from src.adapters.viewmodels.change_password_model import ChangePasswordModel
-from src.adapters.viewmodels.login_user_model import LoginUserModel
+from src.modules.change_password.app.change_password_viewmodel import ChangePasswordModel
+from src.modules.login_user.app.login_user_viewmodel import LoginUserModel
 from src.domain.errors.errors import UnexpectedError, EntityError, NonExistentUser, InvalidCredentials, UserNotConfirmed
 from src.domain.repositories.user_repository_interface import IUserRepository
 from src.domain.usecases.change_password_usecase import ChangePasswordUsecase
@@ -20,7 +18,6 @@ class ChangePasswordController:
             return BadRequest('No parameters allowed.')
         if not req.body:
             return BadRequest('Missing body.')
-
 
         try:
             cleanLogin = str(req.body["login"]).replace(' ', '')
