@@ -1,6 +1,6 @@
 import pytest
 
-from src.adapters.controllers.delete_user_controller import DeleteUserController
+from src.modules.delete_user.app.delete_user_controller import DeleteUserController
 from src.adapters.helpers.http_models import HttpRequest
 from src.domain.errors.errors import NonExistentUser
 from src.domain.usecases.get_user_by_cpfrne_usecase import GetUserByCpfRneUsecase
@@ -23,7 +23,6 @@ class Test_DeleteUserUsecase:
         assert res1.status_code == 200
         assert res2.status_code == 200
 
-
     @pytest.mark.asyncio
     async def test_delete_non_existent_user(self):
         repository = UserRepositoryMock()
@@ -45,4 +44,3 @@ class Test_DeleteUserUsecase:
         deleteUserController = DeleteUserController(repository)
         res1 = await deleteUserController(req1)
         assert res1.status_code == 400
-

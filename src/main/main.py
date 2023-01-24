@@ -7,14 +7,14 @@ from starlette.responses import RedirectResponse
 
 from src.modules.change_password.app.change_password_controller import ChangePasswordController
 from src.modules.check_token.app.check_token_controller import CheckTokenController
-from src.adapters.controllers.confirm_change_password_controller import ConfirmChangePasswordController
-from src.adapters.controllers.confirm_user_creation_controller import ConfirmUserCreationController
-from src.adapters.controllers.create_user_controller import CreateUserController
+from src.modules.confirm_change_password.app.confirm_change_password_controller import ConfirmChangePasswordController
+from src.modules.confirm_user_creation.app.confirm_user_creation_controller import ConfirmUserCreationController
+from src.modules.create_user.app.create_user_controller import CreateUserController
 from src.modules.list_users.app.list_users_controller import ListUsersController
 from src.modules.login_user.app.login_user_controller import LoginUserController
 from src.modules.refresh_token.app.refresh_token_controller import RefreshTokenController
-from src.adapters.controllers.resend_creation_confirmation_controller import ResendCreationConfirmationController
-from src.adapters.controllers.update_user_controller import UpdateUserController
+from src.modules.resend_creation_confirmation.app.resend_creation_confirmation_controller import ResendCreationConfirmationController
+from src.modules.update_user.app.update_user_controller import UpdateUserController
 from src.adapters.errors.http_exception import HttpException
 from src.adapters.helpers.http_models import HttpRequest
 from src.main.helpers.status import status

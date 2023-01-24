@@ -1,6 +1,6 @@
 import pytest
 
-from src.adapters.controllers.resend_creation_confirmation_controller import ResendCreationConfirmationController
+from src.modules.resend_creation_confirmation.app.resend_creation_confirmation_controller import ResendCreationConfirmationController
 from src.adapters.helpers.http_models import HttpRequest
 from src.infra.repositories.user_repository_mock import UserRepositoryMock
 
@@ -14,7 +14,8 @@ class Test_ResendCreationConfirmationController:
         })
 
         repository = UserRepositoryMock()
-        resendCreationConfirmationController = ResendCreationConfirmationController(repository)
+        resendCreationConfirmationController = ResendCreationConfirmationController(
+            repository)
         response = await resendCreationConfirmationController(request)
         assert response.status_code == 200
 
@@ -25,6 +26,7 @@ class Test_ResendCreationConfirmationController:
         })
 
         repository = UserRepositoryMock()
-        resendCreationConfirmationController = ResendCreationConfirmationController(repository)
+        resendCreationConfirmationController = ResendCreationConfirmationController(
+            repository)
         response = await resendCreationConfirmationController(request)
         assert response.status_code == 400

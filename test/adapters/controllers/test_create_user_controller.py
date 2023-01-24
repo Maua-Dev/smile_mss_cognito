@@ -2,7 +2,7 @@ from datetime import datetime
 
 import pytest
 
-from src.adapters.controllers.create_user_controller import CreateUserController
+from src.modules.create_user.app.create_user_controller import CreateUserController
 from src.adapters.helpers.http_models import HttpRequest
 from src.domain.entities.enums import ROLE, ACCESS_LEVEL
 from src.infra.repositories.user_repository_mock import UserRepositoryMock

@@ -2,7 +2,7 @@ import pytest
 
 from src.modules.check_token.app.check_token_controller import CheckTokenController
 from src.modules.login_user.app.login_user_controller import LoginUserController
-from src.adapters.controllers.update_user_controller import UpdateUserController
+from src.modules.update_user.app.update_user_controller import UpdateUserController
 from src.adapters.helpers.http_models import HttpRequest
 from src.domain.entities.enums import ROLE, ACCESS_LEVEL
 from src.infra.repositories.user_repository_mock import UserRepositoryMock
