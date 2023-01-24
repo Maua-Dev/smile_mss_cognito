@@ -3,9 +3,9 @@ import pytest
 from src.modules.change_password.app.change_password_controller import ChangePasswordController
 from src.modules.login_user.app.login_user_controller import LoginUserController
 from src.modules.update_user.app.update_user_controller import UpdateUserController
-from src.adapters.helpers.http_models import HttpRequest
-from src.domain.entities.enums import ROLE, ACCESS_LEVEL
-from src.infra.repositories.user_repository_mock import UserRepositoryMock
+from src.shared.helpers.external_interfaces.http_models import HttpRequest
+from src.shared.domain.entities.enums import ROLE, ACCESS_LEVEL
+from src.shared.infra.repositories.user_repository_mock import UserRepositoryMock
 
 
 class Test_ChangePasswordController:
