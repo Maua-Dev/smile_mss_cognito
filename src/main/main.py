@@ -84,14 +84,14 @@ async def login(request: Request, response: Response):
     return result.body
 
 
-@app.get("/checkToken")
-async def checkToken(request: Request, response: Response):
-    checkTokenController = Modular.getInject(CheckTokenController)
-    req = HttpRequest(headers=request.headers)
-    result = await checkTokenController(req)
+# @app.get("/checkToken")
+# async def checkToken(request: Request, response: Response):
+#     checkTokenController = Modular.getInject(CheckTokenController)
+#     req = HttpRequest(headers=request.headers)
+#     result = await checkTokenController(req)
 
-    response.status_code = status.get(result.status_code)
-    return result.body
+#     response.status_code = status.get(result.status_code)
+#     return result.body
 
 
 # recebe refresh_token via header e retorna só access_token atualizado

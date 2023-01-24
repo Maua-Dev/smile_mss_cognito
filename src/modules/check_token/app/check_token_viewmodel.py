@@ -1,4 +1,4 @@
-from src.domain.entities.enums import ROLE, ACCESS_LEVEL
+from src.shared.domain.entities.enums import ROLE, ACCESS_LEVEL
 
 
 class CheckTokenModel():
@@ -19,12 +19,12 @@ class CheckTokenModel():
     @staticmethod
     def fromDict(data: dict):
         return CheckTokenModel(
-        role = data['role'],
-        accesslevel = data['accessLevel'],
-        cpfRne = data['cpfRne'],
-        email = data['email'],
-        validToken = data['validToken'],
-        id = data['id']
+            role=data['role'],
+            accesslevel=data['accessLevel'],
+            cpfRne=data['cpfRne'],
+            email=data['email'],
+            validToken=data['validToken'],
+            id=data['id']
         )
 
     def toDict(self):
