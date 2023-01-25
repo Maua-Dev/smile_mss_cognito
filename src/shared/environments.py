@@ -59,13 +59,13 @@ class Environments:
                 "CLOUD_FRONT_DISTRIBUTION_DOMAIN")
 
     @staticmethod
-    def get_activity_repo() -> IActivityRepository:
+    def get_user_repo() -> IUserRepository:
         if Environments.get_envs().stage == STAGE.TEST:
-            from src.shared.infra.repositories.activity_repository_mock import ActivityRepositoryMock
-            return ActivityRepositoryMock
+            from src.shared.infra.repositories.user_repository_mock import UserRepositoryMock
+            return UserRepositoryMock
         # elif Environments.get_envs().stage == STAGE.PROD:
-        #     from src.shared.infra.repositories.activity_repository_dynamo import ActivityRepositoryDynamo
-        #     return ActivityRepositoryDynamo
+        #     from src.shared.infra.repositories.user_repository_dynamo import UserRepositoryDynamo
+        #     return UserRepositoryDynamo
         else:
             raise Exception("No repository found for this stage")
 
