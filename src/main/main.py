@@ -39,11 +39,22 @@ async def listUsers(request: Request, response: Response):
     return result.body
 
 
-@app.post("/user")
-async def createUser(request: Request, response: Response):
-    createUserController = Modular.getInject(CreateUserController)
-    req = HttpRequest(body=await request.json())
-    result = await createUserController(req)
+# @app.post("/user")
+# async def createUser(request: Request, response: Response):
+#     createUserController = Modular.getInject(CreateUserController)
+#     req = HttpRequest(body=await request.json())
+#     result = await createUserController(req)
+
+#     response.status_code = status.get(result.status_code)
+#     return result.body
+
+
+@app.put("/user")
+async def updateUser(request: Request, response: Response):
+    updateUserController = Modular.getInject(UpdateUserController)
+    body = await request.json()
+    req = HttpRequest(body=body, headers=request.headers)
+    result = await updateUserController(req)
 
     response.status_code = status.get(result.status_code)
     return result.body
@@ -126,17 +137,6 @@ async def refreshToken(request: Request, response: Response):
 
 #     response.status_code = status.get(result.status_code)
 #     return result.body
-
-
-@app.put("/user")
-async def updateUser(request: Request, response: Response):
-    updateUserController = Modular.getInject(UpdateUserController)
-    body = await request.json()
-    req = HttpRequest(body=body, headers=request.headers)
-    result = await updateUserController(req)
-
-    response.status_code = status.get(result.status_code)
-    return result.body
 
 
 @app.put("/resendCreationConfirmation")
