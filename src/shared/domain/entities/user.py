@@ -1,125 +1,143 @@
+import abc
 from datetime import datetime
-from typing import Optional, List
-from pydantic.main import BaseModel
-from pydantic import validator
+from typing import List
 import re
 
-from src.domain.entities.enums import ROLE, ACCESS_LEVEL
-from src.domain.errors.errors import EntityError
+from src.shared.domain.entities.enums import ROLE, ACCESS_LEVEL
+from src.shared.domain.errors.errors import EntityError
 
 
-class User(BaseModel):
-    id: Optional[str]
+class User(abc.ABC):
+    user_id: str
+    email: str
     name: str
-    cpfRne: str
-    password: Optional[str]
-    ra: Optional[str]
-    email: Optional[str]
+    password: str
+    ra: str
     role: ROLE
-    accessLevel: ACCESS_LEVEL
-    createdAt: Optional[datetime]
-    updatedAt: Optional[datetime]
-    socialName: Optional[str]
-    acceptedTerms: Optional[bool]
-    acceptedNotifications: Optional[bool]
-    certificateWithSocialName: Optional[bool]
+    access_level: ACCESS_LEVEL
+    created_at: int  # microsseconds
+    updated_at: int  # microsseconds
+    social_name: str
+    accepted_terms: bool
+    accepted_notifications: bool
+    certificate_with_social_name: bool
+    MIN_NAME_LENGTH = 2
+    USER_ID_LENGTH = 4
 
+    def __init__(self, user_id: str, email: str, name: str, password: str,
+                 ra: str, role: ROLE, access_level: ACCESS_LEVEL, created_at: datetime,
+                 updated_at: datetime, social_name: str, accepted_terms: bool,
+                 accepted_notifications: bool, certificate_with_social_name: bool
+                 ):
+        if not User.validate_user_id(user_id):
+            raise EntityError("user_id")
+        self.user_id = user_id
+
+        if not User.validate_email(email):
+            raise EntityError("email")
+        self.email = email
+
+        if not User.validate_name(name):
+            raise EntityError("name")
+        self.name = name.title()
+
+        if password is not None:
+            if not User.validate_password(password):
+                raise EntityError("password")
+        self.password = password
+
+        if ra is not None:
+            if not User.validate_ra(ra):
+                raise EntityError("ra")
+        self.ra = ra
+
+        if type(role) != ROLE:
+            raise EntityError("role")
+        self.role = role
+
+        if type(access_level) != ACCESS_LEVEL:
+            raise EntityError("access_level")
+        self.access_level = access_level
+
+        if created_at is not None:
+            if type(created_at) != int:
+                raise EntityError("created_at")
+        self.created_at = created_at
+
+        if updated_at is not None:
+            if type(updated_at) != int:
+                raise EntityError("updated_at")
+        self.updated_at = updated_at
+
+        if social_name is not None:
+            if not User.validate_name(social_name):
+                raise EntityError("social_name")
+            self.social_name = social_name.title()
+        else:
+            self.social_name = social_name
+
+        if accepted_terms is not None:
+            if type(accepted_terms) != bool:
+                raise EntityError("accepted_terms")
+        self.accepted_terms = accepted_terms
+
+        if accepted_notifications is not None:
+            if type(accepted_notifications) != bool:
+                raise EntityError("accepted_notifications")
+        self.accepted_notifications = accepted_notifications
+
+        if certificate_with_social_name is not None:
+            if type(certificate_with_social_name) != bool:
+                raise EntityError("certificate_with_social_name")
+        self.certificate_with_social_name = certificate_with_social_name
 
     @staticmethod
-    def validateCpf(cpf: str) -> bool:
-        # Verifica a formatação do CPF
-        if not re.match(r'\d{11}', cpf):
+    def validate_user_id(user_id: str) -> bool:
+        if type(user_id) != str:
+            return False
+        if len(user_id) != User.USER_ID_LENGTH:
+            return False
+        return True
+
+    def __repr__(self):
+        return f"User(name={self.name}, role={self.role.value}, user_id={self.user_id})"
+
+    def __eq__(self, other):
+        return self.name == other.name and self.role == other.role and self.user_id == other.user_id
+
+    @staticmethod
+    def validate_email(email) -> bool:
+        if email == None:
             return False
 
-        # Obtém apenas os números do CPF, ignorando pontuações
-        numbers = [int(digit) for digit in cpf if digit.isdigit()]
+        regex = re.compile(
+            r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
 
-        # Verifica se o CPF possui 11 números ou se todos são iguais:
-        if len(numbers) != 11 or len(set(numbers)) == 1:
+        return bool(re.fullmatch(regex, email))
+
+    @staticmethod
+    def validate_name(name: str) -> bool:
+        if name is None:
             return False
-
-        # Validação do primeiro dígito verificador:
-        sum_of_products = sum(a * b for a, b in zip(numbers[0:9], range(10, 1, -1)))
-        expected_digit = (sum_of_products * 10 % 11) % 10
-        if numbers[9] != expected_digit:
+        elif type(name) != str:
             return False
-
-        # Validação do segundo dígito verificador:
-        sum_of_products = sum(a * b for a, b in zip(numbers[0:10], range(11, 1, -1)))
-        expected_digit = (sum_of_products * 10 % 11) % 10
-        if numbers[10] != expected_digit:
+        elif len(name) < User.MIN_NAME_LENGTH:
             return False
 
         return True
 
-    @validator('name')
-    def name_is_not_empty(cls,v: str)-> str:
-        if len(v) == 0:
-            raise EntityError('Name')
-        return v.title() #todo é isso mesmo?
+    @staticmethod
+    def validate_password(name: str) -> bool:
+        if type(name) != str:
+            return False
 
-    @validator('cpfRne')
-    def cpfRne_is_not_invalid(cls, v: int) -> int:
-        if not User.validateCpf(v):
-            raise EntityError('cpfRne')
-        return v
+        return True
 
-    @validator('ra')
-    def ra_is_not_invalid(cls, v: str) -> str:
-        if v != None and len(str(v)) != 8:
-            raise EntityError('ra')
-        return str(v)
+    @staticmethod
+    def validate_ra(ra: str) -> bool:
+        if type(ra) != str:
+            return False
+        elif len(ra) != 8:
+            return False
 
-    @validator('createdAt')
-    def createdAt_is_not_empty(cls, v: datetime) -> datetime:
-        return v
-
-    @validator('updatedAt')
-    def updatedAt_is_not_empty(cls, v: datetime) -> datetime:
-        return v
-
-    @validator('role')
-    def role_is_not_empty(cls, v: List[int]) -> List[int]:
-        if v is None:
-            raise EntityError('role')
-        return v
-
-    @validator('accessLevel')
-    def accessLevel_is_not_empty(cls, v: List[int]) -> List[int]:
-        if v is None:
-            raise EntityError('accessLevel')
-        return v
-
-    @validator('email')
-    def email_is_valid(cls, v: str) -> str:
-        if not re.fullmatch(r'[^@]+@[^@]+\.[^@]+', v):
-            raise EntityError('email')
-        return v
-
-    @validator('socialName')
-    def socialName_is_not_empty(cls, v: str) -> str:
-        if v and len(v) == 0:
-            raise EntityError('socialName')
-        return v
-
-    @validator('acceptedTerms')
-    def acceptedTerms_is_not_bool(cls, v: bool) -> bool:
-        if not v and v is not None:
-            raise EntityError('acceptedTerms')
-        return v
-
-    @validator('acceptedNotifications')
-    def acceptedNotifications_is_not_bool(cls, v: bool) -> bool:
-        if v and not isinstance(v, bool):
-            raise EntityError('acceptedNotifications')
-        return v
-
-    @validator('certificateWithSocialName')
-    def certificateWithSocialName_is_not_bool(cls, v: bool) -> bool:
-        if v and not isinstance(v, bool):
-            raise EntityError('certificateWithSocialName')
-        return v
-
-
-
-
+        return True

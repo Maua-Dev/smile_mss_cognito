@@ -1,175 +1,160 @@
 from datetime import datetime
 
 import pytest
-from pydantic import ValidationError
 
-from src.domain.entities.enums import ROLE, ACCESS_LEVEL
-from src.domain.entities.user import User
-from src.domain.errors.errors import EntityError
+from src.shared.domain.entities.enums import ROLE, ACCESS_LEVEL
+from src.shared.domain.entities.user import User
+from src.shared.domain.errors.errors import EntityError
 
 
 class Test_User():
 
-    def test_create_valid_user(self):
-        user = User(name='Joao do Teste', cpfRne=75599469093, ra=19003315, role=ROLE.PROFESSOR,
-                    accessLevel=ACCESS_LEVEL.ADMIN, createdAt=datetime(2022, 2, 15, 23, 15),
-                    updatedAt=datetime(2022, 2, 15, 23, 15), email='bruno@gmail.com',
-                    socialName='Jonas', acceptedTerms=True, acceptedNotifications=True
-                )
-
-        assert len(user.name) > 0
-        assert user.name == 'Joao Do Teste'
-        assert len(str(user.cpfRne)) == 11
-        assert user.role == ROLE.PROFESSOR
-        assert user.accessLevel == ACCESS_LEVEL.ADMIN
-        assert user.createdAt == datetime(2022, 2, 15, 23, 15)
-        assert user.updatedAt == datetime(2022, 2, 15, 23, 15)
-        assert user.ra == '19003315'
-        assert user.password is None
-        assert user.email == 'bruno@gmail.com'
-        assert user.socialName == 'Jonas'
-        assert user.acceptedTerms == True
-        assert user.acceptedNotifications == True
-
-    def test_create_valid_user2(self):
-        user = User(name='Joao do Teste', cpfRne='01948697092', ra=19003315, role=ROLE.SPEAKER,
-                    accessLevel=ACCESS_LEVEL.SPEAKER, createdAt=datetime(2022, 2, 15, 23, 15),
-                    updatedAt=datetime(2022, 2, 15, 23, 15), email='bruno@gmail.com',
-                    socialName='Jonas', acceptedTerms=True, acceptedNotifications=False
-                )
-
-        assert len(user.name) > 0
-        assert user.name == 'Joao Do Teste'
-        assert len(str(user.cpfRne)) == 11
-        assert user.role == ROLE.SPEAKER
-        assert user.accessLevel == ACCESS_LEVEL.SPEAKER
-        assert user.createdAt == datetime(2022, 2, 15, 23, 15)
-        assert user.updatedAt == datetime(2022, 2, 15, 23, 15)
-        assert user.ra == '19003315'
-        assert user.password is None
-        assert user.socialName == 'Jonas'
-        assert user.acceptedTerms == True
-        assert user.acceptedNotifications == False
-
-    def test_create_valid_user2(self):
-        user = User(name='Joao do Teste', cpfRne='01948697092', ra=19003315, role=ROLE.SPEAKER,
-                    accessLevel=ACCESS_LEVEL.SPEAKER, createdAt=datetime(2022, 2, 15, 23, 15),
-                    updatedAt=datetime(2022, 2, 15, 23, 15), email='bruno@gmail.com',
-                    acceptedTerms=True, acceptedNotifications=False
-                )
-
-        assert len(user.name) > 0
-        assert user.name == 'Joao Do Teste'
-        assert len(str(user.cpfRne)) == 11
-        assert user.role == ROLE.SPEAKER
-        assert user.accessLevel == ACCESS_LEVEL.SPEAKER
-        assert user.createdAt == datetime(2022, 2, 15, 23, 15)
-        assert user.updatedAt == datetime(2022, 2, 15, 23, 15)
-        assert user.ra == '19003315'
-        assert user.password is None
-        assert user.acceptedTerms == True
-        assert user.acceptedNotifications == False
-
-    def test_create_valid_user3(self):
-        user = User(name='Joao do Teste', cpfRne='01948697092', ra=19003315, role=ROLE.SPEAKER,
-                    accessLevel=ACCESS_LEVEL.SPEAKER, createdAt=datetime(2022, 2, 15, 23, 15),
-                    updatedAt=datetime(2022, 2, 15, 23, 15), email='bruno@gmail.com',
-                    acceptedNotifications=False
-                )
-
-        assert len(user.name) > 0
-        assert user.name == 'Joao Do Teste'
-        assert len(str(user.cpfRne)) == 11
-        assert user.role == ROLE.SPEAKER
-        assert user.accessLevel == ACCESS_LEVEL.SPEAKER
-        assert user.createdAt == datetime(2022, 2, 15, 23, 15)
-        assert user.updatedAt == datetime(2022, 2, 15, 23, 15)
-        assert user.ra == '19003315'
-        assert user.password is None
-        assert user.acceptedNotifications == False
-
-    def test_create_valid_user4(self):
-        user = User(name='Joao do Teste', cpfRne='01948697092', ra=19003315, role=ROLE.SPEAKER,
-                    accessLevel=ACCESS_LEVEL.SPEAKER, createdAt=datetime(2022, 2, 15, 23, 15),
-                    updatedAt=datetime(2022, 2, 15, 23, 15), email='bruno@gmail.com',
-                    acceptedTerms=True
-                )
-
-        assert len(user.name) > 0
-        assert user.name == 'Joao Do Teste'
-        assert len(str(user.cpfRne)) == 11
-        assert user.role == ROLE.SPEAKER
-        assert user.accessLevel == ACCESS_LEVEL.SPEAKER
-        assert user.createdAt == datetime(2022, 2, 15, 23, 15)
-        assert user.updatedAt == datetime(2022, 2, 15, 23, 15)
-        assert user.ra == '19003315'
-        assert user.password is None
-        assert user.acceptedTerms == True
-
-    def test_create_valid_user5(self):
-        user = User(name='Joao do Teste', cpfRne='01948697092', ra=19003315, role=ROLE.SPEAKER,
-                    accessLevel=ACCESS_LEVEL.SPEAKER, createdAt=datetime(2022, 2, 15, 23, 15),
-                    updatedAt=datetime(2022, 2, 15, 23, 15), email='bruno@gmail.com',
-                    acceptedTerms=None)
-
-        assert len(user.name) > 0
-        assert user.name == 'Joao Do Teste'
-        assert len(str(user.cpfRne)) == 11
-        assert user.role == ROLE.SPEAKER
-        assert user.accessLevel == ACCESS_LEVEL.SPEAKER
-        assert user.createdAt == datetime(2022, 2, 15, 23, 15)
-        assert user.updatedAt == datetime(2022, 2, 15, 23, 15)
-        assert user.ra == '19003315'
-        assert user.password is None
-
-    def test_create_invalid_user1(self):
-        with pytest.raises(EntityError):
-            User(name='', cpfRne=75599469093, ra=19003315, role=ROLE.PROFESSOR,
-                 accessLevel=ACCESS_LEVEL.ADMIN, createdAt=datetime(2022, 2, 15, 23, 15),
-                 updatedAt=datetime(2022, 2, 15, 23, 15), socialName=None,
-                 )
-
-    def test_create_invalid_user2(self):
-        with pytest.raises(EntityError):
-            User(name='Joao do teste', cpfRne=7559946909, ra=19003315, role=ROLE.PROFESSOR,
-                 accessLevel=ACCESS_LEVEL.ADMIN, createdAt=datetime(2022, 2, 15, 23, 15),
-                 updatedAt=datetime(2022, 2, 15, 23, 15)
-                 )
-
-    def test_create_invalid_user3(self):
-        with pytest.raises(EntityError):
-            User(name='Joao do teste', cpfRne=1234567891, ra=19003315, role="PROFESSOR",
-                 accessLevel=ACCESS_LEVEL.ADMIN, createdAt=datetime(2022, 2, 15, 23, 15),
-                 updatedAt=datetime(2022, 2, 15, 23, 15)
-                 )
-
-    def test_create_invalid_user4(self):
-        with pytest.raises(EntityError):
-            User(name='Joao do Teste', cpfRne=75599469093, ra=19003315, role=ROLE.PROFESSOR,
-                 accessLevel=ACCESS_LEVEL.ADMIN, createdAt=datetime(2022, 2, 15, 23, 15),
-                 updatedAt=datetime(2022, 2, 15, 23, 15), email="bruno@"
-                 )
-
-    def test_create_invalid_user5(self):
-        with pytest.raises((EntityError, ValidationError)):
-            User(name='Joao do Teste', cpfRne='01948697092', ra=19003315, role=ROLE.SPEAKER,
-                 accessLevel=ACCESS_LEVEL.SPEAKER, createdAt=datetime(2022, 2, 15, 23, 15),
-                 updatedAt=datetime(2022, 2, 15, 23, 15), email='bruno@gmail.com',
-                 socialName='Jonas', acceptedTerms="teste", acceptedNotifications=False
-                 )
-
-    def test_create_invalid_user6(self):
-        with pytest.raises((EntityError, ValidationError)):
-            User(name='Joao do Teste', cpfRne='01948697092', ra=19003315, role=ROLE.SPEAKER,
-                 accessLevel=ACCESS_LEVEL.SPEAKER, createdAt=datetime(2022, 2, 15, 23, 15),
-                 updatedAt=datetime(2022, 2, 15, 23, 15), email='bruno@gmail.com',
-                 socialName='Jonas', acceptedTerms=True, acceptedNotifications="teste"
-                 )
-
-    def test_create_invalid_user7(self):
-        with pytest.raises((EntityError, ValidationError)):
-            User(name='Joao do Teste', cpfRne=75599469093, ra=19003315, role=ROLE.PROFESSOR,
-                        accessLevel=ACCESS_LEVEL.ADMIN, createdAt=datetime(2022, 2, 15, 23, 15),
-                        updatedAt=datetime(2022, 2, 15, 23, 15), email='bruno@gmail.com',
-                        socialName='Jonas', acceptedTerms=False, acceptedNotifications=True
+    def test_create_valid_user_all_fields_completed(self):
+        user = User(user_id='1234', email='zeeba@gmail.com', name='Caio toledo', password='z12345',
+                    ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=1644977700000,
+                    updated_at=1644977700000, social_name='zeeba toledo', accepted_terms=True,
+                    accepted_notifications=True, certificate_with_social_name=True
                     )
+
+        assert len(user.user_id) == 4
+        assert user.user_id == '1234'
+        assert user.email == 'zeeba@gmail.com'
+        assert len(user.name) > 1
+        assert user.name == 'Caio Toledo'
+        assert user.password == 'z12345'
+        assert user.ra == '20014309'
+        assert user.role == ROLE.STUDENT
+        assert user.access_level == ACCESS_LEVEL.USER
+        assert user.created_at == 1644977700000
+        assert user.updated_at == 1644977700000
+        assert user.social_name == 'Zeeba Toledo'
+        assert user.accepted_terms == True
+        assert user.accepted_notifications == True
+        assert user.certificate_with_social_name == True
+
+    def test_create_valid_user_only_required_fields(self):
+        user = User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
+                    ra=None, role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
+                    updated_at=None, social_name=None, accepted_terms=None,
+                    accepted_notifications=None, certificate_with_social_name=None
+                    )
+
+        assert len(user.user_id) == 4
+        assert user.user_id == '1234'
+        assert user.email == 'zeeba@maua.br'
+        assert len(user.name) > 1
+        assert user.name == 'Caio Toledo'
+        assert user.password is None
+        assert user.ra is None
+        assert user.role == ROLE.STUDENT
+        assert user.access_level == ACCESS_LEVEL.USER
+        assert user.created_at is None
+        assert user.updated_at is None
+        assert user.social_name is None
+        assert user.accepted_terms is None
+        assert user.accepted_notifications is None
+        assert user.certificate_with_social_name is None
+
+    def test_create_user_invalid_user_id(self):
+        with pytest.raises(EntityError):
+            User(user_id='', email='zeeba@maua.br', name='caio toledo', password=None,
+                 ra=None, role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
+                 updated_at=None, social_name=None, accepted_terms=None,
+                 accepted_notifications=None, certificate_with_social_name=None
+                 )
+
+    def test_create_user_invalid_email(self):
+        with pytest.raises(EntityError):
+            User(user_id='1234', email='zeebamaua.br', name='caio toledo', password=None,
+                 ra=None, role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
+                 updated_at=None, social_name=None, accepted_terms=None,
+                 accepted_notifications=None, certificate_with_social_name=None
+                 )
+
+    def test_create_user_invalid_name(self):
+        with pytest.raises(EntityError):
+            User(user_id='1234', email='zeeba@maua.br', name='c', password=None,
+                 ra=None, role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
+                 updated_at=None, social_name=None, accepted_terms=None,
+                 accepted_notifications=None, certificate_with_social_name=None
+                 )
+
+    def test_create_user_invalid_password(self):
+        with pytest.raises(EntityError):
+            User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=1,
+                 ra=None, role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
+                 updated_at=None, social_name=None, accepted_terms=None,
+                 accepted_notifications=None, certificate_with_social_name=None
+                 )
+
+    def test_create_user_invalid_ra(self):
+        with pytest.raises(EntityError):
+            User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
+                 ra='', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
+                 updated_at=None, social_name=None, accepted_terms=None,
+                 accepted_notifications=None, certificate_with_social_name=None
+                 )
+
+    def test_create_user_invalid_role(self):
+        with pytest.raises(EntityError):
+            User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
+                 ra='12345678', role='STUDENT', access_level=ACCESS_LEVEL.USER, created_at=None,
+                 updated_at=None, social_name=None, accepted_terms=None,
+                 accepted_notifications=None, certificate_with_social_name=None
+                 )
+
+    def test_create_user_invalid_access_level(self):
+        with pytest.raises(EntityError):
+            User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
+                 ra='12345678', role=ROLE.STUDENT, access_level='USER', created_at=None,
+                 updated_at=None, social_name=None, accepted_terms=None,
+                 accepted_notifications=None, certificate_with_social_name=None
+                 )
+
+    def test_create_user_invalid_created_at(self):
+        with pytest.raises(EntityError):
+            User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
+                 ra='12345678', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at='1644977700000',
+                 updated_at=None, social_name=None, accepted_terms=None,
+                 accepted_notifications=None, certificate_with_social_name=None
+                 )
+
+    def test_create_user_invalid_updated_at(self):
+        with pytest.raises(EntityError):
+            User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
+                 ra='12345678', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
+                 updated_at='1644977700000', social_name=None, accepted_terms=None,
+                 accepted_notifications=None, certificate_with_social_name=None
+                 )
+
+    def test_create_user_invalid_social_name(self):
+        with pytest.raises(EntityError):
+            User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
+                 ra='12345678', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=1644977700000,
+                 updated_at=None, social_name=1, accepted_terms=None,
+                 accepted_notifications=None, certificate_with_social_name=None
+                 )
+
+    def test_create_user_invalid_accepted_terms(self):
+        with pytest.raises(EntityError):
+            User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
+                 ra='12345678', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
+                 updated_at=1644977700000, social_name=None, accepted_terms='True',
+                 accepted_notifications=None, certificate_with_social_name=None
+                 )
+
+    def test_create_user_invalid_accepted_notifications(self):
+        with pytest.raises(EntityError):
+            User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
+                 ra='12345678', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
+                 updated_at=1644977700000, social_name=None, accepted_terms=None,
+                 accepted_notifications='None', certificate_with_social_name=None
+                 )
+
+    def test_create_user_invalid_certificate_with_social_name(self):
+        with pytest.raises(EntityError):
+            User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
+                 ra='12345678', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
+                 updated_at=1644977700000, social_name=None, accepted_terms=None,
+                 accepted_notifications=False, certificate_with_social_name='None'
+                 )
