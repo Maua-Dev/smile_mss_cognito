@@ -35,13 +35,13 @@ class UserRepositoryMock(IUserRepository):
             self._users[1]
         ]
 
-    def getAllUsers(self) -> List[User]:
+    def get_all_users(self) -> List[User]:
         if len(self.confirmedUsers) > 0:
             return self.confirmedUsers
         else:
             return None
 
-    def getUserByEmail(self, email: str) -> User:
+    def get_user_by_email(self, email: str) -> User:
         user: User = None
         for userx in self.confirmedUsers:
             if userx.email == email:
@@ -50,7 +50,7 @@ class UserRepositoryMock(IUserRepository):
             pass
         return user
 
-    def checkUserByPropriety(self, propriety: str, value: str) -> bool:
+    def check_user_by_propriety(self, propriety: str, value: str) -> bool:
         for userx in self._users:
             if getattr(userx, propriety) == value and value != None:
                 return True
@@ -59,12 +59,12 @@ class UserRepositoryMock(IUserRepository):
     def createUser(self, user: User):
         duplicitySensitive = ['user_id', 'email', 'ra']
         for field in duplicitySensitive:
-            if self.checkUserByPropriety(propriety=field, value=getattr(user, field)):
+            if self.check_user_by_propriety(propriety=field, value=getattr(user, field)):
                 raise UserAlreadyExists(
                     f'Propriety ${field} = "${getattr(user, field)}" already exists')
         self._users.append(user)
 
-    def confirmUserCreation(self, login: str, code: int) -> bool:
+    def confirm_user_creation(self, login: str, code: int) -> bool:
         # code = 1234567
 
         if code != "1234567":
@@ -81,7 +81,7 @@ class UserRepositoryMock(IUserRepository):
         self.confirmedUsers.append(user)
         return True
 
-    def updateUser(self, user: User):
+    def update_user(self, user: User):
         cont = 0
         for userx in self.confirmedUsers:
             if userx.email == user.email:
@@ -90,7 +90,7 @@ class UserRepositoryMock(IUserRepository):
 
         self.confirmedUsers[cont] = user
 
-    def deleteUser(self, email: str):
+    def delete_user(self, email: str):
         cont = 0
         for userx in self.confirmedUsers:
             if userx.email == email:
@@ -98,47 +98,47 @@ class UserRepositoryMock(IUserRepository):
                 break
             cont += 1
 
-    def loginUser(self, email: str, password: str) -> dict:
-        u = self.getUserByEmail(email)
+    def login_user(self, email: str, password: str) -> dict:
+        u = self.get_user_by_email(email)
         if u is None:
             return None
         if u.password == password:
             dictResponse = u.dict()
             dictResponse.pop('password')
-            dictResponse["accessToken"] = "validAccessToken-" + str(email)
-            dictResponse["refreshToken"] = "validRefreshToken-" + str(email)
+            dictResponse["accessToken"] = "valid_access_token-" + str(email)
+            dictResponse["refresh_token"] = "valid_refresh_token-" + str(email)
             return dictResponse
         return None
 
-    def checkToken(self, token: str) -> dict:
+    def check_token(self, token: str) -> dict:
         splitToken = token.split("-")
         if len(splitToken) != 2:
             return None
-        if splitToken[0] != "validAccessToken":
+        if splitToken[0] != "valid_access_token":
             return None
 
         email = splitToken[1]
-        user = self.getUserByEmail(email)
+        user = self.get_user_by_email(email)
         if user is None:
             return None
         data = user.dict()
         data.pop('password')
         return data
 
-    def refreshToken(self, refreshToken: str) -> Tuple[str, str]:
-        splitToken = refreshToken.split("-")  # token, email
+    def refresh_token(self, refresh_token: str) -> Tuple[str, str]:
+        splitToken = refresh_token.split("-")  # token, email
         if len(splitToken) != 2:
             return None, None
-        if splitToken[0] != "validRefreshToken":
+        if splitToken[0] != "valid_refresh_token":
             return None, None
-        if self.getUserByEmail(splitToken[1]) is None:
+        if self.get_user_by_email(splitToken[1]) is None:
             return None, None
-        return "validAccessToken-" + splitToken[1], refreshToken
+        return "valid_access_token-" + splitToken[1], refresh_token
 
-    def changePassword(self, login: str) -> bool:
+    def change_password(self, login: str) -> bool:
         user = None
         if login.isdigit():
-            user = self.getUserByEmail(login)
+            user = self.get_user_by_email(login)
         if user:
             return True
 
@@ -147,7 +147,7 @@ class UserRepositoryMock(IUserRepository):
                 return True
         return False
 
-    def confirmChangePassword(self, login: str, newPassword: str, code: str) -> bool:
+    def confirm_change_password(self, login: str, newPassword: str, code: str) -> bool:
         # code = 123456
 
         # Check code
@@ -157,7 +157,7 @@ class UserRepositoryMock(IUserRepository):
         # Update user password
         user = None
         if login.isdigit():
-            user = self.getUserByEmail(login)
+            user = self.get_user_by_email(login)
         if user:
             user.password = newPassword
             return True
@@ -167,8 +167,8 @@ class UserRepositoryMock(IUserRepository):
                 return True
         return False
 
-    def resendConfirmationCode(self, email: str) -> bool:
-        user = self.getUserByEmail(email)
+    def resend_confirmation_code(self, email: str) -> bool:
+        user = self.get_user_by_email(email)
 
         if user is None:
             raise NonExistentUser(f"{email}")
