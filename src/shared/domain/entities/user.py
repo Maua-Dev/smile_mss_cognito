@@ -176,3 +176,6 @@ class User(abc.ABC):
             'accepted_notifications': self.accepted_notifications,
             'certificate_with_social_name': self.certificate_with_social_name
         }
+
+    def dict(self):
+        return self.__dict__

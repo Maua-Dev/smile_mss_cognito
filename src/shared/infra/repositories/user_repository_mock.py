@@ -1,9 +1,9 @@
-from datetime import datetime
 from typing import List, Tuple
 
 from src.shared.domain.entities.enums import ROLE, ACCESS_LEVEL
 from src.shared.domain.entities.user import User
-
+from src.shared.domain.errors.errors import UnexpectedError, InvalidToken, UserAlreadyExists, InvalidCode, NonExistentUser, \
+    UserAlreadyConfirmed
 from src.shared.domain.repositories.user_repository_interface import IUserRepository
 from src.shared.helpers.errors.domain_errors import EntityError
 
@@ -52,7 +52,7 @@ class UserRepositoryMock(IUserRepository):
         return user
 
     def check_user_by_propriety(self, propriety: str, value: str) -> bool:
-        for userx in self._users:
+        for userx in self.users:
             if getattr(userx, propriety) == value and value != None:
                 return True
         return False
@@ -63,12 +63,12 @@ class UserRepositoryMock(IUserRepository):
             if self.check_user_by_propriety(propriety=field, value=getattr(user, field)):
                 raise UserAlreadyExists(
                     f'Propriety ${field} = "${getattr(user, field)}" already exists')
-        self._users.append(user)
+        self.users.append(user)
 
     def confirm_user_creation(self, login: str, code: int) -> bool:
         # code = 1234567
 
-        if code != "1234567":
+        if code != 1234567:
             raise InvalidCode(f'Invalid code')
         user: User = None
         for userx in self.users:
@@ -88,7 +88,6 @@ class UserRepositoryMock(IUserRepository):
             if userx.email == user.email:
                 self.confirmedUsers[idx] = user
                 return user
-
 
     def delete_user(self, email: str):
         cont = 0
@@ -121,8 +120,7 @@ class UserRepositoryMock(IUserRepository):
 
         if user is None:
             return None
-
-        data = user.to_dict()
+        data = user.dict()
         data.pop('password')
         return data
 
@@ -134,15 +132,10 @@ class UserRepositoryMock(IUserRepository):
             return None, None
         if self.get_user_by_email(splitToken[1]) is None:
             return None, None
-        return "valid_access_token-" + splitToken[1], refresh_token
+        a = "valid_access_token-" + splitToken[1], refresh_token
+        return a
 
     def change_password(self, login: str) -> bool:
-        user = None
-        if login.isdigit():
-            user = self.get_user_by_email(login)
-        if user:
-            return True
-
         for userx in self.confirmedUsers:
             if userx.email == login:
                 return True
@@ -156,16 +149,10 @@ class UserRepositoryMock(IUserRepository):
             return False
 
         # Update user password
-        user = None
-        if login.isdigit():
-            user = self.get_user_by_email(login)
+        user = self.get_user_by_email(login)
         if user:
             user.password = newPassword
             return True
-        for userx in self.confirmedUsers:
-            if userx.email == login:
-                userx.password = newPassword
-                return True
         return False
 
     def resend_confirmation_code(self, email: str) -> bool:
