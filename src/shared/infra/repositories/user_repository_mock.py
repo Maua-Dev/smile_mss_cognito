@@ -120,7 +120,8 @@ class UserRepositoryMock(IUserRepository):
 
         if user is None:
             return None
-        data = user.dict()
+
+        data = user.to_dict()
         data.pop('password')
         return data
 
