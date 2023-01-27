@@ -1,41 +1,43 @@
-from src.adapters.errors.http_exception import HttpException
-from src.adapters.helpers.http_models import HttpRequest, HttpResponse, BadRequest, Ok, NoContent, InternalServerError
-from src.modules.get_user.app.get_user_viewmodel import GetUserModel
-from src.domain.entities.user import User
-from src.domain.errors.errors import UnexpectedError, NoItemsFound, NonExistentUser
-from src.modules.get_user.app.get_user_usecase import GetUserByCpfRneUsecase
-from src.domain.repositories.user_repository_interface import IUserRepository
+from .get_user_usecase import GetUserUsecase
+from .get_user_viewmodel import GetUserViewmodel
+from src.shared.helpers.errors.controller_errors import MissingParameters
+from src.shared.helpers.errors.domain_errors import EntityError
+from src.shared.helpers.errors.usecase_errors import NoItemsFound
+from src.shared.helpers.external_interfaces.external_interface import IRequest, IResponse
+from src.shared.helpers.external_interfaces.http_codes import OK, NotFound, BadRequest, InternalServerError
 
 
-class GetUserByCpfRneController:
+class GetUserController:
 
-    def __init__(self, userRepository: IUserRepository) -> None:
-        self._getAllUserByCpfRneUseCase = GetUserByCpfRneUsecase(
-            userRepository)
+    def __init__(self, usecase: GetUserUsecase):
+        self.GetUserUsecase = usecase
 
-    async def __call__(self, req: HttpRequest) -> HttpResponse:
-
-        if req.query is None:
-            return BadRequest('Missing parameter.')
-
+    def __call__(self, request: IRequest) -> IResponse:
         try:
-            if type(req.query['cpfRne']) != int:
-                return BadRequest('Invalid parameter. (Cpf value should be Int) ')
+            if request.data.get('email') is None:
+                raise MissingParameters('email')
 
-            user = await self._getAllUserByCpfRneUseCase(int(req.query['cpfRne']))
-            response = GetUserModel.parse_obj(user)
+            user = self.GetUserUsecase(
+                email=request.data.get('email')
+            )
 
-            if user is None:
-                raise NonExistentUser('')
-            return Ok(response)
+            viewmodel = GetUserViewmodel(user)
 
-        except (NoItemsFound, NonExistentUser):
-            return NoContent()
+            return OK(viewmodel.to_dict())
 
-        except (UnexpectedError) as e:
-            err = InternalServerError(e.message)
-            return err
+        except NoItemsFound as err:
 
-        except Exception as e:
-            err = InternalServerError(e.args[0])
-            return err
+            return NotFound(body=err.message)
+
+        except MissingParameters as err:
+
+            return BadRequest(body=err.message)
+
+        except EntityError as err:
+
+            return BadRequest(body=err.message)
+
+        except Exception as err:
+
+            return InternalServerError(body=err.args[0])
+
