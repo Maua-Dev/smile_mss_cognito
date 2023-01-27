@@ -158,3 +158,126 @@ class Test_User():
                  updated_at=1644977700000, social_name=None, accepted_terms=None,
                  accepted_notifications=False, certificate_with_social_name='None'
                  )
+
+    def test_user_to_dict(self):
+        user = User(user_id='1234', email='zeeba@gmail.com', name='Caio toledo', password='z12345',
+                    ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
+                    updated_at=16449777000, social_name='zeeba toledo', accepted_terms=True,
+                    accepted_notifications=True, certificate_with_social_name=True
+                    )
+        data = User.to_dict(user)
+
+        expected_data = {
+            'user_id': '1234',
+            'email': 'zeeba@gmail.com',
+            'name': 'Caio Toledo',
+            'password': 'z12345',
+            'ra': '20014309',
+            'role': 'STUDENT',
+            'access_level': 'USER',
+            'created_at': 16449777000,
+            'updated_at': 16449777000,
+            'social_name': 'Zeeba Toledo',
+            'accepted_terms': True,
+            'accepted_notifications': True,
+            'certificate_with_social_name': True
+        }
+
+        assert data == expected_data
+
+    def test_user_to_dict_none(self):
+        user = User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
+                    ra=None, role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
+                    updated_at=None, social_name=None, accepted_terms=None,
+                    accepted_notifications=None, certificate_with_social_name=None
+                    )
+
+        data = User.to_dict(user)
+
+        expected_data = {
+            'user_id': '1234',
+            'email': 'zeeba@maua.br',
+            'name': 'Caio Toledo',
+            'password': None,
+            'ra': None,
+            'role': 'STUDENT',
+            'access_level': 'USER',
+            'created_at': None,
+            'updated_at': None,
+            'social_name': None,
+            'accepted_terms': None,
+            'accepted_notifications': None,
+            'certificate_with_social_name': None
+        }
+
+        assert data == expected_data
+
+    def test_user_from_dict(self):
+        data = {
+            'user_id': '1234',
+            'email': 'vitin@maua.br',
+            'name': 'Vitor Toledo',
+            'password': 'z12345',
+            'ra': '20014309',
+            'role': 'STUDENT',
+            'access_level': 'USER',
+            'created_at': 16449777000,
+            'updated_at': 16449777000,
+            'social_name': 'Vitor Toledo',
+            'accepted_terms': True,
+            'accepted_notifications': True,
+            'certificate_with_social_name': True
+        }
+
+        user = User.parse_object(data)
+
+        assert type(user) == User
+        assert user.user_id == '1234'
+        assert user.email == 'vitin@maua.br'
+        assert user.name == 'Vitor Toledo'
+        assert user.password == 'z12345'
+        assert user.ra == '20014309'
+        assert user.role == ROLE.STUDENT
+        assert user.access_level == ACCESS_LEVEL.USER
+        assert user.created_at == 16449777000
+        assert user.updated_at == 16449777000
+        assert user.social_name == 'Vitor Toledo'
+        assert user.accepted_terms == True
+        assert user.accepted_notifications == True
+        assert user.certificate_with_social_name == True
+
+    def test_user_from_dict_none(self):
+        data = {
+            'user_id': '1234',
+            'email': 'vitin@maua.br',
+            'name': 'Vitor Toledo',
+            'password': None,
+            'ra': None,
+            'role': 'STUDENT',
+            'access_level': 'USER',
+            'created_at': None,
+            'updated_at': None,
+            'social_name': None,
+            'accepted_terms': None,
+            'accepted_notifications': None,
+            'certificate_with_social_name': None
+        }
+
+        user = User.parse_object(data)
+
+        assert type(user) == User
+        assert user.user_id == '1234'
+        assert user.email == 'vitin@maua.br'
+        assert user.name == 'Vitor Toledo'
+        assert user.password == None
+        assert user.ra == None
+        assert user.role == ROLE.STUDENT
+        assert user.access_level == ACCESS_LEVEL.USER
+        assert user.created_at == None
+        assert user.updated_at == None
+        assert user.social_name == None
+        assert user.accepted_terms == None
+        assert user.accepted_notifications == None
+        assert user.certificate_with_social_name == None
+
+

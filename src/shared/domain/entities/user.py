@@ -177,5 +177,3 @@ class User(abc.ABC):
             'certificate_with_social_name': self.certificate_with_social_name
         }
 
-    def dict(self):
-        return self.__dict__
