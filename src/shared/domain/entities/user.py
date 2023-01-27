@@ -141,3 +141,38 @@ class User(abc.ABC):
             return False
 
         return True
+
+    @staticmethod
+    def parse_object(user: dict) -> 'User':
+        return User(
+            user_id=user['user_id'],
+            email=user['email'],
+            name=user['name'].title(),
+            password=user['password'] if 'password' in user else None,
+            ra=user['ra'] if 'ra' in user else None,
+            role=ROLE[user['role']],
+            access_level=ACCESS_LEVEL[user['access_level']],
+            created_at=user['created_at'] if 'created_at' in user else None,
+            updated_at=user['updated_at'] if 'updated_at' in user else None,
+            social_name=user['social_name'].title() if 'social_name' in user else None,
+            accepted_terms=user['accepted_terms'] if 'accepted_terms' in user else None,
+            accepted_notifications=user['accepted_notifications'] if 'accepted_notifications' in user else None,
+            certificate_with_social_name=user['certificate_with_social_name'] if 'certificate_with_social_name' in user else None
+        )
+
+    def to_dict(self) -> dict:
+        return {
+            'user_id': self.user_id,
+            'email': self.email,
+            'name': self.name,
+            'password': self.password,
+            'ra': self.ra,
+            'role': self.role.value,
+            'access_level': self.access_level.value,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at,
+            'social_name': self.social_name,
+            'accepted_terms': self.accepted_terms,
+            'accepted_notifications': self.accepted_notifications,
+            'certificate_with_social_name': self.certificate_with_social_name
+        }
