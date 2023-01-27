@@ -97,7 +97,7 @@ class Test_UserRepositoryMock:
     def test_login_user(self):
         repo = UserRepositoryMock()
         resp = repo.login_user('zeeba@gmail.com', 'z12345')
-        print(resp)
+
         assert resp == {
             'user_id': '0001',
             'email': 'zeeba@gmail.com',
@@ -114,3 +114,55 @@ class Test_UserRepositoryMock:
             'accessToken': 'valid_access_token-zeeba@gmail.com',
             'refresh_token': 'valid_refresh_token-zeeba@gmail.com'
         }
+
+    def test_check_token(self):
+        repo = UserRepositoryMock()
+        resp = repo.check_token(token="valid_access_token-zeeba@gmail.com")
+        assert resp == {
+            'user_id': '0001',
+            'email': 'zeeba@gmail.com',
+            'name': 'Caio Soller',
+            'ra': '20014309',
+            'role': ROLE.STUDENT,
+            'access_level': ACCESS_LEVEL.USER,
+            'created_at': 1644977700000,
+            'updated_at': 1644977700000,
+            'social_name': 'Zeeba Toledo',
+            'accepted_terms': True,
+            'accepted_notifications': True,
+            'certificate_with_social_name': True,
+        }
+
+    def test_refresh_token(self):
+        repo = UserRepositoryMock()
+        resp = repo.refresh_token(
+            refresh_token="valid_refresh_token-zeeba@gmail.com")
+        assert resp[0] == 'valid_access_token-zeeba@gmail.com'
+        assert resp[1] == 'valid_refresh_token-zeeba@gmail.com'
+
+    def test_change_password(self):
+        repo = UserRepositoryMock()
+        resp = repo.change_password('zeeba@gmail.com')
+
+        assert resp == True
+
+    def test_confirm_change_password(self):
+        repo = UserRepositoryMock()
+        resp = repo.confirm_change_password(
+            'zeeba@gmail.com',
+            'new1234567',
+            '123456'
+        )
+        assert resp
+        assert repo.confirmedUsers[0].email == 'zeeba@gmail.com'
+        assert repo.confirmedUsers[0].password == 'new1234567'
+
+    def test_resend_confirmation_code(self):
+        repo = UserRepositoryMock()
+        resp = repo.resend_confirmation_code('zeeba@gmail.com')
+        assert resp
+
+    def test_resend_confirmation_code_non_existent_user(self):
+        repo = UserRepositoryMock()
+        with pytest.raises(NonExistentUser):
+            resp = repo.resend_confirmation_code('ze@gmail.com')

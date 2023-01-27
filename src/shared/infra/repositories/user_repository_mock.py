@@ -134,15 +134,10 @@ class UserRepositoryMock(IUserRepository):
             return None, None
         if self.get_user_by_email(splitToken[1]) is None:
             return None, None
-        return "valid_access_token-" + splitToken[1], refresh_token
+        a = "valid_access_token-" + splitToken[1], refresh_token
+        return a
 
     def change_password(self, login: str) -> bool:
-        user = None
-        if login.isdigit():
-            user = self.get_user_by_email(login)
-        if user:
-            return True
-
         for userx in self.confirmedUsers:
             if userx.email == login:
                 return True
@@ -156,16 +151,10 @@ class UserRepositoryMock(IUserRepository):
             return False
 
         # Update user password
-        user = None
-        if login.isdigit():
-            user = self.get_user_by_email(login)
+        user = self.get_user_by_email(login)
         if user:
             user.password = newPassword
             return True
-        for userx in self.confirmedUsers:
-            if userx.email == login:
-                userx.password = newPassword
-                return True
         return False
 
     def resend_confirmation_code(self, email: str) -> bool:
