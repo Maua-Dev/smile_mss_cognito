@@ -89,6 +89,8 @@ class UserRepositoryMock(IUserRepository):
                 self.confirmedUsers[idx] = user
                 return user
 
+        return None
+
     def delete_user(self, email: str):
         cont = 0
         for userx in self.confirmedUsers:
