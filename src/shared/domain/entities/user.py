@@ -141,3 +141,6 @@ class User(abc.ABC):
             return False
 
         return True
+
+    def dict(self):
+        return self.__dict__

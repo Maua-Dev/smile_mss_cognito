@@ -1,4 +1,3 @@
-from datetime import datetime
 from typing import List, Tuple
 
 from src.shared.domain.entities.enums import ROLE, ACCESS_LEVEL
@@ -31,8 +30,8 @@ class UserRepositoryMock(IUserRepository):
                  )
         ]
         self.confirmedUsers = [
-            self._users[0],
-            self._users[1]
+            self.users[0],
+            self.users[1]
         ]
 
     def get_all_users(self) -> List[User]:
@@ -51,23 +50,23 @@ class UserRepositoryMock(IUserRepository):
         return user
 
     def check_user_by_propriety(self, propriety: str, value: str) -> bool:
-        for userx in self._users:
+        for userx in self.users:
             if getattr(userx, propriety) == value and value != None:
                 return True
         return False
 
-    def createUser(self, user: User):
+    def create_user(self, user: User):
         duplicitySensitive = ['user_id', 'email', 'ra']
         for field in duplicitySensitive:
             if self.check_user_by_propriety(propriety=field, value=getattr(user, field)):
                 raise UserAlreadyExists(
                     f'Propriety ${field} = "${getattr(user, field)}" already exists')
-        self._users.append(user)
+        self.users.append(user)
 
     def confirm_user_creation(self, login: str, code: int) -> bool:
         # code = 1234567
 
-        if code != "1234567":
+        if code != 1234567:
             raise InvalidCode(f'Invalid code')
         user: User = None
         for userx in self.users:
@@ -87,6 +86,8 @@ class UserRepositoryMock(IUserRepository):
             if userx.email == user.email:
                 break
             cont += 1
+        if cont >= len(self.confirmedUsers):
+            raise NonExistentUser(f'User not found')
 
         self.confirmedUsers[cont] = user
 
