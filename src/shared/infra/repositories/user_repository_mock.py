@@ -3,12 +3,13 @@ from typing import List, Tuple
 
 from src.shared.domain.entities.enums import ROLE, ACCESS_LEVEL
 from src.shared.domain.entities.user import User
-from src.shared.domain.errors.errors import UnexpectedError, InvalidToken, UserAlreadyExists, InvalidCode, NonExistentUser, \
-    UserAlreadyConfirmed
+
 from src.shared.domain.repositories.user_repository_interface import IUserRepository
+from src.shared.helpers.errors.domain_errors import EntityError
 
 
 class UserRepositoryMock(IUserRepository):
+
     users: List[User]
     confirmedUsers: List[User]
 
@@ -20,7 +21,7 @@ class UserRepositoryMock(IUserRepository):
                  accepted_notifications=True, certificate_with_social_name=True
                  ),
             User(user_id='0002', email='vitor@maua.br', name='vitor branco', password='z12345',
-                 ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=1644977700000,
+                 ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.ADMIN, created_at=1644977700000,
                  updated_at=1644977700000, social_name='zeeba toledo', accepted_terms=True,
                  accepted_notifications=True, certificate_with_social_name=True
                  ),
@@ -31,8 +32,8 @@ class UserRepositoryMock(IUserRepository):
                  )
         ]
         self.confirmedUsers = [
-            self._users[0],
-            self._users[1]
+            self.users[0],
+            self.users[1]
         ]
 
     def get_all_users(self) -> List[User]:
@@ -56,7 +57,7 @@ class UserRepositoryMock(IUserRepository):
                 return True
         return False
 
-    def createUser(self, user: User):
+    def create_user(self, user: User):
         duplicitySensitive = ['user_id', 'email', 'ra']
         for field in duplicitySensitive:
             if self.check_user_by_propriety(propriety=field, value=getattr(user, field)):
@@ -81,14 +82,13 @@ class UserRepositoryMock(IUserRepository):
         self.confirmedUsers.append(user)
         return True
 
-    def update_user(self, user: User):
-        cont = 0
-        for userx in self.confirmedUsers:
-            if userx.email == user.email:
-                break
-            cont += 1
+    def update_user(self, user: User) -> User:
 
-        self.confirmedUsers[cont] = user
+        for idx, userx in enumerate(self.confirmedUsers):
+            if userx.email == user.email:
+                self.confirmedUsers[idx] = user
+                return user
+
 
     def delete_user(self, email: str):
         cont = 0
@@ -111,17 +111,18 @@ class UserRepositoryMock(IUserRepository):
         return None
 
     def check_token(self, token: str) -> dict:
-        splitToken = token.split("-")
-        if len(splitToken) != 2:
-            return None
-        if splitToken[0] != "valid_access_token":
-            return None
 
-        email = splitToken[1]
+        split_token = token.split("-")
+        if len(split_token) != 2 or split_token[0] != "validAccessToken":
+            raise EntityError('token')
+
+        email = split_token[1]
         user = self.get_user_by_email(email)
+
         if user is None:
             return None
-        data = user.dict()
+
+        data = user.to_dict()
         data.pop('password')
         return data
 
