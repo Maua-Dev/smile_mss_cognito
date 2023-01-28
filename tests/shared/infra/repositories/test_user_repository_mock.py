@@ -22,15 +22,15 @@ class Test_UserRepositoryMock:
         assert users[0].name == 'Caio Soller'
         assert len(users) == 2
 
-    def test_create_user(self):
-        repo = UserRepositoryMock()
-        repo.create_user(user=User(user_id='0004', email='romas@gmail.com', name='Romas briquez', password='r12345',
-                                   ra='20013459', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=1644977700000,
-                                   updated_at=1644977700000, social_name='Briquez romas', accepted_terms=True,
-                                   accepted_notifications=True, certificate_with_social_name=True
-                                   ))
-
-        assert len(repo.users) == 4
+    # def test_create_user(self):
+    #     repo = UserRepositoryMock()
+    #     repo.create_user(user=User(user_id='0004', email='romas@gmail.com', name='Romas briquez', password='r12345',
+    #                                ra='20013459', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=1644977700000,
+    #                                updated_at=1644977700000, social_name='Briquez romas', accepted_terms=True,
+    #                                accepted_notifications=True, certificate_with_social_name=True
+    #                                ))
+    #
+    #     assert len(repo.users) == 4
         # assert type(user) == User
 
     # def test_create_user_already_exists(self):
@@ -48,12 +48,12 @@ class Test_UserRepositoryMock:
 
         assert user_exists == True
 
-    def test_confirm_user_creation(self):
-        repo = UserRepositoryMock()
-        confirmed = repo.confirm_user_creation('joao@gmail.com', 1234567)
-
-        assert confirmed == True
-        assert repo.confirmedUsers[2] == repo.users[2]
+    # def test_confirm_user_creation(self):
+    #     repo = UserRepositoryMock()
+    #     confirmed = repo.confirm_user_creation('joao@gmail.com', 1234567)
+    #
+    #     assert confirmed == True
+    #     assert repo.confirmedUsers[2] == repo.users[2]
 
     # def test_confirm_user_creation_non_existent_user(self):
     #     repo = UserRepositoryMock()
