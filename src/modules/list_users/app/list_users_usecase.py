@@ -1,37 +1,44 @@
-from src.domain.entities.enums import ACCESS_LEVEL
-from src.domain.entities.user import User
-from src.domain.errors.errors import NonExistentUser, InvalidCredentials
-from src.domain.repositories.user_repository_interface import IUserRepository
-from src.modules.check_token.app.check_token_usecase import CheckTokenUsecase
+from src.shared.domain.entities.enums import ACCESS_LEVEL
+from src.shared.domain.entities.user import User
+
+from src.shared.domain.repositories.user_repository_interface import IUserRepository
+from src.shared.helpers.errors.domain_errors import EntityError
+from src.shared.helpers.errors.usecase_errors import NoItemsFound, ForbiddenAction
 
 
 class ListUsersUsecase:
 
-    def __init__(self, userRepository: IUserRepository):
-        self._userRepository = userRepository
-        # self.immutable_fields = ['cpfRne', 'ra', 'acceptedTerms', 'accessLevel', 'email']
-        self.mutatable_fields = [
-            'name', 'socialName', 'acceptedNotifications', 'certificateWithSocialName']
+    def __init__(self, repo: IUserRepository):
+        self.repo = repo
 
-    async def __call__(self, userList: list, accessToken: str):
-        checkTokenUsecase = CheckTokenUsecase(self._userRepository)
-        try:
-            userRequester = User.parse_obj(await checkTokenUsecase(accessToken))
-            if userRequester.accessLevel != ACCESS_LEVEL.ADMIN:
-                raise InvalidCredentials(f"{userRequester.email} not admin")
+    def __call__(self, user_list: list, access_token: str) -> dict:
 
-            allUsers = await self._userRepository.getAllUsers()
-            userDict = {}
-            for user in allUsers:
-                if user.id in userList:
-                    userDict[user.id] = user.dict()
+            user_requester_data = self.repo.check_token(access_token)
 
-            if len(userDict) != len(userList):
-                for id in userList:
-                    if id not in userDict.keys():
-                        userDict[id] = {"error": f"User not found"}
+            if user_requester_data is None:
+                raise NoItemsFound("user")
 
-            return userDict
+            user_requester = User.parse_object(user_requester_data)
 
-        except NonExistentUser as error:
-            raise NonExistentUser(error.message)
+            if user_requester.access_level != ACCESS_LEVEL.ADMIN:
+                raise ForbiddenAction("user")
+
+            if type(user_list) != list:
+                raise EntityError("user_list")
+
+            for id in user_list:
+                if not User.validate_user_id(id):
+                    raise EntityError("user_id")
+
+            all_users = self.repo.get_all_users()
+            user_dict_list = {}
+            for user in all_users:
+                if user.user_id in user_list:
+                    user_dict_list[user.user_id] = user
+
+            if len(user_dict_list) != len(user_list):
+                for id in user_list:
+                    if id not in user_dict_list.keys():
+                        raise NoItemsFound(f"user_id: {id}")
+
+            return user_dict_list

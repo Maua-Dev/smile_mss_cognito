@@ -1,32 +1,57 @@
-from src.adapters.helpers.http_models import HttpResponse, HttpRequest, BadRequest, Ok, InternalServerError
-from src.modules.list_users.app.list_users_viewmodel import ListUsersModel
-from src.domain.errors.errors import NonExistentUser
-from src.domain.repositories.user_repository_interface import IUserRepository
-from src.modules.list_users.app.list_users_usecase import ListUsersUsecase
+from .list_users_usecase import ListUsersUsecase
+from .list_users_viewmodel import ListUsersViewmodel
+from src.shared.helpers.errors.controller_errors import MissingParameters
+from src.shared.helpers.errors.domain_errors import EntityError
+from src.shared.helpers.errors.usecase_errors import NoItemsFound, ForbiddenAction
+from src.shared.helpers.external_interfaces.external_interface import IRequest, IResponse
+from src.shared.helpers.external_interfaces.http_codes import OK, NotFound, BadRequest, InternalServerError, Forbidden
 
 
 class ListUsersController:
-    def __init__(self, userRepository: IUserRepository) -> None:
-        self._listUsersUsecase = ListUsersUsecase(userRepository)
 
-    async def __call__(self, req: HttpRequest) -> HttpResponse:
+    def __init__(self, usecase: ListUsersUsecase):
+        self.ListUsersUsecase = usecase
 
-        if req.headers is None:
-            return BadRequest('Missing authentication header.')
-        if req.body is None:
-            return BadRequest('Missing body.')
-
+    def __call__(self, request: IRequest) -> IResponse:
         try:
-            token = req.headers["Authorization"].split(' ')
-            if token[0] != 'Bearer':
-                return BadRequest('Invalid token.')
+            if request.data.get('Authorization') is None:
+                raise MissingParameters('Authorization header')
 
-            users = await self._listUsersUsecase(req.body, token[1])
-            usersModel = ListUsersModel(users)
-            return Ok(usersModel.toDict())
+            token = request.data.get('Authorization').split(' ')
 
-        except NonExistentUser as e:
-            return BadRequest(e.message)
+            if len(token) != 2 or token[0] != 'Bearer':
+                raise EntityError('token')
+            access_token = token[1]
 
-        except Exception as e:
-            return InternalServerError(e.args[0])
+            if request.data.get('user_list') is None:
+                raise MissingParameters('user_list')
+
+            user_list = self.ListUsersUsecase(
+                user_list=request.data.get('user_list'),
+                access_token=access_token
+            )
+
+            viewmodel = ListUsersViewmodel(user_list)
+
+            return OK(viewmodel.to_dict())
+
+        except NoItemsFound as err:
+
+            return NotFound(body=err.message)
+
+        except MissingParameters as err:
+
+            return BadRequest(body=err.message)
+
+        except ForbiddenAction as err:
+
+            return Forbidden(body=err.message)
+
+        except EntityError as err:
+
+            return BadRequest(body=err.message)
+
+        except Exception as err:
+
+            return InternalServerError(body=err.args[0])
+

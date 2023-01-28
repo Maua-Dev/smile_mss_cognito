@@ -1,67 +1,46 @@
-from src.domain.entities.enums import ROLE, ACCESS_LEVEL
+from typing import List, Dict
+
+from src.shared.domain.entities.enums import ROLE, ACCESS_LEVEL
+from src.shared.domain.entities.user import User
 
 
-class ListUserError():
-    def __init__(self, message):
-        self.message = message
-
-    def toDict(self):
-        return self.message
-
-
-class ListUserModel():
-    role: ROLE
-    accessLevel: ACCESS_LEVEL
-    cpfRne: int
-    email: str
+class UserViewmodel:
     name: str
-    socialName: str
-    certificateWithSocialName: str
+    email: str
+    ra: str
+    role: ROLE
+    access_level: ACCESS_LEVEL
+    social_name: str
 
-    def __init__(self, role: ROLE, accessLevel: ACCESS_LEVEL, cpfRne: int, email: str, name: str, socialName: str, certificateWithSocialName: str):
-        self.role = role
-        self.accessLevel = accessLevel
-        self.cpfRne = cpfRne
-        self.email = email
-        self.name = name
-        self.socialName = socialName
-        self.certificateWithSocialName = certificateWithSocialName
+    def __init__(self, user: User):
+        self.user_id = user.user_id
+        self.name = user.name
+        self.email = user.email
+        self.ra = user.ra
+        self.role = user.role
+        self.access_level = user.access_level
+        self.social_name = user.social_name
 
-    def fromDict(dict):
-        if "error" in dict:
-            return ListUserError(dict)
-        return ListUserModel(
-            role=dict.get('role').value if dict.get('role') else None,
-            accessLevel=dict.get('accessLevel').value if dict.get('accessLevel') else None,
-            cpfRne=dict.get('cpfRne') if dict.get('cpfRne') else None,
-            email=dict.get('email') if dict.get('email') else None,
-            name=dict.get('name') if dict.get('name') else None,
-            socialName=dict.get('socialName') if dict.get('socialName') else None,
-            certificateWithSocialName=dict.get('certificateWithSocialName') if dict.get('certificateWithSocialName') else None
-        )
-
-    def toDict(self):
+    def to_dict(self):
         return {
-            'role': self.role,
-            'accessLevel': self.accessLevel,
-            'cpfRne': self.cpfRne,
-            'email': self.email,
+            'user_id': self.user_id,
             'name': self.name,
-            'socialName': self.socialName,
-            'certificateWithSocialName': self.certificateWithSocialName
+            'email': self.email,
+            'ra': self.ra,
+            'role': self.role.value,
+            'access_level': self.access_level.value,
+            'social_name': self.social_name
         }
 
-class ListUsersModel():
-    users: dict
 
-    def __init__(self, usersDict: dict):
-        self.users = {}
-        for userId in usersDict.keys():
-            userModel = ListUserModel.fromDict(usersDict[userId])
-            self.users[userId] = userModel.toDict()
+class ListUsersViewmodel:
+    user_list_dict_list: Dict[str, UserViewmodel]
 
-    def toDict(self):
-        return self.users
+    def __init__(self, user_list_dict_list: Dict[str, User]):
+        self.user_list_dict_list = {user_id: UserViewmodel(user) for user_id, user in user_list_dict_list.items()}
 
-
-
+    def to_dict(self):
+        return {
+            'user_list': {user_id: user_viewmodel.to_dict() for user_id, user_viewmodel in self.user_list_dict_list.items()},
+            'message': 'the users were retrieved'
+        }

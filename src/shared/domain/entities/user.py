@@ -1,10 +1,9 @@
 import abc
 from datetime import datetime
-from typing import List
 import re
 
 from src.shared.domain.entities.enums import ROLE, ACCESS_LEVEL
-from src.shared.domain.errors.errors import EntityError
+from src.shared.helpers.errors.domain_errors import EntityError
 
 
 class User(abc.ABC):
@@ -142,5 +141,39 @@ class User(abc.ABC):
 
         return True
 
-    def dict(self):
-        return self.__dict__
+    @staticmethod
+    def parse_object(user: dict) -> 'User':
+        return User(
+            user_id=user['user_id'],
+            email=user['email'],
+            name=user['name'].title(),
+            password=user['password'] if user.get('password') is not None else None,
+            ra=user['ra'] if 'ra' in user else None,
+            role=ROLE[user['role']],
+            access_level=ACCESS_LEVEL[user['access_level']],
+            created_at=user['created_at'] if user.get('created_at') is not None else None,
+            updated_at=user['updated_at'] if user.get('updated_at') is not None else None,
+            social_name=user['social_name'].title() if user.get('social_name') is not None else None,
+            accepted_terms=user['accepted_terms'] if user.get('accepted_terms') is not None else None,
+            accepted_notifications=user['accepted_notifications'] if user.get(
+                'accepted_notifications') is not None else None,
+            certificate_with_social_name=user['certificate_with_social_name'] if user.get(
+                'certificate_with_social_name') is not None else None
+        )
+
+    def to_dict(self) -> dict:
+        return {
+            'user_id': self.user_id,
+            'email': self.email,
+            'name': self.name,
+            'password': self.password,
+            'ra': self.ra,
+            'role': self.role.value,
+            'access_level': self.access_level.value,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at,
+            'social_name': self.social_name,
+            'accepted_terms': self.accepted_terms,
+            'accepted_notifications': self.accepted_notifications,
+            'certificate_with_social_name': self.certificate_with_social_name
+        }

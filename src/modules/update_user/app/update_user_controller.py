@@ -1,54 +1,56 @@
-from src.adapters.errors.http_exception import HttpException
-from src.domain.entities.user import User
-from src.domain.errors.errors import UnexpectedError, NoItemsFound, EntityError, NonExistentUser, InvalidToken
-from src.domain.repositories.user_repository_interface import IUserRepository
-from src.adapters.helpers.http_models import BadRequest, HttpRequest, HttpResponse, InternalServerError, Ok, NoContent
-from src.modules.update_user.app.update_user_usecase import UpdateUserUsecase
+from .update_user_usecase import UpdateUserUsecase
+from src.shared.helpers.errors.controller_errors import MissingParameters
+from src.shared.helpers.errors.domain_errors import EntityError
+from src.shared.helpers.errors.usecase_errors import NoItemsFound
+from src.shared.helpers.external_interfaces.external_interface import IRequest, IResponse
+from src.shared.helpers.external_interfaces.http_codes import OK, NotFound, BadRequest, InternalServerError
+from .update_user_viewmodel import UpdateUserViewmodel
 
 
 class UpdateUserController:
-    def __init__(self, userRepository: IUserRepository) -> None:
-        self._updateUserUsecase = UpdateUserUsecase(userRepository)
 
-    async def __call__(self, req: HttpRequest) -> HttpResponse:
+    def __init__(self, usecase: UpdateUserUsecase):
+        self.UpdateUserUsecase = usecase
 
-        if req.query is not None:
-            return BadRequest('No parameters allowed.')
-        if req.body is None:
-            return BadRequest('Missing body.')
-
+    def __call__(self, request: IRequest) -> IResponse:
         try:
-            token = req.headers.get('Authorization').split(' ')
-            if len(token) != 2 or token[0] != 'Bearer':
-                return BadRequest('Invalid token.')
-            accessToken = token[1]
+            if request.data.get('Authorization') is None:
+                raise MissingParameters('Authorization header')
 
-            userData = {
-                "name": req.body.get('name'),
-                "socialName": req.body.get('social_name'),
-                "certificateWithSocialName": req.body.get('certificate_with_social_name'),
+            token = request.data.get('Authorization').split(' ')
+
+            if len(token) != 2 or token[0] != 'Bearer':
+                raise EntityError('token')
+            access_token = token[1]
+
+            user_data = {
+                "name": request.data.get('name'),
+                "social_name": request.data.get('social_name'),
+                "certificate_with_social_name": request.data.get('certificate_with_social_name'),
+                "accepted_notifications": request.data.get('accepted_notifications')
             }
 
-            await self._updateUserUsecase(userData, accessToken)
-            response = {f"User {userData['name']} updated."}
-            return Ok(response)
+            user = self.UpdateUserUsecase(
+                mew_user_data=user_data,
+                access_token=access_token
+            )
 
-        except InvalidToken as e:
-            return BadRequest(e.message)
+            viewmodel = UpdateUserViewmodel(user)
 
-        except EntityError as e:
-            return BadRequest(e.message)
+            return OK(viewmodel.to_dict())
 
-        # except ValidationError:
-        #     return BadRequest("Invalid parameters.")
+        except NoItemsFound as err:
 
-        except NonExistentUser as e:
-            return BadRequest(e.message)
+            return NotFound(body=err.message)
 
-        except UnexpectedError as e:
-            err = InternalServerError(e.message)
-            return err
+        except MissingParameters as err:
 
-        except Exception as e:
-            err = InternalServerError(e.args[0])
-            return err
+            return BadRequest(body=err.message)
+
+        except EntityError as err:
+
+            return BadRequest(body=err.message)
+
+        except Exception as err:
+
+            return InternalServerError(body=err.args[0])
