@@ -11,6 +11,7 @@ class UserViewmodel:
     social_name: str
     accepted_notifications: bool
     certificate_with_social_name: bool
+    phone: str
 
     def __init__(self, user: User):
         self.user_id = user.user_id
@@ -22,6 +23,7 @@ class UserViewmodel:
         self.social_name = user.social_name
         self.accepted_notifications = user.accepted_notifications
         self.certificate_with_social_name = user.certificate_with_social_name
+        self.phone = user.phone
 
     def to_dict(self):
         return {
@@ -33,7 +35,8 @@ class UserViewmodel:
             'access_level': self.access_level.value,
             'social_name': self.social_name,
             "accepted_notifications": self.accepted_notifications,
-            "certificate_with_social_name": self.certificate_with_social_name
+            "certificate_with_social_name": self.certificate_with_social_name,
+            'phone': self.phone,
         }
 
 

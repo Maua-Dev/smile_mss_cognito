@@ -16,7 +16,7 @@ class Test_User:
         user = User(user_id='1234', email='zeeba@gmail.com', name='Caio toledo', password='z12345',
                     ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
                     updated_at=16449777000, social_name='zeeba toledo', accepted_terms=True,
-                    accepted_notifications=True, certificate_with_social_name=True
+                    accepted_notifications=True, certificate_with_social_name=True, phone="5511991758098"
                     )
 
         assert len(user.user_id) == 4
@@ -39,7 +39,7 @@ class Test_User:
         user = User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
                     ra=None, role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                     updated_at=None, social_name=None, accepted_terms=None,
-                    accepted_notifications=None, certificate_with_social_name=None
+                    accepted_notifications=None, certificate_with_social_name=None, phone="5511991758098"
                     )
 
         assert len(user.user_id) == 4
@@ -63,7 +63,7 @@ class Test_User:
             User(user_id='', email='zeeba@maua.br', name='caio toledo', password=None,
                  ra=None, role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                  updated_at=None, social_name=None, accepted_terms=None,
-                 accepted_notifications=None, certificate_with_social_name=None
+                 accepted_notifications=None, certificate_with_social_name=None, phone="5511991758098"
                  )
 
     def test_create_user_invalid_email(self):
@@ -71,7 +71,7 @@ class Test_User:
             User(user_id='1234', email='zeebamaua.br', name='caio toledo', password=None,
                  ra=None, role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                  updated_at=None, social_name=None, accepted_terms=None,
-                 accepted_notifications=None, certificate_with_social_name=None
+                 accepted_notifications=None, certificate_with_social_name=None, phone="5511991758098"
                  )
 
     def test_create_user_invalid_name(self):
@@ -79,7 +79,7 @@ class Test_User:
             User(user_id='1234', email='zeeba@maua.br', name='c', password=None,
                  ra=None, role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                  updated_at=None, social_name=None, accepted_terms=None,
-                 accepted_notifications=None, certificate_with_social_name=None
+                 accepted_notifications=None, certificate_with_social_name=None, phone="5511991758098"
                  )
 
     def test_create_user_invalid_password(self):
@@ -87,7 +87,7 @@ class Test_User:
             User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=1,
                  ra=None, role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                  updated_at=None, social_name=None, accepted_terms=None,
-                 accepted_notifications=None, certificate_with_social_name=None
+                 accepted_notifications=None, certificate_with_social_name=None, phone="5511991758098"
                  )
 
     def test_create_user_invalid_ra(self):
@@ -95,7 +95,7 @@ class Test_User:
             User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
                  ra='', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                  updated_at=None, social_name=None, accepted_terms=None,
-                 accepted_notifications=None, certificate_with_social_name=None
+                 accepted_notifications=None, certificate_with_social_name=None, phone="5511991758098"
                  )
 
     def test_create_user_invalid_role(self):
@@ -103,7 +103,7 @@ class Test_User:
             User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
                  ra='12345678', role='STUDENT', access_level=ACCESS_LEVEL.USER, created_at=None,
                  updated_at=None, social_name=None, accepted_terms=None,
-                 accepted_notifications=None, certificate_with_social_name=None
+                 accepted_notifications=None, certificate_with_social_name=None, phone="5511991758098"
                  )
 
     def test_create_user_invalid_access_level(self):
@@ -111,7 +111,7 @@ class Test_User:
             User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
                  ra='12345678', role=ROLE.STUDENT, access_level='USER', created_at=None,
                  updated_at=None, social_name=None, accepted_terms=None,
-                 accepted_notifications=None, certificate_with_social_name=None
+                 accepted_notifications=None, certificate_with_social_name=None, phone="5511991758098"
                  )
 
     def test_create_user_invalid_created_at(self):
@@ -119,7 +119,7 @@ class Test_User:
             User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
                  ra='12345678', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at='16449777000',
                  updated_at=None, social_name=None, accepted_terms=None,
-                 accepted_notifications=None, certificate_with_social_name=None
+                 accepted_notifications=None, certificate_with_social_name=None, phone="5511991758098"
                  )
 
     def test_create_user_invalid_updated_at(self):
@@ -127,7 +127,7 @@ class Test_User:
             User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
                  ra='12345678', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                  updated_at='16449777000', social_name=None, accepted_terms=None,
-                 accepted_notifications=None, certificate_with_social_name=None
+                 accepted_notifications=None, certificate_with_social_name=None, phone="5511991758098"
                  )
 
     def test_create_user_invalid_social_name(self):
@@ -135,7 +135,7 @@ class Test_User:
             User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
                  ra='12345678', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
                  updated_at=None, social_name=1, accepted_terms=None,
-                 accepted_notifications=None, certificate_with_social_name=None
+                 accepted_notifications=None, certificate_with_social_name=None, phone="5511991758098"
                  )
 
     def test_create_user_invalid_accepted_terms(self):
@@ -143,7 +143,7 @@ class Test_User:
             User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
                  ra='12345678', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                  updated_at=16449777000, social_name=None, accepted_terms='True',
-                 accepted_notifications=None, certificate_with_social_name=None
+                 accepted_notifications=None, certificate_with_social_name=None, phone="5511991758098"
                  )
 
     def test_create_user_invalid_accepted_notifications(self):
@@ -151,7 +151,7 @@ class Test_User:
             User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
                  ra='12345678', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                  updated_at=16449777000, social_name=None, accepted_terms=None,
-                 accepted_notifications='None', certificate_with_social_name=None
+                 accepted_notifications='None', certificate_with_social_name=None, phone="5511991758098"
                  )
 
     def test_create_user_invalid_certificate_with_social_name(self):
@@ -159,14 +159,14 @@ class Test_User:
             User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
                  ra='12345678', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                  updated_at=16449777000, social_name=None, accepted_terms=None,
-                 accepted_notifications=False, certificate_with_social_name='None'
+                 accepted_notifications=False, certificate_with_social_name='None', phone="5511991758098"
                  )
 
     def test_user_to_dict(self):
         user = User(user_id='1234', email='zeeba@gmail.com', name='Caio toledo', password='z12345',
                     ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
                     updated_at=16449777000, social_name='zeeba toledo', accepted_terms=True,
-                    accepted_notifications=True, certificate_with_social_name=True
+                    accepted_notifications=True, certificate_with_social_name=True, phone="5511991758098"
                     )
         data = User.to_dict(user)
 
@@ -183,7 +183,8 @@ class Test_User:
             'social_name': 'Zeeba Toledo',
             'accepted_terms': True,
             'accepted_notifications': True,
-            'certificate_with_social_name': True
+            'certificate_with_social_name': True,
+            'phone': '5511991758098'
         }
 
         assert data == expected_data
@@ -192,7 +193,7 @@ class Test_User:
         user = User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
                     ra=None, role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                     updated_at=None, social_name=None, accepted_terms=None,
-                    accepted_notifications=None, certificate_with_social_name=None
+                    accepted_notifications=None, certificate_with_social_name=None, phone="5511991758098"
                     )
 
         data = User.to_dict(user)
@@ -210,7 +211,8 @@ class Test_User:
             'social_name': None,
             'accepted_terms': None,
             'accepted_notifications': None,
-            'certificate_with_social_name': None
+            'certificate_with_social_name': None,
+            'phone': '5511991758098'
         }
 
         assert data == expected_data
@@ -229,7 +231,8 @@ class Test_User:
             'social_name': 'Vitor Toledo',
             'accepted_terms': True,
             'accepted_notifications': True,
-            'certificate_with_social_name': True
+            'certificate_with_social_name': True,
+            'phone': '5511991758098'
         }
 
         user = User.parse_object(data)
@@ -248,6 +251,7 @@ class Test_User:
         assert user.accepted_terms == True
         assert user.accepted_notifications == True
         assert user.certificate_with_social_name == True
+        assert user.phone == '5511991758098'
 
     def test_user_from_dict_none(self):
         data = {
@@ -263,7 +267,8 @@ class Test_User:
             'social_name': None,
             'accepted_terms': None,
             'accepted_notifications': None,
-            'certificate_with_social_name': None
+            'certificate_with_social_name': None,
+            'phone': '5511991758098'
         }
 
         user = User.parse_object(data)

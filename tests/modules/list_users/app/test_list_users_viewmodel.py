@@ -23,7 +23,8 @@ class Test_ListUsersViewmodel:
                     'ra': '20014309',
                     'role': 'STUDENT',
                     'access_level': 'USER',
-                    'social_name': 'Zeeba Toledo'
+                    'social_name': 'Zeeba Toledo',
+                    "phone": "5511999451100",
                 }
             },
             'message': 'the users were retrieved'
@@ -52,7 +53,8 @@ class Test_ListUsersViewmodel:
                     'ra': '20014309',
                     'role': 'STUDENT',
                     'access_level': 'USER',
-                    'social_name': 'Zeeba Toledo'
+                    'social_name': 'Zeeba Toledo',
+                    "phone": "5511999451100",
                 },
                 '0002': {
                     'user_id': '0002',
@@ -61,7 +63,8 @@ class Test_ListUsersViewmodel:
                     'ra': '20014309',
                     'role': 'STUDENT',
                     'access_level': 'ADMIN',
-                    'social_name': 'Zeeba Toledo'
+                    'social_name': 'Zeeba Toledo',
+                    "phone": "5511991758098",
                 }
             },
             'message': 'the users were retrieved'
