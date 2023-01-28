@@ -24,8 +24,8 @@ class User(abc.ABC):
     USER_ID_LENGTH = 4
 
     def __init__(self, user_id: str, email: str, name: str, password: str,
-                 ra: str, role: ROLE, access_level: ACCESS_LEVEL, created_at: datetime,
-                 updated_at: datetime, social_name: str, accepted_terms: bool,
+                 ra: str, role: ROLE, access_level: ACCESS_LEVEL, created_at: int,
+                 updated_at: int, social_name: str, accepted_terms: bool,
                  accepted_notifications: bool, certificate_with_social_name: bool
                  ):
         if not User.validate_user_id(user_id):

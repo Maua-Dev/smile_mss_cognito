@@ -25,8 +25,8 @@ class Test_UserRepositoryMock:
     # def test_create_user(self):
     #     repo = UserRepositoryMock()
     #     repo.create_user(user=User(user_id='0004', email='romas@gmail.com', name='Romas briquez', password='r12345',
-    #                                ra='20013459', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=1644977700000,
-    #                                updated_at=1644977700000, social_name='Briquez romas', accepted_terms=True,
+    #                                ra='20013459', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
+    #                                updated_at=16449777000, social_name='Briquez romas', accepted_terms=True,
     #                                accepted_notifications=True, certificate_with_social_name=True
     #                                ))
     #
@@ -37,8 +37,8 @@ class Test_UserRepositoryMock:
     #     with pytest.raises(UserAlreadyExists):
     #         repo = UserRepositoryMock()
     #         repo.create_user(user=User(user_id='0004', email='zeeba@maua.br', name='Caio soller', password='z12345',
-    #                                    ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=1644977700000,
-    #                                    updated_at=1644977700000, social_name='zeeba toledo', accepted_terms=True,
+    #                                    ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
+    #                                    updated_at=16449777000, social_name='zeeba toledo', accepted_terms=True,
     #                                    accepted_notifications=True, certificate_with_social_name=True
     #                                    ))
 
@@ -68,8 +68,8 @@ class Test_UserRepositoryMock:
     def test_update_user(self):
         repo = UserRepositoryMock()
         repo.update_user(User(user_id='0004', email='vitor@maua.br', name='Caio soller toledo', password='z12345',
-                              ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=1644977700000,
-                              updated_at=1644977800000, social_name='zeeba toledo', accepted_terms=True,
+                              ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
+                              updated_at=16449778000, social_name='zeeba toledo', accepted_terms=True,
                               accepted_notifications=True, certificate_with_social_name=True
                               ))
 
@@ -78,8 +78,8 @@ class Test_UserRepositoryMock:
     def test_update_user_non_exists(self):
         repo = UserRepositoryMock()
         user =  repo.update_user(User(user_id='0004', email='ze@maua.br', name='Caio soller toledo', password='z12345',
-                                  ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=1644977700000,
-                                  updated_at=1644977800000, social_name='zeeba toledo', accepted_terms=True,
+                                  ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
+                                  updated_at=16449778000, social_name='zeeba toledo', accepted_terms=True,
                                   accepted_notifications=True, certificate_with_social_name=True
                                   ))
         assert user == None
@@ -104,8 +104,8 @@ class Test_UserRepositoryMock:
     #         'ra': '20014309',
     #         'role': ROLE.STUDENT,
     #         'access_level': ACCESS_LEVEL.USER,
-    #         'created_at': 1644977700000,
-    #         'updated_at': 1644977700000,
+    #         'created_at': 16449777000,
+    #         'updated_at': 16449777000,
     #         'social_name': 'Zeeba Toledo',
     #         'accepted_terms': True,
     #         'accepted_notifications': True,
@@ -124,8 +124,8 @@ class Test_UserRepositoryMock:
             'ra': '20014309',
             'role': "STUDENT",
             'access_level': "USER",
-            'created_at': 1644977700000,
-            'updated_at': 1644977700000,
+            'created_at': 16449777000,
+            'updated_at': 16449777000,
             'social_name': 'Zeeba Toledo',
             'accepted_terms': True,
             'accepted_notifications': True,

@@ -14,8 +14,8 @@ class Test_User:
 
     def test_create_valid_user_all_fields_completed(self):
         user = User(user_id='1234', email='zeeba@gmail.com', name='Caio toledo', password='z12345',
-                    ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=1644977700000,
-                    updated_at=1644977700000, social_name='zeeba toledo', accepted_terms=True,
+                    ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
+                    updated_at=16449777000, social_name='zeeba toledo', accepted_terms=True,
                     accepted_notifications=True, certificate_with_social_name=True
                     )
 
@@ -28,8 +28,8 @@ class Test_User:
         assert user.ra == '20014309'
         assert user.role == ROLE.STUDENT
         assert user.access_level == ACCESS_LEVEL.USER
-        assert user.created_at == 1644977700000
-        assert user.updated_at == 1644977700000
+        assert user.created_at == 16449777000
+        assert user.updated_at == 16449777000
         assert user.social_name == 'Zeeba Toledo'
         assert user.accepted_terms == True
         assert user.accepted_notifications == True
@@ -117,7 +117,7 @@ class Test_User:
     def test_create_user_invalid_created_at(self):
         with pytest.raises(EntityError):
             User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
-                 ra='12345678', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at='1644977700000',
+                 ra='12345678', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at='16449777000',
                  updated_at=None, social_name=None, accepted_terms=None,
                  accepted_notifications=None, certificate_with_social_name=None
                  )
@@ -126,14 +126,14 @@ class Test_User:
         with pytest.raises(EntityError):
             User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
                  ra='12345678', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
-                 updated_at='1644977700000', social_name=None, accepted_terms=None,
+                 updated_at='16449777000', social_name=None, accepted_terms=None,
                  accepted_notifications=None, certificate_with_social_name=None
                  )
 
     def test_create_user_invalid_social_name(self):
         with pytest.raises(EntityError):
             User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
-                 ra='12345678', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=1644977700000,
+                 ra='12345678', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
                  updated_at=None, social_name=1, accepted_terms=None,
                  accepted_notifications=None, certificate_with_social_name=None
                  )
@@ -142,7 +142,7 @@ class Test_User:
         with pytest.raises(EntityError):
             User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
                  ra='12345678', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
-                 updated_at=1644977700000, social_name=None, accepted_terms='True',
+                 updated_at=16449777000, social_name=None, accepted_terms='True',
                  accepted_notifications=None, certificate_with_social_name=None
                  )
 
@@ -150,7 +150,7 @@ class Test_User:
         with pytest.raises(EntityError):
             User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
                  ra='12345678', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
-                 updated_at=1644977700000, social_name=None, accepted_terms=None,
+                 updated_at=16449777000, social_name=None, accepted_terms=None,
                  accepted_notifications='None', certificate_with_social_name=None
                  )
 
@@ -158,7 +158,7 @@ class Test_User:
         with pytest.raises(EntityError):
             User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
                  ra='12345678', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
-                 updated_at=1644977700000, social_name=None, accepted_terms=None,
+                 updated_at=16449777000, social_name=None, accepted_terms=None,
                  accepted_notifications=False, certificate_with_social_name='None'
                  )
 
