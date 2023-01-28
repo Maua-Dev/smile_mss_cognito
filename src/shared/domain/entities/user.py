@@ -1,10 +1,9 @@
 import abc
 from datetime import datetime
-from typing import List
 import re
 
 from src.shared.domain.entities.enums import ROLE, ACCESS_LEVEL
-from src.shared.domain.errors.errors import EntityError
+from src.shared.helpers.errors.domain_errors import EntityError
 
 
 class User(abc.ABC):

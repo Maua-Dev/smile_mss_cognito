@@ -4,10 +4,13 @@ import pytest
 
 from src.shared.domain.entities.enums import ROLE, ACCESS_LEVEL
 from src.shared.domain.entities.user import User
-from src.shared.domain.errors.errors import EntityError
+from src.shared.helpers.errors.domain_errors import EntityError
 
 
-class Test_User():
+# from src.shared.domain.errors.errors import EntityError
+
+
+class Test_User:
 
     def test_create_valid_user_all_fields_completed(self):
         user = User(user_id='1234', email='zeeba@gmail.com', name='Caio toledo', password='z12345',

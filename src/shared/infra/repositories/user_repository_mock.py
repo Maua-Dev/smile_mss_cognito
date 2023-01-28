@@ -2,8 +2,7 @@ from typing import List, Tuple
 
 from src.shared.domain.entities.enums import ROLE, ACCESS_LEVEL
 from src.shared.domain.entities.user import User
-from src.shared.domain.errors.errors import UnexpectedError, InvalidToken, UserAlreadyExists, InvalidCode, NonExistentUser, \
-    UserAlreadyConfirmed
+
 from src.shared.domain.repositories.user_repository_interface import IUserRepository
 from src.shared.helpers.errors.domain_errors import EntityError
 
@@ -58,29 +57,32 @@ class UserRepositoryMock(IUserRepository):
         return False
 
     def create_user(self, user: User):
-        duplicitySensitive = ['user_id', 'email', 'ra']
-        for field in duplicitySensitive:
-            if self.check_user_by_propriety(propriety=field, value=getattr(user, field)):
-                raise UserAlreadyExists(
-                    f'Propriety ${field} = "${getattr(user, field)}" already exists')
-        self.users.append(user)
+        pass
+    #     duplicitySensitive = ['user_id', 'email', 'ra']
+    #     for field in duplicitySensitive:
+    #         if self.check_user_by_propriety(propriety=field, value=getattr(user, field)):
+    #             # raise UserAlreadyExists(
+    #             #     f'Propriety ${field} = "${getattr(user, field)}" already exists')
+    #     self.users.append(user)
+    #
 
     def confirm_user_creation(self, login: str, code: int) -> bool:
-        # code = 1234567
-
-        if code != 1234567:
-            raise InvalidCode(f'Invalid code')
-        user: User = None
-        for userx in self.users:
-            if userx.email == login:
-                user = userx
-                break
-        if not user:
-            raise NonExistentUser(f'User not found')
-        if userx in self.confirmedUsers:
-            raise UserAlreadyConfirmed(f'User already confirmed')
-        self.confirmedUsers.append(user)
-        return True
+        pass
+    #     # code = 1234567
+    #
+    #     if code != 1234567:
+    #         raise InvalidCode(f'Invalid code')
+    #     user: User = None
+    #     for userx in self.users:
+    #         if userx.email == login:
+    #             user = userx
+    #             break
+    #     if not user:
+    #         raise NonExistentUser(f'User not found')
+    #     if userx in self.confirmedUsers:
+    #         raise UserAlreadyConfirmed(f'User already confirmed')
+    #     self.confirmedUsers.append(user)
+    #     return True
 
     def update_user(self, user: User) -> User:
 
@@ -160,9 +162,9 @@ class UserRepositoryMock(IUserRepository):
 
     def resend_confirmation_code(self, email: str) -> bool:
         user = self.get_user_by_email(email)
-
-        if user is None:
-            raise NonExistentUser(f"{email}")
+        #
+        # if user is None:
+        #     raise NonExistentUser(f"{email}")
 
         # Send email
 
