@@ -1,6 +1,3 @@
-mangum
-python-multipart
-
 pytest==6.2.5
 pytest-cov==4.0.0
 boto3==1.24.88
