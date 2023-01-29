@@ -1,5 +1,5 @@
-from src.modules.refresh_token.app.refresh_token_usecase import RefreshTokenUsecase
-from src.modules.refresh_token.app.refresh_token_viewmodel import RefreshTokenViewmodel
+from .refresh_token_usecase import RefreshTokenUsecase
+from .refresh_token_viewmodel import RefreshTokenViewmodel
 from src.shared.helpers.errors.controller_errors import MissingParameters
 from src.shared.helpers.errors.domain_errors import EntityError
 from src.shared.helpers.errors.usecase_errors import ForbiddenAction
