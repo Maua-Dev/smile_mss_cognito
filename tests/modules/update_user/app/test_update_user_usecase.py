@@ -36,8 +36,11 @@ class Test_UpdateUserUsecase:
             'name': 'Vitor BARTOLOZZI BASTOS GODOY DE TOLEDO',
             'social_name': 'Vitor Godoy',
             'accepted_notifications': True,
-            'certificate_with_social_name': True
+            'certificate_with_social_name': True,
+            'phone': '11999999999'
         }
+
+        old_user = repo.confirmedUsers[0]
 
         new_user = usecase(mew_user_data=user_to_update, access_token=f"validAccessToken-{user_to_update['email']}")
 
@@ -49,6 +52,9 @@ class Test_UpdateUserUsecase:
         assert repo.confirmedUsers[0].social_name == 'Vitor Godoy'
         assert repo.confirmedUsers[0].accepted_notifications
         assert repo.confirmedUsers[0].certificate_with_social_name
+        assert repo.confirmedUsers[0].phone == '11999999999'
+        assert repo.confirmedUsers[0].ra == old_user.ra
+        assert repo.confirmedUsers[0].accepted_terms == old_user.accepted_terms
 
     def test_update_user_usecase_invalid_access_token(self):
         repo = UserRepositoryMock()
