@@ -9,7 +9,7 @@ class Test_ListUsersViewmodel:
         repo = UserRepositoryMock()
         usecase = ListUsersUsecase(repo)
 
-        user_list_dict_list = usecase(user_list=[repo.confirmedUsers[0].user_id],
+        user_list_dict_list = usecase(user_list=[repo.confirmed_users[0].user_id],
                                       access_token="validAccessToken-vitor@maua.br")
 
         viewmodel = ListUsersViewmodel(user_list_dict_list)
@@ -23,7 +23,8 @@ class Test_ListUsersViewmodel:
                     'ra': '20014309',
                     'role': 'STUDENT',
                     'access_level': 'USER',
-                    'social_name': 'Zeeba Toledo'
+                    'social_name': 'Zeeba Toledo',
+                    "phone": "5511999451100",
                 }
             },
             'message': 'the users were retrieved'
@@ -35,8 +36,8 @@ class Test_ListUsersViewmodel:
         repo = UserRepositoryMock()
         usecase = ListUsersUsecase(repo)
 
-        user1 = repo.confirmedUsers[0]
-        user2 = repo.confirmedUsers[1]
+        user1 = repo.confirmed_users[0]
+        user2 = repo.confirmed_users[1]
 
         user_list_dict_list = usecase(user_list=[user1.user_id, user2.user_id],
                                       access_token="validAccessToken-vitor@maua.br")
@@ -52,7 +53,8 @@ class Test_ListUsersViewmodel:
                     'ra': '20014309',
                     'role': 'STUDENT',
                     'access_level': 'USER',
-                    'social_name': 'Zeeba Toledo'
+                    'social_name': 'Zeeba Toledo',
+                    "phone": "5511999451100",
                 },
                 '0002': {
                     'user_id': '0002',
@@ -61,7 +63,8 @@ class Test_ListUsersViewmodel:
                     'ra': '20014309',
                     'role': 'STUDENT',
                     'access_level': 'ADMIN',
-                    'social_name': 'Zeeba Toledo'
+                    'social_name': 'Zeeba Toledo',
+                    "phone": "5511991758098",
                 }
             },
             'message': 'the users were retrieved'

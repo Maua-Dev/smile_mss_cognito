@@ -10,15 +10,15 @@ class Test_UpdateUserController:
         usecase = UpdateUserUsecase(repo)
         controller = UpdateUserController(usecase)
 
-        response = controller(HttpRequest(body={'name': 'Vitor', 'social_name': 'Vitinho', 'accepted_notifications': True, 'certificate_with_social_name': True}, headers={'Authorization': 'Bearer ' + 'validAccessToken-' + repo.confirmedUsers[0].email}))
+        response = controller(HttpRequest(body={'name': 'Vitor', 'social_name': 'Vitinho', 'accepted_notifications': True, 'certificate_with_social_name': True}, headers={'Authorization': 'Bearer ' + 'validAccessToken-' + repo.confirmed_users[0].email}))
 
         assert response.status_code == 200
-        assert response.body['user']['user_id'] == repo.confirmedUsers[0].user_id
+        assert response.body['user']['user_id'] == repo.confirmed_users[0].user_id
         assert response.body['user']['name'] == 'Vitor'
-        assert response.body['user']['email'] == repo.confirmedUsers[0].email
-        assert response.body['user']['ra'] == repo.confirmedUsers[0].ra
-        assert response.body['user']['role'] == repo.confirmedUsers[0].role.value
-        assert response.body['user']['access_level'] == repo.confirmedUsers[0].access_level.value
+        assert response.body['user']['email'] == repo.confirmed_users[0].email
+        assert response.body['user']['ra'] == repo.confirmed_users[0].ra
+        assert response.body['user']['role'] == repo.confirmed_users[0].role.value
+        assert response.body['user']['access_level'] == repo.confirmed_users[0].access_level.value
         assert response.body['user']['social_name'] == 'Vitinho'
         assert response.body['user']['accepted_notifications'] == True
         assert response.body['user']['certificate_with_social_name'] == True
@@ -29,10 +29,10 @@ class Test_UpdateUserController:
         usecase = UpdateUserUsecase(repo)
         controller = UpdateUserController(usecase)
 
-        response = controller(HttpRequest(body={'name': 'Vitor'}, headers={'Authorization': 'Bearer ' + 'validAccessToken-' + repo.confirmedUsers[0].email}))
+        response = controller(HttpRequest(body={'name': 'Vitor'}, headers={'Authorization': 'Bearer ' + 'validAccessToken-' + repo.confirmed_users[0].email}))
 
         assert response.status_code == 200
-        assert response.body['user']['user_id'] == repo.confirmedUsers[0].user_id
+        assert response.body['user']['user_id'] == repo.confirmed_users[0].user_id
         assert response.body['user']['name'] == 'Vitor'
 
     def test_update_user_controller_missing_authorization(self):
@@ -53,7 +53,7 @@ class Test_UpdateUserController:
         response = controller(HttpRequest(
             body={'name': 'Vitor', 'social_name': 'Vitinho', 'accepted_notifications': True,
                   'certificate_with_social_name': True},
-            headers={'Authorization': 'Bearer' + 'validAccessToken-' + repo.confirmedUsers[0].email}))
+            headers={'Authorization': 'Bearer' + 'validAccessToken-' + repo.confirmed_users[0].email}))
 
         assert response.status_code == 400
         assert response.body == 'Field token is not valid'

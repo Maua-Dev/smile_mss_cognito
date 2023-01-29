@@ -14,13 +14,13 @@ class Test_GetUserController:
         response = controller(HttpRequest(query_params={'email': "zeeba@gmail.com"}))
 
         assert response.status_code == 200
-        assert response.body['user']['user_id'] == repo.confirmedUsers[0].user_id
-        assert response.body['user']['name'] == repo.confirmedUsers[0].name
-        assert response.body['user']['email'] == repo.confirmedUsers[0].email
-        assert response.body['user']['ra'] == repo.confirmedUsers[0].ra
-        assert response.body['user']['role'] == repo.confirmedUsers[0].role.value
-        assert response.body['user']['access_level'] == repo.confirmedUsers[0].access_level.value
-        assert response.body['user']['social_name'] == repo.confirmedUsers[0].social_name
+        assert response.body['user']['user_id'] == repo.confirmed_users[0].user_id
+        assert response.body['user']['name'] == repo.confirmed_users[0].name
+        assert response.body['user']['email'] == repo.confirmed_users[0].email
+        assert response.body['user']['ra'] == repo.confirmed_users[0].ra
+        assert response.body['user']['role'] == repo.confirmed_users[0].role.value
+        assert response.body['user']['access_level'] == repo.confirmed_users[0].access_level.value
+        assert response.body['user']['social_name'] == repo.confirmed_users[0].social_name
         assert response.body['message'] == 'the user was retrieved'
 
     def test_get_user_missing_email(self):

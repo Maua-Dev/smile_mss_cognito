@@ -20,14 +20,13 @@ class User(abc.ABC):
     accepted_terms: bool
     accepted_notifications: bool
     certificate_with_social_name: bool
+    phone: str #with country code
     MIN_NAME_LENGTH = 2
     USER_ID_LENGTH = 4
 
-    def __init__(self, user_id: str, email: str, name: str, password: str,
-                 ra: str, role: ROLE, access_level: ACCESS_LEVEL, created_at: datetime,
-                 updated_at: datetime, social_name: str, accepted_terms: bool,
-                 accepted_notifications: bool, certificate_with_social_name: bool
-                 ):
+    def __init__(self, user_id: str, email: str, name: str, password: str, ra: str, role: ROLE, access_level: ACCESS_LEVEL,
+                 created_at: int, updated_at: int, social_name: str, accepted_terms: bool, accepted_notifications: bool,
+                 certificate_with_social_name: bool, phone: str):
         if not User.validate_user_id(user_id):
             raise EntityError("user_id")
         self.user_id = user_id
@@ -90,6 +89,11 @@ class User(abc.ABC):
                 raise EntityError("certificate_with_social_name")
         self.certificate_with_social_name = certificate_with_social_name
 
+        if phone is not None:
+            if type(phone) != str:
+                raise EntityError("phone")
+        self.phone = phone
+
     @staticmethod
     def validate_user_id(user_id: str) -> bool:
         if type(user_id) != str:
@@ -142,6 +146,15 @@ class User(abc.ABC):
         return True
 
     @staticmethod
+    def validate_phone(phone: str) -> bool:
+        if type(phone) != str:
+            return False
+        elif phone.isdecimal() is False:
+            return False
+
+        return True
+
+    @staticmethod
     def parse_object(user: dict) -> 'User':
         return User(
             user_id=user['user_id'],
@@ -158,7 +171,8 @@ class User(abc.ABC):
             accepted_notifications=user['accepted_notifications'] if user.get(
                 'accepted_notifications') is not None else None,
             certificate_with_social_name=user['certificate_with_social_name'] if user.get(
-                'certificate_with_social_name') is not None else None
+                'certificate_with_social_name') is not None else None,
+            phone=user['phone'] if user.get('phone') is not None else None
         )
 
     def to_dict(self) -> dict:
@@ -175,5 +189,6 @@ class User(abc.ABC):
             'social_name': self.social_name,
             'accepted_terms': self.accepted_terms,
             'accepted_notifications': self.accepted_notifications,
-            'certificate_with_social_name': self.certificate_with_social_name
+            'certificate_with_social_name': self.certificate_with_social_name,
+            'phone': self.phone
         }

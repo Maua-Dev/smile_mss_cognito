@@ -9,6 +9,7 @@ class UserViewmodel:
     role: ROLE
     access_level: ACCESS_LEVEL
     social_name: str
+    phone: str
 
     def __init__(self, user: User):
         self.user_id = user.user_id
@@ -18,6 +19,7 @@ class UserViewmodel:
         self.role = user.role
         self.access_level = user.access_level
         self.social_name = user.social_name
+        self.phone = user.phone
 
     def to_dict(self):
         return {
@@ -27,7 +29,8 @@ class UserViewmodel:
             'ra': self.ra,
             'role': self.role.value,
             'access_level': self.access_level.value,
-            'social_name': self.social_name
+            'social_name': self.social_name,
+            'phone': self.phone,
         }
 
 

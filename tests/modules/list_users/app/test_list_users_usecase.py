@@ -12,23 +12,23 @@ class Test_ListUsersUsecase:
         repo = UserRepositoryMock()
         usecase = ListUsersUsecase(repo)
 
-        id1 = repo.confirmedUsers[0].user_id
-        id2 = repo.confirmedUsers[1].user_id
+        id1 = repo.confirmed_users[0].user_id
+        id2 = repo.confirmed_users[1].user_id
 
         user_list = [id1, id2]
 
         user_dict = usecase(user_list, "validAccessToken-vitor@maua.br")
 
         assert len(user_dict) == 2
-        assert user_dict[id1] == repo.confirmedUsers[0]
-        assert user_dict[id2] == repo.confirmedUsers[1]
+        assert user_dict[id1] == repo.confirmed_users[0]
+        assert user_dict[id2] == repo.confirmed_users[1]
 
     def test_list_user_usecase_not_found(self):
         repo = UserRepositoryMock()
         usecase = ListUsersUsecase(repo)
 
-        id1 = repo.confirmedUsers[0].user_id
-        id2 = repo.confirmedUsers[1].user_id
+        id1 = repo.confirmed_users[0].user_id
+        id2 = repo.confirmed_users[1].user_id
 
         user_list = [id1, id2, "0004"]
 
@@ -39,8 +39,8 @@ class Test_ListUsersUsecase:
         repo = UserRepositoryMock()
         usecase = ListUsersUsecase(repo)
 
-        id1 = repo.confirmedUsers[0].user_id
-        id2 = repo.confirmedUsers[1].user_id
+        id1 = repo.confirmed_users[0].user_id
+        id2 = repo.confirmed_users[1].user_id
 
         user_list = [id1, id2]
 
@@ -51,8 +51,8 @@ class Test_ListUsersUsecase:
         repo = UserRepositoryMock()
         usecase = ListUsersUsecase(repo)
 
-        id1 = repo.confirmedUsers[0].user_id
-        id2 = repo.confirmedUsers[1].user_id
+        id1 = repo.confirmed_users[0].user_id
+        id2 = repo.confirmed_users[1].user_id
 
         user_list = [id1, id2]
 
@@ -63,8 +63,8 @@ class Test_ListUsersUsecase:
         repo = UserRepositoryMock()
         usecase = ListUsersUsecase(repo)
 
-        id1 = repo.confirmedUsers[0].user_id
-        id2 = repo.confirmedUsers[1].user_id
+        id1 = repo.confirmed_users[0].user_id
+        id2 = repo.confirmed_users[1].user_id
 
         user_list = id1
 
@@ -75,8 +75,8 @@ class Test_ListUsersUsecase:
         repo = UserRepositoryMock()
         usecase = ListUsersUsecase(repo)
 
-        id1 = repo.confirmedUsers[0].user_id
-        id2 = repo.confirmedUsers[1].user_id
+        id1 = repo.confirmed_users[0].user_id
+        id2 = repo.confirmed_users[1].user_id
 
         user_list = [id1, id2, "1"]
 

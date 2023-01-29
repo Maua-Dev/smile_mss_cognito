@@ -25,8 +25,8 @@ class Test_UserRepositoryMock:
     # def test_create_user(self):
     #     repo = UserRepositoryMock()
     #     repo.create_user(user=User(user_id='0004', email='romas@gmail.com', name='Romas briquez', password='r12345',
-    #                                ra='20013459', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=1644977700000,
-    #                                updated_at=1644977700000, social_name='Briquez romas', accepted_terms=True,
+    #                                ra='20013459', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
+    #                                updated_at=16449777000, social_name='Briquez romas', accepted_terms=True,
     #                                accepted_notifications=True, certificate_with_social_name=True
     #                                ))
     #
@@ -37,8 +37,8 @@ class Test_UserRepositoryMock:
     #     with pytest.raises(UserAlreadyExists):
     #         repo = UserRepositoryMock()
     #         repo.create_user(user=User(user_id='0004', email='zeeba@maua.br', name='Caio soller', password='z12345',
-    #                                    ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=1644977700000,
-    #                                    updated_at=1644977700000, social_name='zeeba toledo', accepted_terms=True,
+    #                                    ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
+    #                                    updated_at=16449777000, social_name='zeeba toledo', accepted_terms=True,
     #                                    accepted_notifications=True, certificate_with_social_name=True
     #                                    ))
 
@@ -53,7 +53,7 @@ class Test_UserRepositoryMock:
     #     confirmed = repo.confirm_user_creation('joao@gmail.com', 1234567)
     #
     #     assert confirmed == True
-    #     assert repo.confirmedUsers[2] == repo.users[2]
+    #     assert repo.confirmed_users[2] == repo.users[2]
 
     # def test_confirm_user_creation_non_existent_user(self):
     #     repo = UserRepositoryMock()
@@ -68,30 +68,30 @@ class Test_UserRepositoryMock:
     def test_update_user(self):
         repo = UserRepositoryMock()
         repo.update_user(User(user_id='0004', email='vitor@maua.br', name='Caio soller toledo', password='z12345',
-                              ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=1644977700000,
-                              updated_at=1644977800000, social_name='zeeba toledo', accepted_terms=True,
-                              accepted_notifications=True, certificate_with_social_name=True
+                              ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
+                              updated_at=16449778000, social_name='zeeba toledo', accepted_terms=True,
+                              accepted_notifications=True, certificate_with_social_name=True, phone='5511991758098'
                               ))
 
-        assert repo.confirmedUsers[1].name == 'Caio Soller Toledo'
+        assert repo.confirmed_users[1].name == 'Caio Soller Toledo'
 
     def test_update_user_non_exists(self):
         repo = UserRepositoryMock()
         user =  repo.update_user(User(user_id='0004', email='ze@maua.br', name='Caio soller toledo', password='z12345',
-                                  ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=1644977700000,
-                                  updated_at=1644977800000, social_name='zeeba toledo', accepted_terms=True,
-                                  accepted_notifications=True, certificate_with_social_name=True
+                                  ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
+                                  updated_at=16449778000, social_name='zeeba toledo', accepted_terms=True,
+                                  accepted_notifications=True, certificate_with_social_name=True, phone='5511991758098'
                                   ))
         assert user == None
 
     def test_delete_user(self):
         repo = UserRepositoryMock()
 
-        assert len(repo.confirmedUsers) == 2
+        assert len(repo.confirmed_users) == 2
 
         repo.delete_user(email='zeeba@gmail.com')
 
-        assert len(repo.confirmedUsers) == 1
+        assert len(repo.confirmed_users) == 1
 
     # def test_login_user(self):
     #     repo = UserRepositoryMock()
@@ -104,8 +104,8 @@ class Test_UserRepositoryMock:
     #         'ra': '20014309',
     #         'role': ROLE.STUDENT,
     #         'access_level': ACCESS_LEVEL.USER,
-    #         'created_at': 1644977700000,
-    #         'updated_at': 1644977700000,
+    #         'created_at': 16449777000,
+    #         'updated_at': 16449777000,
     #         'social_name': 'Zeeba Toledo',
     #         'accepted_terms': True,
     #         'accepted_notifications': True,
@@ -124,12 +124,13 @@ class Test_UserRepositoryMock:
             'ra': '20014309',
             'role': "STUDENT",
             'access_level': "USER",
-            'created_at': 1644977700000,
-            'updated_at': 1644977700000,
+            'created_at': 16449777000,
+            'updated_at': 16449777000,
             'social_name': 'Zeeba Toledo',
             'accepted_terms': True,
             'accepted_notifications': True,
             'certificate_with_social_name': True,
+            'phone': '5511999451100'
         }
 
     def test_refresh_token(self):
@@ -153,8 +154,8 @@ class Test_UserRepositoryMock:
             '123456'
         )
         assert resp
-        assert repo.confirmedUsers[0].email == 'zeeba@gmail.com'
-        assert repo.confirmedUsers[0].password == 'new1234567'
+        assert repo.confirmed_users[0].email == 'zeeba@gmail.com'
+        assert repo.confirmed_users[0].password == 'new1234567'
 
     def test_resend_confirmation_code(self):
         repo = UserRepositoryMock()
