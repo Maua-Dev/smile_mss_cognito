@@ -1,11 +1,3 @@
-from src.adapters.errors.http_exception import HttpException
-from src.adapters.helpers.http_models import BadRequest, HttpRequest, HttpResponse, InternalServerError, Ok
-from src.modules.login_user.app.login_user_viewmodel import LoginUserModel
-from src.modules.refresh_token.app.refresh_token_viewmodel import RefreshTokenModel
-from src.domain.errors.errors import UnexpectedError, EntityError, NonExistentUser, InvalidCredentials, InvalidToken
-from src.domain.repositories.user_repository_interface import IUserRepository
-from src.modules.login_user.app.login_user_usecase import LoginUserUsecase
-from src.modules.refresh_token.app.refresh_token_usecase import RefreshTokenUsecase
 
 
 class RefreshTokenController:
