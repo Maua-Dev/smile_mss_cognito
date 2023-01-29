@@ -13,7 +13,7 @@ class Test_GetUserUsecase:
         usecase = GetUserUsecase(repo)
         user = usecase('zeeba@gmail.com')
 
-        assert user == repo.confirmedUsers[0]
+        assert user == repo.confirmed_users[0]
 
     def test_get_user_usecase_invalid_email(self):
         repo = UserRepositoryMock()

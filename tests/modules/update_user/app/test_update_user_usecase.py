@@ -16,14 +16,14 @@ class Test_UpdateUserUsecase:
             'email': 'zeeba@gmail.com',
             'name': 'Vitor BARTOLOZZI BASTOS GODOY DE TOLEDO',
         }
-        old_user = repo.confirmedUsers[0]
+        old_user = repo.confirmed_users[0]
         new_user = usecase(mew_user_data=user_to_update, access_token=f"validAccessToken-{user_to_update['email']}")
 
         assert new_user.name == 'Vitor Bartolozzi Bastos Godoy De Toledo'
-        assert repo.confirmedUsers[0].name == 'Vitor Bartolozzi Bastos Godoy De Toledo'
-        assert repo.confirmedUsers[0].social_name == old_user.social_name
-        assert repo.confirmedUsers[0].accepted_notifications == old_user.accepted_notifications
-        assert repo.confirmedUsers[0].certificate_with_social_name == old_user.certificate_with_social_name
+        assert repo.confirmed_users[0].name == 'Vitor Bartolozzi Bastos Godoy De Toledo'
+        assert repo.confirmed_users[0].social_name == old_user.social_name
+        assert repo.confirmed_users[0].accepted_notifications == old_user.accepted_notifications
+        assert repo.confirmed_users[0].certificate_with_social_name == old_user.certificate_with_social_name
 
 
     def test_update_user_usecase_more_fields(self):
@@ -40,7 +40,7 @@ class Test_UpdateUserUsecase:
             'phone': '11999999999'
         }
 
-        old_user = repo.confirmedUsers[0]
+        old_user = repo.confirmed_users[0]
 
         new_user = usecase(mew_user_data=user_to_update, access_token=f"validAccessToken-{user_to_update['email']}")
 
@@ -48,13 +48,13 @@ class Test_UpdateUserUsecase:
         assert new_user.social_name == 'Vitor Godoy'
         assert new_user.accepted_notifications
         assert new_user.certificate_with_social_name
-        assert repo.confirmedUsers[0].name == 'Vitor Bartolozzi Bastos Godoy De Toledo'
-        assert repo.confirmedUsers[0].social_name == 'Vitor Godoy'
-        assert repo.confirmedUsers[0].accepted_notifications
-        assert repo.confirmedUsers[0].certificate_with_social_name
-        assert repo.confirmedUsers[0].phone == '11999999999'
-        assert repo.confirmedUsers[0].ra == old_user.ra
-        assert repo.confirmedUsers[0].accepted_terms == old_user.accepted_terms
+        assert repo.confirmed_users[0].name == 'Vitor Bartolozzi Bastos Godoy De Toledo'
+        assert repo.confirmed_users[0].social_name == 'Vitor Godoy'
+        assert repo.confirmed_users[0].accepted_notifications
+        assert repo.confirmed_users[0].certificate_with_social_name
+        assert repo.confirmed_users[0].phone == '11999999999'
+        assert repo.confirmed_users[0].ra == old_user.ra
+        assert repo.confirmed_users[0].accepted_terms == old_user.accepted_terms
 
     def test_update_user_usecase_invalid_access_token(self):
         repo = UserRepositoryMock()

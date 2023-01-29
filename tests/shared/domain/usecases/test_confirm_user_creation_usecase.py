@@ -26,7 +26,7 @@
 #         assert result
 #         u = await repository.getUserByCpfRne(cpf_rne)
 #         assert u.name == "User3"
-#         assert u in repository._confirmedUsers
+#         assert u in repository._confirmed_users
 #
 #     @pytest.mark.asyncio
 #     async def test_confirm_confirmed_user(self):

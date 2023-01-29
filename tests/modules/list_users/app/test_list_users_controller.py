@@ -10,44 +10,44 @@ class Test_ListUsersController:
         usecase = ListUsersUsecase(repo)
         controller = ListUsersController(usecase)
 
-        id1 = repo.confirmedUsers[0].user_id
-        id2 = repo.confirmedUsers[1].user_id
+        id1 = repo.confirmed_users[0].user_id
+        id2 = repo.confirmed_users[1].user_id
 
         user_list = [id1, id2]
 
         response = controller(HttpRequest(
             body={"user_list": user_list},
-            headers={'Authorization': 'Bearer ' + 'validAccessToken-' + repo.confirmedUsers[1].email}))
+            headers={'Authorization': 'Bearer ' + 'validAccessToken-' + repo.confirmed_users[1].email}))
 
         assert response.status_code == 200
         assert response.body['user_list'][id1]['user_id'] == id1
-        assert response.body['user_list'][id1]['name'] == repo.confirmedUsers[0].name
-        assert response.body['user_list'][id1]['email'] == repo.confirmedUsers[0].email
-        assert response.body['user_list'][id1]['ra'] == repo.confirmedUsers[0].ra
-        assert response.body['user_list'][id1]['role'] == repo.confirmedUsers[0].role.value
-        assert response.body['user_list'][id1]['access_level'] == repo.confirmedUsers[0].access_level.value
-        assert response.body['user_list'][id1]['social_name'] == repo.confirmedUsers[0].social_name
+        assert response.body['user_list'][id1]['name'] == repo.confirmed_users[0].name
+        assert response.body['user_list'][id1]['email'] == repo.confirmed_users[0].email
+        assert response.body['user_list'][id1]['ra'] == repo.confirmed_users[0].ra
+        assert response.body['user_list'][id1]['role'] == repo.confirmed_users[0].role.value
+        assert response.body['user_list'][id1]['access_level'] == repo.confirmed_users[0].access_level.value
+        assert response.body['user_list'][id1]['social_name'] == repo.confirmed_users[0].social_name
         assert response.body['user_list'][id2]['user_id'] == id2
-        assert response.body['user_list'][id2]['name'] == repo.confirmedUsers[1].name
-        assert response.body['user_list'][id2]['email'] == repo.confirmedUsers[1].email
-        assert response.body['user_list'][id2]['ra'] == repo.confirmedUsers[1].ra
-        assert response.body['user_list'][id2]['role'] == repo.confirmedUsers[1].role.value
-        assert response.body['user_list'][id2]['access_level'] == repo.confirmedUsers[1].access_level.value
-        assert response.body['user_list'][id2]['social_name'] == repo.confirmedUsers[1].social_name
+        assert response.body['user_list'][id2]['name'] == repo.confirmed_users[1].name
+        assert response.body['user_list'][id2]['email'] == repo.confirmed_users[1].email
+        assert response.body['user_list'][id2]['ra'] == repo.confirmed_users[1].ra
+        assert response.body['user_list'][id2]['role'] == repo.confirmed_users[1].role.value
+        assert response.body['user_list'][id2]['access_level'] == repo.confirmed_users[1].access_level.value
+        assert response.body['user_list'][id2]['social_name'] == repo.confirmed_users[1].social_name
 
     def test_list_users_controller_invalid_access_token(self):
         repo = UserRepositoryMock()
         usecase = ListUsersUsecase(repo)
         controller = ListUsersController(usecase)
 
-        id1 = repo.confirmedUsers[0].user_id
-        id2 = repo.confirmedUsers[1].user_id
+        id1 = repo.confirmed_users[0].user_id
+        id2 = repo.confirmed_users[1].user_id
 
         user_list = [id1, id2]
 
         response = controller(HttpRequest(
             body={"user_list": user_list},
-            headers={'Authorization': 'Bearer' + 'validAccessToken-' + repo.confirmedUsers[1].email}))
+            headers={'Authorization': 'Bearer' + 'validAccessToken-' + repo.confirmed_users[1].email}))
 
         assert response.status_code == 400
         assert response.body == 'Field token is not valid'
@@ -59,7 +59,7 @@ class Test_ListUsersController:
 
         response = controller(HttpRequest(
             body={"user_list": 1},
-            headers={'Authorization': 'Bearer ' + 'validAccessToken-' + repo.confirmedUsers[1].email}))
+            headers={'Authorization': 'Bearer ' + 'validAccessToken-' + repo.confirmed_users[1].email}))
 
         assert response.status_code == 400
         assert response.body == 'Field user_list is not valid'
@@ -69,8 +69,8 @@ class Test_ListUsersController:
         usecase = ListUsersUsecase(repo)
         controller = ListUsersController(usecase)
 
-        id1 = repo.confirmedUsers[0].user_id
-        id2 = repo.confirmedUsers[1].user_id
+        id1 = repo.confirmed_users[0].user_id
+        id2 = repo.confirmed_users[1].user_id
 
         user_list = [id1, id2]
 
@@ -87,7 +87,7 @@ class Test_ListUsersController:
 
         response = controller(HttpRequest(
             body={},
-            headers={'Authorization': 'Bearer ' + 'validAccessToken-' + repo.confirmedUsers[1].email}))
+            headers={'Authorization': 'Bearer ' + 'validAccessToken-' + repo.confirmed_users[1].email}))
 
         assert response.status_code == 400
         assert response.body == 'Field user_list is missing'
@@ -97,8 +97,8 @@ class Test_ListUsersController:
         usecase = ListUsersUsecase(repo)
         controller = ListUsersController(usecase)
 
-        id1 = repo.confirmedUsers[0].user_id
-        id2 = repo.confirmedUsers[1].user_id
+        id1 = repo.confirmed_users[0].user_id
+        id2 = repo.confirmed_users[1].user_id
 
         user_list = [id1, id2]
 
@@ -114,14 +114,14 @@ class Test_ListUsersController:
         usecase = ListUsersUsecase(repo)
         controller = ListUsersController(usecase)
 
-        id1 = repo.confirmedUsers[0].user_id
-        id2 = repo.confirmedUsers[1].user_id
+        id1 = repo.confirmed_users[0].user_id
+        id2 = repo.confirmed_users[1].user_id
 
         user_list = [id1, id2, "1234"]
 
         response = controller(HttpRequest(
             body={"user_list": user_list},
-            headers={'Authorization': 'Bearer ' + 'validAccessToken-' + repo.confirmedUsers[1].email}))
+            headers={'Authorization': 'Bearer ' + 'validAccessToken-' + repo.confirmed_users[1].email}))
 
         assert response.status_code == 404
         assert response.body == 'No items found for user_id: 1234'
@@ -131,14 +131,14 @@ class Test_ListUsersController:
         usecase = ListUsersUsecase(repo)
         controller = ListUsersController(usecase)
 
-        id1 = repo.confirmedUsers[0].user_id
-        id2 = repo.confirmedUsers[1].user_id
+        id1 = repo.confirmed_users[0].user_id
+        id2 = repo.confirmed_users[1].user_id
 
         user_list = [id1, id2, "12345"]
 
         response = controller(HttpRequest(
             body={"user_list": user_list},
-            headers={'Authorization': 'Bearer ' + 'validAccessToken-' + repo.confirmedUsers[1].email}))
+            headers={'Authorization': 'Bearer ' + 'validAccessToken-' + repo.confirmed_users[1].email}))
 
         assert response.status_code == 400
         assert response.body == 'Field user_id is not valid'
@@ -148,14 +148,14 @@ class Test_ListUsersController:
         usecase = ListUsersUsecase(repo)
         controller = ListUsersController(usecase)
 
-        id1 = repo.confirmedUsers[0].user_id
-        id2 = repo.confirmedUsers[1].user_id
+        id1 = repo.confirmed_users[0].user_id
+        id2 = repo.confirmed_users[1].user_id
 
         user_list = [id1, id2]
 
         response = controller(HttpRequest(
             body={"user_list": user_list},
-            headers={'Authorization': 'Bearer ' + 'validAccessToken-' + repo.confirmedUsers[0].email}))
+            headers={'Authorization': 'Bearer ' + 'validAccessToken-' + repo.confirmed_users[0].email}))
 
         assert response.status_code == 403
         assert response.body == 'That action is forbidden for this user'

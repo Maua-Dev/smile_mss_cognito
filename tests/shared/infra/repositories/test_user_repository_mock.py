@@ -53,7 +53,7 @@ class Test_UserRepositoryMock:
     #     confirmed = repo.confirm_user_creation('joao@gmail.com', 1234567)
     #
     #     assert confirmed == True
-    #     assert repo.confirmedUsers[2] == repo.users[2]
+    #     assert repo.confirmed_users[2] == repo.users[2]
 
     # def test_confirm_user_creation_non_existent_user(self):
     #     repo = UserRepositoryMock()
@@ -73,7 +73,7 @@ class Test_UserRepositoryMock:
                               accepted_notifications=True, certificate_with_social_name=True, phone='5511991758098'
                               ))
 
-        assert repo.confirmedUsers[1].name == 'Caio Soller Toledo'
+        assert repo.confirmed_users[1].name == 'Caio Soller Toledo'
 
     def test_update_user_non_exists(self):
         repo = UserRepositoryMock()
@@ -87,11 +87,11 @@ class Test_UserRepositoryMock:
     def test_delete_user(self):
         repo = UserRepositoryMock()
 
-        assert len(repo.confirmedUsers) == 2
+        assert len(repo.confirmed_users) == 2
 
         repo.delete_user(email='zeeba@gmail.com')
 
-        assert len(repo.confirmedUsers) == 1
+        assert len(repo.confirmed_users) == 1
 
     # def test_login_user(self):
     #     repo = UserRepositoryMock()
@@ -154,8 +154,8 @@ class Test_UserRepositoryMock:
             '123456'
         )
         assert resp
-        assert repo.confirmedUsers[0].email == 'zeeba@gmail.com'
-        assert repo.confirmedUsers[0].password == 'new1234567'
+        assert repo.confirmed_users[0].email == 'zeeba@gmail.com'
+        assert repo.confirmed_users[0].password == 'new1234567'
 
     def test_resend_confirmation_code(self):
         repo = UserRepositoryMock()

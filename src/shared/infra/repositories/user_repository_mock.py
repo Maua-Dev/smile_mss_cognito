@@ -10,7 +10,7 @@ from src.shared.helpers.errors.domain_errors import EntityError
 class UserRepositoryMock(IUserRepository):
 
     users: List[User]
-    confirmedUsers: List[User]
+    confirmed_users: List[User]
 
     def __init__(self):
         self.users = [
@@ -30,20 +30,20 @@ class UserRepositoryMock(IUserRepository):
                          accepted_notifications=True, certificate_with_social_name=True, phone="5511991758098"
                  )
         ]
-        self.confirmedUsers = [
+        self.confirmed_users = [
             self.users[0],
             self.users[1]
         ]
 
     def get_all_users(self) -> List[User]:
-        if len(self.confirmedUsers) > 0:
-            return self.confirmedUsers
+        if len(self.confirmed_users) > 0:
+            return self.confirmed_users
         else:
             return None
 
     def get_user_by_email(self, email: str) -> User:
         user: User = None
-        for userx in self.confirmedUsers:
+        for userx in self.confirmed_users:
             if userx.email == email:
                 user = userx
                 break
@@ -79,25 +79,25 @@ class UserRepositoryMock(IUserRepository):
     #             break
     #     if not user:
     #         raise NonExistentUser(f'User not found')
-    #     if userx in self.confirmedUsers:
+    #     if userx in self.confirmed_users:
     #         raise UserAlreadyConfirmed(f'User already confirmed')
-    #     self.confirmedUsers.append(user)
+    #     self.confirmed_users.append(user)
     #     return True
 
     def update_user(self, user: User) -> User:
 
-        for idx, userx in enumerate(self.confirmedUsers):
+        for idx, userx in enumerate(self.confirmed_users):
             if userx.email == user.email:
-                self.confirmedUsers[idx] = user
+                self.confirmed_users[idx] = user
                 return user
 
         return None
 
     def delete_user(self, email: str):
         cont = 0
-        for userx in self.confirmedUsers:
+        for userx in self.confirmed_users:
             if userx.email == email:
-                self.confirmedUsers.pop(cont)
+                self.confirmed_users.pop(cont)
                 break
             cont += 1
 
@@ -141,7 +141,7 @@ class UserRepositoryMock(IUserRepository):
         return a
 
     def change_password(self, login: str) -> bool:
-        for userx in self.confirmedUsers:
+        for userx in self.confirmed_users:
             if userx.email == login:
                 return True
         return False
