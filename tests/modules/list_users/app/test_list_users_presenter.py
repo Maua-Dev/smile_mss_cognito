@@ -17,7 +17,7 @@ class Test_ListUsersPresenter:
             "headers": {
                 "header1": "value1",
                 "header2": "value1,value2",
-                'Authorization': "Bearer validAccessToken-vitor@maua.br"
+                'Authorization': "Bearer valid_access_token-vitor@maua.br"
             },
             "queryStringParameters": {
                 "parameter1": "value1,value2",
@@ -133,7 +133,7 @@ class Test_ListUsersPresenter:
             "headers": {
                 "header1": "value1",
                 "header2": "value1,value2",
-                'Authorization': "Bearer validAccessToken-vitor@maua.br"
+                'Authorization': "Bearer valid_access_token-vitor@maua.br"
             },
             "queryStringParameters": {
                 "parameter1": "value1,value2",
@@ -193,7 +193,7 @@ class Test_ListUsersPresenter:
             "headers": {
                 "header1": "value1",
                 "header2": "value1,value2",
-                'Authorization': "Bearer validAccessToken-zeeba@gmail.com"
+                'Authorization': "Bearer valid_access_token-zeeba@gmail.com"
             },
             "queryStringParameters": {
                 "parameter1": "value1,value2",

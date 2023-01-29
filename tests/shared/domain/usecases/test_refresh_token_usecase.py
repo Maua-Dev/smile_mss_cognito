@@ -17,7 +17,7 @@
 #
 #         refreshTokenUsecase = RefreshTokenUsecase(repository)
 #         accessToken, refreshToken = await refreshTokenUsecase(refreshToken)
-#         expectedAcessToken = 'validAccessToken-' + str(cpf_rne)
+#         expectedAcessToken = 'valid_access_token-' + str(cpf_rne)
 #         expectedRefreshToken = 'validRefreshToken-' + str(cpf_rne)
 #
 #         assert accessToken == expectedAcessToken

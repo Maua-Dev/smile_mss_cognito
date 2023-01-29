@@ -17,7 +17,7 @@ class Test_UpdateUserUsecase:
             'name': 'Vitor BARTOLOZZI BASTOS GODOY DE TOLEDO',
         }
         old_user = repo.confirmed_users[0]
-        new_user = usecase(mew_user_data=user_to_update, access_token=f"validAccessToken-{user_to_update['email']}")
+        new_user = usecase(mew_user_data=user_to_update, access_token=f"valid_access_token-{user_to_update['email']}")
 
         assert new_user.name == 'Vitor Bartolozzi Bastos Godoy De Toledo'
         assert repo.confirmed_users[0].name == 'Vitor Bartolozzi Bastos Godoy De Toledo'
@@ -42,7 +42,7 @@ class Test_UpdateUserUsecase:
 
         old_user = repo.confirmed_users[0]
 
-        new_user = usecase(mew_user_data=user_to_update, access_token=f"validAccessToken-{user_to_update['email']}")
+        new_user = usecase(mew_user_data=user_to_update, access_token=f"valid_access_token-{user_to_update['email']}")
 
         assert new_user.name == 'Vitor Bartolozzi Bastos Godoy De Toledo'
         assert new_user.social_name == 'Vitor Godoy'
@@ -67,7 +67,7 @@ class Test_UpdateUserUsecase:
 
         with pytest.raises(EntityError):
             new_user = usecase(mew_user_data=user_to_update,
-                               access_token=f"invalidAccessToken-{user_to_update['email']}")
+                               access_token=f"invalid_access_token-{user_to_update['email']}")
 
     def test_update_user_usecase_i(self):
         repo = UserRepositoryMock()
@@ -80,7 +80,7 @@ class Test_UpdateUserUsecase:
 
         with pytest.raises(NoItemsFound):
             new_user = usecase(mew_user_data=user_to_update,
-                               access_token=f"validAccessToken-{user_to_update['email']}")
+                               access_token=f"valid_access_token-{user_to_update['email']}")
 
 
 

@@ -117,7 +117,7 @@ class Test_UserRepositoryMock:
 
     def test_check_token(self):
         repo = UserRepositoryMock()
-        resp = repo.check_token(token="validAccessToken-zeeba@gmail.com")
+        resp = repo.check_token(token="valid_access_token-zeeba@gmail.com")
         assert resp == {
             'user_id': '0001',
             'email': 'zeeba@gmail.com',

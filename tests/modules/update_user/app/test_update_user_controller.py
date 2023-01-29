@@ -10,7 +10,7 @@ class Test_UpdateUserController:
         usecase = UpdateUserUsecase(repo)
         controller = UpdateUserController(usecase)
 
-        response = controller(HttpRequest(body={'name': 'Vitor', 'social_name': 'Vitinho', 'accepted_notifications': True, 'certificate_with_social_name': True}, headers={'Authorization': 'Bearer ' + 'validAccessToken-' + repo.confirmed_users[0].email}))
+        response = controller(HttpRequest(body={'name': 'Vitor', 'social_name': 'Vitinho', 'accepted_notifications': True, 'certificate_with_social_name': True}, headers={'Authorization': 'Bearer ' + 'valid_access_token-' + repo.confirmed_users[0].email}))
 
         assert response.status_code == 200
         assert response.body['user']['user_id'] == repo.confirmed_users[0].user_id
@@ -29,7 +29,7 @@ class Test_UpdateUserController:
         usecase = UpdateUserUsecase(repo)
         controller = UpdateUserController(usecase)
 
-        response = controller(HttpRequest(body={'name': 'Vitor'}, headers={'Authorization': 'Bearer ' + 'validAccessToken-' + repo.confirmed_users[0].email}))
+        response = controller(HttpRequest(body={'name': 'Vitor'}, headers={'Authorization': 'Bearer ' + 'valid_access_token-' + repo.confirmed_users[0].email}))
 
         assert response.status_code == 200
         assert response.body['user']['user_id'] == repo.confirmed_users[0].user_id
@@ -53,7 +53,7 @@ class Test_UpdateUserController:
         response = controller(HttpRequest(
             body={'name': 'Vitor', 'social_name': 'Vitinho', 'accepted_notifications': True,
                   'certificate_with_social_name': True},
-            headers={'Authorization': 'Bearer' + 'validAccessToken-' + repo.confirmed_users[0].email}))
+            headers={'Authorization': 'Bearer' + 'valid_access_token-' + repo.confirmed_users[0].email}))
 
         assert response.status_code == 400
         assert response.body == 'Field token is not valid'
@@ -63,7 +63,7 @@ class Test_UpdateUserController:
         usecase = UpdateUserUsecase(repo)
         controller = UpdateUserController(usecase)
 
-        response = controller(HttpRequest(body={'name': 'Vitor', 'social_name': 'Vitinho', 'accepted_notifications': True, 'certificate_with_social_name': True}, headers={'Authorization': 'Bearer ' + 'validAccessToken-' + "vitor@vitor.com"}))
+        response = controller(HttpRequest(body={'name': 'Vitor', 'social_name': 'Vitinho', 'accepted_notifications': True, 'certificate_with_social_name': True}, headers={'Authorization': 'Bearer ' + 'valid_access_token-' + "vitor@vitor.com"}))
 
         assert response.status_code == 404
         assert response.body == 'No items found for user'

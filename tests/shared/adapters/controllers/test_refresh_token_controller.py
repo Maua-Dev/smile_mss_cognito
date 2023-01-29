@@ -19,7 +19,7 @@
 #         response = await refreshTokenController(request)
 #         assert response.status_code == 200
 #         assert response.body == {
-#             'access_token': f'validAccessToken-{75599469093}',
+#             'access_token': f'valid_access_token-{75599469093}',
 #             'refresh_token': f'validRefreshToken-{75599469093}'
 #         }
 #

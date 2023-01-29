@@ -18,7 +18,7 @@ class Test_UpdateUserPresenter:
             "headers": {
                 "header1": "value1",
                 "header2": "value1,value2",
-                'Authorization': "Bearer validAccessToken-zeeba@gmail.com"
+                'Authorization': "Bearer valid_access_token-zeeba@gmail.com"
             },
             "queryStringParameters": {
                 "parameter1": "value1,value2",
@@ -133,7 +133,7 @@ class Test_UpdateUserPresenter:
             "headers": {
                 "header1": "value1",
                 "header2": "value1,value2",
-                'Authorization': "Bearer validAccessToken-naotemessemeail@gmail.com"
+                'Authorization': "Bearer valid_access_token-naotemessemeail@gmail.com"
             },
             "queryStringParameters": {
                 "parameter1": "value1,value2",
