@@ -50,3 +50,11 @@ class IUserRepository(ABC):
     @abstractmethod
     def confirm_change_password(self, login: str, newPassword: str, code: str) -> bool:
         pass
+
+    @abstractmethod
+    def resend_confirmation_code(self, email: str) -> bool:
+        """
+        Returns True if the email exists and the code was sent,
+        else raise NoItemsFound
+        """
+        pass
