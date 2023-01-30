@@ -1,62 +1,43 @@
-from src.adapters.errors.http_exception import HttpException
-from src.adapters.helpers.http_models import BadRequest, HttpRequest, HttpResponse, InternalServerError, Ok, \
-    RedirectResponse, NotFound
-from src.modules.change_password.app.change_password_viewmodel import ChangePasswordModel
-from src.modules.login_user.app.login_user_viewmodel import LoginUserModel
-from src.domain.errors.errors import UnexpectedError, EntityError, NonExistentUser, InvalidCredentials, \
-    UserAlreadyConfirmed
-from src.domain.repositories.user_repository_interface import IUserRepository
-from src.modules.change_password.app.change_password_usecase import ChangePasswordUsecase
-from src.modules.confirm_change_password.app.confirm_change_password_usecase import ConfirmChangePasswordUsecase
-from src.modules.confirm_user_creation.app.confirm_user_creation_usecase import ConfirmUserCreationUsecase
-from src.modules.login_user.app.login_user_usecase import LoginUserUsecase
-from src.modules.resend_creation_confirmation.app.resend_creation_confirmation_usecase import ResendCreationConfirmationUsecase
+from .resend_creation_confirmation_usecase import ResendCreationConfirmationUsecase
+from src.shared.helpers.errors.controller_errors import MissingParameters
+from src.shared.helpers.errors.domain_errors import EntityError
+from src.shared.helpers.errors.usecase_errors import NoItemsFound
+from src.shared.helpers.external_interfaces.external_interface import IRequest, IResponse
+from src.shared.helpers.external_interfaces.http_codes import OK, NotFound, BadRequest, InternalServerError
+from .resend_creation_confirmation_viewmodel import ResendCreationConfirmationViewmodel
 
 
 class ResendCreationConfirmationController:
-    def __init__(self, userRepository: IUserRepository) -> None:
-        self._resendCreationConfirmationUsecase = ResendCreationConfirmationUsecase(
-            userRepository)
 
-    async def __call__(self, req: HttpRequest) -> HttpResponse:
+    def __init__(self, usecase: ResendCreationConfirmationUsecase):
+        self.ResendConfirmationUsecase = usecase
 
-        if req.query is not None:
-            return BadRequest('No parameters allowed.')
-        if not {'cpf_rne'}.issubset(set(req.body)):
-            return BadRequest('Missing login or code.')
-
+    def __call__(self, request: IRequest) -> IResponse:
         try:
+            if request.data.get('email') is None:
+                raise MissingParameters('email')
 
-            req.body['cpfRne'] = req.body['cpf_rne'].replace(
-                '.', '').replace('-', '').replace(' ', '')
+            result = self.ResendConfirmationUsecase(
+                email=request.data.get('email')
+            )
 
-            result = await self._resendCreationConfirmationUsecase(cpfRne=str(req.body['cpfRne']))
+            viewmodel = ResendCreationConfirmationViewmodel()
 
-            if not result:
-                message = "Something with the request went wrong."
-                return BadRequest(message)
+            return OK(viewmodel.to_dict())
 
-            return Ok("New email sent.")
+        except NoItemsFound as err:
 
-        except KeyError as e:
-            return BadRequest('Missing parameter: ' + e.args[0])
+            return NotFound(body=err.message)
 
-        except UnexpectedError as e:
-            err = InternalServerError(e.message)
-            return err
+        except MissingParameters as err:
 
-        except NonExistentUser as e:
-            err = NotFound(e.message)
-            return err
+            return BadRequest(body=err.message)
 
-        except EntityError as e:
-            return BadRequest(e.message)
+        except EntityError as err:
 
-        except UserAlreadyConfirmed as e:
-            error = BadRequest(e.message)
-            error.status_code = 401
-            return error
+            return BadRequest(body=err.message)
 
-        except Exception as e:
-            err = InternalServerError(e.args[0])
-            return err
+        except Exception as err:
+
+            return InternalServerError(body=err.args[0])
+

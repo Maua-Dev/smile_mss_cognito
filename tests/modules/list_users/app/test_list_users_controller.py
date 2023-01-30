@@ -17,7 +17,7 @@ class Test_ListUsersController:
 
         response = controller(HttpRequest(
             body={"user_list": user_list},
-            headers={'Authorization': 'Bearer ' + 'validAccessToken-' + repo.confirmed_users[1].email}))
+            headers={'Authorization': 'Bearer ' + 'valid_access_token-' + repo.confirmed_users[1].email}))
 
         assert response.status_code == 200
         assert response.body['user_list'][id1]['user_id'] == id1
@@ -47,7 +47,7 @@ class Test_ListUsersController:
 
         response = controller(HttpRequest(
             body={"user_list": user_list},
-            headers={'Authorization': 'Bearer' + 'validAccessToken-' + repo.confirmed_users[1].email}))
+            headers={'Authorization': 'Bearer' + 'valid_access_token-' + repo.confirmed_users[1].email}))
 
         assert response.status_code == 400
         assert response.body == 'Field token is not valid'
@@ -59,7 +59,7 @@ class Test_ListUsersController:
 
         response = controller(HttpRequest(
             body={"user_list": 1},
-            headers={'Authorization': 'Bearer ' + 'validAccessToken-' + repo.confirmed_users[1].email}))
+            headers={'Authorization': 'Bearer ' + 'valid_access_token-' + repo.confirmed_users[1].email}))
 
         assert response.status_code == 400
         assert response.body == 'Field user_list is not valid'
@@ -87,7 +87,7 @@ class Test_ListUsersController:
 
         response = controller(HttpRequest(
             body={},
-            headers={'Authorization': 'Bearer ' + 'validAccessToken-' + repo.confirmed_users[1].email}))
+            headers={'Authorization': 'Bearer ' + 'valid_access_token-' + repo.confirmed_users[1].email}))
 
         assert response.status_code == 400
         assert response.body == 'Field user_list is missing'
@@ -104,7 +104,7 @@ class Test_ListUsersController:
 
         response = controller(HttpRequest(
             body={"user_list": user_list},
-            headers={'Authorization': 'Bearer ' + 'validAccessToken-' + "notFoundEmail@gmail.com"}))
+            headers={'Authorization': 'Bearer ' + 'valid_access_token-' + "notFoundEmail@gmail.com"}))
 
         assert response.status_code == 404
         assert response.body == 'No items found for user'
@@ -121,7 +121,7 @@ class Test_ListUsersController:
 
         response = controller(HttpRequest(
             body={"user_list": user_list},
-            headers={'Authorization': 'Bearer ' + 'validAccessToken-' + repo.confirmed_users[1].email}))
+            headers={'Authorization': 'Bearer ' + 'valid_access_token-' + repo.confirmed_users[1].email}))
 
         assert response.status_code == 404
         assert response.body == 'No items found for user_id: 1234'
@@ -138,7 +138,7 @@ class Test_ListUsersController:
 
         response = controller(HttpRequest(
             body={"user_list": user_list},
-            headers={'Authorization': 'Bearer ' + 'validAccessToken-' + repo.confirmed_users[1].email}))
+            headers={'Authorization': 'Bearer ' + 'valid_access_token-' + repo.confirmed_users[1].email}))
 
         assert response.status_code == 400
         assert response.body == 'Field user_id is not valid'
@@ -155,7 +155,7 @@ class Test_ListUsersController:
 
         response = controller(HttpRequest(
             body={"user_list": user_list},
-            headers={'Authorization': 'Bearer ' + 'validAccessToken-' + repo.confirmed_users[0].email}))
+            headers={'Authorization': 'Bearer ' + 'valid_access_token-' + repo.confirmed_users[0].email}))
 
         assert response.status_code == 403
         assert response.body == 'That action is forbidden for this user'

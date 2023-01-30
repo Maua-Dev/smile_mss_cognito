@@ -1,43 +1,47 @@
-from src.adapters.errors.http_exception import HttpException
-from src.adapters.helpers.http_models import BadRequest, HttpRequest, HttpResponse, InternalServerError, Ok
-from src.modules.login_user.app.login_user_viewmodel import LoginUserModel
-from src.modules.refresh_token.app.refresh_token_viewmodel import RefreshTokenModel
-from src.domain.errors.errors import UnexpectedError, EntityError, NonExistentUser, InvalidCredentials, InvalidToken
-from src.domain.repositories.user_repository_interface import IUserRepository
-from src.modules.login_user.app.login_user_usecase import LoginUserUsecase
-from src.modules.refresh_token.app.refresh_token_usecase import RefreshTokenUsecase
+from .refresh_token_usecase import RefreshTokenUsecase
+from .refresh_token_viewmodel import RefreshTokenViewmodel
+from src.shared.helpers.errors.controller_errors import MissingParameters
+from src.shared.helpers.errors.domain_errors import EntityError
+from src.shared.helpers.errors.usecase_errors import ForbiddenAction
+from src.shared.helpers.external_interfaces.external_interface import IRequest, IResponse
+from src.shared.helpers.external_interfaces.http_codes import OK, BadRequest, Forbidden, InternalServerError
 
 
 class RefreshTokenController:
-    def __init__(self, userRepository: IUserRepository) -> None:
-        self._refreshTokenUsecase = RefreshTokenUsecase(userRepository)
 
-    async def __call__(self, req: HttpRequest) -> HttpResponse:
+    def __init__(self, usecase: RefreshTokenUsecase):
+        self.refreshTokenUsecase = usecase
 
-        if req.query is not None:
-            return BadRequest('No parameters allowed.')
-
+    def __call__(self, request: IRequest) -> IResponse:
         try:
-            token = req.headers.get('Authorization').split(' ')
+            if request.data.get('Authorization') is None:
+                raise MissingParameters('Authorization header')
+
+            token = request.data.get('Authorization').split(' ')
+
             if len(token) != 2 or token[0] != 'Bearer':
-                return BadRequest('Invalid token.')
-            refreshToken = token[1]
-            tokens = await self._refreshTokenUsecase(refreshToken)
-            accessToken, refreshToken = tokens
-            refreshTokenModel = RefreshTokenModel(
-                accessToken=accessToken, refreshToken=refreshToken)
-            return Ok(refreshTokenModel.toDict())
+                raise EntityError('token')
+            refresh_token = token[1]
 
-        except InvalidToken as e:
-            return BadRequest(e.message)
+            tokens = self.refreshTokenUsecase(refresh_token)
+            access_token, refresh_token = tokens
+            refresh_token_viewmodel = RefreshTokenViewmodel(
+                access_token=access_token, refresh_token=refresh_token)
+            return OK(refresh_token_viewmodel.to_dict())
 
-        except KeyError as e:
-            return BadRequest('Missing parameter: ' + e.args[0])
+        except MissingParameters as err:
 
-        except UnexpectedError as e:
-            err = InternalServerError(e.message)
-            return err
+            return BadRequest(body=err.message)
 
-        except Exception as e:
-            err = InternalServerError(e.args[0])
-            return err
+        except ForbiddenAction as err:
+
+            return Forbidden(body=err.message)
+
+        except EntityError as err:
+
+            return BadRequest(body=err.message)
+
+        except Exception as err:
+
+            return InternalServerError(body=err.args[0])
+

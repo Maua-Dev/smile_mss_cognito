@@ -12,7 +12,7 @@
 #
 #     @pytest.mark.asyncio
 #     async def test_check_token_valid_token_controller(self):
-#         header = {"Authorization": "Bearer validAccessToken-75599469093"}
+#         header = {"Authorization": "Bearer valid_access_token-75599469093"}
 #         request = HttpRequest(headers=header)
 #
 #         checkTokenController = CheckTokenController(UserRepositoryMock())
@@ -29,7 +29,7 @@
 #
 #     @pytest.mark.asyncio
 #     async def test_check_token_invalid_token_controller(self):
-#         header = {"Authorization": "Bearer invalidAccessToken-75599469093"}
+#         header = {"Authorization": "Bearer invalid_access_token-75599469093"}
 #         request = HttpRequest(headers=header)
 #
 #         checkTokenController = CheckTokenController(UserRepositoryMock())
@@ -38,7 +38,7 @@
 #
 #     @pytest.mark.asyncio
 #     async def test_check_token_invalid_token_controller2(self):
-#         header = {"Authorization": "Random validAccessToken-75599469093"}
+#         header = {"Authorization": "Random valid_access_token-75599469093"}
 #         request = HttpRequest(headers=header)
 #
 #         checkTokenController = CheckTokenController(UserRepositoryMock())

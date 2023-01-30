@@ -5,6 +5,7 @@ from src.shared.domain.entities.user import User
 
 from src.shared.domain.repositories.user_repository_interface import IUserRepository
 from src.shared.helpers.errors.domain_errors import EntityError
+from src.shared.helpers.errors.usecase_errors import NoItemsFound
 
 
 class UserRepositoryMock(IUserRepository):
@@ -116,7 +117,7 @@ class UserRepositoryMock(IUserRepository):
     def check_token(self, token: str) -> dict:
 
         split_token = token.split("-")
-        if len(split_token) != 2 or split_token[0] != "validAccessToken":
+        if len(split_token) != 2 or split_token[0] != "valid_access_token":
             raise EntityError('token')
 
         email = split_token[1]
@@ -130,14 +131,14 @@ class UserRepositoryMock(IUserRepository):
         return data
 
     def refresh_token(self, refresh_token: str) -> Tuple[str, str]:
-        splitToken = refresh_token.split("-")  # token, email
-        if len(splitToken) != 2:
+        split_token = refresh_token.split("-")  # token, email
+        if len(split_token) != 2:
             return None, None
-        if splitToken[0] != "valid_refresh_token":
+        if split_token[0] != "valid_refresh_token":
             return None, None
-        if self.get_user_by_email(splitToken[1]) is None:
+        if self.get_user_by_email(split_token[1]) is None:
             return None, None
-        a = "valid_access_token-" + splitToken[1], refresh_token
+        a = "valid_access_token-" + split_token[1], refresh_token
         return a
 
     def change_password(self, login: str) -> bool:
@@ -162,10 +163,10 @@ class UserRepositoryMock(IUserRepository):
 
     def resend_confirmation_code(self, email: str) -> bool:
         user = self.get_user_by_email(email)
-        #
-        # if user is None:
-        #     raise NonExistentUser(f"{email}")
 
-        # Send email
+        if user is None:
+            raise NoItemsFound(f"user email: {email}")
+
+        # Send email in real repository
 
         return True

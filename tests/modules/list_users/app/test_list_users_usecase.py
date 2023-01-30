@@ -17,7 +17,7 @@ class Test_ListUsersUsecase:
 
         user_list = [id1, id2]
 
-        user_dict = usecase(user_list, "validAccessToken-vitor@maua.br")
+        user_dict = usecase(user_list, "valid_access_token-vitor@maua.br")
 
         assert len(user_dict) == 2
         assert user_dict[id1] == repo.confirmed_users[0]
@@ -33,7 +33,7 @@ class Test_ListUsersUsecase:
         user_list = [id1, id2, "0004"]
 
         with pytest.raises(NoItemsFound):
-            user_dict = usecase(user_list, "validAccessToken-vitor@maua.br")
+            user_dict = usecase(user_list, "valid_access_token-vitor@maua.br")
 
     def test_list_user_usecase_access_token_not_found(self):
         repo = UserRepositoryMock()
@@ -45,7 +45,7 @@ class Test_ListUsersUsecase:
         user_list = [id1, id2]
 
         with pytest.raises(NoItemsFound):
-            user_dict = usecase(user_list, "validAccessToken-emailfalso@maua.br")
+            user_dict = usecase(user_list, "valid_access_token-emailfalso@maua.br")
 
     def test_list_user_usecase_access_token_not_admin(self):
         repo = UserRepositoryMock()
@@ -57,7 +57,7 @@ class Test_ListUsersUsecase:
         user_list = [id1, id2]
 
         with pytest.raises(NoItemsFound):
-            user_dict = usecase(user_list, "validAccessToken-zeeba@gmail.br")
+            user_dict = usecase(user_list, "valid_access_token-zeeba@gmail.br")
 
     def test_list_user_usecase_user_list_not_list(self):
         repo = UserRepositoryMock()
@@ -69,7 +69,7 @@ class Test_ListUsersUsecase:
         user_list = id1
 
         with pytest.raises(EntityError):
-            user_dict = usecase(user_list, "validAccessToken-vitor@maua.br")
+            user_dict = usecase(user_list, "valid_access_token-vitor@maua.br")
 
     def test_list_user_usecase_id_not_valid(self):
         repo = UserRepositoryMock()
@@ -81,6 +81,6 @@ class Test_ListUsersUsecase:
         user_list = [id1, id2, "1"]
 
         with pytest.raises(EntityError):
-            user_dict = usecase(user_list,  "validAccessToken-vitor@maua.br")
+            user_dict = usecase(user_list,  "valid_access_token-vitor@maua.br")
 
 

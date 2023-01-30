@@ -18,7 +18,7 @@
 #
 #         loginUserUsecase = LoginUserUsecase(repository)
 #         data = await loginUserUsecase(cpf_rne, password)
-#         expectedAcessToken = 'validAccessToken-' + str(cpf_rne)
+#         expectedAcessToken = 'valid_access_token-' + str(cpf_rne)
 #         expectedRefreshToken = 'validRefreshToken-' + str(cpf_rne)
 #
 #         assert data["accessToken"] == expectedAcessToken

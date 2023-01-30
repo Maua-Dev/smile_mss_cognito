@@ -15,7 +15,7 @@
 #         repository = UserRepositoryMock()
 #
 #         cpf_rne = '75599469093'
-#         accessToken = f'validAccessToken-{cpf_rne}'
+#         accessToken = f'valid_access_token-{cpf_rne}'
 #
 #         checkTokenUsecase = CheckTokenUsecase(repository)
 #         data = await checkTokenUsecase(accessToken)
@@ -29,7 +29,7 @@
 #     async def test_check_token_invalid_token(self):
 #
 #         cpf_rne = 75599469093
-#         refreshToken = f'invalidAccessToken-{cpf_rne}'
+#         refreshToken = f'invalid_access_token-{cpf_rne}'
 #
 #         repository = UserRepositoryMock()
 #
@@ -41,7 +41,7 @@
 #     async def test_check_invalid_token2(self):
 #
 #         cpf_rne = '30238808084'
-#         refreshToken = f'validAccessToken-{cpf_rne}'
+#         refreshToken = f'valid_access_token-{cpf_rne}'
 #
 #         repository = UserRepositoryMock()
 #

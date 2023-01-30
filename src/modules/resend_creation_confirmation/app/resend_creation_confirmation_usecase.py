@@ -1,17 +1,17 @@
-from src.domain.entities.user import User
-from src.domain.errors.errors import EntityError
-from src.domain.repositories.user_repository_interface import IUserRepository
+from src.shared.domain.entities.user import User
+from src.shared.domain.repositories.user_repository_interface import IUserRepository
+from src.shared.helpers.errors.domain_errors import EntityError
 
 
 class ResendCreationConfirmationUsecase:
 
-    def __init__(self, userRepository: IUserRepository):
-        self._userRepository = userRepository
+    def __init__(self, repo: IUserRepository):
+        self.repo = repo
 
-    async def __call__(self, cpfRne: str) -> bool:
-        if not User.validateCpf(cpfRne):
-            raise EntityError("CPF")
+    def __call__(self, email: str) -> bool:
+        if not User.validate_email(email):
+            raise EntityError("email")
 
-        result = await self._userRepository.resendConfirmationCode(cpfRne)
+        result = self.repo.resend_confirmation_code(email)
+
         return result
-

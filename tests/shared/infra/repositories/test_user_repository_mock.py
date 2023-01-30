@@ -1,6 +1,7 @@
 import pytest
 from src.shared.domain.entities.enums import ACCESS_LEVEL, ROLE
 from src.shared.domain.entities.user import User
+from src.shared.helpers.errors.usecase_errors import NoItemsFound
 from src.shared.infra.repositories.user_repository_mock import UserRepositoryMock
 
 
@@ -116,7 +117,7 @@ class Test_UserRepositoryMock:
 
     def test_check_token(self):
         repo = UserRepositoryMock()
-        resp = repo.check_token(token="validAccessToken-zeeba@gmail.com")
+        resp = repo.check_token(token="valid_access_token-zeeba@gmail.com")
         assert resp == {
             'user_id': '0001',
             'email': 'zeeba@gmail.com',
@@ -162,7 +163,7 @@ class Test_UserRepositoryMock:
         resp = repo.resend_confirmation_code('zeeba@gmail.com')
         assert resp
 
-    # def test_resend_confirmation_code_non_existent_user(self):
-    #     repo = UserRepositoryMock()
-    #     with pytest.raises(NonExistentUser):
-    #         resp = repo.resend_confirmation_code('ze@gmail.com')
+    def test_resend_confirmation_code_non_existent_user(self):
+        repo = UserRepositoryMock()
+        with pytest.raises(NoItemsFound):
+            resp = repo.resend_confirmation_code('ze@gmail.com')

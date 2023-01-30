@@ -1,20 +1,18 @@
-from src.domain.entities.user import User
-from src.domain.errors.errors import UserAlreadyExists, UnexpectedError, IncompleteUser, InvalidCredentials, \
-    InvalidToken
-from src.domain.repositories.user_repository_interface import IUserRepository
+from src.shared.domain.repositories.user_repository_interface import IUserRepository
+from src.shared.helpers.errors.usecase_errors import ForbiddenAction
 
 
 class RefreshTokenUsecase:
 
-    def __init__(self, userRepository: IUserRepository):
-        self._userRepository = userRepository
+    def __init__(self, repo: IUserRepository):
+        self.repo = repo
 
-    async def __call__(self, refreshToken: str) -> (str, str):
-        tokens = await self._userRepository.refreshToken(refreshToken)
+    def __call__(self, refresh_token: str) -> (str, str):
+        tokens = self.repo.refresh_token(refresh_token)
         if tokens is None or tokens == (None, None):
-            raise InvalidToken(f'Invalid Refresh Token: {refreshToken}')
+            raise ForbiddenAction(f'Refresh Token: {refresh_token}')
 
-        accessToken, refreshToken = tokens
-        if accessToken is None or refreshToken is None:
-            raise InvalidToken(f'Invalid Refresh or Access Token')
-        return accessToken, refreshToken
+        access_token, refresh_token = tokens
+        if access_token is None or refresh_token is None:
+            raise ForbiddenAction(f'Refresh Token or Access Token')
+        return access_token, refresh_token

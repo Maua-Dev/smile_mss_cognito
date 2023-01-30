@@ -20,7 +20,7 @@
 #         response = await loginUserController(request)
 #         assert response.status_code == 200
 #         assert response.body == {
-#             'access_token': f'validAccessToken-{75599469093}',
+#             'access_token': f'valid_access_token-{75599469093}',
 #             'refresh_token': f'validRefreshToken-{75599469093}',
 #             'role': ROLE.STUDENT.value,
 #             'access_level': ACCESS_LEVEL.USER.value,
@@ -43,7 +43,7 @@
 #         response = await loginUserController(request)
 #         assert response.status_code == 200
 #         assert response.body == {
-#             'access_token': f'validAccessToken-{64968222041}',
+#             'access_token': f'valid_access_token-{64968222041}',
 #             'refresh_token': f'validRefreshToken-{64968222041}',
 #             'role': ROLE.PROFESSOR.value,
 #             'access_level': ACCESS_LEVEL.ADMIN.value,
