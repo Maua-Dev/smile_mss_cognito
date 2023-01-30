@@ -1,4 +1,4 @@
-from src.domain.entities.enums import ROLE, ACCESS_LEVEL
+from src.shared.domain.entities.enums import ROLE, ACCESS_LEVEL
 
 
 class LoginUserModel():
@@ -13,7 +13,7 @@ class LoginUserModel():
     socialName: str
     certificateWithSocialName: str
 
-    def __init__(self, certificateWithSocialName: str, accessToken: str, refreshToken: str, role: str, accesslevel: str, cpfRne: int, email: str, socialName: str=None, name: str=None, id: str=None):
+    def __init__(self, certificateWithSocialName: str, accessToken: str, refreshToken: str, role: str, accesslevel: str, cpfRne: int, email: str, socialName: str = None, name: str = None, id: str = None):
         self.accessToken = accessToken
         self.refreshToken = refreshToken
         self.role = role
@@ -28,16 +28,16 @@ class LoginUserModel():
     @staticmethod
     def fromDict(data: dict):
         return LoginUserModel(
-        accessToken = data['accessToken'],
-        refreshToken = data['refreshToken'],
-        role = data['role'],
-        accesslevel = data['accessLevel'],
-        cpfRne = data['cpfRne'],
-        email = data['email'],
-        socialName = data.get('socialName'),
-        name = data.get('name'),
-        certificateWithSocialName = data.get('certificateWithSocialName'),
-        id = data.get('id')
+            accessToken=data['accessToken'],
+            refreshToken=data['refreshToken'],
+            role=data['role'],
+            accesslevel=data['accessLevel'],
+            cpfRne=data['cpfRne'],
+            email=data['email'],
+            socialName=data.get('socialName'),
+            name=data.get('name'),
+            certificateWithSocialName=data.get('certificateWithSocialName'),
+            id=data.get('id')
         )
 
     def toDict(self):
