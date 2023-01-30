@@ -16,6 +16,9 @@ class LoginUserUsecase:
         if not User.validate_email(email):
             raise EntityError('email')
 
+        if not User.validate_password(password):
+            raise EntityError('password')
+
         data = self.repo.login_user(email, password)
         if data is None:
             raise ForbiddenAction("invalid email or password")

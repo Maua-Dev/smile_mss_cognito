@@ -20,7 +20,7 @@ class Test_LoginUserUsecase:
         assert data["access_level"] == "ADMIN"
         assert 'password' not in data
 
-    def test_login_user_usecase_invalid_password(self):
+    def test_login_user_usecase_invalid_password_not_match(self):
         repo = UserRepositoryMock()
         usecase = LoginUserUsecase(repo)
 
@@ -34,3 +34,11 @@ class Test_LoginUserUsecase:
 
         with pytest.raises(EntityError):
             data = usecase(email="invalid_email", password="z12345")
+
+    def test_login_user_usecase_invalid_password(self):
+        repo = UserRepositoryMock()
+        usecase = LoginUserUsecase(repo)
+
+        with pytest.raises(EntityError):
+            data = usecase(email="vitor@maua.br", password=1)
+
