@@ -272,21 +272,21 @@ class Test_CreateUserController:
         controller = CreateUserController(usease)
         request = HttpRequest(body={
             'name': 'Vitor Soller',
-            'email': 'vitor@gmail.com',
+            'email': 'vitor@maua.br',
             'password': '123456',
             'ra': '21014442',
             'role': 'STUDENT',
-            'access_level': 'ADMIN',
+            'access_level': 'USER',
             'accepted_terms': True,
-            'accepted_notifications': None,
+            'accepted_notifications': True,
             'certificate_with_social_name': False,
             'phone': '11991758098'
         })
 
         response = controller(request)
 
-        assert response.status_code == 400
-        assert response.body == 'Field accepted_notifications is missing'
+        assert response.status_code == 409
+        assert response.body == 'The item alredy exists for this User: email = "vitor@maua.br"'
 
     def test_create_user_controller_missing_certificate(self):
         repo = UserRepositoryMock()
