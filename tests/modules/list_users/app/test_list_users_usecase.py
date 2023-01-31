@@ -30,7 +30,7 @@ class Test_ListUsersUsecase:
         id1 = repo.confirmed_users[0].user_id
         id2 = repo.confirmed_users[1].user_id
 
-        user_list = [id1, id2, "0004"]
+        user_list = [id1, id2, "0000-0000-00000-000000-0000000-00000"]
 
         with pytest.raises(NoItemsFound):
             user_dict = usecase(user_list, "valid_access_token-vitor@maua.br")
