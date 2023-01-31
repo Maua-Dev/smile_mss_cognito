@@ -1,29 +1,26 @@
 from src.shared.domain.entities.enums import ACCESS_LEVEL
 from src.shared.domain.entities.user import User
-from src.shared.domain.errors.errors import UserAlreadyExists, UnexpectedError, IncompleteUser, EntityError
 from src.shared.domain.repositories.user_repository_interface import IUserRepository
+from src.shared.helpers.errors.domain_errors import EntityError
+from src.shared.helpers.errors.usecase_errors import ForbiddenAction
 
 
 class CreateUserUsecase:
 
-    def __init__(self, userRepository: IUserRepository):
-        self._userRepository = userRepository
+    def __init__(self, repo: IUserRepository):
+        self.repo = repo
 
-    async def __call__(self, user: User) -> int:
-        requiredFields = ['name', 'cpfRne', 'email',
-                          'password', 'acceptedNotifications', 'acceptedTerms']
-        for f in requiredFields:
+    def __call__(self, user: User) -> User:
+        required_fields = ['name', 'email', 'phone', 'access_level',
+                           'password', 'accepted_notifications', 'accepted_terms']
+
+        for f in required_fields:
             if getattr(user, f) is None:
-                raise IncompleteUser(f'field "{f}" is required')
+                raise ForbiddenAction(f'user because "{f}" is required')
 
-        if user.accessLevel != ACCESS_LEVEL.USER:
-            raise EntityError(
-                'Cannot create a user with ACCESS LEVEL different than USER')
-
-        # Set default certificateWithSocialName based if user have social name
-        user.certificateWithSocialName = True if user.socialName else False
-        user.socialName = user.socialName if user.socialName else ""
+        if user.access_level != ACCESS_LEVEL.USER:
+            raise EntityError('access_level')
 
         user.email = user.email.lower()
 
-        return await self._userRepository.createUser(user)
+        return self.repo.create_user(user)
