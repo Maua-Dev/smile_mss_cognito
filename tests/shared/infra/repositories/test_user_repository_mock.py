@@ -94,26 +94,27 @@ class Test_UserRepositoryMock:
 
         assert len(repo.confirmed_users) == 1
 
-    # def test_login_user(self):
-    #     repo = UserRepositoryMock()
-    #     resp = repo.login_user('zeeba@gmail.com', 'z12345')
-    #
-    #     assert resp == {
-    #         'user_id': '0001',
-    #         'email': 'zeeba@gmail.com',
-    #         'name': 'Caio Soller',
-    #         'ra': '20014309',
-    #         'role': ROLE.STUDENT,
-    #         'access_level': ACCESS_LEVEL.USER,
-    #         'created_at': 16449777000,
-    #         'updated_at': 16449777000,
-    #         'social_name': 'Zeeba Toledo',
-    #         'accepted_terms': True,
-    #         'accepted_notifications': True,
-    #         'certificate_with_social_name': True,
-    #         'accessToken': 'valid_access_token-zeeba@gmail.com',
-    #         'refresh_token': 'valid_refresh_token-zeeba@gmail.com'
-    #     }
+    def test_login_user(self):
+        repo = UserRepositoryMock()
+        resp = repo.login_user('zeeba@gmail.com', 'z12345')
+
+        assert resp == {
+            'user_id': '0001',
+            'email': 'zeeba@gmail.com',
+            'name': 'Caio Soller',
+            'phone': '5511999451100',
+            'ra': '20014309',
+            'role': "STUDENT",
+            'access_level': "USER",
+            'created_at': 16449777000,
+            'updated_at': 16449777000,
+            'social_name': 'Zeeba Toledo',
+            'accepted_terms': True,
+            'accepted_notifications': True,
+            'certificate_with_social_name': True,
+            'access_token': 'valid_access_token-zeeba@gmail.com',
+            'refresh_token': 'valid_refresh_token-zeeba@gmail.com'
+        }
 
     def test_check_token(self):
         repo = UserRepositoryMock()

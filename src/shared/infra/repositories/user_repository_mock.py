@@ -103,15 +103,15 @@ class UserRepositoryMock(IUserRepository):
             cont += 1
 
     def login_user(self, email: str, password: str) -> dict:
-        u = self.get_user_by_email(email)
-        if u is None:
+        user = self.get_user_by_email(email)
+        if user is None:
             return None
-        if u.password == password:
-            dictResponse = u.dict()
-            dictResponse.pop('password')
-            dictResponse["accessToken"] = "valid_access_token-" + str(email)
-            dictResponse["refresh_token"] = "valid_refresh_token-" + str(email)
-            return dictResponse
+        if user.password == password:
+            dict_response = user.to_dict()
+            dict_response.pop('password')
+            dict_response["access_token"] = "valid_access_token-" + str(email)
+            dict_response["refresh_token"] = "valid_refresh_token-" + str(email)
+            return dict_response
         return None
 
     def check_token(self, token: str) -> dict:

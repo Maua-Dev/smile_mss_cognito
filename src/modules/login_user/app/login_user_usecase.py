@@ -1,18 +1,27 @@
-from src.domain.entities.user import User
-from src.domain.errors.errors import UserAlreadyExists, UnexpectedError, IncompleteUser, InvalidCredentials
-from src.domain.repositories.user_repository_interface import IUserRepository
+from src.shared.domain.entities.user import User
+from src.shared.domain.repositories.user_repository_interface import IUserRepository
+from src.shared.helpers.errors.controller_errors import MissingParameters
+from src.shared.helpers.errors.domain_errors import EntityError
+from src.shared.helpers.errors.usecase_errors import ForbiddenAction
 
 
 class LoginUserUsecase:
 
-    def __init__(self, userRepository: IUserRepository):
-        self._userRepository = userRepository
+    def __init__(self, repo: IUserRepository):
+        self.repo = repo
 
-    async def __call__(self, cpfRne: int, password: str) -> dict:
-        loginResponseFields = ['cpfRne', 'accessToken', 'refreshToken', 'email', 'role', 'accessLevel']
-        data = await self._userRepository.loginUser(cpfRne, password)
+    def __call__(self, email: str, password: str) -> dict:
+        login_response_fields = ['email', 'access_token', 'refresh_token', 'email', 'role', 'access_level']
+
+        if not User.validate_email(email):
+            raise EntityError('email')
+
+        if not User.validate_password(password):
+            raise EntityError('password')
+
+        data = self.repo.login_user(email, password)
         if data is None:
-            raise InvalidCredentials(f'Cpf and password don`t match')
-        if not set(loginResponseFields) <= set(data.keys()):
-            raise UnexpectedError(f'Unexpected response from repository - missing fields from {loginResponseFields}')
+            raise ForbiddenAction("invalid email or password")
+        if not set(login_response_fields) <= set(data.keys()):
+            raise MissingParameters(f'{login_response_fields}')
         return data
