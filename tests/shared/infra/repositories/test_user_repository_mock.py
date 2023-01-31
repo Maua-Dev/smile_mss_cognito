@@ -1,7 +1,7 @@
 import pytest
 from src.shared.domain.entities.enums import ACCESS_LEVEL, ROLE
 from src.shared.domain.entities.user import User
-from src.shared.helpers.errors.usecase_errors import NoItemsFound
+from src.shared.helpers.errors.usecase_errors import NoItemsFound, DuplicatedItem
 from src.shared.infra.repositories.user_repository_mock import UserRepositoryMock
 
 
@@ -23,31 +23,42 @@ class Test_UserRepositoryMock:
         assert users[0].name == 'Caio Soller'
         assert len(users) == 2
 
-    # def test_create_user(self):
-    #     repo = UserRepositoryMock()
-    #     repo.create_user(user=User(user_id='0004', email='romas@gmail.com', name='Romas briquez', password='r12345',
-    #                                ra='20013459', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
-    #                                updated_at=16449777000, social_name='Briquez romas', accepted_terms=True,
-    #                                accepted_notifications=True, certificate_with_social_name=True
-    #                                ))
-    #
-    #     assert len(repo.users) == 4
-        # assert type(user) == User
+    def test_create_user(self):
+        repo = UserRepositoryMock()
+        user = repo.create_user(
+            user=User(user_id='000000000000000000000000000000000004', email='romas@gmail.com', name='Romas briquez',
+                      password='r12345',
+                      ra='20013459', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
+                      updated_at=16449777000, social_name='Briquez romas', accepted_terms=True,
+                      accepted_notifications=True, certificate_with_social_name=True, phone="5511991758098"
+                      ))
 
-    # def test_create_user_already_exists(self):
-    #     with pytest.raises(UserAlreadyExists):
-    #         repo = UserRepositoryMock()
-    #         repo.create_user(user=User(user_id='0004', email='zeeba@maua.br', name='Caio soller', password='z12345',
-    #                                    ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
-    #                                    updated_at=16449777000, social_name='zeeba toledo', accepted_terms=True,
-    #                                    accepted_notifications=True, certificate_with_social_name=True
-    #                                    ))
+        assert len(repo.users) == 4
+        assert type(user) == User
+        assert repo.users[-1] == user
+
+    def test_create_user_already_exists(self):
+        repo = UserRepositoryMock()
+        with pytest.raises(DuplicatedItem):
+            user = repo.create_user(
+                user=User(user_id='000000000000000000000000000000000004', email='zeeba@maua.br', name='Caio soller', password='z12345',
+                          ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER,
+                          created_at=16449777000,
+                          updated_at=16449777000, social_name='zeeba toledo', accepted_terms=True,
+                          accepted_notifications=True, certificate_with_social_name=True, phone="5511991758098"
+                          ))
 
     def test_check_user_by_propriety(self):
         repo = UserRepositoryMock()
         user_exists = repo.check_user_by_propriety('email', 'zeeba@gmail.com')
 
-        assert user_exists == True
+        assert user_exists
+
+    def test_check_user_by_propriety_non_existent_user(self):
+        repo = UserRepositoryMock()
+        user_exists = repo.check_user_by_propriety('email', 'zé@gmail.com')
+
+        assert not user_exists
 
     # def test_confirm_user_creation(self):
     #     repo = UserRepositoryMock()
@@ -68,21 +79,25 @@ class Test_UserRepositoryMock:
 
     def test_update_user(self):
         repo = UserRepositoryMock()
-        repo.update_user(User(user_id='000000000000000000000000000000000001', email='vitor@maua.br', name='Caio soller toledo', password='z12345',
-                              ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
-                              updated_at=16449778000, social_name='zeeba toledo', accepted_terms=True,
-                              accepted_notifications=True, certificate_with_social_name=True, phone='5511991758098'
-                              ))
+        repo.update_user(
+            User(user_id='000000000000000000000000000000000001', email='vitor@maua.br', name='Caio soller toledo',
+                 password='z12345',
+                 ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
+                 updated_at=16449778000, social_name='zeeba toledo', accepted_terms=True,
+                 accepted_notifications=True, certificate_with_social_name=True, phone='5511991758098'
+                 ))
 
         assert repo.confirmed_users[1].name == 'Caio Soller Toledo'
 
     def test_update_user_non_exists(self):
         repo = UserRepositoryMock()
-        user =  repo.update_user(User(user_id='0000-0000-00000-000000-0000000-00000', email='ze@maua.br', name='Caio soller toledo', password='z12345',
-                                  ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
-                                  updated_at=16449778000, social_name='zeeba toledo', accepted_terms=True,
-                                  accepted_notifications=True, certificate_with_social_name=True, phone='5511991758098'
-                                  ))
+        user = repo.update_user(
+            User(user_id='0000-0000-00000-000000-0000000-00000', email='ze@maua.br', name='Caio soller toledo',
+                 password='z12345',
+                 ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
+                 updated_at=16449778000, social_name='zeeba toledo', accepted_terms=True,
+                 accepted_notifications=True, certificate_with_social_name=True, phone='5511991758098'
+                 ))
         assert user == None
 
     def test_delete_user(self):
