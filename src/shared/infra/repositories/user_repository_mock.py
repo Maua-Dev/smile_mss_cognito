@@ -59,6 +59,7 @@ class UserRepositoryMock(IUserRepository):
 
     def create_user(self, user: User) -> User:
         duplicity_sensitive = ['user_id', 'email', 'ra']
+        user.user_id = '00000000000000000000000000000000000' + str(len(self.users) + 1)
         for field in duplicity_sensitive:
             if self.check_user_by_propriety(propriety=field, value=getattr(user, field)):
                 raise DuplicatedItem(f'User: {field} = "${getattr(user, field)}"')
