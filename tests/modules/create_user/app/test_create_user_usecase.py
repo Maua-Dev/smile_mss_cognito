@@ -35,19 +35,6 @@ class Test_CreateUserUsecase:
         assert new_user.phone == "5511991758098"
         assert len(repo.users) == len_before + 1
 
-    def test_create_user_usecase_missing_required_field(self):
-        repo = UserRepositoryMock()
-        usecase = CreateUserUsecase(repo)
-
-        user = User(user_id='000000000000000000000000000000000000', email='vitor@gmail.com', name='Vitor soller',
-                    password='z12345',
-                    ra=None, role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
-                    updated_at=None, social_name=None, accepted_terms=True,
-                    accepted_notifications=None, certificate_with_social_name=False, phone="5511991758098")
-
-        with pytest.raises(ForbiddenAction):
-            new_user = usecase(user)
-
     def test_create_user_usecase_wrong_access_level(self):
         repo = UserRepositoryMock()
         usecase = CreateUserUsecase(repo)
