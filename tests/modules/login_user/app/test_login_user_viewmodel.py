@@ -4,7 +4,7 @@ from src.modules.login_user.app.login_user_viewmodel import LoginUserViewmodel
 class Test_LoginUserViewmodel:
     def test_login_user_viewmodel(self):
         data = {
-            'user_id': '0002',
+            'user_id': '000000000000000000000000000000000002',
             'email': 'vitor@maua.br',
             'name': 'Vitor Branco',
             'ra': '20014309',
@@ -35,7 +35,7 @@ class Test_LoginUserViewmodel:
                 'social_name': 'Zeeba Toledo',
                 'name': 'Vitor Branco',
                 'certificate_with_social_name': False,
-                'user_id': '0002',
+                'user_id': '000000000000000000000000000000000002',
             },
             'message': 'Login successful'
         }

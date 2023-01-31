@@ -68,7 +68,7 @@ class Test_UserRepositoryMock:
 
     def test_update_user(self):
         repo = UserRepositoryMock()
-        repo.update_user(User(user_id='0004', email='vitor@maua.br', name='Caio soller toledo', password='z12345',
+        repo.update_user(User(user_id='000000000000000000000000000000000001', email='vitor@maua.br', name='Caio soller toledo', password='z12345',
                               ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
                               updated_at=16449778000, social_name='zeeba toledo', accepted_terms=True,
                               accepted_notifications=True, certificate_with_social_name=True, phone='5511991758098'
@@ -78,7 +78,7 @@ class Test_UserRepositoryMock:
 
     def test_update_user_non_exists(self):
         repo = UserRepositoryMock()
-        user =  repo.update_user(User(user_id='0004', email='ze@maua.br', name='Caio soller toledo', password='z12345',
+        user =  repo.update_user(User(user_id='0000-0000-00000-000000-0000000-00000', email='ze@maua.br', name='Caio soller toledo', password='z12345',
                                   ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
                                   updated_at=16449778000, social_name='zeeba toledo', accepted_terms=True,
                                   accepted_notifications=True, certificate_with_social_name=True, phone='5511991758098'
@@ -99,7 +99,7 @@ class Test_UserRepositoryMock:
         resp = repo.login_user('zeeba@gmail.com', 'z12345')
 
         assert resp == {
-            'user_id': '0001',
+            'user_id': '000000000000000000000000000000000001',
             'email': 'zeeba@gmail.com',
             'name': 'Caio Soller',
             'phone': '5511999451100',
@@ -120,7 +120,7 @@ class Test_UserRepositoryMock:
         repo = UserRepositoryMock()
         resp = repo.check_token(token="valid_access_token-zeeba@gmail.com")
         assert resp == {
-            'user_id': '0001',
+            'user_id': '000000000000000000000000000000000001',
             'email': 'zeeba@gmail.com',
             'name': 'Caio Soller',
             'ra': '20014309',

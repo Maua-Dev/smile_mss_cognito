@@ -52,7 +52,7 @@ class Test_ListUsersPresenter:
                 "time": "12/Mar/2020:19:03:58 +0000",
                 "timeEpoch": 1583348638390
             },
-            "body": '{"user_list": ["0001", "0002"]}',
+            "body": '{"user_list": ["000000000000000000000000000000000001", "000000000000000000000000000000000002"]}',
             "pathParameters": None,
             "isBase64Encoded": None,
             "stageVariables": None
@@ -110,7 +110,7 @@ class Test_ListUsersPresenter:
                 "time": "12/Mar/2020:19:03:58 +0000",
                 "timeEpoch": 1583348638390
             },
-            "body": '{"user_list": ["0001", "0002"]}',
+            "body": '{"user_list": ["000000000000000000000000000000000001", "000000000000000000000000000000000002"]}',
             "pathParameters": None,
             "isBase64Encoded": None,
             "stageVariables": None
@@ -168,7 +168,7 @@ class Test_ListUsersPresenter:
                 "time": "12/Mar/2020:19:03:58 +0000",
                 "timeEpoch": 1583348638390
             },
-            "body": '{"user_list": ["0001", "0002", "0069"]}',
+            "body": '{"user_list": ["000000000000000000000000000000000001", "000000000000000000000000000000000002", "0000-0000-00000-000000-0000000-00069"]}',
             "pathParameters": None,
             "isBase64Encoded": None,
             "stageVariables": None
@@ -176,7 +176,7 @@ class Test_ListUsersPresenter:
         response = lambda_handler(event, None)
 
         assert response["statusCode"] == 404
-        assert json.loads(response["body"]) == 'No items found for user_id: 0069'
+        assert json.loads(response["body"]) == 'No items found for user_id: 0000-0000-00000-000000-0000000-00069'
 
 
 
@@ -228,7 +228,7 @@ class Test_ListUsersPresenter:
                 "time": "12/Mar/2020:19:03:58 +0000",
                 "timeEpoch": 1583348638390
             },
-            "body": '{"user_list": ["0001", "0002"]}',
+            "body": '{"user_list": ["000000000000000000000000000000000001", "000000000000000000000000000000000002"]}',
             "pathParameters": None,
             "isBase64Encoded": None,
             "stageVariables": None

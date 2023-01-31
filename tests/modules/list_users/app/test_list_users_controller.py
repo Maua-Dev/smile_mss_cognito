@@ -117,14 +117,14 @@ class Test_ListUsersController:
         id1 = repo.confirmed_users[0].user_id
         id2 = repo.confirmed_users[1].user_id
 
-        user_list = [id1, id2, "1234"]
+        user_list = [id1, id2, "0000-0000-00000-000000-0000000-00000"]
 
         response = controller(HttpRequest(
             body={"user_list": user_list},
             headers={'Authorization': 'Bearer ' + 'valid_access_token-' + repo.confirmed_users[1].email}))
 
         assert response.status_code == 404
-        assert response.body == 'No items found for user_id: 1234'
+        assert response.body == 'No items found for user_id: 0000-0000-00000-000000-0000000-00000'
 
     def test_list_user_controller_user_id_invalid(self):
         repo = UserRepositoryMock()
