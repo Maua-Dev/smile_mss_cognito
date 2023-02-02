@@ -1,11 +1,8 @@
 from src.shared.helpers.errors.usecase_errors import ForbiddenAction
 from src.shared.helpers.external_interfaces.external_interface import IRequest, IResponse
-from src.shared.helpers.external_interfaces.http_codes import BadRequest, InternalServerError, OK
+from src.shared.helpers.external_interfaces.http_codes import BadRequest, OK
 from src.modules.check_token.app.check_token_viewmodel import CheckTokenViewmodel
-from src.modules.login_user.app.login_user_viewmodel import LoginUserModel
-from src.shared.domain.repositories.user_repository_interface import IUserRepository
 from src.modules.check_token.app.check_token_usecase import CheckTokenUsecase
-from src.modules.login_user.app.login_user_usecase import LoginUserUsecase
 
 
 class CheckTokenController:
