@@ -1,7 +1,5 @@
-from src.domain.entities.user import User
-from src.domain.errors.errors import UserAlreadyExists, UnexpectedError, NoItemsFound, NonExistentUser
-from src.domain.repositories.user_repository_interface import IUserRepository
-from src.modules.get_user.app.get_user_usecase import GetUserByCpfRneUsecase
+from src.shared.domain.entities.user import User
+from src.shared.domain.repositories.user_repository_interface import IUserRepository
 
 
 class DeleteUserUsecase:
