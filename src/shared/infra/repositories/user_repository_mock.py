@@ -5,7 +5,7 @@ from src.shared.domain.entities.user import User
 
 from src.shared.domain.repositories.user_repository_interface import IUserRepository
 from src.shared.helpers.errors.domain_errors import EntityError
-from src.shared.helpers.errors.usecase_errors import NoItemsFound
+from src.shared.helpers.errors.usecase_errors import NoItemsFound, DuplicatedItem
 
 
 class UserRepositoryMock(IUserRepository):
@@ -57,15 +57,14 @@ class UserRepositoryMock(IUserRepository):
                 return True
         return False
 
-    def create_user(self, user: User):
-        pass
-    #     duplicitySensitive = ['user_id', 'email', 'ra']
-    #     for field in duplicitySensitive:
-    #         if self.check_user_by_propriety(propriety=field, value=getattr(user, field)):
-    #             # raise UserAlreadyExists(
-    #             #     f'Propriety ${field} = "${getattr(user, field)}" already exists')
-    #     self.users.append(user)
-    #
+    def create_user(self, user: User) -> User:
+        duplicity_sensitive = ['user_id', 'email', 'ra']
+        user.user_id = '00000000000000000000000000000000000' + str(len(self.users) + 1)
+        for field in duplicity_sensitive:
+            if self.check_user_by_propriety(propriety=field, value=getattr(user, field)):
+                raise DuplicatedItem(f'User: {field} = "{getattr(user, field)}"')
+        self.users.append(user)
+        return user
 
     def confirm_user_creation(self, login: str, code: int) -> bool:
         pass

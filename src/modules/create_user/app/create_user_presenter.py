@@ -3,7 +3,7 @@ from .create_user_usecase import CreateUserUsecase
 from src.shared.environments import Environments
 from src.shared.helpers.external_interfaces.http_lambda_requests import LambdaHttpRequest, LambdaHttpResponse
 
-repo = Environments.get_activity_repo()()
+repo = Environments.get_user_repo()()
 usecase = CreateUserUsecase(repo)
 controller = CreateUserController(usecase)
 

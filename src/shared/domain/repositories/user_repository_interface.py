@@ -14,7 +14,11 @@ class IUserRepository(ABC):
         pass
 
     @abstractmethod
-    def create_user(self, user: User) -> int:
+    def create_user(self, user: User) -> User:
+        """
+        Check if the user already exists, if not, create it and return it
+        else raise DuplicatedItem
+        """
         pass
 
     @abstractmethod

@@ -2,10 +2,12 @@ from enum import Enum
 
 
 class ROLE(Enum):
-    ADMIN = "ADMIN"
     STUDENT = "STUDENT"
+    ADMIN = "ADMIN"
+    EMPLOYEE = "EMPLOYEE"
     PROFESSOR = "PROFESSOR"
-    SPEAKER = "SPEAKER"
+    INTERNATIONAL_STUDENT = "INTERNATIONAL_STUDENT"
+    EXTERNAL = "EXTERNAL"
 
     def __str__(self):
         return self.value
