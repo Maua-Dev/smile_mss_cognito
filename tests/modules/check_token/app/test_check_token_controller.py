@@ -22,7 +22,7 @@ class Test_CheckTokenController:
             'access_level': ACCESS_LEVEL.USER.value,
             'email': 'zeeba@gmail.com',
             'valid_token': True,
-            'user_id': '0001'
+            'user_id': '000000000000000000000000000000000001'
         }
 
     def test_check_token_controller_invalid_token(self):

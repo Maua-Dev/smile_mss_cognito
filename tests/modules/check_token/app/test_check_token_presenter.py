@@ -52,7 +52,7 @@ class Test_CheckTokenPresenter:
                 "time": "12/Mar/2020:19:03:58 +0000",
                 "timeEpoch": 1583348638390
             },
-            "body": '{"user_id": "1"}',
+            "body": '{}',
             "pathParameters": None,
             "isBase64Encoded": None,
             "stageVariables": None
@@ -65,7 +65,7 @@ class Test_CheckTokenPresenter:
             'access_level': ACCESS_LEVEL.USER.value,
             'email': 'zeeba@gmail.com',
             'valid_token': True,
-            'user_id': '0001'
+            'user_id': '000000000000000000000000000000000001'
         }
 
     def test_check_token_presenter_invalid_token(self):
