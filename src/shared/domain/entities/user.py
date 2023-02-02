@@ -22,7 +22,7 @@ class User(abc.ABC):
     certificate_with_social_name: bool
     phone: str #with country code
     MIN_NAME_LENGTH = 2
-    USER_ID_LENGTH = 4
+    USER_ID_LENGTH = 36
 
     def __init__(self, user_id: str, email: str, name: str, password: str, ra: str, role: ROLE, access_level: ACCESS_LEVEL,
                  created_at: int, updated_at: int, social_name: str, accepted_terms: bool, accepted_notifications: bool,

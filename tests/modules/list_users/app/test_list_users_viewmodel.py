@@ -16,8 +16,8 @@ class Test_ListUsersViewmodel:
 
         expected = {
             'user_list': {
-                '0001': {
-                    'user_id': '0001',
+                '000000000000000000000000000000000001': {
+                    'user_id': '000000000000000000000000000000000001',
                     'name': 'Caio Soller',
                     'email': 'zeeba@gmail.com',
                     'ra': '20014309',
@@ -46,8 +46,8 @@ class Test_ListUsersViewmodel:
 
         expected = {
             'user_list': {
-                '0001': {
-                    'user_id': '0001',
+                '000000000000000000000000000000000001': {
+                    'user_id': '000000000000000000000000000000000001',
                     'name': 'Caio Soller',
                     'email': 'zeeba@gmail.com',
                     'ra': '20014309',
@@ -56,8 +56,8 @@ class Test_ListUsersViewmodel:
                     'social_name': 'Zeeba Toledo',
                     "phone": "5511999451100",
                 },
-                '0002': {
-                    'user_id': '0002',
+                '000000000000000000000000000000000002': {
+                    'user_id': '000000000000000000000000000000000002',
                     'name': 'Vitor Branco',
                     'email': 'vitor@maua.br',
                     'ra': '20014309',
