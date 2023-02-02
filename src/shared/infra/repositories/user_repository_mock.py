@@ -15,17 +15,17 @@ class UserRepositoryMock(IUserRepository):
 
     def __init__(self):
         self.users = [
-            User(user_id='0001', email='zeeba@gmail.com', name='Caio soller', password='z12345',
+            User(user_id='000000000000000000000000000000000001', email='zeeba@gmail.com', name='Caio soller', password='z12345',
                  ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
                  updated_at=16449777000, social_name='zeeba toledo', accepted_terms=True,
                  accepted_notifications=True, certificate_with_social_name=True, phone="5511999451100"
                  ),
-            User(user_id='0002', email='vitor@maua.br', name='vitor branco', password='z12345',
+            User(user_id='000000000000000000000000000000000002', email='vitor@maua.br', name='vitor branco', password='z12345',
                  ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.ADMIN, created_at=16449777000,
                  updated_at=16449777000, social_name='zeeba toledo', accepted_terms=True,
                  accepted_notifications=True, certificate_with_social_name=False, phone="5511991758098"
                  ),
-            User(user_id='0003', email='joao@gmail.com', name='João toledo', password='z12345',
+            User(user_id='000000000000000000000000000000000003', email='joao@gmail.com', name='João toledo', password='z12345',
                          ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
                          updated_at=16449777000, social_name='zeeba toledo', accepted_terms=True,
                          accepted_notifications=True, certificate_with_social_name=True, phone="5511991758098"
@@ -103,15 +103,15 @@ class UserRepositoryMock(IUserRepository):
             cont += 1
 
     def login_user(self, email: str, password: str) -> dict:
-        u = self.get_user_by_email(email)
-        if u is None:
+        user = self.get_user_by_email(email)
+        if user is None:
             return None
-        if u.password == password:
-            dictResponse = u.dict()
-            dictResponse.pop('password')
-            dictResponse["accessToken"] = "valid_access_token-" + str(email)
-            dictResponse["refresh_token"] = "valid_refresh_token-" + str(email)
-            return dictResponse
+        if user.password == password:
+            dict_response = user.to_dict()
+            dict_response.pop('password')
+            dict_response["access_token"] = "valid_access_token-" + str(email)
+            dict_response["refresh_token"] = "valid_refresh_token-" + str(email)
+            return dict_response
         return None
 
     def check_token(self, token: str) -> dict:

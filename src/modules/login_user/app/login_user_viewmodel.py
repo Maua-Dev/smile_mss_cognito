@@ -1,55 +1,56 @@
 from src.shared.domain.entities.enums import ACCESS_LEVEL, ROLE
 
 
-class LoginUserModel():
-    accessToken: str
-    refreshToken: str
-    id: str
-    role: ROLE
-    accessLevel: ACCESS_LEVEL
-    cpfRne: int
+class UserViewmodel:
+    access_token: str
+    refresh_token: str
+    ra: str
+    user_id: str
+    role: str
+    access_level: str
     email: str
     name: str
-    socialName: str
-    certificateWithSocialName: str
+    phone: str
+    social_name: str
+    certificate_with_social_name: str
 
-    def __init__(self, certificateWithSocialName: str, accessToken: str, refreshToken: str, role: str, accesslevel: str, cpfRne: int, email: str, socialName: str = None, name: str = None, id: str = None):
-        self.accessToken = accessToken
-        self.refreshToken = refreshToken
+    def __init__(self, certificate_with_social_name: str, access_token: str, refresh_token: str, role: str, access_level: str, email: str, phone: str, social_name: str = None, name: str = None, user_id: str = None, ra: str = None, **kwargs):
+        self.access_token = access_token
+        self.refresh_token = refresh_token
+        self.ra = ra
         self.role = role
-        self.accessLevel = accesslevel
-        self.certificateWithSocialName = certificateWithSocialName
-        self.cpfRne = cpfRne
+        self.access_level = access_level
+        self.certificate_with_social_name = certificate_with_social_name
         self.email = email
-        self.socialName = socialName
+        self.phone = phone
+        self.social_name = social_name
         self.name = name
-        self.id = id
+        self.user_id = user_id
 
-    @staticmethod
-    def fromDict(data: dict):
-        return LoginUserModel(
-            accessToken=data['accessToken'],
-            refreshToken=data['refreshToken'],
-            role=data['role'],
-            accesslevel=data['accessLevel'],
-            cpfRne=data['cpfRne'],
-            email=data['email'],
-            socialName=data.get('socialName'),
-            name=data.get('name'),
-            certificateWithSocialName=data.get('certificateWithSocialName'),
-            id=data.get('id')
-        )
-
-    def toDict(self):
+    def to_dict(self):
         return {
-            'access_token': self.accessToken,
-            'refresh_token': self.refreshToken,
-            'role': self.role.value,
-            'access_level': self.accessLevel.value,
-            'cpf_rne': self.cpfRne,
+            'access_token': self.access_token,
+            'refresh_token': self.refresh_token,
+            'ra': self.ra,
+            'role': self.role,
+            'access_level': self.access_level,
             'email': self.email,
-            'social_name': self.socialName,
+            'phone': self.phone,
+            'social_name': self.social_name,
             'name': self.name,
-            'certificate_with_social_name': self.certificateWithSocialName,
-            'id': self.id
+            'certificate_with_social_name': self.certificate_with_social_name,
+            'user_id': self.user_id,
+        }
+
+
+class LoginUserViewmodel:
+    user: UserViewmodel
+
+    def __init__(self, data: dict):
+        self.user = UserViewmodel(**data)
+
+    def to_dict(self):
+        return {
+            'user': self.user.to_dict(),
+            'message': 'Login successful'
         }

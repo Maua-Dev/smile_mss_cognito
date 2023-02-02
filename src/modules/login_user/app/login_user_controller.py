@@ -1,46 +1,47 @@
-from src.adapters.errors.http_exception import HttpException
-from src.adapters.helpers.http_models import BadRequest, HttpRequest, HttpResponse, InternalServerError, Ok
-from src.modules.login_user.app.login_user_viewmodel import LoginUserModel
-from src.domain.errors.errors import UnexpectedError, EntityError, NonExistentUser, InvalidCredentials, UserNotConfirmed
-from src.domain.repositories.user_repository_interface import IUserRepository
 from src.modules.login_user.app.login_user_usecase import LoginUserUsecase
+from src.modules.login_user.app.login_user_viewmodel import LoginUserViewmodel
+from src.shared.helpers.errors.controller_errors import MissingParameters
+from src.shared.helpers.errors.domain_errors import EntityError
+from src.shared.helpers.errors.usecase_errors import NoItemsFound, ForbiddenAction
+from src.shared.helpers.external_interfaces.external_interface import IRequest, IResponse
+from src.shared.helpers.external_interfaces.http_codes import NotFound, BadRequest, InternalServerError, OK, Forbidden
 
 
 class LoginUserController:
-    def __init__(self, userRepository: IUserRepository) -> None:
-        self._loginUserUsecase = LoginUserUsecase(userRepository)
 
-    async def __call__(self, req: HttpRequest) -> HttpResponse:
+    def __init__(self, usecase: LoginUserUsecase):
+        self.loginUserUsecase = usecase
 
-        if req.query is not None:
-            return BadRequest('No parameters allowed.')
-        if not {'login', 'password'}.issubset(set(req.body)):
-            return BadRequest('Missing login and/or password.')
-
+    def __call__(self, request: IRequest) -> IResponse:
         try:
-            cleanLogin = req.body['login'].replace(' ', '')
-            data = await self._loginUserUsecase(cleanLogin, req.body["password"])
-            loginUserModel = LoginUserModel.fromDict(data=data)
-            return Ok(loginUserModel.toDict())
+            if request.data.get('login') is None:
+                raise MissingParameters('login')
 
-        except InvalidCredentials as e:
-            return BadRequest(e.message)
+            if request.data.get('password') is None:
+                raise MissingParameters('password')
 
-        except NonExistentUser as e:
-            return BadRequest(e.message)
+            clean_login = request.body['login'].replace(' ', '')
+            data = self.loginUserUsecase(clean_login, request.body["password"])
+            login_user_viewmodel = LoginUserViewmodel(data)
+            return OK(login_user_viewmodel.to_dict())
 
-        except KeyError as e:
-            return BadRequest('Missing parameter: ' + e.args[0])
+        except NoItemsFound as err:
 
-        except UnexpectedError as e:
-            err = InternalServerError(e.message)
-            return err
+            return NotFound(body=err.message)
 
-        except UserNotConfirmed as e:
-            err = BadRequest(e.message)
-            err.status_code = 401
-            return err
+        except ForbiddenAction as err:
 
-        except Exception as e:
-            err = InternalServerError(e.args[0])
-            return err
+            return Forbidden(body=err.message)
+
+        except MissingParameters as err:
+
+            return BadRequest(body=err.message)
+
+        except EntityError as err:
+
+            return BadRequest(body=err.message)
+
+        except Exception as err:
+
+            return InternalServerError(body=err.args[0])
+

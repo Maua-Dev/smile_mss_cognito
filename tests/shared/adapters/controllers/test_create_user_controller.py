@@ -15,7 +15,7 @@
 #         request = HttpRequest(body={
 #             "name": 'user3',
 #             "cpf_rne": '46864806049',
-#             "ra": '20001236',
+#             "ra": '2000000000000000000000000000000000001236',
 #             "role": ROLE.PROFESSOR.value,
 #             "email": "user@teste.com",
 #             "access_level": ACCESS_LEVEL.USER.value,
@@ -33,7 +33,7 @@
 #         request = HttpRequest(body={
 #             "name": 'user3',
 #             "cpf_rne": '46864806149',
-#             "ra": '20001236',
+#             "ra": '2000000000000000000000000000000000001236',
 #             "role": '',
 #             "access_level": '',
 #             "password": '123456',
@@ -123,7 +123,7 @@
 #         request = HttpRequest(body={
 #             "name": 'user4',
 #             "cpf_rne": '61046498070',
-#             "ra": '20001236',
+#             "ra": '2000000000000000000000000000000000001236',
 #             "role": ROLE.PROFESSOR.value,
 #             "email": "user@teste.com",
 #             "access_level": ACCESS_LEVEL.ADMIN.value,
@@ -140,7 +140,7 @@
 #         request = HttpRequest(body={
 #             "name": 'user3',
 #             "cpf_rne": '46864806049',
-#             "ra": '20001236',
+#             "ra": '2000000000000000000000000000000000001236',
 #             "role": ROLE.PROFESSOR.value,
 #             "email": "user@teste.com",
 #             "access_level": ACCESS_LEVEL.ADMIN.value,
