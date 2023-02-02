@@ -1,4 +1,4 @@
-from src.shared.domain.entities.enums import ROLE, ACCESS_LEVEL
+from src.shared.domain.entities.enums import ACCESS_LEVEL, ROLE
 
 
 class UserViewmodel:

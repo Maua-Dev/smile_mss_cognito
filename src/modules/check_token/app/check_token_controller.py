@@ -1,44 +1,33 @@
-import botocore.errorfactory
-import boto3
-
-from src.shared.errors.http_exception import HttpException
+from src.shared.helpers.errors.usecase_errors import ForbiddenAction
 from src.shared.helpers.external_interfaces.external_interface import IRequest, IResponse
-from src.shared.helpers.external_interfaces.http_codes import BadRequest, InternalServerError, OK
-from src.modules.check_token.app.check_token_viewmodel import CheckTokenModel
-from src.modules.login_user.app.login_user_viewmodel import LoginUserModel
-from src.shared.domain.errors.errors import UnexpectedError, EntityError, NonExistentUser, InvalidCredentials, InvalidToken
-from src.shared.domain.repositories.user_repository_interface import IUserRepository
+from src.shared.helpers.external_interfaces.http_codes import BadRequest, OK
+from src.modules.check_token.app.check_token_viewmodel import CheckTokenViewmodel
 from src.modules.check_token.app.check_token_usecase import CheckTokenUsecase
-from src.modules.login_user.app.login_user_usecase import LoginUserUsecase
 
 
 class CheckTokenController:
     def __init__(self, usecase: CheckTokenUsecase) -> None:
         self.checkTokenUsecase = usecase
 
-    async def __call__(self, req: IRequest) -> IResponse:
-
-        if req.query is not None:
-            return BadRequest('No parameters allowed.')
-
+    def __call__(self, req: IRequest) -> IResponse:
         try:
             token = req.headers.get('Authorization').split(' ')
             if len(token) != 2 or token[0] != 'Bearer':
                 return BadRequest('Invalid token.')
             access_token = token[1]
-            data = await self.checkTokenUsecase(access_token)
-            data["validToken"] = True
-            checkTokenModel = CheckTokenModel.fromDict(data)
-            return OK(checkTokenModel.toDict())
+            data = self.checkTokenUsecase(access_token)
+            data["valid_token"] = True
+            check_token_model = CheckTokenViewmodel.from_dict(data)
+            return OK(check_token_model.to_dict())
 
-        except (InvalidToken, UnexpectedError) as e:
+        except ForbiddenAction as e:
             return BadRequest({
-                'validToken': False,
-                'errorMessage': e.args[0]
+                'valid_token': False,
+                'error_message': e.args[0]
             })
 
         except Exception as e:
             return BadRequest({
-                'validToken': False,
-                'errorMessage': e.args[0]
+                'valid_token': False,
+                'error_message': e.args[0]
             })

@@ -11,7 +11,8 @@ class LoginUserUsecase:
         self.repo = repo
 
     def __call__(self, email: str, password: str) -> dict:
-        login_response_fields = ['email', 'access_token', 'refresh_token', 'email', 'role', 'access_level']
+        login_response_fields = ['email', 'access_token',
+                                 'refresh_token', 'email', 'role', 'access_level']
 
         if not User.validate_email(email):
             raise EntityError('email')
