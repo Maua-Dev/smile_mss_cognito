@@ -1,6 +1,6 @@
 
 
-class ChangePasswordModel():
+class ChangePasswordViewmodel():
     result: bool
     message: str
 
@@ -9,15 +9,14 @@ class ChangePasswordModel():
         self.message = message
 
     @staticmethod
-    def fromDict(data: dict):
-        return ChangePasswordModel(
+    def from_dict(data: dict):
+        return ChangePasswordViewmodel(
             result=data['result'],
             message=data.get('message')
         )
 
-    def toDict(self):
+    def to_dict(self):
         return {
             'result': self.result,
             'message': self.message if self.message else ''
-
         }
