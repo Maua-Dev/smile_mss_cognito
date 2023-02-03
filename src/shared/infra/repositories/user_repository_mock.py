@@ -59,14 +59,16 @@ class UserRepositoryMock(IUserRepository):
 
     def create_user(self, user: User) -> User:
         duplicity_sensitive = ['user_id', 'email', 'ra']
-        user.user_id = '00000000000000000000000000000000000' + str(len(self.users) + 1)
+        user.user_id = '00000000000000000000000000000000000' + \
+            str(len(self.users) + 1)
         for field in duplicity_sensitive:
             if self.check_user_by_propriety(propriety=field, value=getattr(user, field)):
-                raise DuplicatedItem(f'User: {field} = "{getattr(user, field)}"')
+                raise DuplicatedItem(
+                    f'User: {field} = "{getattr(user, field)}"')
         self.users.append(user)
         return user
 
-    def confirm_user_creation(self, login: str, code: int) -> bool:
+    def confirm_user_creation(self, email: str, code: int) -> bool:
         pass
     #     # code = 1234567
     #
@@ -74,7 +76,7 @@ class UserRepositoryMock(IUserRepository):
     #         raise InvalidCode(f'Invalid code')
     #     user: User = None
     #     for userx in self.users:
-    #         if userx.email == login:
+    #         if userx.email == email:
     #             user = userx
     #             break
     #     if not user:
@@ -109,7 +111,8 @@ class UserRepositoryMock(IUserRepository):
             dict_response = user.to_dict()
             dict_response.pop('password')
             dict_response["access_token"] = "valid_access_token-" + str(email)
-            dict_response["refresh_token"] = "valid_refresh_token-" + str(email)
+            dict_response["refresh_token"] = "valid_refresh_token-" + \
+                str(email)
             return dict_response
         return None
 
@@ -140,23 +143,23 @@ class UserRepositoryMock(IUserRepository):
         a = "valid_access_token-" + split_token[1], refresh_token
         return a
 
-    def change_password(self, login: str) -> bool:
+    def change_password(self, email: str) -> bool:
         for userx in self.confirmed_users:
-            if userx.email == login:
+            if userx.email == email:
                 return True
         return False
 
-    def confirm_change_password(self, login: str, newPassword: str, code: str) -> bool:
-        # code = 123456
+    def confirm_change_password(self, email: str, new_password: str, confirmation_code: str) -> bool:
+        # confirmation_code = 123456
 
         # Check code
-        if code != "123456":
+        if confirmation_code != "123456":
             return False
 
         # Update user password
-        user = self.get_user_by_email(login)
+        user = self.get_user_by_email(email)
         if user:
-            user.password = newPassword
+            user.password = new_password
             return True
         return False
 
