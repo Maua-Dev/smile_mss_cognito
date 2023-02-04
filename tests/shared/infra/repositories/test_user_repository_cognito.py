@@ -1,3 +1,5 @@
+import datetime
+
 import pytest
 
 from src.shared.domain.entities.enums import ROLE, ACCESS_LEVEL
@@ -33,4 +35,33 @@ class Test_UserRepositoryCognito:
         assert new_user.certificate_with_social_name == user_to_create.certificate_with_social_name
         assert new_user.phone == user_to_create.phone
 
+    @pytest.mark.skip("Can't test it locally")
+    def test_get_user_by_email(self):
+        repo = UserRepositoryCognito()
+        user = repo.get_user_by_email('vgsoller1@gmail.com')
 
+        expected_user = User(
+            user_id="4356055b-cbc4-47b4-a31d-497f8a280225",
+            email="vgsolle1@gmail.com",
+            name="Doroth Helena De Souza Alves",
+            password=None,
+            ra=None,
+            role=ROLE.EXTERNAL,
+            access_level=ACCESS_LEVEL.USER,
+            created_at=int(datetime.datetime(2023, 2, 3, 23, 27, 48, 713000).timestamp() * 1000),
+            updated_at=int(datetime.datetime(2023, 2, 3, 23, 27, 48, 713000).timestamp() * 1000),
+            social_name=None,
+            accepted_terms=True,
+            accepted_notifications=True,
+            certificate_with_social_name=False,
+            phone="+5511981643251"
+        )
+
+        assert user == expected_user
+
+    @pytest.mark.skip("Can't test it locally")
+    def test_get_user_by_email_none(self):
+        repo = UserRepositoryCognito()
+        user = repo.get_user_by_email('dummyemail@gmail.com')
+
+        assert user is None

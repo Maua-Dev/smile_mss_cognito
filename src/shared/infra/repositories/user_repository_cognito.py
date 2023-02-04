@@ -19,7 +19,17 @@ class UserRepositoryCognito(IUserRepository):
         self.client_id = Environments.get_envs().client_id
 
     def get_user_by_email(self, email: str) -> User:
-        pass
+        try:
+            response = self.client.admin_get_user(
+                UserPoolId=self.user_pool_id,
+                Username=email
+            )
+            user = UserCognitoDTO.from_cognito(response).to_entity()
+            return user
+
+        except self.client.exceptions.UserNotFoundException:
+            return None
+
 
     def get_all_users(self) -> List[User]:
         pass
