@@ -1,6 +1,5 @@
 from src.modules.confirm_user_creation.app.confirm_user_creation_controller import ConfirmUserCreationController
 from src.modules.confirm_user_creation.app.confirm_user_creation_usecase import ConfirmUserCreationUsecase
-from src.shared.domain.entities.enums import ACCESS_LEVEL, ROLE
 from src.shared.helpers.external_interfaces.http_models import HttpRequest
 from src.shared.infra.repositories.user_repository_mock import UserRepositoryMock
 
