@@ -27,6 +27,10 @@ class Environments:
     dynamo_partition_key: str
     dynamo_sort_key: str
     cloud_front_distribution_domain: str
+    user_pool_id: str
+    client_id: str
+    client_secret: str
+
 
     def _configure_local(self):
         from dotenv import load_dotenv
@@ -47,6 +51,8 @@ class Environments:
             self.dynamo_partition_key = "PK"
             self.dynamo_sort_key = "SK"
             self.cloud_front_distribution_domain = "https://d3q9q9q9q9q9q9.cloudfront.net"
+            self.user_pool_id = "sa-east-1_be9W9odZS"
+            self.client_id = "6ckmtn8pa6g8jksj70bhoq6ii3"
 
         else:
             self.s3_bucket_name = os.environ.get("S3_BUCKET_NAME")
@@ -57,6 +63,10 @@ class Environments:
             self.dynamo_sort_key = os.environ.get("DYNAMO_SORT_KEY")
             self.cloud_front_distribution_domain = os.environ.get(
                 "CLOUD_FRONT_DISTRIBUTION_DOMAIN")
+            self.user_pool_id = os.environ.get("USER_POOL_ID")
+            self.client_id = os.environ.get("CLIENT_ID")
+            self.client_secret = os.environ.get("CLIENT_SECRET")
+
 
     @staticmethod
     def get_user_repo() -> IUserRepository:
