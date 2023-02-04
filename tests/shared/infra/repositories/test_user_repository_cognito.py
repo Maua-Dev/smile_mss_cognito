@@ -9,7 +9,7 @@ from src.shared.infra.repositories.user_repository_cognito import UserRepository
 
 class Test_UserRepositoryCognito:
 
-    @pytest.mark.skip("Can't test it locally")
+    # @pytest.mark.skip("Can't test it locally")
     def test_create_user(self):
         repo = UserRepositoryCognito()
         user_to_create = User(user_id='0000-0000-00000-000000-0000000-00000', email='vgsoller1@gmail.com',
@@ -65,3 +65,37 @@ class Test_UserRepositoryCognito:
         user = repo.get_user_by_email('dummyemail@gmail.com')
 
         assert user is None
+
+    # @pytest.mark.skip("Can't test it locally")
+    def test_get_all_users(self):
+        repo = UserRepositoryCognito()
+        users = repo.get_all_users()
+        expected_users = [
+            User(
+                user_id="4356055b-cbc4-47b4-a31d-497f8a280225",
+                email="vgsolle1@gmail.com",
+                name="Doroth Helena De Souza Alves",
+                password=None,
+                ra=None,
+                role=ROLE.EXTERNAL,
+                access_level=ACCESS_LEVEL.USER,
+                created_at=int(datetime.datetime(2023, 2, 3, 23, 27, 48, 713000).timestamp() * 1000),
+                updated_at=int(datetime.datetime(2023, 2, 3, 23, 27, 48, 713000).timestamp() * 1000),
+                social_name=None,
+                accepted_terms=True,
+                accepted_notifications=True,
+                certificate_with_social_name=False,
+                phone="+5511981643251"
+            ),
+            User(user_id="10f58af7-4c7c-47a3-97e3-0ab9295fce35", email='epucci.devmaua@gmail.com',
+                 name='Enzo de Britto Pucci', password="GarrafaDeAguá@#123",
+                 ra="21020930", role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
+                 updated_at=None, social_name=None, accepted_terms=True,
+                 accepted_notifications=True, certificate_with_social_name=False, phone="+5511981643251"
+                 )
+        ]
+
+        users.sort(key=lambda x: x.user_id)
+        expected_users.sort(key=lambda x: x.user_id)
+
+        assert expected_users == users

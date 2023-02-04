@@ -178,8 +178,8 @@ class Test_UserCognitoDTO:
 
         user_cognito_expected = UserCognitoDTO(
             user_id='4356055b-cbc4-47b4-a31d-497f8a280225',
-            created_at=int(datetime.datetime(2023, 2, 3, 23, 27, 48, 713000).timestamp()*1000),
-            updated_at=int(datetime.datetime(2023, 2, 3, 23, 27, 48, 713000).timestamp()*1000),
+            created_at=int(datetime.datetime(2023, 2, 3, 23, 27, 48, 713000).timestamp() * 1000),
+            updated_at=int(datetime.datetime(2023, 2, 3, 23, 27, 48, 713000).timestamp() * 1000),
             email="vgsoller1@gmail.com",
             name="Doroth Helena De Souza Alves",
             role=ROLE.EXTERNAL,
@@ -194,3 +194,75 @@ class Test_UserCognitoDTO:
 
         assert user_cognito_dto == user_cognito_expected
 
+    def test_from_cognito_different_response(self):
+        cognito_data = {'Attributes': [{'Name': 'sub',
+                                        'Value': '10f58af7-4c7c-47a3-97e3-0ab9295fce35'},
+                                       {'Name': 'custom:certWithSocialName', 'Value': 'False'},
+                                       {'Name': 'email_verified', 'Value': 'false'},
+                                       {'Name': 'phone_number_verified', 'Value': 'false'},
+                                       {'Name': 'custom:accessLevel', 'Value': 'USER'},
+                                       {'Name': 'custom:acceptedTerms', 'Value': 'True'},
+                                       {'Name': 'custom:ra', 'Value': '21020930'},
+                                       {'Name': 'name', 'Value': 'Enzo De Britto Pucci'},
+                                       {'Name': 'phone_number', 'Value': '+5511981643251'},
+                                       {'Name': 'custom:acceptedNotific', 'Value': 'True'},
+                                       {'Name': 'custom:role', 'Value': 'STUDENT'},
+                                       {'Name': 'email', 'Value': 'epucci.devmaua@gmail.com'}],
+                        'Enabled': True,
+                        'UserCreateDate': datetime.datetime(2023, 2, 4, 11, 12, 34, 915000),
+                        'UserLastModifiedDate': datetime.datetime(2023, 2, 4, 11, 12, 34, 915000),
+                        'UserStatus': 'UNCONFIRMED',
+                        'Username': 'epucci.devmaua@gmail.com'}
+
+        user_cognito_dto = UserCognitoDTO.from_cognito(cognito_data)
+
+        user_cognito_expected = UserCognitoDTO(
+            user_id='10f58af7-4c7c-47a3-97e3-0ab9295fce35',
+            created_at=int(datetime.datetime(2023, 2, 4, 11, 12, 34, 915000).timestamp() * 1000),
+            updated_at=int(datetime.datetime(2023, 2, 4, 11, 12, 34, 915000).timestamp() * 1000),
+            email="epucci.devmaua@gmail.com",
+            name="Enzo De Britto Pucci",
+            role=ROLE.STUDENT,
+            access_level=ACCESS_LEVEL.USER,
+            ra="21020930",
+            social_name=None,
+            accepted_terms=True,
+            accepted_notifications=True,
+            certificate_with_social_name=False,
+            phone="+5511981643251"
+        )
+
+        assert user_cognito_dto == user_cognito_expected
+
+    def test_from_cognito_to_entity(self):
+        cognito_data = {'Attributes': [{'Name': 'sub',
+                                        'Value': '10f58af7-4c7c-47a3-97e3-0ab9295fce35'},
+                                       {'Name': 'custom:certWithSocialName', 'Value': 'False'},
+                                       {'Name': 'email_verified', 'Value': 'false'},
+                                       {'Name': 'phone_number_verified', 'Value': 'false'},
+                                       {'Name': 'custom:accessLevel', 'Value': 'USER'},
+                                       {'Name': 'custom:acceptedTerms', 'Value': 'True'},
+                                       {'Name': 'custom:ra', 'Value': '21020930'},
+                                       {'Name': 'name', 'Value': 'Enzo De Britto Pucci'},
+                                       {'Name': 'phone_number', 'Value': '+5511981643251'},
+                                       {'Name': 'custom:acceptedNotific', 'Value': 'True'},
+                                       {'Name': 'custom:role', 'Value': 'STUDENT'},
+                                       {'Name': 'email', 'Value': 'epucci.devmaua@gmail.com'}],
+                        'Enabled': True,
+                        'UserCreateDate': datetime.datetime(2023, 2, 4, 11, 12, 34, 915000),
+                        'UserLastModifiedDate': datetime.datetime(2023, 2, 4, 11, 12, 34, 915000),
+                        'UserStatus': 'UNCONFIRMED',
+                        'Username': 'epucci.devmaua@gmail.com'}
+
+        user_cognito_dto = UserCognitoDTO.from_cognito(cognito_data)
+
+        user_entity = user_cognito_dto.to_entity()
+
+        user_entity_expected = User(user_id="10f58af7-4c7c-47a3-97e3-0ab9295fce35", email='epucci.devmaua@gmail.com',
+                 name='Enzo de Britto Pucci', password="GarrafaDeAguá@#123",
+                 ra="21020930", role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
+                 updated_at=None, social_name=None, accepted_terms=True,
+                 accepted_notifications=True, certificate_with_social_name=False, phone="+5511981643251"
+                 )
+
+        assert user_entity == user_entity_expected
