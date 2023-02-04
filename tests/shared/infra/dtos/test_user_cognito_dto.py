@@ -1,3 +1,4 @@
+import datetime
 import json
 
 from src.shared.domain.entities.enums import ROLE, ACCESS_LEVEL
@@ -10,11 +11,12 @@ class Test_UserCognitoDTO:
 
     def test_from_entity(self):
         repo = UserRepositoryMock()
-        user = User(user_id='000000000000000000000000000000000003', email='joao@gmail.com', name='João toledo', password='z12345',
-                         ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
-                         updated_at=16449777000, social_name=None, accepted_terms=True,
-                         accepted_notifications=True, certificate_with_social_name=True, phone="+5511991758098"
-                 )
+        user = User(user_id='000000000000000000000000000000000003', email='joao@gmail.com', name='João toledo',
+                    password='z12345',
+                    ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
+                    updated_at=16449777000, social_name=None, accepted_terms=True,
+                    accepted_notifications=True, certificate_with_social_name=True, phone="+5511991758098"
+                    )
 
         user_cognito_dto = UserCognitoDTO.from_entity(user)
 
@@ -67,11 +69,12 @@ class Test_UserCognitoDTO:
 
     def test_to_cognito_attributes(self):
         repo = UserRepositoryMock()
-        user = User(user_id='000000000000000000000000000000000003', email='joao@gmail.com', name='João toledo', password='z12345',
-                         ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
-                         updated_at=16449777000, social_name=None, accepted_terms=True,
-                         accepted_notifications=True, certificate_with_social_name=True, phone="+5511991758098"
-                 )
+        user = User(user_id='000000000000000000000000000000000003', email='joao@gmail.com', name='João toledo',
+                    password='z12345',
+                    ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
+                    updated_at=16449777000, social_name=None, accepted_terms=True,
+                    accepted_notifications=True, certificate_with_social_name=True, phone="+5511991758098"
+                    )
 
         user_cognito_dto = UserCognitoDTO(
             user_id=user.user_id,
@@ -144,3 +147,50 @@ class Test_UserCognitoDTO:
                                     {'Name': 'phone_number', 'Value': '+5511991758098'}]
 
         assert cognito_user_data == expected_user_attributes
+
+    def test_from_cognito(self):
+        cognito_data = {'Enabled': True,
+                        'ResponseMetadata': {'HTTPHeaders': {'connection': 'keep-alive',
+                                                             'content-length': '709',
+                                                             'content-type': 'application/x-amz-json-1.1',
+                                                             'date': 'Sat, 04 Feb 2023 13:45:05 GMT',
+                                                             'x-amzn-requestid': '8b8fba2d-b2c7-4346-a441-e285892af0a3'},
+                                             'HTTPStatusCode': 200,
+                                             'RequestId': '8b8fba2d-b2c7-4346-a441-e285892af0a3',
+                                             'RetryAttempts': 0},
+                        'UserAttributes': [{'Name': 'custom:acceptedTerms', 'Value': 'True'},
+                                           {'Name': 'sub',
+                                            'Value': '4356055b-cbc4-47b4-a31d-497f8a280225'},
+                                           {'Name': 'custom:certWithSocialName', 'Value': 'False'},
+                                           {'Name': 'email_verified', 'Value': 'false'},
+                                           {'Name': 'name', 'Value': 'Doroth Helena De Souza Alves'},
+                                           {'Name': 'phone_number_verified', 'Value': 'false'},
+                                           {'Name': 'phone_number', 'Value': '+5511981643251'},
+                                           {'Name': 'custom:acceptedNotific', 'Value': 'True'},
+                                           {'Name': 'custom:role', 'Value': 'EXTERNAL'},
+                                           {'Name': 'email', 'Value': 'vgsoller1@gmail.com'},
+                                           {'Name': 'custom:accessLevel', 'Value': 'USER'}],
+                        'UserCreateDate': datetime.datetime(2023, 2, 3, 23, 27, 48, 713000),
+                        'UserLastModifiedDate': datetime.datetime(2023, 2, 3, 23, 27, 48, 713000),
+                        'UserStatus': 'UNCONFIRMED',
+                        'Username': 'vgsoller1@gmail.com'}
+        user_cognito_dto = UserCognitoDTO.from_cognito(cognito_data)
+
+        user_cognito_expected = UserCognitoDTO(
+            user_id='4356055b-cbc4-47b4-a31d-497f8a280225',
+            created_at=int(datetime.datetime(2023, 2, 3, 23, 27, 48, 713000).timestamp()*1000),
+            updated_at=int(datetime.datetime(2023, 2, 3, 23, 27, 48, 713000).timestamp()*1000),
+            email="vgsoller1@gmail.com",
+            name="Doroth Helena De Souza Alves",
+            role=ROLE.EXTERNAL,
+            access_level=ACCESS_LEVEL.USER,
+            ra=None,
+            social_name=None,
+            accepted_terms=True,
+            accepted_notifications=True,
+            certificate_with_social_name=False,
+            phone="+5511981643251"
+        )
+
+        assert user_cognito_dto == user_cognito_expected
+
