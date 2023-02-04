@@ -6,6 +6,10 @@ from src.shared.domain.entities.user import User
 class IUserRepository(ABC):
 
     @abstractmethod
+    def get_confirmed_users(self) -> List[User]:
+        pass
+
+    @abstractmethod
     def get_user_by_email(self, email: str) -> User:
         pass
 
@@ -30,7 +34,7 @@ class IUserRepository(ABC):
         pass
 
     @abstractmethod
-    def confirm_user_creation(self, login: str, code: int):
+    def confirm_user_creation(self, email: str, confirmation_code: str) -> bool:
         pass
 
     @abstractmethod
@@ -60,5 +64,13 @@ class IUserRepository(ABC):
         """
         Returns True if the email exists and the code was sent,
         else raise NoItemsFound
+        """
+        pass
+
+    @abstractmethod
+    def get_unconfirmed_user_by_email(self, email: str) -> User:
+        """
+        returns the user who has the email in the list of all users,
+        confirmed or not
         """
         pass

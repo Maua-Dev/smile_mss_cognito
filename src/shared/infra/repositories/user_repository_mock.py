@@ -5,7 +5,7 @@ from src.shared.domain.entities.user import User
 
 from src.shared.domain.repositories.user_repository_interface import IUserRepository
 from src.shared.helpers.errors.domain_errors import EntityError
-from src.shared.helpers.errors.usecase_errors import NoItemsFound, DuplicatedItem
+from src.shared.helpers.errors.usecase_errors import ForbiddenAction, NoItemsFound, DuplicatedItem
 
 
 class UserRepositoryMock(IUserRepository):
@@ -36,6 +36,9 @@ class UserRepositoryMock(IUserRepository):
             self.users[1]
         ]
 
+    def get_confirmed_users(self) -> List[User]:
+        return self.confirmed_users
+
     def get_all_users(self) -> List[User]:
         if len(self.confirmed_users) > 0:
             return self.confirmed_users
@@ -45,6 +48,16 @@ class UserRepositoryMock(IUserRepository):
     def get_user_by_email(self, email: str) -> User:
         user: User = None
         for userx in self.confirmed_users:
+            if userx.email == email:
+                user = userx
+                break
+            pass
+        return user
+
+    # Busca na lista que possui confirmados e não confirmados
+    def get_unconfirmed_user_by_email(self, email: str) -> User:
+        user: User = None
+        for userx in self.users:
             if userx.email == email:
                 user = userx
                 break
@@ -68,7 +81,8 @@ class UserRepositoryMock(IUserRepository):
         self.users.append(user)
         return user
 
-    def confirm_user_creation(self, email: str, code: int) -> bool:
+
+    def confirm_user_creation(self, email: str, confirmation_code: str) -> bool:
         pass
     #     # code = 1234567
     #
@@ -85,6 +99,14 @@ class UserRepositoryMock(IUserRepository):
     #         raise UserAlreadyConfirmed(f'User already confirmed')
     #     self.confirmed_users.append(user)
     #     return True
+
+        # confirmation_code = '102030'
+        if confirmation_code != '102030':
+            raise ForbiddenAction('"Invalid Confirmation Code".')
+
+        user = self.get_user_by_email(email)
+        self.confirmed_users.append(user)
+        return True
 
     def update_user(self, user: User) -> User:
 
