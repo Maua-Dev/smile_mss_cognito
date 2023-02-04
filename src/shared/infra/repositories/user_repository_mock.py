@@ -81,6 +81,7 @@ class UserRepositoryMock(IUserRepository):
         self.users.append(user)
         return user
 
+
     def confirm_user_creation(self, email: str, confirmation_code: str) -> bool:
         pass
     #     # code = 1234567
@@ -89,7 +90,7 @@ class UserRepositoryMock(IUserRepository):
     #         raise InvalidCode(f'Invalid code')
     #     user: User = None
     #     for userx in self.users:
-    #         if userx.email == login:
+    #         if userx.email == email:
     #             user = userx
     #             break
     #     if not user:
@@ -164,23 +165,23 @@ class UserRepositoryMock(IUserRepository):
         a = "valid_access_token-" + split_token[1], refresh_token
         return a
 
-    def change_password(self, login: str) -> bool:
+    def change_password(self, email: str) -> bool:
         for userx in self.confirmed_users:
-            if userx.email == login:
+            if userx.email == email:
                 return True
         return False
 
-    def confirm_change_password(self, login: str, newPassword: str, code: str) -> bool:
-        # code = 123456
+    def confirm_change_password(self, email: str, new_password: str, confirmation_code: str) -> bool:
+        # confirmation_code = 123456
 
         # Check code
-        if code != "123456":
+        if confirmation_code != "123456":
             return False
 
         # Update user password
-        user = self.get_user_by_email(login)
+        user = self.get_user_by_email(email)
         if user:
-            user.password = newPassword
+            user.password = new_password
             return True
         return False
 
