@@ -30,9 +30,27 @@ class UserRepositoryCognito(IUserRepository):
         except self.client.exceptions.UserNotFoundException:
             return None
 
-
     def get_all_users(self) -> List[User]:
-        pass
+        kwargs = {
+            'UserPoolId': self.user_pool_id
+        }
+
+        all_users = list()
+        users_remain = True
+        next_page = None
+
+        while users_remain:
+            if next_page:
+                kwargs['PaginationToken'] = next_page
+            response = self.client.list_users(**kwargs)
+
+            all_users.extend(response["Users"])
+            next_page = response.get('PaginationToken', None)
+            users_remain = next_page is not None
+
+        all_users = [UserCognitoDTO.from_cognito(user).to_entity() for user in all_users]
+
+        return all_users
 
     def create_user(self, user: User) -> User:
         cognito_attributes = UserCognitoDTO.from_entity(user).to_cognito_attributes()
@@ -46,7 +64,6 @@ class UserRepositoryCognito(IUserRepository):
         user.cognito_id = response.get("UserSub")
 
         return user
-
 
     def update_user(self, user: User) -> User:
         pass
