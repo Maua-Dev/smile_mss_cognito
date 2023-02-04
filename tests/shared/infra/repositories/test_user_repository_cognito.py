@@ -9,7 +9,7 @@ from src.shared.infra.repositories.user_repository_cognito import UserRepository
 
 class Test_UserRepositoryCognito:
 
-    # @pytest.mark.skip("Can't test it locally")
+    @pytest.mark.skip("Can't test it locally")
     def test_create_user(self):
         repo = UserRepositoryCognito()
         user_to_create = User(user_id='0000-0000-00000-000000-0000000-00000', email='vgsoller1@gmail.com',
@@ -66,7 +66,7 @@ class Test_UserRepositoryCognito:
 
         assert user is None
 
-    # @pytest.mark.skip("Can't test it locally")
+    @pytest.mark.skip("Can't test it locally")
     def test_get_all_users(self):
         repo = UserRepositoryCognito()
         users = repo.get_all_users()
