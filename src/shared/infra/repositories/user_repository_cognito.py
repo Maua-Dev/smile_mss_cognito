@@ -85,8 +85,13 @@ class UserRepositoryCognito(IUserRepository):
         return self.get_user_by_email(user_email)
 
 
-    def delete_user(self, cpfRne: int):
-        pass
+    def delete_user(self, user_email: str):
+        self.client.admin_delete_user(
+            UserPoolId=self.user_pool_id,
+            Username=user_email
+        )
+
+        return
 
     def confirm_user_creation(self, login: str, code: int):
         pass

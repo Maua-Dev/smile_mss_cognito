@@ -110,7 +110,7 @@ class Test_UserRepositoryCognito:
 
         assert users == expected_users
 
-    # @pytest.mark.skip("Can't test it locally")
+    @pytest.mark.skip("Can't test it locally")
     def test_update_user(self):
         repo = UserRepositoryCognito()
         user_to_update = User(user_id='000000000000000000000000000000000001', email='brunovilardibueno@gmail.com', name='Caio soller', password='z12345',
@@ -121,6 +121,13 @@ class Test_UserRepositoryCognito:
         updated_user = repo.update_user("brunovilardibueno@gmail.com", {'social_name': 'boca roxa', 'certificate_with_social_name': "True"})
 
         assert True
+
+
+    # @pytest.mark.skip("Can't test it locally")
+    def test_delete_user(self):
+        repo = UserRepositoryCognito()
+        repo.delete_user('21.00208-8@maua.br')
+
 
 
 
