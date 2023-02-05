@@ -252,9 +252,3 @@ class UserRepositoryCognito(IUserRepository):
                     raise ForbiddenAction(e.response.get('Error').get('Message'))
             else:
                 raise ForbiddenAction(message=e.response.get('Error').get('Message'))
-
-    def get_confirmed_users(self) -> List[User]:
-        pass
-
-    def get_unconfirmed_user_by_email(self, email: str) -> User:
-        pass
