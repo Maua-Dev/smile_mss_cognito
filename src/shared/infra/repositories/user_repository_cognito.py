@@ -134,7 +134,37 @@ class UserRepositoryCognito(IUserRepository):
             raise ForbiddenAction(message=e.response.get('Error').get('Message'))
 
     def login_user(self, login: str, password: str) -> dict:
-        pass
+        try:
+            responseLogin = self.client.initiate_auth(
+                ClientId=self.client_id,
+                AuthFlow='USER_PASSWORD_AUTH',
+                AuthParameters={
+                    'USERNAME': str(login),
+                    'PASSWORD': password
+                }
+            )
+            responseGetUser = self.client.get_user(
+                AccessToken=responseLogin["AuthenticationResult"]["AccessToken"]
+            )
+
+            user = UserCognitoDTO.from_cognito(responseGetUser).to_entity()
+
+            dictResponse = user.to_dict()
+            dictResponse["accessToken"] = responseLogin["AuthenticationResult"]["AccessToken"]
+            dictResponse["refreshToken"] = responseLogin["AuthenticationResult"]["RefreshToken"]
+            dictResponse["idToken"] = responseLogin["AuthenticationResult"]["IdToken"]
+            return dictResponse
+
+        except ClientError as e:
+            errorCode = e.response.get('Error').get('Code')
+            if errorCode == 'NotAuthorizedException':
+                raise ForbiddenAction(message="User or password invalid")
+            elif errorCode == 'UserNotFoundException':
+                raise ForbiddenAction(message=f"{login}")
+            elif errorCode == 'UserNotConfirmedException':
+                raise ForbiddenAction(message=f"{login}")
+            else:
+                raise ForbiddenAction(message=e.response.get('Error').get('Message'))
 
     def check_token(self, token: str) -> dict:
         pass

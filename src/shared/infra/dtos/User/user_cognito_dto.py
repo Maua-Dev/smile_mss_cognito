@@ -83,8 +83,8 @@ class UserCognitoDTO:
         user_data = next((value for key, value in data.items() if "Attribute" in key), None)
 
         user_data = {UserCognitoDTO.FROM_COGNITO_DICT[att["Name"]]: att["Value"] for att in user_data if att["Name"] in UserCognitoDTO.FROM_COGNITO_DICT}
-        user_data["created_at"] = data["UserCreateDate"]
-        user_data["updated_at"] = data["UserLastModifiedDate"]
+        user_data["created_at"] = data.get("UserCreateDate")
+        user_data["updated_at"] = data.get("UserLastModifiedDate")
 
         return UserCognitoDTO(
             user_id=user_data.get("user_id"),
@@ -94,8 +94,8 @@ class UserCognitoDTO:
             ra=user_data.get("ra"),
             role=ROLE[user_data.get("role")],
             access_level=ACCESS_LEVEL[user_data.get("access_level")],
-            created_at=int(user_data.get("created_at").timestamp()*1000),
-            updated_at=int(user_data.get("updated_at").timestamp()*1000),
+            created_at=int(user_data.get("created_at").timestamp()*1000) if user_data.get("created_at") else None,
+            updated_at=int(user_data.get("updated_at").timestamp()*1000) if user_data.get("updated_at") else None,
             social_name=user_data.get("social_name"),
             accepted_terms=eval(user_data.get("accepted_terms")),
             accepted_notifications=eval(user_data.get("accepted_notifications")),
