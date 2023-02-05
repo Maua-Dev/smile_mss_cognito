@@ -1,10 +1,12 @@
 from typing import Tuple, List
 
 import boto3
+from botocore.exceptions import ClientError
 
 from src.shared.domain.entities.user import User
 from src.shared.domain.repositories.user_repository_interface import IUserRepository
 from src.shared.environments import Environments
+from src.shared.helpers.errors.usecase_errors import ForbiddenAction
 from src.shared.infra.dtos.User.user_cognito_dto import UserCognitoDTO
 
 
@@ -94,7 +96,42 @@ class UserRepositoryCognito(IUserRepository):
         return
 
     def confirm_user_creation(self, login: str, code: int):
-        pass
+        try:
+            userResult = self.client.list_users(
+                UserPoolId=self.user_pool_id,
+                Filter=f'email = "{login}"'
+            )
+            # check erros
+            userList = userResult["Users"]
+
+            if len(userList) == 0:
+                raise ForbiddenAction(f"{login}")
+
+            if userList[0]["UserStatus"] == "CONFIRMED":
+                raise ForbiddenAction(f"{login} is already confirmed")
+
+            user = userList[0]
+            userParsed = UserCognitoDTO.from_cognito(data=user)
+
+            if not userParsed:
+                raise ForbiddenAction(f"{login}")
+
+            return self.client.confirm_sign_up(
+                ClientId=self.client_id,
+                Username=userParsed.email,
+                ConfirmationCode=code
+            )
+        except ClientError as e:
+            errorCode = e.response.get('Error').get('Code')
+            if errorCode == 'NotAuthorizedException':
+                raise ForbiddenAction("You don`t have permission to access this resource")
+            elif errorCode == 'InvalidParameterException':
+                raise ForbiddenAction(e.response.get('Error').get('Message'))
+            elif errorCode == 'CodeMismatchException':
+                raise ForbiddenAction("Invalid confirmation code")
+            elif errorCode == 'ExpiredCodeException':
+                raise ForbiddenAction("Expired confirmation code")
+            raise ForbiddenAction(message=e.response.get('Error').get('Message'))
 
     def login_user(self, login: str, password: str) -> dict:
         pass

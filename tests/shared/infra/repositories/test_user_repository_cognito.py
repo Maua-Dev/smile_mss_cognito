@@ -9,10 +9,10 @@ from src.shared.infra.repositories.user_repository_cognito import UserRepository
 
 class Test_UserRepositoryCognito:
 
-    @pytest.mark.skip("Can't test it locally")
+    # @pytest.mark.skip("Can't test it locally")
     def test_create_user(self):
         repo = UserRepositoryCognito()
-        user_to_create = User(user_id='0000-0000-00000-000000-0000000-00000', email='brunovilardibueno@gmail.com',
+        user_to_create = User(user_id='0000-0000-00000-000000-0000000-00000', email='geltirepso@gufum.com',
                               name='Maria LUiza Vernasqui Vergani', password="Mauá@#123",
                               ra="21002088", role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                               updated_at=None, social_name="Maluzinha avião", accepted_terms=True,
@@ -128,6 +128,10 @@ class Test_UserRepositoryCognito:
         repo = UserRepositoryCognito()
         repo.delete_user('21.00208-8@maua.br')
 
+    # @pytest.mark.skip("Can't test it locally")
+    def test_confirm(self):
+        repo = UserRepositoryCognito()
+        repo.confirm_user_creation("geltirepso@gufum.com", "098885")
 
 
 
