@@ -9,6 +9,12 @@ from src.shared.infra.dtos.User.user_cognito_dto import UserCognitoDTO
 
 
 class UserRepositoryCognito(IUserRepository):
+    def get_confirmed_users(self) -> List[User]:
+        pass
+
+    def get_unconfirmed_user_by_email(self, email: str) -> User:
+        pass
+
     client: boto3.client
     user_pool_id: str
     client_id: str
