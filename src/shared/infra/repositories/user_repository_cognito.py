@@ -82,6 +82,8 @@ class UserRepositoryCognito(IUserRepository):
             UserAttributes=[{'Name': UserCognitoDTO.TO_COGNITO_DICT[key], 'Value': value} for key, value in kvp_to_update.items()]
         )
 
+        return self.get_user_by_email(user_email)
+
 
     def delete_user(self, cpfRne: int):
         pass

@@ -118,7 +118,7 @@ class Test_UserRepositoryCognito:
                  updated_at=16449777000, social_name='zeeba toledo', accepted_terms=True,
                  accepted_notifications=True, certificate_with_social_name=True, phone="+5511999451100"
                  )
-        updated_user = repo.update_user("brunovilardibueno@gmail.com", {'social_name': 'boca azul', 'certificate_with_social_name': "True"})
+        updated_user = repo.update_user("brunovilardibueno@gmail.com", {'social_name': 'boca roxa', 'certificate_with_social_name': "True"})
 
         assert True
 
