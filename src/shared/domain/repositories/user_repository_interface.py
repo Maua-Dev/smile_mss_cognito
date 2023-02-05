@@ -6,10 +6,6 @@ from src.shared.domain.entities.user import User
 class IUserRepository(ABC):
 
     @abstractmethod
-    def get_confirmed_users(self) -> List[User]:
-        pass
-
-    @abstractmethod
     def get_user_by_email(self, email: str) -> User:
         pass
 
@@ -26,7 +22,7 @@ class IUserRepository(ABC):
         pass
 
     @abstractmethod
-    def update_user(self, user: User) -> User:
+    def update_user(self, user_email: str, kvp_to_update: dict) -> User:
         pass
 
     @abstractmethod
@@ -67,10 +63,3 @@ class IUserRepository(ABC):
         """
         pass
 
-    @abstractmethod
-    def get_unconfirmed_user_by_email(self, email: str) -> User:
-        """
-        returns the user who has the email in the list of all users,
-        confirmed or not
-        """
-        pass

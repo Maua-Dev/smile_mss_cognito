@@ -36,9 +36,6 @@ class UserRepositoryMock(IUserRepository):
             self.users[1]
         ]
 
-    def get_confirmed_users(self) -> List[User]:
-        return self.confirmed_users
-
     def get_all_users(self) -> List[User]:
         if len(self.confirmed_users) > 0:
             return self.confirmed_users
@@ -54,15 +51,6 @@ class UserRepositoryMock(IUserRepository):
             pass
         return user
 
-    # Busca na lista que possui confirmados e não confirmados
-    def get_unconfirmed_user_by_email(self, email: str) -> User:
-        user: User = None
-        for userx in self.users:
-            if userx.email == email:
-                user = userx
-                break
-            pass
-        return user
 
     def check_user_by_propriety(self, propriety: str, value: str) -> bool:
         for userx in self.users:
@@ -99,6 +87,20 @@ class UserRepositoryMock(IUserRepository):
     #         raise UserAlreadyConfirmed(f'User already confirmed')
     #     self.confirmed_users.append(user)
     #     return True
+
+        for u in self.confirmed_users:
+            if u.email == email:
+                raise ForbiddenAction(f'"User already confirmed".')
+
+        not_confirmed_user = True
+
+        for u in self.users:
+            if u.email == email:
+                not_confirmed_user = False
+                break
+
+        if not_confirmed_user:
+            raise ForbiddenAction(f'"User not found".')
 
         # confirmation_code = '102030'
         if confirmation_code != '102030':
