@@ -167,16 +167,93 @@ class UserRepositoryCognito(IUserRepository):
                 raise ForbiddenAction(message=e.response.get('Error').get('Message'))
 
     def check_token(self, token: str) -> dict:
-        pass
+        try:
+            response = self.client.get_user(
+                AccessToken=token
+            )
+            return UserCognitoDTO.from_cognito(response).to_entity()
+        except ClientError as e:
+            errorCode = e.response.get('Error').get('Code')
+            if errorCode == 'NotAuthorizedException':
+                raise ForbiddenAction(message="Invalid or expired Token")
+            else:
+                raise ForbiddenAction(message=e.response.get('Error').get('Message'))
 
-    def refresh_token(self, refreshToken: str) -> Tuple[str, str]:
-        pass
+    def refresh_token(self, refresh_token: str) -> Tuple[str, str]:
+        try:
+            response = self.client.initiate_auth(
+                ClientId=self.client_id,
+                AuthFlow='REFRESH_TOKEN_AUTH',
+                AuthParameters={
+                    'REFRESH_TOKEN': refresh_token
+                }
+            )
+            return response["AuthenticationResult"]['AccessToken'], refresh_token
+        except ClientError as e:
+            errorCode = e.response.get('Error').get('Code')
+            if errorCode == 'NotAuthorizedException':
+                raise ForbiddenAction(message="Invalid or expired Token")
+            else:
+                raise ForbiddenAction(message=e.response.get('Error').get('Message'))
 
     def change_password(self, login: str) -> bool:
-        pass
+        try:
+            userCognitoDTO = self.client.admin_get_user(
+                UserPoolId=self.user_pool_id,
+                Username=login
+            )
+            user = UserCognitoDTO.from_cognito(userCognitoDTO).to_entity()
+
+            response = self.client.forgot_password(
+                ClientId=self.client_id,
+                Username=login,
+                ClientMetadata={
+                    'login': user.email
+                }
+            )
+            return response["ResponseMetadata"]["HTTPStatusCode"] == 200
+        except ClientError as e:
+            errorCode = e.response.get('Error').get('Code')
+            if errorCode == 'UserNotFoundException':
+                raise ForbiddenAction(message=f"{login}")
+            elif errorCode == 'UserNotConfirmedException':
+                raise ForbiddenAction(message=f"{login}")
+            else:
+                raise ForbiddenAction(message=e.response.get('Error').get('Message'))
 
     def confirm_change_password(self, login: str, newPassword: str, code: str) -> bool:
-        pass
+        try:
+            response = self.client.confirm_forgot_password(
+                ClientId=self.client_id,
+                Username=login,
+                Password=newPassword,
+                ConfirmationCode=code
+            )
+            return response["ResponseMetadata"]["HTTPStatusCode"] == 200
+        except ClientError as e:
+            errorCode = e.response.get('Error').get('Code')
+            if errorCode == 'CodeMismatchException':
+                raise ForbiddenAction(message="Invalid confirmation code")
+            elif errorCode == 'UserNotFoundException':
+                raise ForbiddenAction(message=f"{login}")
+            else:
+                raise ForbiddenAction(message=e.response.get('Error').get('Message'))
 
     def resend_confirmation_code(self, email: str) -> bool:
-        pass
+        try:
+            response = self.client.resend_confirmation_code(
+                ClientId=self.client_id,
+                Username=email
+            )
+            return response["ResponseMetadata"]["HTTPStatusCode"] == 200
+        except ClientError as e:
+            errorCode = e.response.get('Error').get('Code')
+            if errorCode == 'UserNotFoundException':
+                raise ForbiddenAction(message=f"{email}")
+            elif errorCode == 'InvalidParameterException':
+                if e.response.get('Error').get('Message') == 'User is already confirmed.':
+                    raise ForbiddenAction(message=f"{email}")
+                else:
+                    raise ForbiddenAction(e.response.get('Error').get('Message'))
+            else:
+                raise ForbiddenAction(message=e.response.get('Error').get('Message'))
