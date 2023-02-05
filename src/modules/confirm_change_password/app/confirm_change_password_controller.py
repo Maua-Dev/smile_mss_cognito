@@ -1,48 +1,53 @@
-from src.shared.errors.http_exception import HttpException
-from src.shared.helpers.external_interfaces.http_models import HttpRequest, HttpResponse
-from src.shared.helpers.external_interfaces.http_codes import BadRequest, InternalServerError, OK
-from src.modules.change_password.app.change_password_viewmodel import ChangePasswordModel
-from src.modules.login_user.app.login_user_viewmodel import LoginUserModel
-from src.shared.domain.errors.errors import UnexpectedError, EntityError, NonExistentUser, InvalidCredentials
-from src.shared.domain.repositories.user_repository_interface import IUserRepository
-from src.modules.change_password.app.change_password_usecase import ChangePasswordUsecase
 from src.modules.confirm_change_password.app.confirm_change_password_usecase import ConfirmChangePasswordUsecase
-from src.modules.login_user.app.login_user_usecase import LoginUserUsecase
+from src.modules.confirm_change_password.app.confirm_change_password_viewmodel import ConfirmChangePasswordViewmodel
+
+from src.shared.helpers.errors.controller_errors import MissingParameters
+from src.shared.helpers.errors.domain_errors import EntityError
+from src.shared.helpers.errors.usecase_errors import NoItemsFound
+from src.shared.helpers.external_interfaces.external_interface import IRequest, IResponse
+from src.shared.helpers.external_interfaces.http_codes import OK, NotFound, BadRequest, InternalServerError
 
 
 class ConfirmChangePasswordController:
-    def __init__(self, userRepository: IUserRepository) -> None:
-        self._confirmChangePasswordUsecase = ConfirmChangePasswordUsecase(
-            userRepository)
+    def __init__(self, usecase: ConfirmChangePasswordUsecase):
+        self.usecase = usecase
 
-    async def __call__(self, req: HttpRequest) -> HttpResponse:
-
-        if req.query is not None:
-            return BadRequest('No parameters allowed.')
-        if not {'login', 'new_password', 'confirmation_code'}.issubset(set(req.body)):
-            return BadRequest('Missing login, new password or confirmation code.')
+    def __call__(self, request: IRequest) -> IResponse:
 
         try:
-            result = await self._confirmChangePasswordUsecase(
-                login=str(req.body['login']),
-                newPassword=str(req.body['new_password']),
-                code=str(req.body['confirmation_code'])
+            if request.data.get('email') is None:
+                raise MissingParameters('email')
+            if request.data.get('new_password') is None:
+                raise MissingParameters('new_password')
+            if request.data.get('confirmation_code') is None:
+                raise MissingParameters('confirmation_code')
+
+            resp = self.usecase(
+                email=request.data.get('email'),
+                confirmation_code=request.data.get('confirmation_code'),
+                new_password=request.data.get('new_password')
             )
 
-            changePasswordModel = ChangePasswordModel(result=result)
-            if not result:
-                changePasswordModel.message = "User not found, invalid confirmation code or weak new password."
-                return BadRequest(changePasswordModel.toDict())
+            viewmodel = ConfirmChangePasswordViewmodel(resp)
 
-            return OK(changePasswordModel.toDict())
+            if not resp:
+                viewmodel.message = "User not found, invalid confirmation code or weak new password."
+                return BadRequest(viewmodel.to_dict())
 
-        except KeyError as e:
-            return BadRequest('Missing parameter: ' + e.args[0])
+            return OK(viewmodel.to_dict())
 
-        except UnexpectedError as e:
-            err = InternalServerError(e.message)
-            return err
+        except NoItemsFound as err:
 
-        except Exception as e:
-            err = InternalServerError(e.args[0])
-            return err
+            return NotFound(body=err.message)
+
+        except MissingParameters as err:
+
+            return BadRequest(body=err.message)
+
+        except EntityError as err:
+
+            return BadRequest(body=err.message)
+
+        except Exception as err:
+
+            return InternalServerError(body=err.args[0])

@@ -1,27 +1,38 @@
-from src.adapters.helpers.http_models import HttpRequest, HttpResponse, BadRequest, InternalServerError, Ok
-from src.domain.errors.errors import NonExistentUser
-from src.domain.repositories.user_repository_interface import IUserRepository
 from src.modules.delete_user.app.delete_user_usecase import DeleteUserUsecase
+from src.shared.helpers.errors.controller_errors import MissingParameters
+from src.shared.helpers.errors.domain_errors import EntityError
+from src.shared.helpers.errors.usecase_errors import ForbiddenAction
+from src.shared.helpers.external_interfaces.external_interface import IRequest, IResponse
+from src.shared.helpers.external_interfaces.http_codes import OK, BadRequest, Forbidden, InternalServerError
 
 
 class DeleteUserController:
-    def __init__(self, userRepository: IUserRepository) -> None:
-        self._deleteUserUsecase = DeleteUserUsecase(userRepository)
+    def __init__(self, usecase: DeleteUserUsecase) -> None:
+        self.usecase = usecase
 
-    async def __call__(self, req: HttpRequest) -> HttpResponse:
+    def __call__(self, req: IRequest) -> IResponse:
 
-        if req.query is not None:
-            return BadRequest('No parameters allowed.')
-        if req.body is None:
-            return BadRequest('Missing body.')
-        if 'cpfRne' not in req.body:
-            return BadRequest('Missing Cpf Rne.')
+        if req.data is None:
+            raise MissingParameters('Missing body.')
+
+        if 'email' not in req.data:
+            raise MissingParameters('Missing email.')
         try:
-            await self._deleteUserUsecase(req.body['cpfRne'])
-            return Ok('User deleted.')
+            self.usecase(req.data.get('email'))
+            return OK('User deleted.')
 
-        except NonExistentUser as e:
-            return BadRequest(e.message)
+        except MissingParameters as err:
 
-        except Exception as e:
-            return InternalServerError(e.args[0])
+            return BadRequest(body=err.message)
+
+        except ForbiddenAction as err:
+
+            return Forbidden(body=err.message)
+
+        except EntityError as err:
+
+            return BadRequest(body=err.message)
+
+        except Exception as err:
+
+            return InternalServerError(body=err.args[0])
