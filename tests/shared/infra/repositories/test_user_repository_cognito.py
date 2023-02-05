@@ -12,7 +12,7 @@ class Test_UserRepositoryCognito:
     @pytest.mark.skip("Can't test it locally")
     def test_create_user(self):
         repo = UserRepositoryCognito()
-        user_to_create = User(user_id='0000-0000-00000-000000-0000000-00000', email='21.00208-8@maua.br',
+        user_to_create = User(user_id='0000-0000-00000-000000-0000000-00000', email='brunovilardibueno@gmail.com',
                               name='Maria LUiza Vernasqui Vergani', password="Mauá@#123",
                               ra="21002088", role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                               updated_at=None, social_name="Maluzinha avião", accepted_terms=True,
@@ -109,5 +109,24 @@ class Test_UserRepositoryCognito:
         assert len(users) == len(expected_users)
 
         assert users == expected_users
+
+    # @pytest.mark.skip("Can't test it locally")
+    def test_update_user(self):
+        repo = UserRepositoryCognito()
+        user_to_update = User(user_id='000000000000000000000000000000000001', email='brunovilardibueno@gmail.com', name='Caio soller', password='z12345',
+                 ra='20014309', role=ROLE.INTERNATIONAL_STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
+                 updated_at=16449777000, social_name='zeeba toledo', accepted_terms=True,
+                 accepted_notifications=True, certificate_with_social_name=True, phone="+5511999451100"
+                 )
+        updated_user = repo.update_user("brunovilardibueno@gmail.com", {'social_name': 'boca azul', 'certificate_with_social_name': "True"})
+
+        assert True
+
+
+
+
+
+
+
 
 

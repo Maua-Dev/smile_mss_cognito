@@ -75,8 +75,13 @@ class UserRepositoryCognito(IUserRepository):
 
         return user
 
-    def update_user(self, user: User) -> User:
-        pass
+    def update_user(self, user_email: str, kvp_to_update: dict) -> User:
+        response = self.client.admin_update_user_attributes(
+            UserPoolId=self.user_pool_id,
+            Username=user_email,
+            UserAttributes=[{'Name': UserCognitoDTO.TO_COGNITO_DICT[key], 'Value': value} for key, value in kvp_to_update.items()]
+        )
+
 
     def delete_user(self, cpfRne: int):
         pass

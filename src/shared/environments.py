@@ -45,14 +45,14 @@ class Environments:
 
         if self.stage == STAGE.TEST:
             self.s3_bucket_name = "activity-bucket-test"
-            self.region = "sa-east-1"
+            self.region = "us-east-2"
             self.endpoint_url = "http://localhost:8000"
             self.dynamo_table_name = "smile_mss_activity-table"
             self.dynamo_partition_key = "PK"
             self.dynamo_sort_key = "SK"
             self.cloud_front_distribution_domain = "https://d3q9q9q9q9q9q9.cloudfront.net"
-            self.user_pool_id = "sa-east-1_be9W9odZS"
-            self.client_id = "6ckmtn8pa6g8jksj70bhoq6ii3"
+            self.user_pool_id = "us-east-2_uxbW9MaCL"
+            self.client_id = "49859km4irtritqp8bj7p52pgl"
 
         else:
             self.s3_bucket_name = os.environ.get("S3_BUCKET_NAME")

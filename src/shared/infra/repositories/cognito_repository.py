@@ -4,11 +4,14 @@ from typing import List
 import boto3 as boto3
 from botocore.exceptions import ClientError
 
-from src.domain.entities.user import User
-from src.domain.errors.errors import InvalidCredentials, NonExistentUser, BaseError, UserAlreadyExists, InvalidToken, \
-    EntityError, UserAlreadyConfirmed, UnexpectedError, UserNotConfirmed
-from src.domain.repositories.user_repository_interface import IUserRepository
-from src.infra.dtos.User.user_dto import CognitoUserDTO
+from src.shared.domain.entities.user import User
+from src.shared.domain.repositories.user_repository_interface import IUserRepository
+
+
+#from src.domain.entities.user import User
+#from src.domain.errors.errors import InvalidCredentials, NonExistentUser, BaseError, UserAlreadyExists, InvalidToken, \
+#    EntityError, UserAlreadyConfirmed, UnexpectedError, UserNotConfirmed
+#from src.infra.dtos.User.user_dto import CognitoUserDTO
 
 
 class UserRepositoryCognito(IUserRepository):
@@ -106,7 +109,7 @@ class UserRepositoryCognito(IUserRepository):
 
             self._client.sign_up(
                 ClientId=self._clientId,
-                Username=str(user_dto.cpfRne),
+                Username=str(user_dto.email),
                 Password=user_dto.password,
                 UserAttributes=user_dto.userAttributes,
             )
@@ -352,3 +355,22 @@ class UserRepositoryCognito(IUserRepository):
                     raise EntityError(e.response.get('Error').get('Message'))
             else:
                 raise BaseError(message=e.response.get('Error').get('Message'))
+
+
+if __name__ == '__main__':
+    import os
+    from src.shared.domain.entities.enums import ROLE, ACCESS_LEVEL
+    os.environ['AWS_REGION_COGNITO'] = "us-east-2"
+    os.environ['USER_POOL_ID'] = "us-east-2_aL2iSs22E"
+    os.environ['CLIENT_ID'] = "1br6hl5q499af21agft2c4qlfq"
+    client = boto3.client("cognito-idp", region_name="us-east-2")
+
+    u = User(user_id='0000-0000-00000-000000-0000000-00000', email='zeeba@gmail.com', name='Caio toledo', password='z12345',
+         ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
+         updated_at=16449777000, social_name='zeeba toledo', accepted_terms=True,
+         accepted_notifications=True, certificate_with_social_name=True, phone="5511991758098"
+         )
+
+
+
+
