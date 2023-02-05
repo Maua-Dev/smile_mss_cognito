@@ -24,6 +24,9 @@ class UserRepositoryCognito(IUserRepository):
                 UserPoolId=self.user_pool_id,
                 Username=email
             )
+            if response["UserStatus"] == "UNCONFIRMED":
+                return None
+
             user = UserCognitoDTO.from_cognito(response).to_entity()
             return user
 
@@ -44,11 +47,12 @@ class UserRepositoryCognito(IUserRepository):
                 kwargs['PaginationToken'] = next_page
             response = self.client.list_users(**kwargs)
 
+
             all_users.extend(response["Users"])
             next_page = response.get('PaginationToken', None)
             users_remain = next_page is not None
 
-        all_users = [UserCognitoDTO.from_cognito(user).to_entity() for user in all_users]
+        all_users = [UserCognitoDTO.from_cognito(user).to_entity() for user in all_users if user["UserStatus"] == "CONFIRMED"]
 
         return all_users
 
