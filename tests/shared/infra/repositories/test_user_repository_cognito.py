@@ -133,7 +133,7 @@ class Test_UserRepositoryCognito:
         repo = UserRepositoryCognito()
         repo.confirm_user_creation("justacofya@gufum.com", "960499")
 
-    @pytest.mark.skip("Can't test it locally")
+    # @pytest.mark.skip("Can't test it locally")
     def test_login_user(self):
         repo = UserRepositoryCognito()
         user = repo.login_user("brunovilardibueno@gmail.com", "Teste123!")

@@ -130,6 +130,7 @@ class UserRepositoryCognito(IUserRepository):
 
     def login_user(self, login: str, password: str) -> dict:
         try:
+            print("ENTROU NO LOGIN")
             responseLogin = self.client.initiate_auth(
                 ClientId=self.client_id,
                 AuthFlow='USER_PASSWORD_AUTH',
@@ -138,16 +139,19 @@ class UserRepositoryCognito(IUserRepository):
                     'PASSWORD': password
                 }
             )
+            print(f"REPONSE LOGIN: {responseLogin}")
             responseGetUser = self.client.get_user(
                 AccessToken=responseLogin["AuthenticationResult"]["AccessToken"]
             )
+            print(f"REPONSE GET USER: {responseGetUser}")
+
 
             user = UserCognitoDTO.from_cognito(responseGetUser).to_entity()
 
             dictResponse = user.to_dict()
-            dictResponse["accessToken"] = responseLogin["AuthenticationResult"]["AccessToken"]
-            dictResponse["refreshToken"] = responseLogin["AuthenticationResult"]["RefreshToken"]
-            dictResponse["idToken"] = responseLogin["AuthenticationResult"]["IdToken"]
+            dictResponse["access_token"] = responseLogin["AuthenticationResult"]["AccessToken"]
+            dictResponse["refresh_token"] = responseLogin["AuthenticationResult"]["RefreshToken"]
+            dictResponse["id_token"] = responseLogin["AuthenticationResult"]["IdToken"]
             return dictResponse
 
         except ClientError as e:
@@ -166,7 +170,8 @@ class UserRepositoryCognito(IUserRepository):
             response = self.client.get_user(
                 AccessToken=token
             )
-            return UserCognitoDTO.from_cognito(response).to_entity()
+
+            return UserCognitoDTO.from_cognito(response).to_entity().to_dict()
         except ClientError as e:
             errorCode = e.response.get('Error').get('Code')
             if errorCode == 'NotAuthorizedException':

@@ -6,10 +6,13 @@ from aws_cdk.aws_apigateway import Resource, LambdaIntegration
 
 
 class CognitoStack(Construct):
+    user_pool: aws_cognito.UserPool
+    client: aws_cognito.UserPoolClient
+
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
-        user_pool = aws_cognito.UserPool(self, "smile_user_pool",
+        self.user_pool = aws_cognito.UserPool(self, "smile_user_pool",
                                          removal_policy=RemovalPolicy.DESTROY,
 
                                          self_sign_up_enabled=True,
@@ -40,7 +43,7 @@ class CognitoStack(Construct):
                                          }
                                          )
 
-        user_pool.add_client("smile_user_pool_client",
+        self.client = self.user_pool.add_client("smile_user_pool_client",
                              user_pool_client_name="smile_user_pool_client",
                              generate_secret=False,
                              auth_flows=aws_cognito.AuthFlow(

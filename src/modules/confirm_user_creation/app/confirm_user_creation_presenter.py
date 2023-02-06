@@ -1,6 +1,6 @@
 
-from src.modules.confirm_user_creation.app.confirm_user_creation_controller import ConfirmUserCreationController
-from src.modules.confirm_user_creation.app.confirm_user_creation_usecase import ConfirmUserCreationUsecase
+from .confirm_user_creation_controller import ConfirmUserCreationController
+from .confirm_user_creation_usecase import ConfirmUserCreationUsecase
 from src.shared.environments import Environments
 from src.shared.helpers.external_interfaces.http_lambda_requests import LambdaHttpRequest, LambdaHttpResponse
 
