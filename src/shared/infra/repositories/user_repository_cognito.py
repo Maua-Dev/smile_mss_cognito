@@ -130,7 +130,6 @@ class UserRepositoryCognito(IUserRepository):
 
     def login_user(self, login: str, password: str) -> dict:
         try:
-            print("ENTROU NO LOGIN")
             responseLogin = self.client.initiate_auth(
                 ClientId=self.client_id,
                 AuthFlow='USER_PASSWORD_AUTH',
@@ -139,12 +138,9 @@ class UserRepositoryCognito(IUserRepository):
                     'PASSWORD': password
                 }
             )
-            print(f"REPONSE LOGIN: {responseLogin}")
             responseGetUser = self.client.get_user(
                 AccessToken=responseLogin["AuthenticationResult"]["AccessToken"]
             )
-            print(f"REPONSE GET USER: {responseGetUser}")
-
 
             user = UserCognitoDTO.from_cognito(responseGetUser).to_entity()
 

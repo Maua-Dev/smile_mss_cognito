@@ -14,8 +14,8 @@ class User(abc.ABC):
     ra: str
     role: ROLE
     access_level: ACCESS_LEVEL
-    created_at: int  # microsseconds
-    updated_at: int  # microsseconds
+    created_at: int  # milliseconds
+    updated_at: int  # milliseconds
     social_name: str
     accepted_terms: bool
     accepted_notifications: bool

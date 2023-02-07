@@ -13,15 +13,13 @@ class UserCognitoDTO:
     ra: str
     role: ROLE
     access_level: ACCESS_LEVEL
-    created_at: int  # microsseconds
-    updated_at: int  # microsseconds
+    created_at: int  # milliseconds
+    updated_at: int  # milliseconds
     social_name: str
     accepted_terms: bool
     accepted_notifications: bool
     certificate_with_social_name: bool
     phone: str  # with country code
-    # MANDATORY_FIELDS = ["email", "name", "role", "access_level", "phone"]
-    # CUSTOM_FIELDS = ["role", "access_level", "ra", "social_name", "accepted_terms", "accepted_notifications", "certificate_with_social_name"]
     TO_COGNITO_DICT = {
         "email": "email",
         "name": "name",
