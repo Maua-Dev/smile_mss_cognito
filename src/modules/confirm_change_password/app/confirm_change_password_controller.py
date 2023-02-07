@@ -1,5 +1,5 @@
-from src.modules.confirm_change_password.app.confirm_change_password_usecase import ConfirmChangePasswordUsecase
-from src.modules.confirm_change_password.app.confirm_change_password_viewmodel import ConfirmChangePasswordViewmodel
+from .confirm_change_password_usecase import ConfirmChangePasswordUsecase
+from .confirm_change_password_viewmodel import ConfirmChangePasswordViewmodel
 
 from src.shared.helpers.errors.controller_errors import MissingParameters
 from src.shared.helpers.errors.domain_errors import EntityError

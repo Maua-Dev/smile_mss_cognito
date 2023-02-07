@@ -1,5 +1,5 @@
 from src.shared.domain.repositories.user_repository_interface import IUserRepository
-from src.modules.confirm_user_creation.app.confirm_user_creation_usecase import ConfirmUserCreationUsecase
+from .confirm_user_creation_usecase import ConfirmUserCreationUsecase
 from src.shared.helpers.errors.controller_errors import MissingParameters
 from src.shared.helpers.errors.domain_errors import EntityError
 from src.shared.helpers.errors.usecase_errors import NoItemsFound

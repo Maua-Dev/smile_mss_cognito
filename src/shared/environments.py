@@ -27,6 +27,10 @@ class Environments:
     dynamo_partition_key: str
     dynamo_sort_key: str
     cloud_front_distribution_domain: str
+    user_pool_id: str
+    client_id: str
+    client_secret: str
+
 
     def _configure_local(self):
         from dotenv import load_dotenv
@@ -41,12 +45,14 @@ class Environments:
 
         if self.stage == STAGE.TEST:
             self.s3_bucket_name = "activity-bucket-test"
-            self.region = "sa-east-1"
+            self.region = "us-east-2"
             self.endpoint_url = "http://localhost:8000"
             self.dynamo_table_name = "smile_mss_activity-table"
             self.dynamo_partition_key = "PK"
             self.dynamo_sort_key = "SK"
             self.cloud_front_distribution_domain = "https://d3q9q9q9q9q9q9.cloudfront.net"
+            self.user_pool_id = "us-east-2_uxbW9MaCL"
+            self.client_id = "49859km4irtritqp8bj7p52pgl"
 
         else:
             self.s3_bucket_name = os.environ.get("S3_BUCKET_NAME")
@@ -57,15 +63,19 @@ class Environments:
             self.dynamo_sort_key = os.environ.get("DYNAMO_SORT_KEY")
             self.cloud_front_distribution_domain = os.environ.get(
                 "CLOUD_FRONT_DISTRIBUTION_DOMAIN")
+            self.user_pool_id = os.environ.get("USER_POOL_ID")
+            self.client_id = os.environ.get("CLIENT_ID")
+            self.client_secret = os.environ.get("CLIENT_SECRET")
+
 
     @staticmethod
     def get_user_repo() -> IUserRepository:
         if Environments.get_envs().stage == STAGE.TEST:
             from src.shared.infra.repositories.user_repository_mock import UserRepositoryMock
             return UserRepositoryMock
-        # elif Environments.get_envs().stage == STAGE.PROD:
-        #     from src.shared.infra.repositories.user_repository_dynamo import UserRepositoryDynamo
-        #     return UserRepositoryDynamo
+        elif Environments.get_envs().stage == STAGE.DEV or Environments.get_envs().stage == STAGE.PROD:
+            from src.shared.infra.repositories.user_repository_cognito import UserRepositoryCognito
+            return UserRepositoryCognito
         else:
             raise Exception("No repository found for this stage")
 

@@ -1,5 +1,5 @@
-from src.modules.login_user.app.login_user_usecase import LoginUserUsecase
-from src.modules.login_user.app.login_user_viewmodel import LoginUserViewmodel
+from .login_user_usecase import LoginUserUsecase
+from .login_user_viewmodel import LoginUserViewmodel
 from src.shared.helpers.errors.controller_errors import MissingParameters
 from src.shared.helpers.errors.domain_errors import EntityError
 from src.shared.helpers.errors.usecase_errors import NoItemsFound, ForbiddenAction

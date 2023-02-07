@@ -10,11 +10,6 @@ class ConfirmUserCreationUsecase:
         self.repo = repo
 
     def __call__(self, email: str, confirmation_code: str) -> bool:
-        user = self.repo.get_unconfirmed_user_by_email(email)
-        if not user:
-            raise ForbiddenAction('"User not found".')
-        if user in self.repo.get_confirmed_users():
-            raise ForbiddenAction('"User already confirmed".')
 
         result = self.repo.confirm_user_creation(email, confirmation_code)
 

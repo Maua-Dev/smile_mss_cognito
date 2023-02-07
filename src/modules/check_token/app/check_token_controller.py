@@ -1,8 +1,8 @@
 from src.shared.helpers.errors.usecase_errors import ForbiddenAction
 from src.shared.helpers.external_interfaces.external_interface import IRequest, IResponse
 from src.shared.helpers.external_interfaces.http_codes import BadRequest, OK
-from src.modules.check_token.app.check_token_viewmodel import CheckTokenViewmodel
-from src.modules.check_token.app.check_token_usecase import CheckTokenUsecase
+from .check_token_viewmodel import CheckTokenViewmodel
+from .check_token_usecase import CheckTokenUsecase
 
 
 class CheckTokenController:

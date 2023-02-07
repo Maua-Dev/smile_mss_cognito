@@ -2,6 +2,7 @@ from aws_cdk import (
     # Duration,
     Stack,
     # aws_sqs as sqs,
+    aws_iam
 )
 from constructs import Construct
 
@@ -9,6 +10,7 @@ from constructs import Construct
 from aws_cdk.aws_apigateway import RestApi, Cors
 
 from .cognito_stack import CognitoStack
+from .lambda_stack import LambdaStack
 
 
 class IacStack(Stack):
@@ -19,33 +21,44 @@ class IacStack(Stack):
 
         self.cognito_stack = CognitoStack(self, "smile_cognito_stack")
 
-        # self.rest_api = RestApi(self, "smile_auth_rest_api",
-        #                         rest_api_name="Smile_RestApi",
-        #                         description="This is the Smile RestApi",
-        #                         default_cors_preflight_options=
-        #                         {
-        #                             "allow_origins": Cors.ALL_ORIGINS,
-        #                             "allow_methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-        #                             "allow_headers": ["*"]
-        #                         },
-        #                         )
-        #
-        # api_gateway_resource = self.rest_api.root.add_resource("mss-cognito", default_cors_preflight_options=
-        # {
-        #     "allow_origins": Cors.ALL_ORIGINS,
-        #     "allow_methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-        #     "allow_headers": Cors.DEFAULT_HEADERS
-        # }
-        #                                                            )
-        #
-        # ENVIRONMENT_VARIABLES = {
-        #     "STAGE": "TEST",
-        #     # "DYNAMO_TABLE_NAME": self.dynamo_stack.dynamo_table.table_name,
-        #     # "DYNAMO_PARTITION_KEY": self.dynamo_stack.partition_key_name,
-        #     # "DYNAMO_SORT_KEY": self.dynamo_stack.sort_key_name,
-        #     "REGION": self.region,
-        # }
-        #
-        # # self.lambda_stack = LambdaStack(self, api_gateway_resource=api_gateway_resource,
-        # #                                 environment_variables=ENVIRONMENT_VARIABLES)
+        self.rest_api = RestApi(self, "smile_auth_rest_api",
+                                rest_api_name="Smile_Cognito_RestApi",
+                                description="This is the Smile RestApi",
+                                default_cors_preflight_options=
+                                {
+                                    "allow_origins": Cors.ALL_ORIGINS,
+                                    "allow_methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+                                    "allow_headers": ["*"]
+                                },
+                                )
 
+        api_gateway_resource = self.rest_api.root.add_resource("mss-cognito", default_cors_preflight_options=
+        {
+            "allow_origins": Cors.ALL_ORIGINS,
+            "allow_methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+            "allow_headers": Cors.DEFAULT_HEADERS
+        }
+                                                               )
+
+        ENVIRONMENT_VARIABLES = {
+            "STAGE": "DEV",
+            "USER_POOL_ID": self.cognito_stack.user_pool.user_pool_id,
+            "CLIENT_ID": self.cognito_stack.client.user_pool_client_id,
+            "REGION": self.region,
+        }
+
+        self.lambda_stack = LambdaStack(self, api_gateway_resource=api_gateway_resource,
+                                        environment_variables=ENVIRONMENT_VARIABLES)
+
+        cognito_admin_policy = aws_iam.PolicyStatement(
+            effect=aws_iam.Effect.ALLOW,
+            actions=[
+                "cognito-idp:*",
+            ],
+            resources=[
+                self.cognito_stack.user_pool.user_pool_arn,
+            ]
+        )
+
+        for f in self.lambda_stack.functions_that_need_cognito_permissions:
+            f.add_to_role_policy(cognito_admin_policy)

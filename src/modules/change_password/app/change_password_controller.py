@@ -1,5 +1,5 @@
-from src.modules.change_password.app.change_password_usecase import ChangePasswordUsecase
-from src.modules.change_password.app.change_password_viewmodel import ChangePasswordViewmodel
+from .change_password_usecase import ChangePasswordUsecase
+from .change_password_viewmodel import ChangePasswordViewmodel
 
 from src.shared.helpers.errors.controller_errors import MissingParameters
 from src.shared.helpers.errors.domain_errors import EntityError
