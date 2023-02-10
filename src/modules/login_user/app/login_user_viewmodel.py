@@ -4,6 +4,7 @@ from src.shared.domain.entities.enums import ACCESS_LEVEL, ROLE
 class UserViewmodel:
     access_token: str
     refresh_token: str
+    id_token: str
     ra: str
     user_id: str
     role: str
@@ -14,9 +15,10 @@ class UserViewmodel:
     social_name: str
     certificate_with_social_name: str
 
-    def __init__(self, certificate_with_social_name: str, access_token: str, refresh_token: str, role: str, access_level: str, email: str, phone: str, social_name: str = None, name: str = None, user_id: str = None, ra: str = None, **kwargs):
+    def __init__(self, certificate_with_social_name: str, access_token: str, refresh_token: str, id_token: str, role: str, access_level: str, email: str, phone: str, social_name: str = None, name: str = None, user_id: str = None, ra: str = None, **kwargs):
         self.access_token = access_token
         self.refresh_token = refresh_token
+        self.id_token = id_token
         self.ra = ra
         self.role = role
         self.access_level = access_level
@@ -31,6 +33,7 @@ class UserViewmodel:
         return {
             'access_token': self.access_token,
             'refresh_token': self.refresh_token,
+            'id_token': self.id_token,
             'ra': self.ra,
             'role': self.role,
             'access_level': self.access_level,

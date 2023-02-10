@@ -18,7 +18,8 @@ class Test_LoginUserViewmodel:
             'certificate_with_social_name': False,
             'phone': '5511991758098',
             'access_token': 'valid_access_token-vitor@maua.br',
-            'refresh_token': 'valid_refresh_token-vitor@maua.br'
+            'refresh_token': 'valid_refresh_token-vitor@maua.br',
+            'id_token': "valid_id_token-vitor@maua.br",
         }
 
         login_user_viewmodel = LoginUserViewmodel(data)
@@ -27,6 +28,7 @@ class Test_LoginUserViewmodel:
             'user': {
                 'access_token': 'valid_access_token-vitor@maua.br',
                 'refresh_token': 'valid_refresh_token-vitor@maua.br',
+                'id_token': 'valid_id_token-vitor@maua.br',
                 'ra': '20014309',
                 'role': 'STUDENT',
                 'access_level': 'ADMIN',
