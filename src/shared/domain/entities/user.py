@@ -27,8 +27,10 @@ class User(abc.ABC):
     def __init__(self, user_id: str, email: str, name: str, password: str, ra: str, role: ROLE, access_level: ACCESS_LEVEL,
                  created_at: int, updated_at: int, social_name: str, accepted_terms: bool, accepted_notifications: bool,
                  certificate_with_social_name: bool, phone: str):
-        if not User.validate_user_id(user_id):
-            raise EntityError("user_id")
+
+        if user_id is not None:
+            if not User.validate_user_id(user_id):
+                raise EntityError("user_id")
         self.user_id = user_id
 
         if not User.validate_email(email):
@@ -157,7 +159,7 @@ class User(abc.ABC):
     @staticmethod
     def parse_object(user: dict) -> 'User':
         return User(
-            user_id=user['user_id'],
+            user_id=user.get("user_id"),
             email=user['email'],
             name=user['name'].title(),
             password=user['password'] if user.get('password') is not None else None,
