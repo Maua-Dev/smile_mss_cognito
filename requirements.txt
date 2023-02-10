@@ -1,7 +1,0 @@
-fastapi
-pytest
-pytest-asyncio
-pytest-cov
-boto3
-mangum
-python-multipart
