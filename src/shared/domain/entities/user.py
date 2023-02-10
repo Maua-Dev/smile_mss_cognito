@@ -159,7 +159,7 @@ class User(abc.ABC):
     @staticmethod
     def parse_object(user: dict) -> 'User':
         return User(
-            user_id=user['user_id'],
+            user_id=user.get('user_id'),
             email=user['email'],
             name=user['name'].title(),
             password=user['password'] if user.get('password') is not None else None,

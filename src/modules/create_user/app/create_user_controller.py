@@ -51,7 +51,6 @@ class CreateUserController:
                 raise MissingParameters('certificate_with_social_name')
 
             user_dict = {
-                'user_id': '000000000000000000000000000000000000',
                 'email': request.data.get('email').replace(' ', ''),
                 'name': request.data.get('name'),
                 'password': request.data.get('password'),
