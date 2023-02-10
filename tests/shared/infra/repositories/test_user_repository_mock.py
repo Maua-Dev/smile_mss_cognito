@@ -128,7 +128,8 @@ class Test_UserRepositoryMock:
             'accepted_notifications': True,
             'certificate_with_social_name': True,
             'access_token': 'valid_access_token-zeeba@gmail.com',
-            'refresh_token': 'valid_refresh_token-zeeba@gmail.com'
+            'refresh_token': 'valid_refresh_token-zeeba@gmail.com',
+            'id_token': "valid_id_token-zeeba@gmail.com"
         }
 
     def test_check_token(self):

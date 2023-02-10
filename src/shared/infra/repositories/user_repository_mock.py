@@ -137,6 +137,7 @@ class UserRepositoryMock(IUserRepository):
             dict_response["access_token"] = "valid_access_token-" + str(email)
             dict_response["refresh_token"] = "valid_refresh_token-" + \
                 str(email)
+            dict_response["id_token"] = "valid_id_token-" + str(email)
             return dict_response
         return None
 

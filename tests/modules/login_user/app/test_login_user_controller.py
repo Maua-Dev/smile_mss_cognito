@@ -21,6 +21,7 @@ class Test_LoginUserController:
         assert response.status_code == 200
         assert response.body['user']['access_token'] == f'valid_access_token-{repo.users[0].email}'
         assert response.body['user']['refresh_token'] == f'valid_refresh_token-{repo.users[0].email}'
+        assert response.body['user']['id_token'] == f'valid_id_token-{repo.users[0].email}'
         assert response.body['user']['ra'] == repo.users[0].ra
         assert response.body['user']['role'] == repo.users[0].role.value
         assert response.body['user']['access_level'] == repo.users[0].access_level.value
