@@ -36,14 +36,13 @@ class Test_User:
         assert user.certificate_with_social_name == True
 
     def test_create_valid_user_only_required_fields(self):
-        user = User(user_id='0000-0000-00000-000000-0000000-00000', email='zeeba@maua.br', name='caio toledo', password=None,
+        user = User(user_id=None, email='zeeba@maua.br', name='caio toledo', password=None,
                     ra=None, role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                     updated_at=None, social_name=None, accepted_terms=None,
                     accepted_notifications=None, certificate_with_social_name=None, phone="5511991758098"
                     )
 
-        assert len(user.user_id) == 36
-        assert user.user_id == '0000-0000-00000-000000-0000000-00000'
+        assert user.user_id == None
         assert user.email == 'zeeba@maua.br'
         assert len(user.name) > 1
         assert user.name == 'Caio Toledo'
@@ -60,15 +59,18 @@ class Test_User:
 
     def test_create_user_invalid_user_id(self):
         with pytest.raises(EntityError):
-            User(user_id='', email='zeeba@maua.br', name='caio toledo', password=None,
+            User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
                  ra=None, role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                  updated_at=None, social_name=None, accepted_terms=None,
                  accepted_notifications=None, certificate_with_social_name=None, phone="5511991758098"
                  )
 
+
+
+
     def test_create_user_invalid_email(self):
         with pytest.raises(EntityError):
-            User(user_id='1234', email='zeebamaua.br', name='caio toledo', password=None,
+            User(user_id='0000-0000-00000-000000-0000000-00000', email='zeebamaua.br', name='caio toledo', password=None,
                  ra=None, role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                  updated_at=None, social_name=None, accepted_terms=None,
                  accepted_notifications=None, certificate_with_social_name=None, phone="5511991758098"
@@ -76,7 +78,7 @@ class Test_User:
 
     def test_create_user_invalid_name(self):
         with pytest.raises(EntityError):
-            User(user_id='1234', email='zeeba@maua.br', name='c', password=None,
+            User(user_id='0000-0000-00000-000000-0000000-00000', email='zeeba@maua.br', name='c', password=None,
                  ra=None, role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                  updated_at=None, social_name=None, accepted_terms=None,
                  accepted_notifications=None, certificate_with_social_name=None, phone="5511991758098"
@@ -84,7 +86,7 @@ class Test_User:
 
     def test_create_user_invalid_password(self):
         with pytest.raises(EntityError):
-            User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=1,
+            User(user_id='0000-0000-00000-000000-0000000-00000', email='zeeba@maua.br', name='caio toledo', password=1,
                  ra=None, role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                  updated_at=None, social_name=None, accepted_terms=None,
                  accepted_notifications=None, certificate_with_social_name=None, phone="5511991758098"
@@ -92,7 +94,7 @@ class Test_User:
 
     def test_create_user_invalid_ra(self):
         with pytest.raises(EntityError):
-            User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
+            User(user_id='0000-0000-00000-000000-0000000-00000', email='zeeba@maua.br', name='caio toledo', password=None,
                  ra='', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                  updated_at=None, social_name=None, accepted_terms=None,
                  accepted_notifications=None, certificate_with_social_name=None, phone="5511991758098"
@@ -100,7 +102,7 @@ class Test_User:
 
     def test_create_user_invalid_role(self):
         with pytest.raises(EntityError):
-            User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
+            User(user_id='0000-0000-00000-000000-0000000-00000', email='zeeba@maua.br', name='caio toledo', password=None,
                  ra='12345678', role='STUDENT', access_level=ACCESS_LEVEL.USER, created_at=None,
                  updated_at=None, social_name=None, accepted_terms=None,
                  accepted_notifications=None, certificate_with_social_name=None, phone="5511991758098"
@@ -108,7 +110,7 @@ class Test_User:
 
     def test_create_user_invalid_access_level(self):
         with pytest.raises(EntityError):
-            User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
+            User(user_id='0000-0000-00000-000000-0000000-00000', email='zeeba@maua.br', name='caio toledo', password=None,
                  ra='12345678', role=ROLE.STUDENT, access_level='USER', created_at=None,
                  updated_at=None, social_name=None, accepted_terms=None,
                  accepted_notifications=None, certificate_with_social_name=None, phone="5511991758098"
@@ -116,7 +118,7 @@ class Test_User:
 
     def test_create_user_invalid_created_at(self):
         with pytest.raises(EntityError):
-            User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
+            User(user_id='0000-0000-00000-000000-0000000-00000', email='zeeba@maua.br', name='caio toledo', password=None,
                  ra='12345678', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at='16449777000',
                  updated_at=None, social_name=None, accepted_terms=None,
                  accepted_notifications=None, certificate_with_social_name=None, phone="5511991758098"
@@ -124,7 +126,7 @@ class Test_User:
 
     def test_create_user_invalid_updated_at(self):
         with pytest.raises(EntityError):
-            User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
+            User(user_id='0000-0000-00000-000000-0000000-00000', email='zeeba@maua.br', name='caio toledo', password=None,
                  ra='12345678', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                  updated_at='16449777000', social_name=None, accepted_terms=None,
                  accepted_notifications=None, certificate_with_social_name=None, phone="5511991758098"
@@ -132,7 +134,7 @@ class Test_User:
 
     def test_create_user_invalid_social_name(self):
         with pytest.raises(EntityError):
-            User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
+            User(user_id='0000-0000-00000-000000-0000000-00000', email='zeeba@maua.br', name='caio toledo', password=None,
                  ra='12345678', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
                  updated_at=None, social_name=1, accepted_terms=None,
                  accepted_notifications=None, certificate_with_social_name=None, phone="5511991758098"
@@ -140,7 +142,7 @@ class Test_User:
 
     def test_create_user_invalid_accepted_terms(self):
         with pytest.raises(EntityError):
-            User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
+            User(user_id='0000-0000-00000-000000-0000000-00000', email='zeeba@maua.br', name='caio toledo', password=None,
                  ra='12345678', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                  updated_at=16449777000, social_name=None, accepted_terms='True',
                  accepted_notifications=None, certificate_with_social_name=None, phone="5511991758098"
@@ -148,7 +150,7 @@ class Test_User:
 
     def test_create_user_invalid_accepted_notifications(self):
         with pytest.raises(EntityError):
-            User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
+            User(user_id='0000-0000-00000-000000-0000000-00000', email='zeeba@maua.br', name='caio toledo', password=None,
                  ra='12345678', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                  updated_at=16449777000, social_name=None, accepted_terms=None,
                  accepted_notifications='None', certificate_with_social_name=None, phone="5511991758098"
@@ -156,7 +158,7 @@ class Test_User:
 
     def test_create_user_invalid_certificate_with_social_name(self):
         with pytest.raises(EntityError):
-            User(user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
+            User(user_id='0000-0000-00000-000000-0000000-00000', email='zeeba@maua.br', name='caio toledo', password=None,
                  ra='12345678', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                  updated_at=16449777000, social_name=None, accepted_terms=None,
                  accepted_notifications=False, certificate_with_social_name='None', phone="5511991758098"
@@ -255,7 +257,7 @@ class Test_User:
 
     def test_user_from_dict_none(self):
         data = {
-            'user_id': '0000-0000-00000-000000-0000000-00000',
+            'user_id': None,
             'email': 'vitin@maua.br',
             'name': 'Vitor Toledo',
             'password': None,
@@ -274,7 +276,7 @@ class Test_User:
         user = User.parse_object(data)
 
         assert type(user) == User
-        assert user.user_id == '0000-0000-00000-000000-0000000-00000'
+        assert user.user_id == None
         assert user.email == 'vitin@maua.br'
         assert user.name == 'Vitor Toledo'
         assert user.password == None
