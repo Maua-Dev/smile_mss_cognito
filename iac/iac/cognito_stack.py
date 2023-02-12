@@ -18,8 +18,8 @@ class CognitoStack(Construct):
                                          self_sign_up_enabled=True,
                                          auto_verify=aws_cognito.AutoVerifiedAttrs(email=True),
                                          user_verification=aws_cognito.UserVerificationConfig(
-                                             email_subject="Verify your email for our awesome app",
-                                             email_body="Hello {username}, Thanks for signing up to our awesome app! Your verification code is {####}",
+                                             email_subject="Verifique seu email para acessar o portal Smile",
+                                             email_body="Olá, obrigado por se inscrever na Semana Mauá de Inovação Liderança e Empreendedorismo, seu código de confirmação é {####}",
                                              email_style=aws_cognito.VerificationEmailStyle.CODE),
                                          standard_attributes=aws_cognito.StandardAttributes(
                                              fullname=aws_cognito.StandardAttribute(
