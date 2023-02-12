@@ -3,6 +3,7 @@ from typing import Tuple, List
 import boto3
 from botocore.exceptions import ClientError
 
+from src.shared.domain.entities.enums import ROLE
 from src.shared.domain.entities.user import User
 from src.shared.domain.repositories.user_repository_interface import IUserRepository
 from src.shared.environments import Environments
@@ -253,3 +254,29 @@ class UserRepositoryCognito(IUserRepository):
                     raise ForbiddenAction(e.response.get('Error').get('Message'))
             else:
                 raise ForbiddenAction(message=e.response.get('Error').get('Message'))
+
+    def list_professors(self) -> List[User]:
+        kwargs = {
+            'UserPoolId': self.user_pool_id
+        }
+
+        all_users = list()
+        users_remain = True
+        next_page = None
+
+        while users_remain:
+            if next_page:
+                kwargs['PaginationToken'] = next_page
+            response = self.client.list_users(**kwargs)
+
+            all_users.extend(response["Users"])
+            next_page = response.get('PaginationToken', None)
+            users_remain = next_page is not None
+
+        all_users = [UserCognitoDTO.from_cognito(user).to_entity() for user in all_users if
+                     user["UserStatus"] == "CONFIRMED"]
+
+        list_professors = [user for user in all_users if user.role == ROLE.PROFESSOR]
+
+        return list_professors
+
