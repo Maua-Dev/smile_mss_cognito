@@ -63,3 +63,6 @@ class IUserRepository(ABC):
         """
         pass
 
+    @abstractmethod
+    def list_professors(self) -> List[User]:
+        pass

@@ -21,7 +21,7 @@ class Test_UserRepositoryMock:
         assert type(users[0]) == User
         assert type(users) == list
         assert users[0].name == 'Caio Soller'
-        assert len(users) == 2
+        assert len(users) == 3
 
     def test_create_user(self):
         repo = UserRepositoryMock()
@@ -33,7 +33,7 @@ class Test_UserRepositoryMock:
                       accepted_notifications=True, certificate_with_social_name=True, phone="5511991758098"
                       ))
 
-        assert len(repo.users) == 4
+        assert len(repo.users) == 5
         assert type(user) == User
         assert repo.users[-1] == user
 
@@ -103,11 +103,11 @@ class Test_UserRepositoryMock:
     def test_delete_user(self):
         repo = UserRepositoryMock()
 
-        assert len(repo.confirmed_users) == 2
+        assert len(repo.confirmed_users) == 3
 
         repo.delete_user(email='zeeba@gmail.com')
 
-        assert len(repo.confirmed_users) == 1
+        assert len(repo.confirmed_users) == 2
 
     def test_login_user(self):
         repo = UserRepositoryMock()
@@ -184,3 +184,13 @@ class Test_UserRepositoryMock:
         repo = UserRepositoryMock()
         with pytest.raises(NoItemsFound):
             resp = repo.resend_confirmation_code('ze@gmail.com')
+
+    def test_list_professors(self):
+        repo = UserRepositoryMock()
+        resp = repo.list_professors()
+        assert resp == [User(user_id='000000000000000000000000000000000004', email='professorvitor@gmail.com', name='Vitor toledo',
+                 password='z12345',
+                 ra=None, role=ROLE.PROFESSOR, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
+                 updated_at=16449777000, social_name=None, accepted_terms=True,
+                 accepted_notifications=True, certificate_with_social_name=False, phone="5511991758098"
+                 )]
