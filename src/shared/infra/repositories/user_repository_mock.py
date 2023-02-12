@@ -29,11 +29,18 @@ class UserRepositoryMock(IUserRepository):
                          ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
                          updated_at=16449777000, social_name='zeeba toledo', accepted_terms=True,
                          accepted_notifications=True, certificate_with_social_name=True, phone="5511991758098"
+                 ),
+            User(user_id='000000000000000000000000000000000004', email='professorvitor@gmail.com', name='Vitor toledo',
+                 password='z12345',
+                 ra=None, role=ROLE.PROFESSOR, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
+                 updated_at=16449777000, social_name=None, accepted_terms=True,
+                 accepted_notifications=True, certificate_with_social_name=False, phone="5511991758098"
                  )
         ]
         self.confirmed_users = [
             self.users[0],
-            self.users[1]
+            self.users[1],
+            self.users[3],
         ]
 
     def get_all_users(self) -> List[User]:
@@ -197,3 +204,12 @@ class UserRepositoryMock(IUserRepository):
         # Send email in real repository
 
         return True
+
+    def list_professors(self) -> List[User]:
+        list_professor = list()
+
+        for user in self.confirmed_users:
+            if user.role == ROLE.PROFESSOR:
+                list_professor.append(user)
+
+        return list_professor

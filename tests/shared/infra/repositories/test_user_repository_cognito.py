@@ -168,3 +168,16 @@ class Test_UserRepositoryCognito:
            repo = UserRepositoryCognito()
            resp = repo.resend_confirmation_code("justacofya@gufum.com")
            assert True
+
+    @pytest.mark.skip("Can't test it locally")
+    def test_get_all_users(self):
+        repo = UserRepositoryCognito()
+        resp = repo.get_all_users()
+        assert all([isinstance(user, User) for user in resp])
+
+    @pytest.mark.skip("Can't test it locally")
+    def test_list_professors(self):
+        repo = UserRepositoryCognito()
+        resp = repo.list_professors()
+        assert all([isinstance(user, User) for user in resp])
+        assert all([user.role == ROLE.PROFESSOR for user in resp])

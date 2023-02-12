@@ -114,6 +114,13 @@ class LambdaStack(Construct):
 
         )
 
+        self.list_professors_function = self.createLambdaApiGatewayIntegration(
+            module_name="list_professors",
+            method="GET",
+            mss_student_api_resource=api_gateway_resource,
+            environment_variables=environment_variables
+        )
+
 
 
         self.functions_that_need_cognito_permissions = [
@@ -127,5 +134,6 @@ class LambdaStack(Construct):
             self.list_users_function,
             self.login_user_function,
             self.refresh_token_function,
-            self.resend_creation_confirmation_function
+            self.resend_creation_confirmation_function,
+            self.list_professors_function
         ]
