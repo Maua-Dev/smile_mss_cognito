@@ -175,7 +175,7 @@ class Test_UserRepositoryCognito:
         resp = repo.get_all_users()
         assert all([isinstance(user, User) for user in resp])
 
-    # @pytest.mark.skip("Can't test it locally")
+    @pytest.mark.skip("Can't test it locally")
     def test_list_professors(self):
         repo = UserRepositoryCognito()
         resp = repo.list_professors()
