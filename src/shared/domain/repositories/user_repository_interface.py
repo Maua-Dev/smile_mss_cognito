@@ -26,11 +26,11 @@ class IUserRepository(ABC):
         pass
 
     @abstractmethod
-    def delete_user(self, cpfRne: int):
+    def delete_user(self, user_email: str):
         pass
 
     @abstractmethod
-    def confirm_user_creation(self, email: str, confirmation_code: str) -> bool:
+    def confirm_user_creation(self, login: str, code: int) -> bool:
         pass
 
     @abstractmethod
@@ -44,7 +44,7 @@ class IUserRepository(ABC):
 
     @abstractmethod
     # accessToken, refreshToken
-    def refresh_token(self, refreshToken: str) -> Tuple[str, str]:
+    def refresh_token(self, refresh_token: str) -> Tuple[str, str]:
         pass
 
     @abstractmethod
