@@ -15,7 +15,7 @@ env:
 jobs:
   DeployToAWS:
     runs-on: ubuntu-latest
-    environment: ${{ env.BRANCH_NAME }}
+    environment: ${{ BRANCH_NAME }}
     permissions:
       id-token: write
       contents: read
