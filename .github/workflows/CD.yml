@@ -11,7 +11,7 @@ on:
 jobs:
   DeployToAWS:
     runs-on: ubuntu-latest
-    environment: ${{ env.GITHUB_HEAD_REF }}
+    environment: dev
     permissions:
       id-token: write
       contents: read
@@ -26,6 +26,9 @@ jobs:
             role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/GithubActionsRole
             role-session-name: github-action
 
+        - name: Print
+          run:
+            echo ${{ env.GITHUB_HEAD_REF }}
 #        - name: Installing Dependencies
 #          run: |
 #            npm install -g aws-cdk
