@@ -24,9 +24,10 @@ jobs:
     steps:
         - uses: actions/checkout@v2
 
-        - name: Setup AWS Credentials
+        - name: Print
           run: echo "${GITHUB_REF##*/}"
 
+        - name: Setup AWS Credentials
           uses: aws-actions/configure-aws-credentials@v1
           with:
             aws-region: ${{ secrets.AWS_REGION }}
