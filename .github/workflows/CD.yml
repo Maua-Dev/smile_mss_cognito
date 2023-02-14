@@ -9,14 +9,11 @@ on:
 
   workflow_dispatch:
 
-env:
-  BRANCH_NAME: ${GITHUB_REF##*/}
-
 jobs:
   DeployToAWS:
     name: Setup environment
     environment:
-        name: ${{ env.BRANCH_NAME }}
+        name: ${{ github.ref }}
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -27,7 +24,7 @@ jobs:
 
         - name: Print
           run:
-            echo "${{ env.BRANCH_NAME }}"
+            echo "${{ github.ref}}"
 
         - name: Setup AWS Credentials
           uses: aws-actions/configure-aws-credentials@v1
