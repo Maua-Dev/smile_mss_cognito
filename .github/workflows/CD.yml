@@ -11,7 +11,7 @@ on:
 jobs:
   DeployToAWS:
     runs-on: ubuntu-latest
-    environment: dev
+    environment: ${{ env.GITHUB_HEAD_REF }}
     permissions:
       id-token: write
       contents: read
@@ -25,10 +25,6 @@ jobs:
             aws-region: ${{ secrets.AWS_REGION }}
             role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/GithubActionsRole
             role-session-name: github-action
-
-        - name: Print branch name
-          run:
-              echo "Branch name is: ${GITHUB_REF##*/}"
 
 #        - name: Installing Dependencies
 #          run: |
