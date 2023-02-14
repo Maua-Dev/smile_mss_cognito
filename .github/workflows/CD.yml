@@ -25,7 +25,7 @@ jobs:
         - uses: actions/checkout@v2
 
         - name: Print
-          run: echo "${GITHUB_REF##*/}"
+          run: echo "${{ env.BRANCH_NAME }}"
 
         - name: Setup AWS Credentials
           uses: aws-actions/configure-aws-credentials@v1
