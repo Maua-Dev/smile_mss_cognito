@@ -170,8 +170,8 @@ class UserRepositoryCognito(IUserRepository):
 
             return UserCognitoDTO.from_cognito(response).to_entity().to_dict()
         except ClientError as e:
-            errorCode = e.response.get('Error').get('Code')
-            if errorCode == 'NotAuthorizedException':
+            error_code = e.response.get('Error').get('Code')
+            if error_code == 'NotAuthorizedException':
                 raise ForbiddenAction(message="Invalid or expired Token")
             else:
                 raise ForbiddenAction(message=e.response.get('Error').get('Message'))
