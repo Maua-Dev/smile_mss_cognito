@@ -5,10 +5,10 @@ from src.shared.domain.entities.user import User
 from .create_user_usecase import CreateUserUsecase
 from src.shared.helpers.errors.controller_errors import MissingParameters
 from src.shared.helpers.errors.domain_errors import EntityError
-from src.shared.helpers.errors.usecase_errors import DuplicatedItem, ForbiddenAction
+from src.shared.helpers.errors.usecase_errors import DuplicatedItem
 from src.shared.helpers.external_interfaces.external_interface import IRequest, IResponse
-from src.shared.helpers.external_interfaces.http_codes import BadRequest, InternalServerError, OK, NoContent, Conflict, \
-    Created, Forbidden
+from src.shared.helpers.external_interfaces.http_codes import BadRequest, InternalServerError, Conflict, \
+    Created
 
 
 class CreateUserController:
