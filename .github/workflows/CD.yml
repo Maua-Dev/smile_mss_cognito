@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - new-arch
+      - dev
 
   workflow_dispatch:
 
