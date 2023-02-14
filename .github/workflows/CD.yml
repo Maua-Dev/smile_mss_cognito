@@ -28,7 +28,7 @@ jobs:
 
         - name: Print
           run:
-            echo "${{ env.GITHUB_HEAD_REF }}"
+            echo "${{ env.GITHUB_REF_NAME }}"
 #        - name: Installing Dependencies
 #          run: |
 #            npm install -g aws-cdk
