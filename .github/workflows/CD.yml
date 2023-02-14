@@ -15,8 +15,6 @@ env:
 jobs:
   DeployToAWS:
     runs-on: ubuntu-latest
-    environment:
-        name: ${{ env.BRANCH_NAME }}
     permissions:
       id-token: write
       contents: read
@@ -25,7 +23,9 @@ jobs:
         - uses: actions/checkout@v2
 
         - name: Print
-          run: echo "${{ env.BRANCH_NAME }}"
+          run:
+            echo "${{ env.BRANCH_NAME }}"
+            echo "::set-output name=env_name::${{env.BRANCH_NAME}}}}"
 
         - name: Setup AWS Credentials
           uses: aws-actions/configure-aws-credentials@v1
