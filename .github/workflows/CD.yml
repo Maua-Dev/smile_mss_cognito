@@ -12,7 +12,7 @@ on:
 jobs:
   DeployToAWS:
     runs-on: ubuntu-latest
-    environment: ${GITHUB_REF##*/}
+    environment: echo ${GITHUB_REF##*/}
     permissions:
       id-token: write
       contents: read
