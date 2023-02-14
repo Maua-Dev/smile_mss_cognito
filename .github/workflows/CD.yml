@@ -4,7 +4,7 @@ name: CD
 on:
   push:
     branches:
-      - new-arch
+      - main
       - dev
 
   workflow_dispatch:
