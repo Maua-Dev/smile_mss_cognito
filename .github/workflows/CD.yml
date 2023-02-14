@@ -26,15 +26,19 @@ jobs:
             role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/GithubActionsRole
             role-session-name: github-action
 
-        - name: Installing Dependencies
-          run: |
-            npm install -g aws-cdk
-            cd iac
-            pip install -r requirements.txt
-                 
+        - name: Print branch name
+          run:
+              echo "Branch name is: ${{ env.BRANCH_NAME }}"
 
-        - name: DeployWithCDK
-          run: |
-            cd iac
-            cdk synth
-            cdk deploy --require-approval never
+#        - name: Installing Dependencies
+#          run: |
+#            npm install -g aws-cdk
+#            cd iac
+#            pip install -r requirements.txt
+#
+#
+#        - name: DeployWithCDK
+#          run: |
+#            cd iac
+#            cdk synth
+#            cdk deploy --require-approval never
