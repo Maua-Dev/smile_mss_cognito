@@ -26,7 +26,7 @@ jobs:
 
         - name: Setup AWS Credentials
           run:
-            echo "BRANCH_NAME: $BRANCH_NAME"
+            echo "BRANCH_NAME: ${{ env.BRANCH_NAME }}"
 
           uses: aws-actions/configure-aws-credentials@v1
           with:
