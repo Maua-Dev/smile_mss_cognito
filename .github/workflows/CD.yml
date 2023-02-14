@@ -28,7 +28,7 @@ jobs:
 
         - name: Print branch name
           run:
-              echo "Branch name is: ${{ env.GITHUB_HEAD_REF }}"
+              echo "Branch name is: ${GITHUB_REF##*/}
 
 #        - name: Installing Dependencies
 #          run: |
