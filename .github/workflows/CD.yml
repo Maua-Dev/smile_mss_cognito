@@ -9,10 +9,13 @@ on:
 
   workflow_dispatch:
 
+env:
+  BRANCH_NAME: ${{ github.ref }}
+
 jobs:
   DeployToAWS:
     runs-on: ubuntu-latest
-    environment: echo ${GITHUB_REF##*/}
+    environment: ${{ env.BRANCH_NAME }}
     permissions:
       id-token: write
       contents: read
