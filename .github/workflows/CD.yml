@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 env:
-  BRANCH_NAME: ${{ github.ref }}
+  BRANCH_NAME: ${GITHUB_REF##*/}
 
 jobs:
   DeployToAWS:
@@ -24,6 +24,8 @@ jobs:
         - uses: actions/checkout@v2
 
         - name: Setup AWS Credentials
+          run:
+            echo "BRANCH_NAME: $BRANCH_NAME"
           uses: aws-actions/configure-aws-credentials@v1
           with:
             aws-region: ${{ secrets.AWS_REGION }}
