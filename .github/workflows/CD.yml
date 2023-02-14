@@ -27,8 +27,7 @@ jobs:
             role-session-name: github-action
 
         - name: Print
-          run:
-            echo "${{ env.GITHUB_REF_NAME }}"
+          run: echo "$GITHUB_CONTEXT"
 #        - name: Installing Dependencies
 #          run: |
 #            npm install -g aws-cdk
