@@ -19,14 +19,11 @@ class UpdateUserUsecase:
 
         old_user = User.parse_object(old_user_data)
 
-        for field in self.mutable_fields:
-            if field in mew_user_data and mew_user_data.get(field) is not None:
-                if field in ["name", "social_name"]:
-                    setattr(old_user, field, mew_user_data[field].title())
-                else:
-                    setattr(old_user, field, mew_user_data[field])
+        mew_user_data = {k: v for k, v in mew_user_data.items() if v is not None}
 
-        new_user = self.repo.update_user(user_email=old_user.email, kvp_to_update={field: getattr(old_user, field) for field in self.mutable_fields})
+        kvp_to_update = {k: v for k, v in mew_user_data.items() if k in self.mutable_fields}
+
+        new_user = self.repo.update_user(user_email=old_user.email, kvp_to_update=kvp_to_update)
 
         return new_user
 
