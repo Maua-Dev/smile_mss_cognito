@@ -42,7 +42,7 @@ class Conflict(HttpResponse):
 class RedirectResponse(HttpResponse):
     def __init__(self, body: dict) -> None:
         super().__init__(HttpStatusCodeEnum.REDIRECT.value, None)
-        self.location = body
+        self.headers = body
 
 
 class Forbidden(HttpResponse):
