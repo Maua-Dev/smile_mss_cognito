@@ -59,7 +59,7 @@ class LambdaStack(Construct):
         )
         self.confirm_user_creation_function = self.createLambdaApiGatewayIntegration(
             module_name="confirm_user_creation",
-            method="POST",
+            method="GET",
             mss_student_api_resource=api_gateway_resource,
             environment_variables=environment_variables
 
