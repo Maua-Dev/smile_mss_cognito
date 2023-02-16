@@ -1,10 +1,13 @@
+import os
+
 from src.shared.domain.repositories.user_repository_interface import IUserRepository
 from .confirm_user_creation_usecase import ConfirmUserCreationUsecase
 from src.shared.helpers.errors.controller_errors import MissingParameters
 from src.shared.helpers.errors.domain_errors import EntityError
 from src.shared.helpers.errors.usecase_errors import NoItemsFound
 from src.shared.helpers.external_interfaces.external_interface import IRequest, IResponse
-from src.shared.helpers.external_interfaces.http_codes import OK, BadRequest, InternalServerError, NotFound
+from src.shared.helpers.external_interfaces.http_codes import OK, BadRequest, InternalServerError, NotFound, \
+    RedirectResponse
 
 
 class ConfirmUserCreationController:
@@ -18,11 +21,17 @@ class ConfirmUserCreationController:
                 confirmation_code=req.data.get('confirmation_code')
             )
 
+            front_endpoint = os.environ.get('FRONT_ENDPOINT')
+
             if not result:
                 message = "User not found or invalid code."
                 return BadRequest(message)
 
-            return OK("User confirmed.")
+            return RedirectResponse(
+                body={
+                    "location": f"{front_endpoint}/#/login/cadastro/sucesso"
+                }
+            )
 
         except NoItemsFound as err:
 

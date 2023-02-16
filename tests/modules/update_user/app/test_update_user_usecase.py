@@ -14,13 +14,14 @@ class Test_UpdateUserUsecase:
 
         user_to_update = {
             'email': 'zeeba@gmail.com',
-            'name': 'Vitor BARTOLOZZI BASTOS GODOY DE TOLEDO',
+            'name': 'Vitor BARTOLOZZI TOLEDO',
         }
+
         old_user = repo.confirmed_users[0]
         new_user = usecase(mew_user_data=user_to_update, access_token=f"valid_access_token-{user_to_update['email']}")
 
-        assert new_user.name == 'Vitor Bartolozzi Bastos Godoy De Toledo'
-        assert repo.confirmed_users[0].name == 'Vitor Bartolozzi Bastos Godoy De Toledo'
+        assert new_user.name == "Vitor BARTOLOZZI TOLEDO"
+        assert repo.confirmed_users[0].name == "Vitor BARTOLOZZI TOLEDO"
         assert repo.confirmed_users[0].social_name == old_user.social_name
         assert repo.confirmed_users[0].accepted_notifications == old_user.accepted_notifications
         assert repo.confirmed_users[0].certificate_with_social_name == old_user.certificate_with_social_name
@@ -44,11 +45,11 @@ class Test_UpdateUserUsecase:
 
         new_user = usecase(mew_user_data=user_to_update, access_token=f"valid_access_token-{user_to_update['email']}")
 
-        assert new_user.name == 'Vitor Bartolozzi Bastos Godoy De Toledo'
+        assert new_user.name == 'Vitor BARTOLOZZI BASTOS GODOY DE TOLEDO'
         assert new_user.social_name == 'Vitor Godoy'
         assert new_user.accepted_notifications
         assert new_user.certificate_with_social_name
-        assert repo.confirmed_users[0].name == 'Vitor Bartolozzi Bastos Godoy De Toledo'
+        assert repo.confirmed_users[0].name == 'Vitor BARTOLOZZI BASTOS GODOY DE TOLEDO'
         assert repo.confirmed_users[0].social_name == 'Vitor Godoy'
         assert repo.confirmed_users[0].accepted_notifications
         assert repo.confirmed_users[0].certificate_with_social_name

@@ -95,9 +95,9 @@ class UserCognitoDTO:
             created_at=int(user_data.get("created_at").timestamp()*1000) if user_data.get("created_at") else None,
             updated_at=int(user_data.get("updated_at").timestamp()*1000) if user_data.get("updated_at") else None,
             social_name=user_data.get("social_name"),
-            accepted_terms=eval(user_data.get("accepted_terms")),
-            accepted_notifications=eval(user_data.get("accepted_notifications")),
-            certificate_with_social_name=eval(user_data.get("certificate_with_social_name")),
+            accepted_terms=eval(user_data.get("accepted_terms").title()),
+            accepted_notifications=eval(user_data.get("accepted_notifications").title()),
+            certificate_with_social_name=eval(user_data.get("certificate_with_social_name").title()),
             phone=user_data.get("phone")
         )
 
