@@ -45,4 +45,4 @@ jobs:
 
           envs:
             FRONT_ENDPOINT: ${{ secrets.FRONT_ENDPOINT }}
-            API_ENDPOINT: ${{ secrets.BACK_ENDPOINT }}
+            API_ENDPOINT: ${{ secrets.API_ENDPOINT }}
