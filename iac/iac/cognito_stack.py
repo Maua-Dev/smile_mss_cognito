@@ -26,7 +26,7 @@ class CognitoStack(Construct):
                                          standard_attributes=aws_cognito.StandardAttributes(
                                              fullname=aws_cognito.StandardAttribute(
                                                  required=True,
-                                                 mutable=False
+                                                 mutable=True
                                              ),
                                              email=aws_cognito.StandardAttribute(
                                                  required=True,
