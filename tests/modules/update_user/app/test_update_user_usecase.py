@@ -36,7 +36,7 @@ class Test_UpdateUserUsecase:
             'ra': "21014442",
             'name': 'Vitor BARTOLOZZI BASTOS GODOY DE TOLEDO',
             'social_name': 'Vitor Godoy',
-            'accepted_notifications': True,
+            'accepted_notifications': "True",
             'certificate_with_social_name': True,
             'phone': '11999999999'
         }
