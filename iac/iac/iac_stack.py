@@ -14,8 +14,7 @@ from aws_cdk.aws_apigateway import RestApi, Cors
 from .cognito_stack import CognitoStack
 from .lambda_stack import LambdaStack
 
-front_endpoint = os.environ.get('FRONT_ENDPOINT')
-rest_api_url = os.environ.get('API_ENDPOINT')
+
 
 class IacStack(Stack):
 
