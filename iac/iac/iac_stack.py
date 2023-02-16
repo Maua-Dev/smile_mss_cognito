@@ -49,6 +49,7 @@ class IacStack(Stack):
             "USER_POOL_ID": self.cognito_stack.user_pool.user_pool_id,
             "CLIENT_ID": self.cognito_stack.client.user_pool_client_id,
             "REGION": self.region,
+            "FRONT_ENDPOINT": front_endpoint,
         }
 
         self.lambda_stack = LambdaStack(self, api_gateway_resource=api_gateway_resource,
