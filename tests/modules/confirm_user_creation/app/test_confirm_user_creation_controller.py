@@ -15,8 +15,10 @@ class Test_ConfirmUserCreationController:
         request = HttpRequest(body)
 
         response = controller(request)
-        assert response.status_code == 200
-        assert response.body == 'User confirmed.'
+        assert response.status_code == 303
+        assert response.headers == {
+            "location": "https://static.vecteezy.com/ti/fotos-gratis/t2/2883331-macaco-sentado-na-parede-gratis-foto.jpg"
+        }
 
     def test_confirm_user_creation_controller_user_not_found(self):
         repo = UserRepositoryMock()
