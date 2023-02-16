@@ -18,6 +18,10 @@ front_endpoint = os.environ.get('FRONT_ENDPOINT')
 rest_api_url = os.environ.get('API_ENDPOINT')
 
 class IacStack(Stack):
+
+    front_endpoint = os.environ.get('FRONT_ENDPOINT')
+    rest_api_url = os.environ.get('API_ENDPOINT')
+
     # lambda_stack: LambdaStack
 
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
