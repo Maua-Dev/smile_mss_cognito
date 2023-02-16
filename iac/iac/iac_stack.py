@@ -38,7 +38,7 @@ class IacStack(Stack):
                                 },
                                 )
 
-        self.cognito_stack = CognitoStack(self, "smile_cognito_stack", api_endpoint=rest_api_url, front_endpoint=front_endpoint)
+        self.cognito_stack = CognitoStack(self, "smile_cognito_stack", api_endpoint=self.rest_api_url, front_endpoint=self.front_endpoint)
 
         api_gateway_resource = self.rest_api.root.add_resource("mss-cognito", default_cors_preflight_options=
         {
@@ -53,7 +53,7 @@ class IacStack(Stack):
             "USER_POOL_ID": self.cognito_stack.user_pool.user_pool_id,
             "CLIENT_ID": self.cognito_stack.client.user_pool_client_id,
             "REGION": self.region,
-            "FRONT_ENDPOINT": front_endpoint,
+            "FRONT_ENDPOINT": self.front_endpoint,
         }
 
         self.lambda_stack = LambdaStack(self, api_gateway_resource=api_gateway_resource,
