@@ -80,24 +80,18 @@ class Test_UserRepositoryMock:
     def test_update_user(self):
         repo = UserRepositoryMock()
         repo.update_user(
-            User(user_id='000000000000000000000000000000000001', email='vitor@maua.br', name='Caio soller toledo',
-                 password='z12345',
-                 ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
-                 updated_at=16449778000, social_name='zeeba toledo', accepted_terms=True,
-                 accepted_notifications=True, certificate_with_social_name=True, phone='5511991758098'
-                 ))
+            user_email="vitor@maua.br",
+            kvp_to_update={"name": "Caio Soller Toledo"}
+        )
 
         assert repo.confirmed_users[1].name == 'Caio Soller Toledo'
 
     def test_update_user_non_exists(self):
         repo = UserRepositoryMock()
         user = repo.update_user(
-            User(user_id='0000-0000-00000-000000-0000000-00000', email='ze@maua.br', name='Caio soller toledo',
-                 password='z12345',
-                 ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
-                 updated_at=16449778000, social_name='zeeba toledo', accepted_terms=True,
-                 accepted_notifications=True, certificate_with_social_name=True, phone='5511991758098'
-                 ))
+            user_email="zé@gmail.com",
+            kvp_to_update={"name": "Caio Soller Toledo"}
+        )
         assert user == None
 
     def test_delete_user(self):

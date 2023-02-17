@@ -117,12 +117,13 @@ class UserRepositoryMock(IUserRepository):
         self.confirmed_users.append(user)
         return True
 
-    def update_user(self, user: User) -> User:
+    def update_user(self, user_email: str, kvp_to_update: dict) -> User:
 
         for idx, userx in enumerate(self.confirmed_users):
-            if userx.email == user.email:
-                self.confirmed_users[idx] = user
-                return user
+            if userx.email == user_email:
+                for key, value in kvp_to_update.items():
+                    setattr(userx, key, value)
+                return userx
 
         return None
 

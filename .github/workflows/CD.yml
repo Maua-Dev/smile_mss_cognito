@@ -42,3 +42,7 @@ jobs:
             cd iac
             cdk synth
             cdk deploy --require-approval never
+
+          env:
+            FRONT_ENDPOINT: ${{ secrets.FRONT_ENDPOINT }}
+            API_ENDPOINT: ${{ secrets.API_ENDPOINT }}

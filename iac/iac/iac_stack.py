@@ -1,3 +1,5 @@
+import os
+
 from aws_cdk import (
     # Duration,
     Stack,
@@ -13,13 +15,16 @@ from .cognito_stack import CognitoStack
 from .lambda_stack import LambdaStack
 
 
+
 class IacStack(Stack):
+
+    front_endpoint = os.environ.get('FRONT_ENDPOINT')
+    rest_api_url = os.environ.get('API_ENDPOINT')
+
     # lambda_stack: LambdaStack
 
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
-
-        self.cognito_stack = CognitoStack(self, "smile_cognito_stack")
 
         self.rest_api = RestApi(self, "smile_auth_rest_api",
                                 rest_api_name="Smile_Cognito_RestApi",
@@ -31,6 +36,8 @@ class IacStack(Stack):
                                     "allow_headers": ["*"]
                                 },
                                 )
+
+        self.cognito_stack = CognitoStack(self, "smile_cognito_stack", api_endpoint=self.rest_api_url, front_endpoint=self.front_endpoint)
 
         api_gateway_resource = self.rest_api.root.add_resource("mss-cognito", default_cors_preflight_options=
         {
@@ -45,6 +52,7 @@ class IacStack(Stack):
             "USER_POOL_ID": self.cognito_stack.user_pool.user_pool_id,
             "CLIENT_ID": self.cognito_stack.client.user_pool_client_id,
             "REGION": self.region,
+            "FRONT_ENDPOINT": self.front_endpoint,
         }
 
         self.lambda_stack = LambdaStack(self, api_gateway_resource=api_gateway_resource,

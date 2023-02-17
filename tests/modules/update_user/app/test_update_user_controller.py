@@ -20,8 +20,8 @@ class Test_UpdateUserController:
         assert response.body['user']['role'] == repo.confirmed_users[0].role.value
         assert response.body['user']['access_level'] == repo.confirmed_users[0].access_level.value
         assert response.body['user']['social_name'] == 'Vitinho'
-        assert response.body['user']['accepted_notifications'] == True
-        assert response.body['user']['certificate_with_social_name'] == True
+        assert eval(response.body['user']['accepted_notifications']) == True
+        assert eval(response.body['user']['certificate_with_social_name']) == True
         assert response.body['message'] == 'the user was updated'
 
     def test_update_user_controller_one_field_only(self):

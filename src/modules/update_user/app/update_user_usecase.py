@@ -17,16 +17,20 @@ class UpdateUserUsecase:
         if old_user_data is None:
             raise NoItemsFound("user")
 
+        kvp_to_update = {k: v for k, v in mew_user_data.items() if k in self.mutable_fields and v is not None}
+
+        bool_items = [User.__annotations__[k] for k in self.mutable_fields if User.__annotations__[k] == bool]
+
+        kvp_to_update = {k: eval(v.title()) if User.__annotations__[k] in bool_items and type(v) == str else v for k, v in kvp_to_update.items()}
+
+        for k, v in kvp_to_update.items():
+            old_user_data[k] = v
+
         old_user = User.parse_object(old_user_data)
 
-        for field in self.mutable_fields:
-            if field in mew_user_data:
-                if field == 'name':
-                    setattr(old_user, field, mew_user_data[field].title())
-                else:
-                    setattr(old_user, field, mew_user_data[field])
+        kvp_to_update = {k: str(v) for k, v in kvp_to_update.items()}
 
-        new_user = self.repo.update_user(old_user)
+        new_user = self.repo.update_user(user_email=old_user.email, kvp_to_update=kvp_to_update)
 
         return new_user
 

@@ -59,7 +59,7 @@ class LambdaStack(Construct):
         )
         self.confirm_user_creation_function = self.createLambdaApiGatewayIntegration(
             module_name="confirm_user_creation",
-            method="POST",
+            method="GET",
             mss_student_api_resource=api_gateway_resource,
             environment_variables=environment_variables
 
@@ -121,7 +121,12 @@ class LambdaStack(Construct):
             environment_variables=environment_variables
         )
 
-
+        self.update_user_function = self.createLambdaApiGatewayIntegration(
+            module_name="update_user",
+            method="POST",
+            mss_student_api_resource=api_gateway_resource,
+            environment_variables=environment_variables
+        )
 
         self.functions_that_need_cognito_permissions = [
             self.change_password_function,
@@ -135,5 +140,6 @@ class LambdaStack(Construct):
             self.login_user_function,
             self.refresh_token_function,
             self.resend_creation_confirmation_function,
-            self.list_professors_function
+            self.list_professors_function,
+            self.update_user_function
         ]
