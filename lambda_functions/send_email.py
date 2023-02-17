@@ -32,6 +32,7 @@ def lambda_handler(event, context):
         event["response"]["emailSubject"] = 'Código de confirmação - SMILE 2023'
 
     if event['triggerSource'] == 'CustomMessage_ForgotPassword':
+        email_before_at = email.split('@')[0]
         email_provider = email.split('@')[1]
 
         message = f"""Olá, {name}<br> <br>
@@ -39,7 +40,7 @@ def lambda_handler(event, context):
                     Para criar uma nova senha em seu cadastro da SMILE 2023 clique:
     
                      <br> <br> 
-                     <a id="link-confirmar-usuario" href="{FRONT_ENDPOINT}/#/login/esqueci-minha-senha/escolher-senha?code={code}&email={email}&emailProvider={email_provider}" style="background-color: orange; color: white; padding: 10px;">Recuperar senha</a>
+                     <a id="link-confirmar-usuario" href="{FRONT_ENDPOINT}/#/login/esqueci-minha-senha/escolher-senha?code={code}&email={email_before_at}&emailProvider={email_provider}" style="background-color: orange; color: white; padding: 10px;">Recuperar senha</a>
                     <br> <br> 
     
                     Atenciosamente, <br> <br>
