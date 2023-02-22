@@ -768,7 +768,7 @@ def lambda_handler(event, context):
                 </html>
         """
 
-        message = message.format(name=name, API_ENDPOINT=API_ENDPOINT, code=code, email_before_at=email_before_at, email_provider=email_provider)
+        message = message.format(name=name, FRONT_ENDPOINT=FRONT_ENDPOINT, code=code, email_before_at=email_before_at, email_provider=email_provider)
 
         event["response"]["emailMessage"] = message
         event["response"]["emailSubject"] = 'Criar nova senha - SMILE 2023'
