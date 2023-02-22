@@ -32,76 +32,76 @@ def lambda_handler(event, context):
   <title></title>
   
     <style type="text/css">
-      @media only screen and (min-width: 620px) {
-  .u-row {
+      @media only screen and (min-width: 620px) {{
+  .u-row {{
     width: 600px !important;
-  }
-  .u-row .u-col {
+  }}
+  .u-row .u-col {{
     vertical-align: top;
-  }
+  }}
 
-  .u-row .u-col-50 {
+  .u-row .u-col-50 {{
     width: 300px !important;
-  }
+  }}
 
-  .u-row .u-col-100 {
+  .u-row .u-col-100 {{
     width: 600px !important;
-  }
+  }}
 
-}
+}}
 
-@media (max-width: 620px) {
-  .u-row-container {
+@media (max-width: 620px) {{
+  .u-row-container {{
     max-width: 100% !important;
     padding-left: 0px !important;
     padding-right: 0px !important;
-  }
-  .u-row .u-col {
+  }}
+  .u-row .u-col {{
     min-width: 320px !important;
     max-width: 100% !important;
     display: block !important;
-  }
-  .u-row {
+  }}
+  .u-row {{
     width: 100% !important;
-  }
-  .u-col {
+  }}
+  .u-col {{
     width: 100% !important;
-  }
-  .u-col > div {
+  }}
+  .u-col > div {{
     margin: 0 auto;
-  }
-}
-body {
+  }}
+}}
+body {{
   margin: 0;
   padding: 0;
-}
+}}
 
 table,
 tr,
-td {
+td {{
   vertical-align: top;
   border-collapse: collapse;
-}
+}}
 
-p {
+p {{
   margin: 0;
-}
+}}
 
 .ie-container table,
-.mso-container table {
+.mso-container table {{
   table-layout: fixed;
-}
+}}
 
-* {
+* {{
   line-height: inherit;
-}
+}}
 
-a[x-apple-data-detectors='true'] {
+a[x-apple-data-detectors='true'] {{
   color: inherit !important;
   text-decoration: none !important;
-}
+}}
 
-table, td { color: #000000; } #u_body a { color: #223166; text-decoration: underline; } @media (max-width: 480px) { #u_content_heading_6 .v-container-padding-padding { padding: 20px 10px 40px !important; } #u_content_heading_6 .v-font-size { font-size: 20px !important; } #u_content_text_deprecated_7 .v-container-padding-padding { padding: 30px 10px 10px !important; } #u_content_text_deprecated_8 .v-container-padding-padding { padding: 10px 10px 30px !important; } #u_content_text_deprecated_9 .v-container-padding-padding { padding: 10px 10px 20px !important; } }
+table, td {{ color: #000000; }} #u_body a {{ color: #223166; text-decoration: underline; }} @media (max-width: 480px) {{ #u_content_heading_6 .v-container-padding-padding {{ padding: 20px 10px 40px !important; }} #u_content_heading_6 .v-font-size {{ font-size: 20px !important; }} #u_content_text_deprecated_7 .v-container-padding-padding {{ padding: 30px 10px 10px !important; }} #u_content_text_deprecated_8 .v-container-padding-padding {{ padding: 10px 10px 30px !important; }} #u_content_text_deprecated_9 .v-container-padding-padding {{ padding: 10px 10px 20px !important; }} }}
     </style>
   
   
@@ -256,7 +256,7 @@ table, td { color: #000000; } #u_body a { color: #223166; text-decoration: under
     <tr>
       <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:15px;font-family:'Open Sans',sans-serif;" align="left">
         
-  <!--[if mso]><style>.v-button {background: transparent !important;}</style><![endif]-->
+  <!--[if mso]><style>.v-button {{background: transparent !important;}}</style><![endif]-->
 <div align="center">
   <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="{API_ENDPOINT}/confirm-user-creation?confirmation_code={code}&email={email}" style="height:44px; v-text-anchor:middle; width:228px;" arcsize="9%"  stroke="f" fillcolor="#ed731a"><w:anchorlock/><center style="color:#FFFFFF;font-family:'Open Sans',sans-serif;"><![endif]-->  
     <a href="{API_ENDPOINT}/confirm-user-creation?confirmation_code={code}&email={email}" target="_blank" class="v-button v-font-size" style="box-sizing: border-box;display: inline-block;font-family:'Open Sans',sans-serif;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #FFFFFF; background-color: #ed731a; border-radius: 4px;-webkit-border-radius: 4px; -moz-border-radius: 4px; width:auto; max-width:100%; overflow-wrap: break-word; word-break: break-word; word-wrap:break-word; mso-border-alt: none;font-size: 20px;">
