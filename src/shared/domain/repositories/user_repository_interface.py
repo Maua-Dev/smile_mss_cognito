@@ -43,8 +43,8 @@ class IUserRepository(ABC):
         pass
 
     @abstractmethod
-    # accessToken, refreshToken
-    def refresh_token(self, refresh_token: str) -> Tuple[str, str]:
+    # access_token, refresh_token, id_token
+    def refresh_token(self, refresh_token: str) -> Tuple[str, str, str]:
         pass
 
     @abstractmethod

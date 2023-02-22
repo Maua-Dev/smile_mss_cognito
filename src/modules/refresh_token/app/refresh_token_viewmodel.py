@@ -2,16 +2,19 @@ from typing import Optional
 
 
 class RefreshTokenViewmodel:
-    accessToken: Optional[str]
-    refreshToken: Optional[str]
+    access_token: Optional[str]
+    refresh_token: Optional[str]
+    id_token: Optional[str]
 
-    def __init__(self, access_token: Optional[str], refresh_token: Optional[str]):
-        self.accessToken = access_token
-        self.refreshToken = refresh_token
+    def __init__(self, access_token: Optional[str], refresh_token: Optional[str], id_token: Optional[str]):
+        self.access_token = access_token
+        self.refresh_token = refresh_token
+        self.id_token = id_token
 
     def to_dict(self):
         return {
-            'access_token': self.accessToken,
-            'refresh_token': self.refreshToken,
+            'access_token': self.access_token,
+            'refresh_token': self.refresh_token,
+            'id_token': self.id_token,
             'message': "Token refreshed successfully"
         }

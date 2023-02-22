@@ -165,7 +165,7 @@ class UserRepositoryMock(IUserRepository):
         data.pop('password')
         return data
 
-    def refresh_token(self, refresh_token: str) -> Tuple[str, str]:
+    def refresh_token(self, refresh_token: str) -> Tuple[str, str, str]:
         split_token = refresh_token.split("-")  # token, email
         if len(split_token) != 2:
             return None, None
@@ -173,8 +173,8 @@ class UserRepositoryMock(IUserRepository):
             return None, None
         if self.get_user_by_email(split_token[1]) is None:
             return None, None
-        a = "valid_access_token-" + split_token[1], refresh_token
-        return a
+        tokens = "valid_access_token-" + split_token[1], refresh_token, "valid_id_token-" + split_token[1]
+        return tokens
 
     def change_password(self, email: str) -> bool:
         for userx in self.confirmed_users:

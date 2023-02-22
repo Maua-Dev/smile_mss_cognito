@@ -6,12 +6,14 @@ class Test_RefreshTokenViewmodel:
     def test_refresh_token_viewmodel(self):
         access_token = 'valid_access_token-vitor@maua.br'
         refresh_token = "valid_refresh_token-vitor@maua.br"
+        id_token = 'valid_refresh_token-vitor@maua.br'
 
-        tokens = RefreshTokenViewmodel(access_token, refresh_token)
+        tokens = RefreshTokenViewmodel(access_token, refresh_token, id_token)
 
         expected = {
             'access_token': access_token,
             'refresh_token': refresh_token,
+            'id_token': id_token,
             'message': "Token refreshed successfully"
         }
 
