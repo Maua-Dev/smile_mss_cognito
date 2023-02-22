@@ -18,6 +18,7 @@ class Test_RefreshTokenController:
         assert response.status_code == 200
         assert response.body['access_token'] == "valid_access_token-vitor@maua.br"
         assert response.body['refresh_token'] == "valid_refresh_token-vitor@maua.br"
+        assert response.body['id_token'] == "valid_id_token-vitor@maua.br"
         assert response.body['message'] == "Token refreshed successfully"
 
     def test_refresh_token_controller_missing_authorization(self):

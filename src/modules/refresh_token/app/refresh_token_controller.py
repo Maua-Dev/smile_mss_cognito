@@ -24,9 +24,9 @@ class RefreshTokenController:
             refresh_token = token[1]
 
             tokens = self.refreshTokenUsecase(refresh_token)
-            access_token, refresh_token = tokens
+            access_token, refresh_token, id_token = tokens
             refresh_token_viewmodel = RefreshTokenViewmodel(
-                access_token=access_token, refresh_token=refresh_token)
+                access_token=access_token, refresh_token=refresh_token, id_token=id_token)
             return OK(refresh_token_viewmodel.to_dict())
 
         except MissingParameters as err:
