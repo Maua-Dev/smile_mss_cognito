@@ -8,7 +8,7 @@ API_ENDPOINT = os.environ['API_ENDPOINT']
 def lambda_handler(event, context):
     user = event['request']['userAttributes']
     email = user['email']
-    name = user['name'].split(' ')[0]
+    name = user["custom:socialName"].split(' ')[0] if user.get("custom:socialName") is not None else user['name'].split(' ')[0]
     code = event['request']['codeParameter']
 
     if event['triggerSource'] == 'CustomMessage_SignUp' or event['triggerSource'] == "CustomMessage_ResendCode":
