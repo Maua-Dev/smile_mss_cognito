@@ -3,7 +3,8 @@ from typing import Optional
 
 class RefreshTokenViewmodel:
     access_token: Optional[str]
-    refreshToken: Optional[str]
+    refresh_token: Optional[str]
+    id_token: Optional[str]
 
     def __init__(self, access_token: Optional[str], refresh_token: Optional[str], id_token: Optional[str]):
         self.access_token = access_token
