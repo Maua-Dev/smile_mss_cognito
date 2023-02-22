@@ -14,9 +14,11 @@ class Test_RefreshTokenUsecase:
 
         expected_refresh_token = "valid_access_token-vitor@maua.br"
         valid_refresh_token = "valid_refresh_token-vitor@maua.br"
+        expected_id_token = "valid_id_token-vitor@maua.br"
 
         assert tokens[0] == expected_refresh_token
         assert tokens[1] == valid_refresh_token
+        assert tokens[2] == expected_id_token
 
     def test_refresh_token_usecase_invalid_refresh_token(self):
         repo = UserRepositoryMock()

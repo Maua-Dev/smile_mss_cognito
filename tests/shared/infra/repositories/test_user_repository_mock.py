@@ -151,6 +151,7 @@ class Test_UserRepositoryMock:
             refresh_token="valid_refresh_token-zeeba@gmail.com")
         assert resp[0] == 'valid_access_token-zeeba@gmail.com'
         assert resp[1] == 'valid_refresh_token-zeeba@gmail.com'
+        assert resp[2] == 'valid_id_token-zeeba@gmail.com'
 
     def test_change_password(self):
         repo = UserRepositoryMock()

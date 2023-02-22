@@ -12,7 +12,7 @@ class RefreshTokenUsecase:
         if tokens is None or tokens == (None, None):
             raise ForbiddenAction(f'Refresh Token: {refresh_token}')
 
-        access_token, refresh_token = tokens
+        access_token, refresh_token, id_token = tokens
         if access_token is None or refresh_token is None:
             raise ForbiddenAction(f'Refresh Token or Access Token')
-        return access_token, refresh_token
+        return access_token, refresh_token, id_token
