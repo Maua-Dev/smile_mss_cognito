@@ -10,7 +10,6 @@ from constructs import Construct
 
 # from .lambda_stack import LambdaStack
 from aws_cdk.aws_apigateway import RestApi, Cors
-from dotenv import load_dotenv
 
 from .cognito_stack import CognitoStack
 from .lambda_stack import LambdaStack
@@ -18,7 +17,6 @@ from .lambda_stack import LambdaStack
 
 
 class IacStack(Stack):
-    load_dotenv()
 
     front_endpoint = os.environ.get('FRONT_ENDPOINT')
     rest_api_url = os.environ.get('API_ENDPOINT')
