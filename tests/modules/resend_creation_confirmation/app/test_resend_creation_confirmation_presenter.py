@@ -173,6 +173,6 @@ class Test_ResendCreationConfirmationPresenter:
         response = lambda_handler(event, None)
 
         assert response["statusCode"] == 404
-        assert json.loads(response["body"]) == 'No items found for user email: vitor@gmail.com'
+        assert json.loads(response["body"]) == 'Nenhum usuário encontrado com parâmetro: user email: vitor@gmail.com'
 
 

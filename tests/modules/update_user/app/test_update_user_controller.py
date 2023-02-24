@@ -66,6 +66,6 @@ class Test_UpdateUserController:
         response = controller(HttpRequest(body={'name': 'Vitor', 'social_name': 'Vitinho', 'accepted_notifications': True, 'certificate_with_social_name': True}, headers={'Authorization': 'Bearer ' + 'valid_access_token-' + "vitor@vitor.com"}))
 
         assert response.status_code == 404
-        assert response.body == 'No items found for user'
+        assert response.body == 'Nenhum usuário econtrado'
 
 

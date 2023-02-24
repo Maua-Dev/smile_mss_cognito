@@ -107,7 +107,7 @@ class Test_ListUsersController:
             headers={'Authorization': 'Bearer ' + 'valid_access_token-' + "notFoundEmail@gmail.com"}))
 
         assert response.status_code == 404
-        assert response.body == 'No items found for user'
+        assert response.body == 'Nenhum usuário econtrado'
 
     def test_list_user_controller_user_not_found(self):
         repo = UserRepositoryMock()
@@ -124,7 +124,7 @@ class Test_ListUsersController:
             headers={'Authorization': 'Bearer ' + 'valid_access_token-' + repo.confirmed_users[1].email}))
 
         assert response.status_code == 404
-        assert response.body == 'No items found for user_id: 0000-0000-00000-000000-0000000-00000'
+        assert response.body == 'Nenhum usuário encontrado com parâmetro: user_id: 0000-0000-00000-000000-0000000-00000'
 
     def test_list_user_controller_user_id_invalid(self):
         repo = UserRepositoryMock()

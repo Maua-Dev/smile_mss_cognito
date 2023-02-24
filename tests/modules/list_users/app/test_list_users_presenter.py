@@ -176,7 +176,7 @@ class Test_ListUsersPresenter:
         response = lambda_handler(event, None)
 
         assert response["statusCode"] == 404
-        assert json.loads(response["body"]) == 'No items found for user_id: 0000-0000-00000-000000-0000000-00069'
+        assert json.loads(response["body"]) == 'Nenhum usuário encontrado com parâmetro: user_id: 0000-0000-00000-000000-0000000-00069'
 
 
 

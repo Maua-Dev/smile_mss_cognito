@@ -54,4 +54,4 @@ class Test_ResendCreationConfirmationController:
         response = controller(request)
 
         assert response.status_code == 404
-        assert response.body == 'No items found for user email: vitor@gmail.com'
+        assert response.body == 'Nenhum usuário encontrado com parâmetro: user email: vitor@gmail.com'

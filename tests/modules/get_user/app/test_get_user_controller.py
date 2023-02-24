@@ -51,6 +51,6 @@ class Test_GetUserController:
         response = controller(HttpRequest(query_params={'email': 'vitor@vitinho.com'}))
 
         assert response.status_code == 404
-        assert response.body == 'No items found for user'
+        assert response.body == 'Nenhum usuário econtrado'
 
 

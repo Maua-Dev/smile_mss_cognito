@@ -35,7 +35,7 @@ class ConfirmUserCreationController:
 
         except NoItemsFound as err:
 
-            return NotFound(body=err.message)
+            return NotFound(body='Nenhum usuário econtrado' if err.message == "user" else f"Nenhum usuário encontrado com parâmetro: {err.message}")
 
         except MissingParameters as err:
 
