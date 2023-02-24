@@ -20,7 +20,7 @@ class UpdateUserController:
             token = request.data.get('Authorization').split(' ')
 
             if len(token) != 2 or token[0] != 'Bearer':
-                raise EntityError('token')
+                raise EntityError('access_token')
             access_token = token[1]
 
             user_data = {
@@ -49,7 +49,7 @@ class UpdateUserController:
 
         except EntityError as err:
 
-            return BadRequest(body=err.message)
+            return BadRequest(body=f"Parâmetro inválido: {err.message}")
 
         except Exception as err:
 

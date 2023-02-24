@@ -29,5 +29,5 @@ class CheckTokenController:
         except Exception as e:
             return BadRequest({
                 'valid_token': False,
-                'error_message': e.args[0]
+                'error_message': f"Parâmetro inválido: {e.args[0]}"
             })

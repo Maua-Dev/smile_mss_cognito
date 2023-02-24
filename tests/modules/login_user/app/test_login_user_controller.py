@@ -77,7 +77,7 @@ class Test_LoginUserController:
         response = controller(request)
 
         assert response.status_code == 400
-        assert response.body == 'Field email is not valid'
+        assert response.body == 'Parâmetro inválido: email'
 
     def test_login_controller_invalid_password_not_match(self):
         repo = UserRepositoryMock()
@@ -110,5 +110,5 @@ class Test_LoginUserController:
         response = controller(request)
 
         assert response.status_code == 400
-        assert response.body == 'Field password is not valid'
+        assert response.body == 'Parâmetro inválido: password'
 

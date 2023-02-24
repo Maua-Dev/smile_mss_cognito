@@ -56,7 +56,7 @@ class Test_UpdateUserController:
             headers={'Authorization': 'Bearer' + 'valid_access_token-' + repo.confirmed_users[0].email}))
 
         assert response.status_code == 400
-        assert response.body == 'Field token is not valid'
+        assert response.body == 'Parâmetro inválido: access_token'
 
     def test_update_user_controller_no_items_found(self):
         repo = UserRepositoryMock()

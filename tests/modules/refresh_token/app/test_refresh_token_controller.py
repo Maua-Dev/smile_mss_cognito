@@ -44,7 +44,7 @@ class Test_RefreshTokenController:
         response = controller(request)
 
         assert response.status_code == 400
-        assert response.body == "Field token is not valid"
+        assert response.body == 'Parâmetro inválido: access_token'
 
     def test_refresh_token_controller_invalid_refresh_token(self):
         repo = UserRepositoryMock()

@@ -41,7 +41,7 @@ class Test_GetUserController:
         response = controller(HttpRequest(query_params={'email': 'invalid_email'}))
 
         assert response.status_code == 400
-        assert response.body == 'Field email is not valid'
+        assert response.body == 'Parâmetro inválido: email'
 
     def test_get_user_no_items_found(self):
         repo = UserRepositoryMock()

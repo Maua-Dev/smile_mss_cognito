@@ -24,7 +24,7 @@ class Test_ChangePasswordController:
         response = controller(HttpRequest(body={}))
 
         assert response.status_code == 400
-        assert response.body == 'Missing body.'
+        assert response.body == "Não existe corpo da requisição."
 
     def test_change_password_entity_error(self):
         repo = UserRepositoryMock()
@@ -35,4 +35,4 @@ class Test_ChangePasswordController:
             body={'email': 'invalid_email'}))
 
         assert response.status_code == 400
-        assert response.body == 'Field email is not valid'
+        assert response.body == 'Parâmetro inválido: email'

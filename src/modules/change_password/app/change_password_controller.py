@@ -15,7 +15,7 @@ class ChangePasswordController:
     def __call__(self, request: IRequest) -> IResponse:
 
         if not request.data:
-            return BadRequest('Missing body.')
+            return BadRequest("Não existe corpo da requisição.")
         try:
             if request.data.get('email') is None:
                 raise MissingParameters('email')
@@ -38,7 +38,7 @@ class ChangePasswordController:
 
         except EntityError as err:
 
-            return BadRequest(body=err.message)
+            return BadRequest(body=f"Parâmetro inválido: {err.message}")
 
         except Exception as err:
 

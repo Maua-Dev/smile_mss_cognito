@@ -50,7 +50,7 @@ class Test_ListUsersController:
             headers={'Authorization': 'Bearer' + 'valid_access_token-' + repo.confirmed_users[1].email}))
 
         assert response.status_code == 400
-        assert response.body == 'Field token is not valid'
+        assert response.body == 'Parâmetro inválido: access_token'
 
     def test_list_users_controller_invalid_user_list(self):
         repo = UserRepositoryMock()
@@ -62,7 +62,7 @@ class Test_ListUsersController:
             headers={'Authorization': 'Bearer ' + 'valid_access_token-' + repo.confirmed_users[1].email}))
 
         assert response.status_code == 400
-        assert response.body == 'Field user_list is not valid'
+        assert response.body == 'Parâmetro inválido: user_list'
 
     def test_list_user_controller_missing_authorization(self):
         repo = UserRepositoryMock()
@@ -141,7 +141,7 @@ class Test_ListUsersController:
             headers={'Authorization': 'Bearer ' + 'valid_access_token-' + repo.confirmed_users[1].email}))
 
         assert response.status_code == 400
-        assert response.body == 'Field user_id is not valid'
+        assert response.body == 'Parâmetro inválido: user_id'
 
     def test_list_users_controller_forbidden_action(self):
         repo = UserRepositoryMock()

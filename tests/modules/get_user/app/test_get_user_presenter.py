@@ -117,7 +117,7 @@ class Test_GetUserPresenter:
         response = lambda_handler(event, None)
 
         assert response["statusCode"] == 400
-        assert json.loads(response["body"]) == "Field email is not valid"
+        assert json.loads(response["body"]) == 'Parâmetro inválido: email'
 
 
     def test_get_user_presenter_no_email_found(self):

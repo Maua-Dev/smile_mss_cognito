@@ -42,7 +42,7 @@ class Test_ResendCreationConfirmationController:
         response = controller(request)
 
         assert response.status_code == 400
-        assert response.body == 'Field email is not valid'
+        assert response.body == 'Parâmetro inválido: email'
 
     def test_resend_confirmation_controller_nonexistent_email(self):
         repo = UserRepositoryMock()

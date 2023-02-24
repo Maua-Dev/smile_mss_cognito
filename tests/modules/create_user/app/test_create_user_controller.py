@@ -77,7 +77,7 @@ class Test_CreateUserController:
         response = controller(request)
 
         assert response.status_code == 400
-        assert response.body == 'Field role is not valid'
+        assert response.body == 'Parâmetro inválido: role'
 
     def test_create_user_controller_invalid_access_level(self):
         repo = UserRepositoryMock()
@@ -99,7 +99,7 @@ class Test_CreateUserController:
         response = controller(request)
 
         assert response.status_code == 400
-        assert response.body == 'Field access_level is not valid'
+        assert response.body == 'Parâmetro inválido: access_level'
 
     def test_create_user_controller_missing_role(self):
         repo = UserRepositoryMock()
@@ -264,7 +264,7 @@ class Test_CreateUserController:
         response = controller(request)
 
         assert response.status_code == 400
-        assert response.body == 'Field access_level is not valid'
+        assert response.body == 'Parâmetro inválido: access_level'
 
     def test_create_user_controller_duplicated_item(self):
         repo = UserRepositoryMock()

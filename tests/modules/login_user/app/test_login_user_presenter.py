@@ -116,7 +116,7 @@ class Test_LoginUserPresenter:
         response = lambda_handler(event, None)
 
         assert response["statusCode"] == 400
-        assert json.loads(response["body"]) == "Field email is not valid"
+        assert json.loads(response["body"]) == 'Parâmetro inválido: email'
 
     def test_login_user_presenter_password_not_match(self):
         event = {

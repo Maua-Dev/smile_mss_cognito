@@ -153,7 +153,7 @@ class UserRepositoryMock(IUserRepository):
 
         split_token = token.split("-")
         if len(split_token) != 2 or split_token[0] != "valid_access_token":
-            raise EntityError('token')
+            raise EntityError('access_token')
 
         email = split_token[1]
         user = self.get_user_by_email(email)
