@@ -46,7 +46,7 @@ class Test_LoginUserController:
         response = controller(request)
 
         assert response.status_code == 400
-        assert response.body == 'Field login is missing'
+        assert response.body == 'Parâmetro ausente: login'
 
     def test_login_user_controller_with_missing_password(self):
         repo = UserRepositoryMock()
@@ -61,7 +61,7 @@ class Test_LoginUserController:
         response = controller(request)
 
         assert response.status_code == 400
-        assert response.body == 'Field password is missing'
+        assert response.body == 'Parâmetro ausente: password'
 
     def test_login_controller_invalid_email(self):
         repo = UserRepositoryMock()

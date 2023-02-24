@@ -118,7 +118,7 @@ class Test_UpdateUserPresenter:
         response = lambda_handler(event, None)
 
         assert response["statusCode"] == 400
-        assert json.loads(response["body"]) == "Field Authorization header is missing"
+        assert json.loads(response["body"]) == 'Parâmetro ausente: Authorization header'
 
     def test_update_user_presenter_no_items_found(self):
         event = {

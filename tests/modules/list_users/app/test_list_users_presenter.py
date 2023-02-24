@@ -118,7 +118,7 @@ class Test_ListUsersPresenter:
         response = lambda_handler(event, None)
 
         assert response["statusCode"] == 400
-        assert json.loads(response["body"]) == 'Field Authorization header is missing'
+        assert json.loads(response["body"]) == 'Parâmetro ausente: Authorization header'
 
     def test_list_users_presenter_user_not_found(self):
         event = {

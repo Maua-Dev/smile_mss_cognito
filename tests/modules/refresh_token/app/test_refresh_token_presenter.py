@@ -118,7 +118,7 @@ class Test_RefreshTokenPresenter:
         response = lambda_handler(event, None)
 
         assert response["statusCode"] == 400
-        assert json.loads(response["body"]) == "Field Authorization header is missing"
+        assert json.loads(response["body"]) == 'Parâmetro ausente: Authorization header'
 
     def test_refresh_token_invalid_token(self):
         event = {

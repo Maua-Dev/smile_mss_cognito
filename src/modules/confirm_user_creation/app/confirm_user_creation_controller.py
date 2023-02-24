@@ -39,7 +39,7 @@ class ConfirmUserCreationController:
 
         except MissingParameters as err:
 
-            return BadRequest(body=err.message)
+            return BadRequest(body=f"Parâmetro ausente: {err.message}")
 
         except EntityError as err:
 

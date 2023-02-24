@@ -31,7 +31,7 @@ class Test_RefreshTokenController:
         response = controller(request)
 
         assert response.status_code == 400
-        assert response.body == "Field Authorization header is missing"
+        assert response.body == 'Parâmetro ausente: Authorization header'
 
     def test_refresh_token_controller_invalid_authorization(self):
         repo = UserRepositoryMock()

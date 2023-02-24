@@ -228,4 +228,4 @@ class Test_LoginUserPresenter:
         response = lambda_handler(event, None)
 
         assert response["statusCode"] == 400
-        assert json.loads(response["body"]) == "Field login is missing"
+        assert json.loads(response["body"]) == "Parâmetro ausente: login"

@@ -78,7 +78,7 @@ class Test_ListUsersController:
             body={"user_list": user_list}))
 
         assert response.status_code == 400
-        assert response.body == 'Field Authorization header is missing'
+        assert response.body == 'Parâmetro ausente: Authorization header'
 
     def test_list_user_controller_missing_field_user_list(self):
         repo = UserRepositoryMock()
@@ -90,7 +90,7 @@ class Test_ListUsersController:
             headers={'Authorization': 'Bearer ' + 'valid_access_token-' + repo.confirmed_users[1].email}))
 
         assert response.status_code == 400
-        assert response.body == 'Field user_list is missing'
+        assert response.body == 'Parâmetro ausente: user_list'
 
     def test_list_user_controller_access_token_user_not_found(self):
         repo = UserRepositoryMock()

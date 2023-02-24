@@ -116,7 +116,7 @@ class Test_ResendCreationConfirmationPresenter:
         response = lambda_handler(event, None)
 
         assert response["statusCode"] == 400
-        assert json.loads(response["body"]) == 'Field email is missing'
+        assert json.loads(response["body"]) == 'Parâmetro ausente: email'
 
     def test_resend_creation_confirmation_not_found(self):
         event = {

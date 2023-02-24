@@ -31,7 +31,7 @@ class Test_GetUserController:
         response = controller(HttpRequest(query_params={}))
 
         assert response.status_code == 400
-        assert response.body == 'Field email is missing'
+        assert response.body == 'Parâmetro ausente: email'
 
     def test_get_user_entity_error(self):
         repo = UserRepositoryMock()
