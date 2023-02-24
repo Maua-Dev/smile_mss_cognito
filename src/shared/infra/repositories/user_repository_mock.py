@@ -72,7 +72,7 @@ class UserRepositoryMock(IUserRepository):
         for field in duplicity_sensitive:
             if self.check_user_by_propriety(propriety=field, value=getattr(user, field)):
                 raise DuplicatedItem(
-                    f'User: {field} = "{getattr(user, field)}"')
+                    getattr(user, field))
         self.users.append(user)
         return user
 

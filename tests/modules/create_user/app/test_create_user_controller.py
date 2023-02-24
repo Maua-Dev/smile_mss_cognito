@@ -286,7 +286,7 @@ class Test_CreateUserController:
         response = controller(request)
 
         assert response.status_code == 409
-        assert response.body == 'The item alredy exists for this User: email = "vitor@maua.br"'
+        assert response.body == 'Usuário ja cadastrado com esses dados: vitor@maua.br'
 
     def test_create_user_controller_missing_certificate(self):
         repo = UserRepositoryMock()

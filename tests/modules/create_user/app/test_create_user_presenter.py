@@ -175,4 +175,4 @@ class Test_CreateUserPresenter:
         response = lambda_handler(event, None)
 
         assert response["statusCode"] == 409
-        assert json.loads(response["body"]) == 'The item alredy exists for this User: ra = "21014442"'
+        assert json.loads(response["body"]) == 'Usuário ja cadastrado com esses dados: 21014442'
