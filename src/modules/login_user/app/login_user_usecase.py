@@ -2,7 +2,7 @@ from src.shared.domain.entities.user import User
 from src.shared.domain.repositories.user_repository_interface import IUserRepository
 from src.shared.helpers.errors.controller_errors import MissingParameters
 from src.shared.helpers.errors.domain_errors import EntityError
-from src.shared.helpers.errors.usecase_errors import ForbiddenAction
+from src.shared.helpers.errors.usecase_errors import ForbiddenAction, InvalidCredentials
 
 
 class LoginUserUsecase:
@@ -22,7 +22,7 @@ class LoginUserUsecase:
 
         data = self.repo.login_user(email, password)
         if data is None:
-            raise ForbiddenAction("invalid email or password")
+            raise InvalidCredentials("email or password")
         if not set(login_response_fields) <= set(data.keys()):
             raise MissingParameters(f'{login_response_fields}')
         return data

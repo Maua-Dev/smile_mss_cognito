@@ -20,7 +20,7 @@ class RefreshTokenController:
             token = request.data.get('Authorization').split(' ')
 
             if len(token) != 2 or token[0] != 'Bearer':
-                raise EntityError('token')
+                raise EntityError('access_token')
             refresh_token = token[1]
 
             tokens = self.refreshTokenUsecase(refresh_token)
@@ -31,15 +31,15 @@ class RefreshTokenController:
 
         except MissingParameters as err:
 
-            return BadRequest(body=err.message)
+            return BadRequest(body=f"Parâmetro ausente: {err.message}")
 
         except ForbiddenAction as err:
 
-            return Forbidden(body=err.message)
+            return Forbidden(body=f"Sem autorização para: {err.message}")
 
         except EntityError as err:
 
-            return BadRequest(body=err.message)
+            return BadRequest(body=f"Parâmetro inválido: {err.message}")
 
         except Exception as err:
 

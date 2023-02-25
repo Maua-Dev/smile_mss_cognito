@@ -1,7 +1,7 @@
 import pytest
 
 from src.modules.delete_user.app.delete_user_usecase import DeleteUserUsecase
-from src.shared.helpers.errors.usecase_errors import ForbiddenAction
+from src.shared.helpers.errors.usecase_errors import ForbiddenAction, NoItemsFound, UserNotConfirmed
 from src.shared.infra.repositories.user_repository_mock import UserRepositoryMock
 
 
@@ -23,5 +23,5 @@ class Test_DeleteUserUsecase:
 
         email = 'vilas@gmail.com'
 
-        with pytest.raises(ForbiddenAction):
+        with pytest.raises(UserNotConfirmed):
             usecase(email)

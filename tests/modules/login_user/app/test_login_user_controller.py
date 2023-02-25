@@ -46,7 +46,7 @@ class Test_LoginUserController:
         response = controller(request)
 
         assert response.status_code == 400
-        assert response.body == 'Field login is missing'
+        assert response.body == 'Parâmetro ausente: login'
 
     def test_login_user_controller_with_missing_password(self):
         repo = UserRepositoryMock()
@@ -61,7 +61,7 @@ class Test_LoginUserController:
         response = controller(request)
 
         assert response.status_code == 400
-        assert response.body == 'Field password is missing'
+        assert response.body == 'Parâmetro ausente: password'
 
     def test_login_controller_invalid_email(self):
         repo = UserRepositoryMock()
@@ -77,7 +77,7 @@ class Test_LoginUserController:
         response = controller(request)
 
         assert response.status_code == 400
-        assert response.body == 'Field email is not valid'
+        assert response.body == 'Parâmetro inválido: email'
 
     def test_login_controller_invalid_password_not_match(self):
         repo = UserRepositoryMock()
@@ -93,7 +93,7 @@ class Test_LoginUserController:
         response = controller(request)
 
         assert response.status_code == 403
-        assert response.body == 'That action is forbidden for this invalid email or password'
+        assert response.body == 'Usuário ou senha inválidos'
 
 
     def test_login_controller_invalid_password(self):
@@ -110,5 +110,5 @@ class Test_LoginUserController:
         response = controller(request)
 
         assert response.status_code == 400
-        assert response.body == 'Field password is not valid'
+        assert response.body == 'Parâmetro inválido: password'
 

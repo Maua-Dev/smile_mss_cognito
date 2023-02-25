@@ -125,5 +125,5 @@ class Test_CheckTokenPresenter:
         assert response["statusCode"] == 400
         assert json.loads(response["body"]) == {
             'valid_token': False,
-            'error_message': 'Field token is not valid'
+            'error_message': 'Parâmetro inválido: access_token'
         }

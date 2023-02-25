@@ -31,7 +31,7 @@ class Test_RefreshTokenController:
         response = controller(request)
 
         assert response.status_code == 400
-        assert response.body == "Field Authorization header is missing"
+        assert response.body == 'Parâmetro ausente: Authorization header'
 
     def test_refresh_token_controller_invalid_authorization(self):
         repo = UserRepositoryMock()
@@ -44,7 +44,7 @@ class Test_RefreshTokenController:
         response = controller(request)
 
         assert response.status_code == 400
-        assert response.body == "Field token is not valid"
+        assert response.body == 'Parâmetro inválido: access_token'
 
     def test_refresh_token_controller_invalid_refresh_token(self):
         repo = UserRepositoryMock()
@@ -57,7 +57,7 @@ class Test_RefreshTokenController:
         reponse = controller(request)
 
         assert reponse.status_code == 403
-        assert reponse.body == "That action is forbidden for this Refresh Token: invalid_refresh_token-vitor@maua.br"
+        assert reponse.body == 'Sem autorização para: Refresh Token: invalid_refresh_token-vitor@maua.br'
 
     def test_refresh_token_controller_invalid_refresh_token_or_access_token(self):
         repo = UserRepositoryMock()
@@ -70,7 +70,7 @@ class Test_RefreshTokenController:
         reponse = controller(request)
 
         assert reponse.status_code == 403
-        assert reponse.body == "That action is forbidden for this Refresh Token: valid_refresh_token-vitor@maua.com"
+        assert reponse.body == "Sem autorização para: Refresh Token: valid_refresh_token-vitor@maua.com"
 
 
 

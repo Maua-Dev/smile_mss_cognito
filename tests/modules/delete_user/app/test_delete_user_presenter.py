@@ -113,9 +113,9 @@ class Test_CheckTokenPresenter:
         }
         response = lambda_handler(event, None)
 
-        assert response["statusCode"] == 403
+        assert response["statusCode"] == 401
         assert json.loads(
-            response["body"]) == 'That action is forbidden for this "User not found"'
+            response["body"]) == 'Usuário não confirmado'
 
     def test_delete_user_presenter_user_not_found(self):
 
@@ -170,9 +170,9 @@ class Test_CheckTokenPresenter:
         }
         response = lambda_handler(event, None)
 
-        assert response["statusCode"] == 403
+        assert response["statusCode"] == 401
         assert json.loads(
-            response["body"]) == 'That action is forbidden for this "User not found"'
+            response["body"]) == 'Usuário não confirmado'
 
     def test_delete_user_presenter_invalid_email(self):
 
@@ -227,6 +227,6 @@ class Test_CheckTokenPresenter:
         }
         response = lambda_handler(event, None)
 
-        assert response["statusCode"] == 403
+        assert response["statusCode"] == 401
         assert json.loads(
-            response["body"]) == 'That action is forbidden for this "User not found"'
+            response["body"]) == 'Usuário não confirmado'

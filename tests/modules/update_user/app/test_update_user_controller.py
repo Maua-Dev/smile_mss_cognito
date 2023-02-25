@@ -43,7 +43,7 @@ class Test_UpdateUserController:
         response = controller(HttpRequest(body={'name': 'Vitor', 'social_name': 'Vitinho', 'accepted_notifications': True, 'certificate_with_social_name': True}))
 
         assert response.status_code == 400
-        assert response.body == 'Field Authorization header is missing'
+        assert response.body == 'Parâmetro ausente: Authorization header'
 
     def test_update_user_controller_invalid_token(self):
         repo = UserRepositoryMock()
@@ -56,7 +56,7 @@ class Test_UpdateUserController:
             headers={'Authorization': 'Bearer' + 'valid_access_token-' + repo.confirmed_users[0].email}))
 
         assert response.status_code == 400
-        assert response.body == 'Field token is not valid'
+        assert response.body == 'Parâmetro inválido: access_token'
 
     def test_update_user_controller_no_items_found(self):
         repo = UserRepositoryMock()
@@ -66,6 +66,6 @@ class Test_UpdateUserController:
         response = controller(HttpRequest(body={'name': 'Vitor', 'social_name': 'Vitinho', 'accepted_notifications': True, 'certificate_with_social_name': True}, headers={'Authorization': 'Bearer ' + 'valid_access_token-' + "vitor@vitor.com"}))
 
         assert response.status_code == 404
-        assert response.body == 'No items found for user'
+        assert response.body == 'Nenhum usuário econtrado'
 
 

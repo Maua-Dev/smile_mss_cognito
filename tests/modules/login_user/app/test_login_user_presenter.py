@@ -116,7 +116,7 @@ class Test_LoginUserPresenter:
         response = lambda_handler(event, None)
 
         assert response["statusCode"] == 400
-        assert json.loads(response["body"]) == "Field email is not valid"
+        assert json.loads(response["body"]) == 'Parâmetro inválido: email'
 
     def test_login_user_presenter_password_not_match(self):
         event = {
@@ -172,7 +172,7 @@ class Test_LoginUserPresenter:
         response = lambda_handler(event, None)
 
         assert response["statusCode"] == 403
-        assert json.loads(response["body"]) == 'That action is forbidden for this invalid email or password'
+        assert json.loads(response["body"]) == 'Usuário ou senha inválidos'
 
     def test_login_user_presenter_missing_email(self):
         event = {
@@ -228,4 +228,4 @@ class Test_LoginUserPresenter:
         response = lambda_handler(event, None)
 
         assert response["statusCode"] == 400
-        assert json.loads(response["body"]) == "Field login is missing"
+        assert json.loads(response["body"]) == "Parâmetro ausente: login"

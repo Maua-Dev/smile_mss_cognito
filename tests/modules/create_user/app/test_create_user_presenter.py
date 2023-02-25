@@ -117,7 +117,7 @@ class Test_CreateUserPresenter:
         response = lambda_handler(event, None)
 
         assert response["statusCode"] == 400
-        assert json.loads(response["body"]) == "Field email is not valid"
+        assert json.loads(response["body"]) == 'Parâmetro inválido: email'
 
 
     def test_create_user_presenter_email_duplicated(self):
@@ -175,4 +175,4 @@ class Test_CreateUserPresenter:
         response = lambda_handler(event, None)
 
         assert response["statusCode"] == 409
-        assert json.loads(response["body"]) == 'The item alredy exists for this User: ra = "21014442"'
+        assert json.loads(response["body"]) == 'Usuário ja cadastrado com esses dados: 21014442'

@@ -3,9 +3,10 @@ from .change_password_viewmodel import ChangePasswordViewmodel
 
 from src.shared.helpers.errors.controller_errors import MissingParameters
 from src.shared.helpers.errors.domain_errors import EntityError
-from src.shared.helpers.errors.usecase_errors import NoItemsFound
+from src.shared.helpers.errors.usecase_errors import NoItemsFound, ForbiddenAction, UserNotConfirmed, InvalidCredentials
 from src.shared.helpers.external_interfaces.external_interface import IRequest, IResponse
-from src.shared.helpers.external_interfaces.http_codes import OK, NotFound, BadRequest, InternalServerError
+from src.shared.helpers.external_interfaces.http_codes import OK, NotFound, BadRequest, InternalServerError, Forbidden, \
+    Unauthorized
 
 
 class ChangePasswordController:
@@ -15,7 +16,7 @@ class ChangePasswordController:
     def __call__(self, request: IRequest) -> IResponse:
 
         if not request.data:
-            return BadRequest('Missing body.')
+            return BadRequest("Não existe corpo da requisição.")
         try:
             if request.data.get('email') is None:
                 raise MissingParameters('email')
@@ -30,15 +31,27 @@ class ChangePasswordController:
 
         except NoItemsFound as err:
 
-            return NotFound(body=err.message)
+            return NotFound(body='Nenhum usuário econtrado' if err.message == "user" else f"Nenhum usuário encontrado com parâmetro: {err.message}")
 
         except MissingParameters as err:
 
-            return BadRequest(body=err.message)
+            return BadRequest(body=f"Parâmetro ausente: {err.message}")
+
+        except ForbiddenAction as err:
+
+            return Forbidden(body=f"Ação não permitida: {err.message}")
+
+        except UserNotConfirmed as err:
+
+            return Unauthorized(body="Usuário não confirmado")
+
+        except InvalidCredentials as err:
+
+            return Forbidden(body="Usuário ou senha inválidos")
 
         except EntityError as err:
 
-            return BadRequest(body=err.message)
+            return BadRequest(body=f"Parâmetro inválido: {err.message}")
 
         except Exception as err:
 

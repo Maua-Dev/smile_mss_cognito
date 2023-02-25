@@ -31,7 +31,7 @@ class Test_GetUserController:
         response = controller(HttpRequest(query_params={}))
 
         assert response.status_code == 400
-        assert response.body == 'Field email is missing'
+        assert response.body == 'Parâmetro ausente: email'
 
     def test_get_user_entity_error(self):
         repo = UserRepositoryMock()
@@ -41,7 +41,7 @@ class Test_GetUserController:
         response = controller(HttpRequest(query_params={'email': 'invalid_email'}))
 
         assert response.status_code == 400
-        assert response.body == 'Field email is not valid'
+        assert response.body == 'Parâmetro inválido: email'
 
     def test_get_user_no_items_found(self):
         repo = UserRepositoryMock()
@@ -51,6 +51,6 @@ class Test_GetUserController:
         response = controller(HttpRequest(query_params={'email': 'vitor@vitinho.com'}))
 
         assert response.status_code == 404
-        assert response.body == 'No items found for user'
+        assert response.body == 'Nenhum usuário econtrado'
 
 

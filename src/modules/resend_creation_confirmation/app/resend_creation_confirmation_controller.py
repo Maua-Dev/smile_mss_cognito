@@ -1,9 +1,10 @@
 from .resend_creation_confirmation_usecase import ResendCreationConfirmationUsecase
 from src.shared.helpers.errors.controller_errors import MissingParameters
 from src.shared.helpers.errors.domain_errors import EntityError
-from src.shared.helpers.errors.usecase_errors import NoItemsFound
+from src.shared.helpers.errors.usecase_errors import NoItemsFound, UserNotConfirmed
 from src.shared.helpers.external_interfaces.external_interface import IRequest, IResponse
-from src.shared.helpers.external_interfaces.http_codes import OK, NotFound, BadRequest, InternalServerError
+from src.shared.helpers.external_interfaces.http_codes import OK, NotFound, BadRequest, InternalServerError, \
+    Unauthorized
 from .resend_creation_confirmation_viewmodel import ResendCreationConfirmationViewmodel
 
 
@@ -27,15 +28,19 @@ class ResendCreationConfirmationController:
 
         except NoItemsFound as err:
 
-            return NotFound(body=err.message)
+            return NotFound(body='Nenhum usuário econtrado' if err.message == "user" else f"Nenhum usuário encontrado com parâmetro: {err.message}")
 
         except MissingParameters as err:
 
-            return BadRequest(body=err.message)
+            return BadRequest(body=f"Parâmetro ausente: {err.message}")
+
+        except UserNotConfirmed as err:
+
+            return Unauthorized(body="Usuário não confirmado")
 
         except EntityError as err:
 
-            return BadRequest(body=err.message)
+            return BadRequest(body=f"Parâmetro inválido: {err.message}")
 
         except Exception as err:
 
