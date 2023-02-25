@@ -53,3 +53,8 @@ class Forbidden(HttpResponse):
 class Unauthorized(HttpResponse):
     def __init__(self, body: str) -> None:
         super().__init__(HttpStatusCodeEnum.UNAUTHORIZED.value, body)
+
+
+class InvalidToken(HttpResponse):
+    def __init__(self, body: str) -> None:
+        super().__init__(HttpStatusCodeEnum.INVALID_TOKEN.value, body)

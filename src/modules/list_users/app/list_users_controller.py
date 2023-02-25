@@ -2,9 +2,10 @@ from .list_users_usecase import ListUsersUsecase
 from .list_users_viewmodel import ListUsersViewmodel
 from src.shared.helpers.errors.controller_errors import MissingParameters
 from src.shared.helpers.errors.domain_errors import EntityError
-from src.shared.helpers.errors.usecase_errors import NoItemsFound, ForbiddenAction
+from src.shared.helpers.errors.usecase_errors import NoItemsFound, ForbiddenAction, InvalidTokenError
 from src.shared.helpers.external_interfaces.external_interface import IRequest, IResponse
-from src.shared.helpers.external_interfaces.http_codes import OK, NotFound, BadRequest, InternalServerError, Forbidden
+from src.shared.helpers.external_interfaces.http_codes import OK, NotFound, BadRequest, InternalServerError, Forbidden, \
+    InvalidToken
 
 
 class ListUsersController:
@@ -46,6 +47,10 @@ class ListUsersController:
         except ForbiddenAction as err:
 
             return Forbidden(body=f"Usuário não autorizado")
+
+        except InvalidTokenError as e:
+
+            return InvalidToken("Token inválido ou expirado")
 
         except EntityError as err:
 

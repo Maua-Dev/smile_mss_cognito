@@ -2,7 +2,7 @@ from .login_user_usecase import LoginUserUsecase
 from .login_user_viewmodel import LoginUserViewmodel
 from src.shared.helpers.errors.controller_errors import MissingParameters
 from src.shared.helpers.errors.domain_errors import EntityError
-from src.shared.helpers.errors.usecase_errors import NoItemsFound, ForbiddenAction, InvalidCredentials
+from src.shared.helpers.errors.usecase_errors import NoItemsFound, ForbiddenAction, InvalidCredentials, UserNotConfirmed
 from src.shared.helpers.external_interfaces.external_interface import IRequest, IResponse
 from src.shared.helpers.external_interfaces.http_codes import NotFound, BadRequest, InternalServerError, OK, Forbidden, \
     Unauthorized
@@ -32,7 +32,7 @@ class LoginUserController:
 
         except ForbiddenAction as err:
 
-            return Forbidden(body=err.message)
+            return Forbidden(body=f"Ação não permitida: {err.message}")
 
         except MissingParameters as err:
 
@@ -45,6 +45,9 @@ class LoginUserController:
         except InvalidCredentials as err:
 
             return Forbidden(body="Usuário ou senha inválidos")
+
+        except UserNotConfirmed as err:
+                return Unauthorized(body="Usuário não confirmado")
 
         except Exception as err:
 

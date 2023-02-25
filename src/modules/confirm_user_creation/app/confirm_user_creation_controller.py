@@ -50,6 +50,10 @@ class ConfirmUserCreationController:
 
             return Forbidden(body="Usuário já confirmado")
 
+        except ForbiddenAction as err:
+
+            return Forbidden(body=f"Ação não permitida: {err.message}")
+
         except InvalidCredentials as err:
 
             return Forbidden(body=f"Usuário ou senha inválidos" if err.message != "confirmation_code" else f"Código de confirmção inválido")

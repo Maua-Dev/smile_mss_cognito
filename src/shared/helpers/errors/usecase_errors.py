@@ -29,3 +29,13 @@ class UserNotConfirmed(BaseError):
 class UserAlreadyConfirmed(BaseError):
     def __init__(self, message: str):
         super().__init__(message)
+
+
+class InvalidTokenError(BaseError):
+    def __init__(self, message: str):
+        super().__init__(message)
+        self.__message = message
+
+    @property
+    def message(self):
+        return self.__message
