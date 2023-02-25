@@ -1,6 +1,6 @@
-from src.shared.helpers.errors.usecase_errors import ForbiddenAction
+from src.shared.helpers.errors.usecase_errors import ForbiddenAction, InvalidTokenError
 from src.shared.helpers.external_interfaces.external_interface import IRequest, IResponse
-from src.shared.helpers.external_interfaces.http_codes import BadRequest, OK
+from src.shared.helpers.external_interfaces.http_codes import BadRequest, OK, InvalidToken
 from .check_token_viewmodel import CheckTokenViewmodel
 from .check_token_usecase import CheckTokenUsecase
 
@@ -26,8 +26,12 @@ class CheckTokenController:
                 'error_message': e.args[0]
             })
 
+        except InvalidTokenError as e:
+
+            return InvalidToken("Token inválido ou expirado")
+
         except Exception as e:
             return BadRequest({
                 'valid_token': False,
-                'error_message': e.args[0]
+                'error_message': f"Parâmetro inválido: {e.args[0]}"
             })

@@ -1,7 +1,8 @@
 import pytest
 
 from src.modules.confirm_user_creation.app.confirm_user_creation_usecase import ConfirmUserCreationUsecase
-from src.shared.helpers.errors.usecase_errors import ForbiddenAction
+from src.shared.helpers.errors.usecase_errors import ForbiddenAction, NoItemsFound, UserAlreadyConfirmed, \
+    InvalidCredentials, UserNotConfirmed
 from src.shared.infra.repositories.user_repository_mock import UserRepositoryMock
 
 
@@ -25,7 +26,7 @@ class Test_ConfirmUserCreationUsecase:
         email = 'zeeba@gmail.com'
         confirmation_code = '102030'
 
-        with pytest.raises(ForbiddenAction):
+        with pytest.raises(UserAlreadyConfirmed):
             usecase(email, confirmation_code)
 
     def test_confirm_user_creation_usecase_invalid_code(self):
@@ -35,7 +36,7 @@ class Test_ConfirmUserCreationUsecase:
         email = 'joao@gmail.com'
         confirmation_code = '123456'
 
-        with pytest.raises(ForbiddenAction):
+        with pytest.raises(InvalidCredentials):
             usecase(email, confirmation_code)
 
     def test_confirm_user_creation_usecase_user_not_found(self):
@@ -45,5 +46,5 @@ class Test_ConfirmUserCreationUsecase:
         email = 'sollito@maua.br'
         confirmation_code = '123456'
 
-        with pytest.raises(ForbiddenAction):
+        with pytest.raises(NoItemsFound):
             usecase(email, confirmation_code)

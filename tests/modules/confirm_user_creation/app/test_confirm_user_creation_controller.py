@@ -29,8 +29,8 @@ class Test_ConfirmUserCreationController:
         request = HttpRequest(body)
 
         response = controller(request)
-        assert response.status_code == 500
-        assert response.body == 'That action is forbidden for this "User not found".'
+        assert response.body == 'Nenhum usuário econtrado'
+        assert response.status_code == 404
 
     def test_confirm_user_creation_controller_invalid_code(self):
         repo = UserRepositoryMock()
@@ -41,8 +41,8 @@ class Test_ConfirmUserCreationController:
         request = HttpRequest(body)
 
         response = controller(request)
-        assert response.status_code == 500
-        assert response.body == 'That action is forbidden for this "Invalid Confirmation Code".'
+        assert response.status_code == 403
+        assert response.body == 'Código de confirmção inválido'
 
     def test_confirm_user_creation_controller_already_confirmed(self):
         repo = UserRepositoryMock()
@@ -53,8 +53,8 @@ class Test_ConfirmUserCreationController:
         request = HttpRequest(body)
 
         response = controller(request)
-        assert response.status_code == 500
-        assert response.body == 'That action is forbidden for this "User already confirmed".'
+        assert response.status_code == 403
+        assert response.body == 'Usuário já confirmado'
 
     def test_confirm_user_creation_controller_already_confirmed_and_invalid_code(self):
         repo = UserRepositoryMock()
@@ -65,5 +65,5 @@ class Test_ConfirmUserCreationController:
         request = HttpRequest(body)
 
         response = controller(request)
-        assert response.status_code == 500
-        assert response.body == 'That action is forbidden for this "User already confirmed".'
+        assert response.status_code == 403
+        assert response.body == 'Usuário já confirmado'

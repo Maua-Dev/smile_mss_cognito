@@ -30,7 +30,7 @@ class Test_ResendCreationConfirmationController:
         response = controller(request)
 
         assert response.status_code == 400
-        assert response.body == 'Field email is missing'
+        assert response.body == 'Parâmetro ausente: email'
 
     def test_resend_confirmation_controller_invalid_email(self):
         repo = UserRepositoryMock()
@@ -42,7 +42,7 @@ class Test_ResendCreationConfirmationController:
         response = controller(request)
 
         assert response.status_code == 400
-        assert response.body == 'Field email is not valid'
+        assert response.body == 'Parâmetro inválido: email'
 
     def test_resend_confirmation_controller_nonexistent_email(self):
         repo = UserRepositoryMock()
@@ -54,4 +54,4 @@ class Test_ResendCreationConfirmationController:
         response = controller(request)
 
         assert response.status_code == 404
-        assert response.body == 'No items found for user email: vitor@gmail.com'
+        assert response.body == 'Nenhum usuário encontrado com parâmetro: user email: vitor@gmail.com'

@@ -27,8 +27,8 @@ class Test_DeleteUserController:
         request = HttpRequest(body)
 
         response = controller(request)
-        assert response.status_code == 403
-        assert response.body == 'That action is forbidden for this "User not found"'
+        assert response.status_code == 401
+        assert response.body == 'Usuário não confirmado'
 
     def test_delete_user_controller_user_unconfirmed(self):
         repo = UserRepositoryMock()
@@ -39,5 +39,5 @@ class Test_DeleteUserController:
         request = HttpRequest(body)
 
         response = controller(request)
-        assert response.status_code == 403
-        assert response.body == 'That action is forbidden for this "User not found"'
+        assert response.status_code == 401
+        assert response.body == "Usuário não confirmado"

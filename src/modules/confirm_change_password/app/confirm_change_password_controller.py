@@ -3,9 +3,10 @@ from .confirm_change_password_viewmodel import ConfirmChangePasswordViewmodel
 
 from src.shared.helpers.errors.controller_errors import MissingParameters
 from src.shared.helpers.errors.domain_errors import EntityError
-from src.shared.helpers.errors.usecase_errors import NoItemsFound
+from src.shared.helpers.errors.usecase_errors import NoItemsFound, UserNotConfirmed, InvalidCredentials
 from src.shared.helpers.external_interfaces.external_interface import IRequest, IResponse
-from src.shared.helpers.external_interfaces.http_codes import OK, NotFound, BadRequest, InternalServerError
+from src.shared.helpers.external_interfaces.http_codes import OK, NotFound, BadRequest, InternalServerError, \
+    Unauthorized, Forbidden
 
 
 class ConfirmChangePasswordController:
@@ -38,11 +39,19 @@ class ConfirmChangePasswordController:
 
         except NoItemsFound as err:
 
-            return NotFound(body=err.message)
+            return NotFound(body='Nenhum usuário econtrado' if err.message == "user" else f"Nenhum usuário encontrado com parâmetro: {err.message}")
 
         except MissingParameters as err:
 
-            return BadRequest(body=err.message)
+            return BadRequest(body=f"Parâmetro ausente: {err.message}")
+
+        except UserNotConfirmed as err:
+
+            return Unauthorized(body="Usuário não confirmado")
+
+        except InvalidCredentials as err:
+
+            return Forbidden(body="Código de confirmação inválido" if err.message == "confirmation_code" else "Usuário ou senha inválidos")
 
         except EntityError as err:
 

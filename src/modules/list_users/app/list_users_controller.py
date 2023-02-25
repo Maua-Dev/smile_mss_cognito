@@ -2,9 +2,10 @@ from .list_users_usecase import ListUsersUsecase
 from .list_users_viewmodel import ListUsersViewmodel
 from src.shared.helpers.errors.controller_errors import MissingParameters
 from src.shared.helpers.errors.domain_errors import EntityError
-from src.shared.helpers.errors.usecase_errors import NoItemsFound, ForbiddenAction
+from src.shared.helpers.errors.usecase_errors import NoItemsFound, ForbiddenAction, InvalidTokenError
 from src.shared.helpers.external_interfaces.external_interface import IRequest, IResponse
-from src.shared.helpers.external_interfaces.http_codes import OK, NotFound, BadRequest, InternalServerError, Forbidden
+from src.shared.helpers.external_interfaces.http_codes import OK, NotFound, BadRequest, InternalServerError, Forbidden, \
+    InvalidToken
 
 
 class ListUsersController:
@@ -20,7 +21,7 @@ class ListUsersController:
             token = request.data.get('Authorization').split(' ')
 
             if len(token) != 2 or token[0] != 'Bearer':
-                raise EntityError('token')
+                raise EntityError('access_token')
             access_token = token[1]
 
             if request.data.get('user_list') is None:
@@ -37,19 +38,23 @@ class ListUsersController:
 
         except NoItemsFound as err:
 
-            return NotFound(body=err.message)
+            return NotFound(body='Usuário não confirmado' if err.message == "user" else f"Nenhum usuário encontrado com parâmetro: {err.message}")
 
         except MissingParameters as err:
 
-            return BadRequest(body=err.message)
+            return BadRequest(body=f"Parâmetro ausente: {err.message}")
 
         except ForbiddenAction as err:
 
-            return Forbidden(body=err.message)
+            return Forbidden(body=f"Usuário não autorizado")
+
+        except InvalidTokenError as e:
+
+            return InvalidToken("Token inválido ou expirado")
 
         except EntityError as err:
 
-            return BadRequest(body=err.message)
+            return BadRequest(body=f'Parâmetro inválido: {err.message}')
 
         except Exception as err:
 

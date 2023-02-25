@@ -37,5 +37,5 @@ class Test_CheckTokenController:
         assert response.status_code == 400
         assert response.body == {
             'valid_token': False,
-            'error_message': 'Field token is not valid'
+            'error_message': "Parâmetro inválido: access_token"
         }

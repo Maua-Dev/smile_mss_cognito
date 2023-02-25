@@ -2,7 +2,7 @@ import pytest
 
 from src.modules.login_user.app.login_user_usecase import LoginUserUsecase
 from src.shared.helpers.errors.domain_errors import EntityError
-from src.shared.helpers.errors.usecase_errors import ForbiddenAction
+from src.shared.helpers.errors.usecase_errors import ForbiddenAction, InvalidCredentials
 from src.shared.infra.repositories.user_repository_mock import UserRepositoryMock
 
 
@@ -25,7 +25,7 @@ class Test_LoginUserUsecase:
         usecase = LoginUserUsecase(repo)
 
 
-        with pytest.raises(ForbiddenAction):
+        with pytest.raises(InvalidCredentials):
             data = usecase(email="vitor@maua.br", password="invalid_password")
 
     def test_login_user_usecase_invalid_email(self):

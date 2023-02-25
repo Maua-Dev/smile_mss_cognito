@@ -55,7 +55,7 @@ class Test_CreateUserController:
         response = controller(request)
 
         assert response.status_code == 400
-        assert response.body == 'Field access_level is missing'
+        assert response.body == 'Parâmetro ausente: access_level'
 
     def test_create_user_controller_invalid_role(self):
         repo = UserRepositoryMock()
@@ -77,7 +77,7 @@ class Test_CreateUserController:
         response = controller(request)
 
         assert response.status_code == 400
-        assert response.body == 'Field role is not valid'
+        assert response.body == 'Parâmetro inválido: role'
 
     def test_create_user_controller_invalid_access_level(self):
         repo = UserRepositoryMock()
@@ -99,7 +99,7 @@ class Test_CreateUserController:
         response = controller(request)
 
         assert response.status_code == 400
-        assert response.body == 'Field access_level is not valid'
+        assert response.body == 'Parâmetro inválido: access_level'
 
     def test_create_user_controller_missing_role(self):
         repo = UserRepositoryMock()
@@ -120,7 +120,7 @@ class Test_CreateUserController:
         response = controller(request)
 
         assert response.status_code == 400
-        assert response.body == 'Field role is missing'
+        assert response.body == 'Parâmetro ausente: role'
 
     def test_create_user_controller_missing_accepted_terms(self):
         repo = UserRepositoryMock()
@@ -141,7 +141,7 @@ class Test_CreateUserController:
         response = controller(request)
 
         assert response.status_code == 400
-        assert response.body == 'Field accepted_terms is missing'
+        assert response.body == 'Parâmetro ausente: accepted_terms'
 
     def test_create_user_controller_missing_accepted_notifications(self):
         repo = UserRepositoryMock()
@@ -162,7 +162,7 @@ class Test_CreateUserController:
         response = controller(request)
 
         assert response.status_code == 400
-        assert response.body == 'Field accepted_notifications is missing'
+        assert response.body == 'Parâmetro ausente: accepted_notifications'
 
     def test_create_user_controller_missing_name(self):
         repo = UserRepositoryMock()
@@ -183,7 +183,7 @@ class Test_CreateUserController:
         response = controller(request)
 
         assert response.status_code == 400
-        assert response.body == 'Field name is missing'
+        assert response.body == 'Parâmetro ausente: name'
 
     def test_create_user_controller_missing_email(self):
         repo = UserRepositoryMock()
@@ -221,7 +221,7 @@ class Test_CreateUserController:
         response = controller(request)
 
         assert response.status_code == 400
-        assert response.body == 'Field password is missing'
+        assert response.body == 'Parâmetro ausente: password'
 
     def test_create_user_controller_missing_phone(self):
         repo = UserRepositoryMock()
@@ -242,7 +242,7 @@ class Test_CreateUserController:
         response = controller(request)
 
         assert response.status_code == 400
-        assert response.body == 'Field phone is missing'
+        assert response.body == 'Parâmetro ausente: phone'
 
     def test_create_user_controller_wrong_access_level(self):
         repo = UserRepositoryMock()
@@ -264,7 +264,7 @@ class Test_CreateUserController:
         response = controller(request)
 
         assert response.status_code == 400
-        assert response.body == 'Field access_level is not valid'
+        assert response.body == 'Parâmetro inválido: access_level'
 
     def test_create_user_controller_duplicated_item(self):
         repo = UserRepositoryMock()
@@ -286,7 +286,7 @@ class Test_CreateUserController:
         response = controller(request)
 
         assert response.status_code == 409
-        assert response.body == 'The item alredy exists for this User: email = "vitor@maua.br"'
+        assert response.body == 'Usuário ja cadastrado com esses dados: vitor@maua.br'
 
     def test_create_user_controller_missing_certificate(self):
         repo = UserRepositoryMock()
@@ -307,4 +307,4 @@ class Test_CreateUserController:
         response = controller(request)
 
         assert response.status_code == 400
-        assert response.body == 'Field certificate_with_social_name is missing'
+        assert response.body == 'Parâmetro ausente: certificate_with_social_name'

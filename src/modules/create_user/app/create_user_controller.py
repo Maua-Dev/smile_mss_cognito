@@ -5,7 +5,7 @@ from src.shared.domain.entities.user import User
 from .create_user_usecase import CreateUserUsecase
 from src.shared.helpers.errors.controller_errors import MissingParameters
 from src.shared.helpers.errors.domain_errors import EntityError
-from src.shared.helpers.errors.usecase_errors import DuplicatedItem
+from src.shared.helpers.errors.usecase_errors import DuplicatedItem, InvalidCredentials
 from src.shared.helpers.external_interfaces.external_interface import IRequest, IResponse
 from src.shared.helpers.external_interfaces.http_codes import BadRequest, InternalServerError, Conflict, \
     Created
@@ -75,15 +75,18 @@ class CreateUserController:
 
         except DuplicatedItem as err:
 
-            return Conflict(body=err.message)
+            return Conflict(body=f"Usuário ja cadastrado com esses dados: {err.message}" if err.message != "user" else "Usuário ja cadastrado com esses dados")
 
         except MissingParameters as err:
 
-            return BadRequest(body=err.message)
+            return BadRequest(body=f"Parâmetro ausente: {err.message}")
+
+        except InvalidCredentials as err:
+            return BadRequest(body=f"Parâmetro inválido: {err.message}")
 
         except EntityError as err:
 
-            return BadRequest(body=err.message)
+            return BadRequest(body=f"Parâmetro inválido: {err.message}")
 
         except Exception as err:
 
