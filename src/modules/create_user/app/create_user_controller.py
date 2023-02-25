@@ -82,7 +82,7 @@ class CreateUserController:
             return BadRequest(body=f"Parâmetro ausente: {err.message}")
 
         except InvalidCredentials as err:
-                return BadRequest(body=f"Parâmetro inválido: {err.message}")
+            return BadRequest(body=f"Parâmetro inválido: {err.message}")
 
         except EntityError as err:
 
