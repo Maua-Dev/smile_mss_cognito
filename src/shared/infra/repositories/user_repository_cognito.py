@@ -7,8 +7,9 @@ from src.shared.domain.entities.enums import ROLE
 from src.shared.domain.entities.user import User
 from src.shared.domain.repositories.user_repository_interface import IUserRepository
 from src.shared.environments import Environments
+from src.shared.helpers.errors.domain_errors import EntityError
 from src.shared.helpers.errors.usecase_errors import ForbiddenAction, UserAlreadyConfirmed, NoItemsFound, \
-    InvalidCredentials, UserNotConfirmed, DuplicatedItem
+    InvalidCredentials, UserNotConfirmed, DuplicatedItem, InvalidTokenError
 from src.shared.infra.dtos.User.user_cognito_dto import UserCognitoDTO
 
 
@@ -75,6 +76,12 @@ class UserRepositoryCognito(IUserRepository):
 
         except self.client.exceptions.UsernameExistsException:
             raise DuplicatedItem("user")
+
+        except self.client.exceptions.InvalidPasswordException:
+            raise InvalidCredentials("password")
+
+        except self.client.exceptions.InvalidParameterException as e:
+            raise EntityError(e.response.get('Error').get('Message'))
 
         return user
 
@@ -241,6 +248,8 @@ class UserRepositoryCognito(IUserRepository):
                 raise InvalidCredentials('confirmation_code')
             elif errorCode == 'UserNotFoundException':
                 raise NoItemsFound(message=f"user")
+            elif errorCode == "InvalidParameterException":
+                raise InvalidCredentials('password or email')
             else:
                 raise ForbiddenAction(message=e.response.get('Error').get('Message'))
 

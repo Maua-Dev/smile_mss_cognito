@@ -1,10 +1,11 @@
 from .resend_creation_confirmation_usecase import ResendCreationConfirmationUsecase
 from src.shared.helpers.errors.controller_errors import MissingParameters
 from src.shared.helpers.errors.domain_errors import EntityError
-from src.shared.helpers.errors.usecase_errors import NoItemsFound, UserNotConfirmed
+from src.shared.helpers.errors.usecase_errors import NoItemsFound, UserNotConfirmed, UserAlreadyConfirmed, \
+    ForbiddenAction
 from src.shared.helpers.external_interfaces.external_interface import IRequest, IResponse
 from src.shared.helpers.external_interfaces.http_codes import OK, NotFound, BadRequest, InternalServerError, \
-    Unauthorized
+    Unauthorized, Forbidden
 from .resend_creation_confirmation_viewmodel import ResendCreationConfirmationViewmodel
 
 
@@ -38,11 +39,20 @@ class ResendCreationConfirmationController:
 
             return Unauthorized(body="Usuário não confirmado")
 
+        except ForbiddenAction as err:
+
+            return Forbidden(body=f"Ação não permitida: {err.message}")
+
         except EntityError as err:
 
             return BadRequest(body=f"Parâmetro inválido: {err.message}")
 
+        except UserAlreadyConfirmed as err:
+            return Forbidden(body="Usuário já confirmado")
+
+
         except Exception as err:
 
             return InternalServerError(body=err.args[0])
+
 

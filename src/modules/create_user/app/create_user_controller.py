@@ -75,7 +75,7 @@ class CreateUserController:
 
         except DuplicatedItem as err:
 
-            return Conflict(body=f"Usuário ja cadastrado com esses dados: {err.message}")
+            return Conflict(body=f"Usuário ja cadastrado com esses dados: {err.message}" if err.message != "user" else "Usuário ja cadastrado com esses dados")
 
         except MissingParameters as err:
 

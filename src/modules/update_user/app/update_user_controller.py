@@ -1,9 +1,9 @@
 from .update_user_usecase import UpdateUserUsecase
 from src.shared.helpers.errors.controller_errors import MissingParameters
 from src.shared.helpers.errors.domain_errors import EntityError
-from src.shared.helpers.errors.usecase_errors import NoItemsFound
+from src.shared.helpers.errors.usecase_errors import NoItemsFound, ForbiddenAction, InvalidTokenError
 from src.shared.helpers.external_interfaces.external_interface import IRequest, IResponse
-from src.shared.helpers.external_interfaces.http_codes import OK, NotFound, BadRequest, InternalServerError
+from src.shared.helpers.external_interfaces.http_codes import OK, NotFound, BadRequest, InternalServerError, Forbidden
 from .update_user_viewmodel import UpdateUserViewmodel
 
 
@@ -50,6 +50,14 @@ class UpdateUserController:
         except EntityError as err:
 
             return BadRequest(body=f"Parâmetro inválido: {err.message}")
+
+        except InvalidTokenError as err:
+
+            return BadRequest(body=f"Token inválido: {err.message}")
+
+        except ForbiddenAction as err:
+
+            return Forbidden(body=f"Ação não permitida: {err.message}")
 
         except Exception as err:
 

@@ -51,7 +51,7 @@ class ConfirmChangePasswordController:
 
         except InvalidCredentials as err:
 
-            return Forbidden(body="Usuário ou senha inválidos")
+            return Forbidden(body="Código de confirmação inválido" if err.message == "confirmation_code" else "Usuário ou senha inválidos")
 
         except EntityError as err:
 
