@@ -107,7 +107,7 @@ class Test_ListUsersController:
             headers={'Authorization': 'Bearer ' + 'valid_access_token-' + "notFoundEmail@gmail.com"}))
 
         assert response.status_code == 404
-        assert response.body == 'Nenhum usuário econtrado'
+        assert response.body == 'Usuário não confirmado'
 
     def test_list_user_controller_user_not_found(self):
         repo = UserRepositoryMock()
@@ -158,7 +158,7 @@ class Test_ListUsersController:
             headers={'Authorization': 'Bearer ' + 'valid_access_token-' + repo.confirmed_users[0].email}))
 
         assert response.status_code == 403
-        assert response.body == 'That action is forbidden for this user'
+        assert response.body == 'Usuário não autorizado'
 
 
 

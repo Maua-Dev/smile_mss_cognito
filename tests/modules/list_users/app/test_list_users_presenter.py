@@ -236,4 +236,4 @@ class Test_ListUsersPresenter:
         response = lambda_handler(event, None)
 
         assert response["statusCode"] == 403
-        assert json.loads(response["body"]) == 'That action is forbidden for this user'
+        assert json.loads(response["body"]) == 'Usuário não autorizado'

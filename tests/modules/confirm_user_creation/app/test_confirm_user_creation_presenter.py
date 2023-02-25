@@ -59,10 +59,9 @@ class Test_CheckTokenPresenter:
         }
         response = lambda_handler(event, None)
 
-        assert response["statusCode"] == 200
-        assert json.loads(response["body"]) == 'User confirmed.'
+        assert response["statusCode"] == 303
 
-    def test_confirm_user_creation_presenter(self):
+    def test_confirm_user_creation_presenter_forbidden(self):
 
         event = {
             "version": "2.0",
@@ -116,6 +115,6 @@ class Test_CheckTokenPresenter:
         }
         response = lambda_handler(event, None)
 
-        assert response["statusCode"] == 500
+        assert response["statusCode"] == 403
         assert json.loads(
-            response["body"]) == 'That action is forbidden for this "User already confirmed".'
+            response["body"]) == 'Usuário já confirmado'

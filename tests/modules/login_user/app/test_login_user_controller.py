@@ -93,7 +93,7 @@ class Test_LoginUserController:
         response = controller(request)
 
         assert response.status_code == 403
-        assert response.body == 'That action is forbidden for this invalid email or password'
+        assert response.body == 'Usuário ou senha inválidos'
 
 
     def test_login_controller_invalid_password(self):

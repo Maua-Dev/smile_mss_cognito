@@ -2,9 +2,10 @@ from .login_user_usecase import LoginUserUsecase
 from .login_user_viewmodel import LoginUserViewmodel
 from src.shared.helpers.errors.controller_errors import MissingParameters
 from src.shared.helpers.errors.domain_errors import EntityError
-from src.shared.helpers.errors.usecase_errors import NoItemsFound, ForbiddenAction
+from src.shared.helpers.errors.usecase_errors import NoItemsFound, ForbiddenAction, InvalidCredentials
 from src.shared.helpers.external_interfaces.external_interface import IRequest, IResponse
-from src.shared.helpers.external_interfaces.http_codes import NotFound, BadRequest, InternalServerError, OK, Forbidden
+from src.shared.helpers.external_interfaces.http_codes import NotFound, BadRequest, InternalServerError, OK, Forbidden, \
+    Unauthorized
 
 
 class LoginUserController:
@@ -40,6 +41,10 @@ class LoginUserController:
         except EntityError as err:
 
             return BadRequest(body=f"Parâmetro inválido: {err.message}")
+
+        except InvalidCredentials as err:
+
+            return Forbidden(body="Usuário ou senha inválidos")
 
         except Exception as err:
 

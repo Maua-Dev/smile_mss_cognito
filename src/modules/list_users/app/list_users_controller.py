@@ -37,7 +37,7 @@ class ListUsersController:
 
         except NoItemsFound as err:
 
-            return NotFound(body='Nenhum usuário econtrado' if err.message == "user" else f"Nenhum usuário encontrado com parâmetro: {err.message}")
+            return NotFound(body='Usuário não confirmado' if err.message == "user" else f"Nenhum usuário encontrado com parâmetro: {err.message}")
 
         except MissingParameters as err:
 
@@ -45,7 +45,7 @@ class ListUsersController:
 
         except ForbiddenAction as err:
 
-            return Forbidden(body=err.message)
+            return Forbidden(body=f"Usuário não autorizado")
 
         except EntityError as err:
 

@@ -172,7 +172,7 @@ class Test_LoginUserPresenter:
         response = lambda_handler(event, None)
 
         assert response["statusCode"] == 403
-        assert json.loads(response["body"]) == 'That action is forbidden for this invalid email or password'
+        assert json.loads(response["body"]) == 'Usuário ou senha inválidos'
 
     def test_login_user_presenter_missing_email(self):
         event = {

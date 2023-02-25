@@ -35,7 +35,7 @@ class RefreshTokenController:
 
         except ForbiddenAction as err:
 
-            return Forbidden(body=err.message)
+            return Forbidden(body=f"Sem autorização para: {err.message}")
 
         except EntityError as err:
 
