@@ -176,5 +176,5 @@ class Test_UpdateUserPresenter:
         response = lambda_handler(event, None)
 
         assert response["statusCode"] == 404
-        assert json.loads(response["body"]) == "Nenhum usuário econtrado"
+        assert json.loads(response["body"]) == "Nenhum usuário encontrado"
 
