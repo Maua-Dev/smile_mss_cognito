@@ -11,6 +11,7 @@ class UpdateUserController:
 
     def __init__(self, usecase: UpdateUserUsecase):
         self.UpdateUserUsecase = usecase
+        self.mutable_fields = ['name', 'social_name', 'accepted_notifications', 'certificate_with_social_name', "phone"]
 
     def __call__(self, request: IRequest) -> IResponse:
         try:
@@ -23,12 +24,7 @@ class UpdateUserController:
                 raise EntityError('access_token')
             access_token = token[1]
 
-            user_data = {
-                "name": request.data.get('name'),
-                "social_name": request.data.get('social_name'),
-                "certificate_with_social_name": request.data.get('certificate_with_social_name'),
-                "accepted_notifications": request.data.get('accepted_notifications')
-            }
+            user_data = {k: v for k, v in request.data.items() if k in self.mutable_fields}
 
             user = self.UpdateUserUsecase(
                 mew_user_data=user_data,
