@@ -351,7 +351,7 @@ def lambda_handler(event, context):
         <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:10px 100px 20px;font-family:'Open Sans',sans-serif;" align="left">
         <div class="v-font-size" style="line-height: 170%; text-align: center; word-wrap: break-word;">
         <p style="line-height: 170%;">Smile 2023</p>
-        <!--  👢🍿⚪🏙☀  -->
+        <!--  BOTA PIPO BRANCAS VILAS SOLLAS -->
         </div>
         </td>
         </tr>
