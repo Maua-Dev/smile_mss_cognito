@@ -29,7 +29,7 @@ class Test_ConfirmUserCreationController:
         request = HttpRequest(body)
 
         response = controller(request)
-        assert response.body == 'Nenhum usuário econtrado'
+        assert response.body == 'Nenhum usuário encontrado'
         assert response.status_code == 404
 
     def test_confirm_user_creation_controller_invalid_code(self):

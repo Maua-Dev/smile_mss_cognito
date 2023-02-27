@@ -28,7 +28,7 @@ class LoginUserController:
 
         except NoItemsFound as err:
 
-            return NotFound(body='Nenhum usuário econtrado' if err.message == "user" else f"Nenhum usuário encontrado com parâmetro: {err.message}")
+            return NotFound(body='Nenhum usuário encontrado' if err.message == "user" else f"Nenhum usuário encontrado com parâmetro: {err.message}")
 
         except ForbiddenAction as err:
 

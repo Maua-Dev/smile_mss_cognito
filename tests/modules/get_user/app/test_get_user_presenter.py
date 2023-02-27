@@ -175,7 +175,7 @@ class Test_GetUserPresenter:
         response = lambda_handler(event, None)
 
         assert response["statusCode"] == 404
-        assert json.loads(response["body"]) == "Nenhum usuário econtrado"
+        assert json.loads(response["body"]) == "Nenhum usuário encontrado"
 
 
     def test_get_user_presenter_missing_email(self):
