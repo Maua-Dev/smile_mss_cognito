@@ -5,7 +5,7 @@ from src.shared.helpers.errors.domain_errors import EntityError
 from src.shared.helpers.errors.usecase_errors import NoItemsFound, ForbiddenAction, InvalidTokenError
 from src.shared.helpers.external_interfaces.external_interface import IRequest, IResponse
 from src.shared.helpers.external_interfaces.http_codes import OK, NotFound, BadRequest, InternalServerError, Forbidden, \
-    InvalidToken
+    InvalidToken, Unauthorized
 
 
 class ListUsersController:
@@ -50,7 +50,7 @@ class ListUsersController:
 
         except InvalidTokenError as e:
 
-            return InvalidToken("Token inválido ou expirado")
+            return Unauthorized("Token inválido ou expirado")
 
         except EntityError as err:
 
