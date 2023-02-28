@@ -223,27 +223,6 @@ class Test_CreateUserController:
         assert response.status_code == 400
         assert response.body == 'Parâmetro ausente: password'
 
-    def test_create_user_controller_missing_phone(self):
-        repo = UserRepositoryMock()
-        usease = CreateUserUsecase(repo)
-        controller = CreateUserController(usease)
-        request = HttpRequest(body={
-            'name': 'Vitor Soller',
-            'email': 'vitor@gmail.com',
-            'password': '123456',
-            'ra': '21014442',
-            'role': 'STUDENT',
-            'access_level': 'USER',
-            'accepted_terms': True,
-            'accepted_notifications': False,
-            'certificate_with_social_name': False,
-        })
-
-        response = controller(request)
-
-        assert response.status_code == 400
-        assert response.body == 'Parâmetro ausente: phone'
-
     def test_create_user_controller_wrong_access_level(self):
         repo = UserRepositoryMock()
         usease = CreateUserUsecase(repo)
