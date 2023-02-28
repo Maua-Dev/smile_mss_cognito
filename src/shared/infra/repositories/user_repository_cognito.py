@@ -208,17 +208,11 @@ class UserRepositoryCognito(IUserRepository):
 
     def change_password(self, login: str) -> bool:
         try:
-            userCognitoDTO = self.client.admin_get_user(
-                UserPoolId=self.user_pool_id,
-                Username=login
-            )
-            user = UserCognitoDTO.from_cognito(userCognitoDTO).to_entity()
-
             response = self.client.forgot_password(
                 ClientId=self.client_id,
                 Username=login,
                 ClientMetadata={
-                    'login': user.email
+                    'login': login
                 }
             )
             return response["ResponseMetadata"]["HTTPStatusCode"] == 200
@@ -228,8 +222,8 @@ class UserRepositoryCognito(IUserRepository):
                 raise InvalidCredentials(message="user")
             elif errorCode == 'UserNotFoundException':
                 raise NoItemsFound(message="user")
-            elif errorCode == 'UserNotConfirmedException':
-                raise UserNotConfirmed(message=f"user")
+            elif errorCode == "InvalidParameterException":
+                raise UserNotConfirmed('user')
             else:
                 raise ForbiddenAction(message=e.response.get('Error').get('Message'))
 
