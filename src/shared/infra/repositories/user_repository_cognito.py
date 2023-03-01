@@ -39,6 +39,19 @@ class UserRepositoryCognito(IUserRepository):
         except self.client.exceptions.UserNotFoundException:
             return None
 
+    def force_verify_user_phone_number(self, email: str) -> True:
+        data = {
+            "UserAttributes": [
+                {
+                    "Name": "phone_number_verified",
+                    "Value": "true"
+                }
+            ],
+            'UserPoolId': self.user_pool_id,
+            'Username': email,
+        }
+        self.client.admin_update_user_attributes(**data)
+
     def get_all_users(self) -> List[User]:
         kwargs = {
             'UserPoolId': self.user_pool_id
@@ -74,6 +87,9 @@ class UserRepositoryCognito(IUserRepository):
 
             user.cognito_id = response.get("UserSub")
 
+            if user.phone is not None:
+                self.force_verify_user_phone_number(user.email)
+
         except self.client.exceptions.UsernameExistsException:
             raise DuplicatedItem("user")
 
@@ -92,7 +108,12 @@ class UserRepositoryCognito(IUserRepository):
             UserAttributes=[{'Name': UserCognitoDTO.TO_COGNITO_DICT[key], 'Value': value} for key, value in kvp_to_update.items()]
         )
 
-        return self.get_user_by_email(user_email)
+        user = self.get_user_by_email(user_email)
+
+        if user.phone is not None:
+            self.force_verify_user_phone_number(user.email)
+
+        return user
 
 
     def delete_user(self, user_email: str):
