@@ -1,6 +1,6 @@
 from src.shared.helpers.errors.usecase_errors import ForbiddenAction, InvalidTokenError
 from src.shared.helpers.external_interfaces.external_interface import IRequest, IResponse
-from src.shared.helpers.external_interfaces.http_codes import BadRequest, OK, InvalidToken
+from src.shared.helpers.external_interfaces.http_codes import BadRequest, OK, InvalidToken, Unauthorized
 from .check_token_viewmodel import CheckTokenViewmodel
 from .check_token_usecase import CheckTokenUsecase
 
@@ -28,7 +28,7 @@ class CheckTokenController:
 
         except InvalidTokenError as e:
 
-            return InvalidToken("Token inválido ou expirado")
+            return Unauthorized("Token inválido ou expirado")
 
         except Exception as e:
             return BadRequest({

@@ -181,3 +181,9 @@ class Test_UserRepositoryCognito:
         resp = repo.list_professors()
         assert all([isinstance(user, User) for user in resp])
         assert all([user.role == ROLE.PROFESSOR for user in resp])
+
+    @pytest.mark.skip("Can't test it locally")
+    def test_force_verify_phone_number(self):
+        repo = UserRepositoryCognito()
+        resp = repo.force_verify_user_phone_number(email="brunovilardibueno@gmail.com")
+        assert True

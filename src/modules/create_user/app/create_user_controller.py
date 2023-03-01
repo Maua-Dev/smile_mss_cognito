@@ -44,9 +44,6 @@ class CreateUserController:
             if request.data.get('password') is None:
                 raise MissingParameters('password')
 
-            if request.data.get('phone') is None:
-                raise MissingParameters('phone')
-
             if request.data.get('certificate_with_social_name') is None:
                 raise MissingParameters('certificate_with_social_name')
 

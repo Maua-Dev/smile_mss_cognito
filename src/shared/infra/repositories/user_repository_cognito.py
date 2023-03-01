@@ -39,6 +39,19 @@ class UserRepositoryCognito(IUserRepository):
         except self.client.exceptions.UserNotFoundException:
             return None
 
+    def force_verify_user_phone_number(self, email: str) -> True:
+        data = {
+            "UserAttributes": [
+                {
+                    "Name": "phone_number_verified",
+                    "Value": "true"
+                }
+            ],
+            'UserPoolId': self.user_pool_id,
+            'Username': email,
+        }
+        self.client.admin_update_user_attributes(**data)
+
     def get_all_users(self) -> List[User]:
         kwargs = {
             'UserPoolId': self.user_pool_id
@@ -74,6 +87,9 @@ class UserRepositoryCognito(IUserRepository):
 
             user.cognito_id = response.get("UserSub")
 
+            if user.phone is not None:
+                self.force_verify_user_phone_number(user.email)
+
         except self.client.exceptions.UsernameExistsException:
             raise DuplicatedItem("user")
 
@@ -92,7 +108,12 @@ class UserRepositoryCognito(IUserRepository):
             UserAttributes=[{'Name': UserCognitoDTO.TO_COGNITO_DICT[key], 'Value': value} for key, value in kvp_to_update.items()]
         )
 
-        return self.get_user_by_email(user_email)
+        user = self.get_user_by_email(user_email)
+
+        if user.phone is not None:
+            self.force_verify_user_phone_number(user.email)
+
+        return user
 
 
     def delete_user(self, user_email: str):
@@ -208,17 +229,11 @@ class UserRepositoryCognito(IUserRepository):
 
     def change_password(self, login: str) -> bool:
         try:
-            userCognitoDTO = self.client.admin_get_user(
-                UserPoolId=self.user_pool_id,
-                Username=login
-            )
-            user = UserCognitoDTO.from_cognito(userCognitoDTO).to_entity()
-
             response = self.client.forgot_password(
                 ClientId=self.client_id,
                 Username=login,
                 ClientMetadata={
-                    'login': user.email
+                    'login': login
                 }
             )
             return response["ResponseMetadata"]["HTTPStatusCode"] == 200
@@ -228,8 +243,8 @@ class UserRepositoryCognito(IUserRepository):
                 raise InvalidCredentials(message="user")
             elif errorCode == 'UserNotFoundException':
                 raise NoItemsFound(message="user")
-            elif errorCode == 'UserNotConfirmedException':
-                raise UserNotConfirmed(message=f"user")
+            elif errorCode == "InvalidParameterException":
+                raise UserNotConfirmed('user')
             else:
                 raise ForbiddenAction(message=e.response.get('Error').get('Message'))
 
