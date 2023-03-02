@@ -10,7 +10,7 @@ class Test_UpdateUserController:
         usecase = UpdateUserUsecase(repo)
         controller = UpdateUserController(usecase)
 
-        response = controller(HttpRequest(body={'name': 'Vitor', 'social_name': 'Vitinho', 'accepted_notifications_sms': True, 'certificate_with_social_name': True}, headers={'Authorization': 'Bearer ' + 'valid_access_token-' + repo.confirmed_users[0].email}))
+        response = controller(HttpRequest(body={'name': 'Vitor', 'social_name': 'Vitinho', 'accepted_notifications_sms': True, 'certificate_with_social_name': True, "accepted_notifications_email": True}, headers={'Authorization': 'Bearer ' + 'valid_access_token-' + repo.confirmed_users[0].email}))
 
         assert response.status_code == 200
         assert response.body['user']['user_id'] == repo.confirmed_users[0].user_id
@@ -21,6 +21,7 @@ class Test_UpdateUserController:
         assert response.body['user']['access_level'] == repo.confirmed_users[0].access_level.value
         assert response.body['user']['social_name'] == 'Vitinho'
         assert eval(response.body['user']['accepted_notifications_sms']) == True
+        assert eval(response.body['user']['accepted_notifications_email']) == True
         assert eval(response.body['user']['certificate_with_social_name']) == True
         assert response.body['message'] == 'the user was updated'
 

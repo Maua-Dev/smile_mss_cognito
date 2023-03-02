@@ -52,7 +52,7 @@ class Test_CreateUserPresenter:
                 "time": "12/Mar/2020:19:03:58 +0000",
                 "timeEpoch": 1583348638390
             },
-            "body": '{"email": "vitor@gmail.com", "name": "Vitor Soller", "password": "123456", "ra": "21014442", "role": "STUDENT", "access_level": "USER", "accepted_terms": true, "accepted_notifications_sms": false, "certificate_with_social_name": false, "phone": "11991758098"}',
+            "body": '{"email": "vitor@gmail.com", "name": "Vitor Soller", "password": "123456", "ra": "21014442", "role": "STUDENT", "access_level": "USER", "accepted_terms": true, "accepted_notifications_sms": false, "accepted_notifications_email": false, "certificate_with_social_name": false, "phone": "11991758098"}',
             "pathParameters": None,
             "isBase64Encoded": None,
             "stageVariables": None
@@ -109,7 +109,7 @@ class Test_CreateUserPresenter:
                 "time": "12/Mar/2020:19:03:58 +0000",
                 "timeEpoch": 1583348638390
             },
-            "body": '{"email": "vitorgmail.com", "name": "Vitor Soller", "password": "123456", "ra": "21014442", "role": "STUDENT", "access_level": "USER", "accepted_terms": true, "accepted_notifications_sms": false, "certificate_with_social_name": false, "phone": "11991758098"}',
+            "body": '{"email": "vitorgmail.com", "name": "Vitor Soller", "password": "123456", "ra": "21014442", "role": "STUDENT", "access_level": "USER", "accepted_terms": true, "accepted_notifications_sms": false, "accepted_notifications_email": false, "certificate_with_social_name": false, "phone": "11991758098"}',
             "pathParameters": None,
             "isBase64Encoded": None,
             "stageVariables": None
@@ -167,7 +167,7 @@ class Test_CreateUserPresenter:
                 "time": "12/Mar/2020:19:03:58 +0000",
                 "timeEpoch": 1583348638390
             },
-            "body": '{"email": "zeeba@gmail.com", "name": "Vitor Soller", "password": "123456", "ra": "21014442", "role": "STUDENT", "access_level": "USER", "accepted_terms": true, "accepted_notifications_sms": false, "certificate_with_social_name": false, "phone": "11991758098"}',
+            "body": '{"email": "zeeba@gmail.com", "name": "Vitor Soller", "password": "123456", "ra": "21014442", "role": "STUDENT", "access_level": "USER", "accepted_terms": true, "accepted_notifications_sms": false, "accepted_notifications_email": false, "certificate_with_social_name": false, "phone": "11991758098"}',
             "pathParameters": None,
             "isBase64Encoded": None,
             "stageVariables": None
