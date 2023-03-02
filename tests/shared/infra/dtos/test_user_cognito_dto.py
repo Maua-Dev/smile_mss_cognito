@@ -15,7 +15,7 @@ class Test_UserCognitoDTO:
                     password='z12345',
                     ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
                     updated_at=16449777000, social_name=None, accepted_terms=True,
-                    accepted_notifications_sms=True, certificate_with_social_name=True, phone="+5511991758098"
+                    accepted_notifications_sms=True, certificate_with_social_name=True, phone="+5511991758098", accepted_notifications_email=True
                     )
 
         user_cognito_dto = UserCognitoDTO.from_entity(user)
@@ -33,6 +33,7 @@ class Test_UserCognitoDTO:
             social_name=user.social_name,
             accepted_terms=user.accepted_terms,
             accepted_notifications_sms=user.accepted_notifications_sms,
+            accepted_notifications_email=user.accepted_notifications_email,
             certificate_with_social_name=user.certificate_with_social_name,
             phone=user.phone
         )
@@ -44,7 +45,7 @@ class Test_UserCognitoDTO:
                     password=None,
                     ra=None, role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                     updated_at=None, social_name=None, accepted_terms=None,
-                    accepted_notifications_sms=None, certificate_with_social_name=None, phone="5511991758098"
+                    accepted_notifications_sms=None, certificate_with_social_name=None, phone="5511991758098", accepted_notifications_email=None
                     )
         user_cognito_dto = UserCognitoDTO.from_entity(user)
 
@@ -73,7 +74,8 @@ class Test_UserCognitoDTO:
                     password='z12345',
                     ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
                     updated_at=16449777000, social_name=None, accepted_terms=True,
-                    accepted_notifications_sms=True, certificate_with_social_name=True, phone="+5511991758098"
+                    accepted_notifications_sms=True, certificate_with_social_name=True, phone="+5511991758098",
+                    accepted_notifications_email=True
                     )
 
         user_cognito_dto = UserCognitoDTO(
@@ -89,6 +91,7 @@ class Test_UserCognitoDTO:
             social_name=user.social_name,
             accepted_terms=user.accepted_terms,
             accepted_notifications_sms=user.accepted_notifications_sms,
+            accepted_notifications_email=user.accepted_notifications_email,
             certificate_with_social_name=user.certificate_with_social_name,
             phone=user.phone
         )
@@ -101,7 +104,8 @@ class Test_UserCognitoDTO:
                                      {'Name': 'custom:accessLevel', 'Value': 'USER'},
                                      {'Name': 'custom:ra', 'Value': '20014309'},
                                      {'Name': 'custom:acceptedTerms', 'Value': 'True'},
-                                     {'Name': 'custom:acceptedNotific', 'Value': 'True'},
+                                     {'Name': 'custom:acceptedNotificSMS', 'Value': 'True'},
+                                     {'Name': 'custom:acceptedNotificMail', 'Value': 'True'},
                                      {'Name': 'custom:certWithSocialName', 'Value': 'True'},
                                      {'Name': 'phone_number', 'Value': '+5511991758098'}]
 
@@ -121,7 +125,8 @@ class Test_UserCognitoDTO:
                                     {'Name': 'custom:ra', 'Value': '20014309'},
                                     {'Name': 'custom:socialName', 'Value': 'Zeeba Toledo'},
                                     {'Name': 'custom:acceptedTerms', 'Value': 'True'},
-                                    {'Name': 'custom:acceptedNotific', 'Value': 'True'},
+                                    {'Name': 'custom:acceptedNotificSMS', 'Value': 'True'},
+                                    {'Name': 'custom:acceptedNotificMail', 'Value': 'True'},
                                     {'Name': 'custom:certWithSocialName', 'Value': 'True'},
                                     {'Name': 'phone_number', 'Value': '5511999451100'}]
 
@@ -133,7 +138,8 @@ class Test_UserCognitoDTO:
                     password=None,
                     ra=None, role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                     updated_at=None, social_name=None, accepted_terms=None,
-                    accepted_notifications_sms=None, certificate_with_social_name=None, phone="+5511991758098"
+                    accepted_notifications_sms=None, certificate_with_social_name=None, phone="+5511991758098",
+                    accepted_notifications_email=None
                     )
 
         user_cognito_dto = UserCognitoDTO.from_entity(user)
@@ -166,7 +172,8 @@ class Test_UserCognitoDTO:
                                            {'Name': 'name', 'Value': 'Doroth Helena De Souza Alves'},
                                            {'Name': 'phone_number_verified', 'Value': 'false'},
                                            {'Name': 'phone_number', 'Value': '+5511981643251'},
-                                           {'Name': 'custom:acceptedNotific', 'Value': 'True'},
+                                           {'Name': 'custom:acceptedNotificSMS', 'Value': 'True'},
+                                           {'Name': 'custom:acceptedNotificMail', 'Value': 'False'},
                                            {'Name': 'custom:role', 'Value': 'EXTERNAL'},
                                            {'Name': 'email', 'Value': 'vgsoller1@gmail.com'},
                                            {'Name': 'custom:accessLevel', 'Value': 'USER'}],
@@ -188,6 +195,7 @@ class Test_UserCognitoDTO:
             social_name=None,
             accepted_terms=True,
             accepted_notifications_sms=True,
+            accepted_notifications_email=False,
             certificate_with_social_name=False,
             phone="+5511981643251"
         )
@@ -205,7 +213,8 @@ class Test_UserCognitoDTO:
                                        {'Name': 'custom:ra', 'Value': '21020930'},
                                        {'Name': 'name', 'Value': 'Enzo De Britto Pucci'},
                                        {'Name': 'phone_number', 'Value': '+5511981643251'},
-                                       {'Name': 'custom:acceptedNotific', 'Value': 'True'},
+                                       {'Name': 'custom:acceptedNotificMail', 'Value': 'True'},
+                                       {'Name': 'custom:acceptedNotificSMS', 'Value': 'True'},
                                        {'Name': 'custom:role', 'Value': 'STUDENT'},
                                        {'Name': 'email', 'Value': 'epucci.devmaua@gmail.com'}],
                         'Enabled': True,
@@ -228,6 +237,7 @@ class Test_UserCognitoDTO:
             social_name=None,
             accepted_terms=True,
             accepted_notifications_sms=True,
+            accepted_notifications_email=True,
             certificate_with_social_name=False,
             phone="+5511981643251"
         )
@@ -245,7 +255,8 @@ class Test_UserCognitoDTO:
                                        {'Name': 'custom:ra', 'Value': '21020930'},
                                        {'Name': 'name', 'Value': 'Enzo De Britto Pucci'},
                                        {'Name': 'phone_number', 'Value': '+5511981643251'},
-                                       {'Name': 'custom:acceptedNotific', 'Value': 'True'},
+                                       {'Name': 'custom:acceptedNotificMail', 'Value': 'True'},
+                                       {'Name': 'custom:acceptedNotificSMS', 'Value': 'False'},
                                        {'Name': 'custom:role', 'Value': 'STUDENT'},
                                        {'Name': 'email', 'Value': 'epucci.devmaua@gmail.com'}],
                         'Enabled': True,
@@ -262,7 +273,7 @@ class Test_UserCognitoDTO:
                  name='Enzo de Britto Pucci', password="GarrafaDeAguá@#123",
                  ra="21020930", role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                  updated_at=None, social_name=None, accepted_terms=True,
-                 accepted_notifications_sms=True, certificate_with_social_name=False, phone="+5511981643251"
+                 accepted_notifications_sms=True, certificate_with_social_name=False, phone="+5511981643251", accepted_notifications_email=False
                  )
 
         assert user_entity == user_entity_expected

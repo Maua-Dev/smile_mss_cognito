@@ -14,7 +14,7 @@ class Test_CreateUserUsecase:
         user = User(user_id='000000000000000000000000000000000000', email='vitor@gmail.com', name='Vitor soller', password='z12345',
                     ra=None, role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                     updated_at=None, social_name=None, accepted_terms=True,
-                    accepted_notifications_sms=True, certificate_with_social_name=False, phone="5511991758098")
+                    accepted_notifications_sms=True, certificate_with_social_name=False, phone="5511991758098", accepted_notifications_email=True)
         repo = UserRepositoryMock()
         len_before = len(repo.users)
         usecase = CreateUserUsecase(repo)
@@ -31,6 +31,7 @@ class Test_CreateUserUsecase:
         assert new_user.social_name == None
         assert new_user.accepted_terms == True
         assert new_user.accepted_notifications_sms == True
+        assert new_user.accepted_notifications_email == True
         assert new_user.certificate_with_social_name == False
         assert new_user.phone == "5511991758098"
         assert len(repo.users) == len_before + 1
@@ -41,7 +42,7 @@ class Test_CreateUserUsecase:
 
         user = User(user_id='000000000000000000000000000000000000', email='vitor@gmail.com', name='Vitor soller',
                     password="z12345",ra=None, role=ROLE.STUDENT, access_level=ACCESS_LEVEL.ADMIN, created_at=None,
-                    updated_at=None, social_name=None, accepted_terms=True, accepted_notifications_sms=True, certificate_with_social_name=False, phone="5511991758098")
+                    updated_at=None, social_name=None, accepted_terms=True, accepted_notifications_sms=True, certificate_with_social_name=False, phone="5511991758098", accepted_notifications_email=True)
 
         with pytest.raises(EntityError):
             new_user = usecase(user)
@@ -53,7 +54,7 @@ class Test_CreateUserUsecase:
         user = User(user_id='000000000000000000000000000000000000', email='zeeba@gmail.com', name='Vitor soller',
                     password="z12345", ra=None, role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                     updated_at=None, social_name=None, accepted_terms=True, accepted_notifications_sms=True,
-                    certificate_with_social_name=False, phone="5511991758098")
+                    certificate_with_social_name=False, phone="5511991758098", accepted_notifications_email=True)
 
         with pytest.raises(DuplicatedItem):
             new_user = usecase(user)

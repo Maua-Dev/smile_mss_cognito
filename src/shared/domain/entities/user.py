@@ -19,6 +19,7 @@ class User(abc.ABC):
     social_name: str
     accepted_terms: bool
     accepted_notifications_sms: bool
+    accepted_notifications_email: bool
     certificate_with_social_name: bool
     phone: str #with country code
     MIN_NAME_LENGTH = 2
@@ -26,7 +27,7 @@ class User(abc.ABC):
 
     def __init__(self, user_id: str, email: str, name: str, password: str, ra: str, role: ROLE, access_level: ACCESS_LEVEL,
                  created_at: int, updated_at: int, social_name: str, accepted_terms: bool, accepted_notifications_sms: bool,
-                 certificate_with_social_name: bool, phone: str):
+                 certificate_with_social_name: bool, phone: str, accepted_notifications_email: bool):
 
         if user_id is not None:
             if not User.validate_user_id(user_id):
@@ -85,6 +86,11 @@ class User(abc.ABC):
             if type(accepted_notifications_sms) != bool:
                 raise EntityError("accepted_notifications_sms")
         self.accepted_notifications_sms = accepted_notifications_sms
+        
+        if accepted_notifications_email is not None:
+            if type(accepted_notifications_email) != bool:
+                raise EntityError("accepted_notifications_email")
+        self.accepted_notifications_email = accepted_notifications_email
 
         if certificate_with_social_name is not None:
             if type(certificate_with_social_name) != bool:
@@ -174,7 +180,8 @@ class User(abc.ABC):
                 'accepted_notifications_sms') is not None else None,
             certificate_with_social_name=user['certificate_with_social_name'] if user.get(
                 'certificate_with_social_name') is not None else None,
-            phone=user['phone'] if user.get('phone') is not None else None
+            phone=user['phone'] if user.get('phone') is not None else None,
+            accepted_notifications_email=user['accepted_notifications_email'] if user.get('accepted_notifications_email') is not None else None
         )
 
     def to_dict(self) -> dict:
@@ -191,6 +198,7 @@ class User(abc.ABC):
             'social_name': self.social_name,
             'accepted_terms': self.accepted_terms,
             'accepted_notifications_sms': self.accepted_notifications_sms,
+            'accepted_notifications_email': self.accepted_notifications_email,
             'certificate_with_social_name': self.certificate_with_social_name,
             'phone': self.phone
         }
