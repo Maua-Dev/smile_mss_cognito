@@ -24,6 +24,7 @@ class Test_UpdateUserViewModel:
                 'access_level': 'USER',
                 'social_name': 'Zeeba Toledo',
                 'certificate_with_social_name': True,
+                'accepted_notifications_email': True,
                 'accepted_notifications_sms': True,
                 "phone": "5511991758098"
             },

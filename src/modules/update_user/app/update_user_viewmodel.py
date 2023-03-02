@@ -22,6 +22,7 @@ class UserViewmodel:
         self.access_level = user.access_level
         self.social_name = user.social_name
         self.accepted_notifications_sms = user.accepted_notifications_sms
+        self.accepted_notifications_email = user.accepted_notifications_email
         self.certificate_with_social_name = user.certificate_with_social_name
         self.phone = user.phone
 
@@ -35,6 +36,7 @@ class UserViewmodel:
             'access_level': self.access_level.value,
             'social_name': self.social_name,
             "accepted_notifications_sms": self.accepted_notifications_sms,
+            'accepted_notifications_email': self.accepted_notifications_email,
             "certificate_with_social_name": self.certificate_with_social_name,
             'phone': self.phone,
         }
