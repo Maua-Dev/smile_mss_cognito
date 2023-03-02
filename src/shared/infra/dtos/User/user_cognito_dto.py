@@ -17,7 +17,7 @@ class UserCognitoDTO:
     updated_at: int  # milliseconds
     social_name: str
     accepted_terms: bool
-    accepted_notifications: bool
+    accepted_notifications_sms: bool
     certificate_with_social_name: bool
     phone: str  # with country code
     TO_COGNITO_DICT = {
@@ -28,14 +28,14 @@ class UserCognitoDTO:
         "ra": "custom:ra",
         "social_name": "custom:socialName",
         "accepted_terms": "custom:acceptedTerms",
-        "accepted_notifications": "custom:acceptedNotific",
+        "accepted_notifications_sms": "custom:acceptedNotific",
         "certificate_with_social_name": "custom:certWithSocialName",
         "phone": "phone_number"
     }
     FROM_COGNITO_DICT = {value: key for key, value in TO_COGNITO_DICT.items()}
     FROM_COGNITO_DICT["sub"] = "user_id"
 
-    def __init__(self, user_id: str, email: str, name: str, role: ROLE, access_level: ACCESS_LEVEL, phone: str, ra: str = None,  created_at: int = None, updated_at: int = None, social_name: str = None, accepted_terms: bool = None, accepted_notifications: bool = None, certificate_with_social_name: bool = None, password: str = None):
+    def __init__(self, user_id: str, email: str, name: str, role: ROLE, access_level: ACCESS_LEVEL, phone: str, ra: str = None,  created_at: int = None, updated_at: int = None, social_name: str = None, accepted_terms: bool = None, accepted_notifications_sms: bool = None, certificate_with_social_name: bool = None, password: str = None):
         self.user_id = user_id
         self.email = email
         self.name = name
@@ -47,7 +47,7 @@ class UserCognitoDTO:
         self.updated_at = updated_at
         self.social_name = social_name
         self.accepted_terms = accepted_terms
-        self.accepted_notifications = accepted_notifications
+        self.accepted_notifications_sms = accepted_notifications_sms
         self.certificate_with_social_name = certificate_with_social_name
         self.phone = phone
 
@@ -65,7 +65,7 @@ class UserCognitoDTO:
             updated_at=user.updated_at,
             social_name=user.social_name,
             accepted_terms=user.accepted_terms,
-            accepted_notifications=user.accepted_notifications,
+            accepted_notifications_sms=user.accepted_notifications_sms,
             certificate_with_social_name=user.certificate_with_social_name,
             phone=user.phone
         )
@@ -96,7 +96,7 @@ class UserCognitoDTO:
             updated_at=int(user_data.get("updated_at").timestamp()*1000) if user_data.get("updated_at") else None,
             social_name=user_data.get("social_name"),
             accepted_terms=eval(user_data.get("accepted_terms").title()),
-            accepted_notifications=eval(user_data.get("accepted_notifications").title()),
+            accepted_notifications_sms=eval(user_data.get("accepted_notifications_sms").title()),
             certificate_with_social_name=eval(user_data.get("certificate_with_social_name").title()),
             phone=user_data.get("phone")
         )
@@ -114,13 +114,13 @@ class UserCognitoDTO:
             updated_at=self.updated_at,
             social_name=self.social_name,
             accepted_terms=self.accepted_terms,
-            accepted_notifications=self.accepted_notifications,
+            accepted_notifications_sms=self.accepted_notifications_sms,
             certificate_with_social_name=self.certificate_with_social_name,
             phone=self.phone
         )
 
     def __eq__(self, other):
-        return self.user_id == other.user_id and self.email == other.email and self.name == other.name and self.password == other.password and self.ra == other.ra and self.role == other.role and self.access_level == other.access_level and self.created_at == other.created_at and self.updated_at == other.updated_at and self.social_name == other.social_name and self.accepted_terms == other.accepted_terms and self.accepted_notifications == other.accepted_notifications and self.certificate_with_social_name == other.certificate_with_social_name and self.phone == other.phone
+        return self.user_id == other.user_id and self.email == other.email and self.name == other.name and self.password == other.password and self.ra == other.ra and self.role == other.role and self.access_level == other.access_level and self.created_at == other.created_at and self.updated_at == other.updated_at and self.social_name == other.social_name and self.accepted_terms == other.accepted_terms and self.accepted_notifications_sms == other.accepted_notifications_sms and self.certificate_with_social_name == other.certificate_with_social_name and self.phone == other.phone
 
     @staticmethod
     def parse_attribute(name, value) -> dict:

@@ -14,7 +14,7 @@ class Test_LoginUserViewmodel:
             'updated_at': 16449777000,
             'social_name': 'Zeeba Toledo',
             'accepted_terms': True,
-            'accepted_notifications': True,
+            'accepted_notifications_sms': True,
             'certificate_with_social_name': False,
             'phone': '5511991758098',
             'access_token': 'valid_access_token-vitor@maua.br',

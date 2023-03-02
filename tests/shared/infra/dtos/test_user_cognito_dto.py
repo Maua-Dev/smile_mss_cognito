@@ -15,7 +15,7 @@ class Test_UserCognitoDTO:
                     password='z12345',
                     ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
                     updated_at=16449777000, social_name=None, accepted_terms=True,
-                    accepted_notifications=True, certificate_with_social_name=True, phone="+5511991758098"
+                    accepted_notifications_sms=True, certificate_with_social_name=True, phone="+5511991758098"
                     )
 
         user_cognito_dto = UserCognitoDTO.from_entity(user)
@@ -32,7 +32,7 @@ class Test_UserCognitoDTO:
             updated_at=user.updated_at,
             social_name=user.social_name,
             accepted_terms=user.accepted_terms,
-            accepted_notifications=user.accepted_notifications,
+            accepted_notifications_sms=user.accepted_notifications_sms,
             certificate_with_social_name=user.certificate_with_social_name,
             phone=user.phone
         )
@@ -44,7 +44,7 @@ class Test_UserCognitoDTO:
                     password=None,
                     ra=None, role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                     updated_at=None, social_name=None, accepted_terms=None,
-                    accepted_notifications=None, certificate_with_social_name=None, phone="5511991758098"
+                    accepted_notifications_sms=None, certificate_with_social_name=None, phone="5511991758098"
                     )
         user_cognito_dto = UserCognitoDTO.from_entity(user)
 
@@ -60,7 +60,7 @@ class Test_UserCognitoDTO:
             updated_at=user.updated_at,
             social_name=user.social_name,
             accepted_terms=user.accepted_terms,
-            accepted_notifications=user.accepted_notifications,
+            accepted_notifications_sms=user.accepted_notifications_sms,
             certificate_with_social_name=user.certificate_with_social_name,
             phone=user.phone
         )
@@ -73,7 +73,7 @@ class Test_UserCognitoDTO:
                     password='z12345',
                     ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
                     updated_at=16449777000, social_name=None, accepted_terms=True,
-                    accepted_notifications=True, certificate_with_social_name=True, phone="+5511991758098"
+                    accepted_notifications_sms=True, certificate_with_social_name=True, phone="+5511991758098"
                     )
 
         user_cognito_dto = UserCognitoDTO(
@@ -88,7 +88,7 @@ class Test_UserCognitoDTO:
             updated_at=user.updated_at,
             social_name=user.social_name,
             accepted_terms=user.accepted_terms,
-            accepted_notifications=user.accepted_notifications,
+            accepted_notifications_sms=user.accepted_notifications_sms,
             certificate_with_social_name=user.certificate_with_social_name,
             phone=user.phone
         )
@@ -133,7 +133,7 @@ class Test_UserCognitoDTO:
                     password=None,
                     ra=None, role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                     updated_at=None, social_name=None, accepted_terms=None,
-                    accepted_notifications=None, certificate_with_social_name=None, phone="+5511991758098"
+                    accepted_notifications_sms=None, certificate_with_social_name=None, phone="+5511991758098"
                     )
 
         user_cognito_dto = UserCognitoDTO.from_entity(user)
@@ -187,7 +187,7 @@ class Test_UserCognitoDTO:
             ra=None,
             social_name=None,
             accepted_terms=True,
-            accepted_notifications=True,
+            accepted_notifications_sms=True,
             certificate_with_social_name=False,
             phone="+5511981643251"
         )
@@ -227,7 +227,7 @@ class Test_UserCognitoDTO:
             ra="21020930",
             social_name=None,
             accepted_terms=True,
-            accepted_notifications=True,
+            accepted_notifications_sms=True,
             certificate_with_social_name=False,
             phone="+5511981643251"
         )
@@ -262,7 +262,7 @@ class Test_UserCognitoDTO:
                  name='Enzo de Britto Pucci', password="GarrafaDeAguá@#123",
                  ra="21020930", role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                  updated_at=None, social_name=None, accepted_terms=True,
-                 accepted_notifications=True, certificate_with_social_name=False, phone="+5511981643251"
+                 accepted_notifications_sms=True, certificate_with_social_name=False, phone="+5511981643251"
                  )
 
         assert user_entity == user_entity_expected

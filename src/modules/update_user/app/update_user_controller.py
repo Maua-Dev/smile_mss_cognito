@@ -11,7 +11,7 @@ class UpdateUserController:
 
     def __init__(self, usecase: UpdateUserUsecase):
         self.UpdateUserUsecase = usecase
-        self.mutable_fields = ['name', 'social_name', 'accepted_notifications', 'certificate_with_social_name', "phone"]
+        self.mutable_fields = ['name', 'social_name', 'accepted_notifications_sms', 'certificate_with_social_name', "phone"]
 
     def __call__(self, request: IRequest) -> IResponse:
         try:

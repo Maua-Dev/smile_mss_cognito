@@ -32,8 +32,8 @@ class CreateUserController:
             if request.data.get('accepted_terms') is None:
                 raise MissingParameters('accepted_terms')
 
-            if request.data.get('accepted_notifications') is None:
-                raise MissingParameters('accepted_notifications')
+            if request.data.get('accepted_notifications_sms') is None:
+                raise MissingParameters('accepted_notifications_sms')
 
             if request.data.get('name') is None:
                 raise MissingParameters('name')
@@ -58,7 +58,7 @@ class CreateUserController:
                 'updated_at': None,
                 'social_name': request.data.get('social_name') if request.data.get('social_name') else None,
                 'accepted_terms': request.data.get('accepted_terms'),
-                'accepted_notifications': request.data.get('accepted_notifications'),
+                'accepted_notifications_sms': request.data.get('accepted_notifications_sms'),
                 'certificate_with_social_name': request.data.get('certificate_with_social_name'),
                 'phone': request.data.get('phone'),
             }
