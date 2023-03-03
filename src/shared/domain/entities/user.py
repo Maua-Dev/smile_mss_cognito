@@ -18,15 +18,16 @@ class User(abc.ABC):
     updated_at: int  # milliseconds
     social_name: str
     accepted_terms: bool
-    accepted_notifications: bool
+    accepted_notifications_sms: bool
+    accepted_notifications_email: bool
     certificate_with_social_name: bool
     phone: str #with country code
     MIN_NAME_LENGTH = 2
     USER_ID_LENGTH = 36
 
     def __init__(self, user_id: str, email: str, name: str, password: str, ra: str, role: ROLE, access_level: ACCESS_LEVEL,
-                 created_at: int, updated_at: int, social_name: str, accepted_terms: bool, accepted_notifications: bool,
-                 certificate_with_social_name: bool, phone: str):
+                 created_at: int, updated_at: int, social_name: str, accepted_terms: bool, accepted_notifications_sms: bool,
+                 certificate_with_social_name: bool, phone: str, accepted_notifications_email: bool):
 
         if user_id is not None:
             if not User.validate_user_id(user_id):
@@ -81,10 +82,15 @@ class User(abc.ABC):
                 raise EntityError("accepted_terms")
         self.accepted_terms = accepted_terms
 
-        if accepted_notifications is not None:
-            if type(accepted_notifications) != bool:
-                raise EntityError("accepted_notifications")
-        self.accepted_notifications = accepted_notifications
+        if accepted_notifications_sms is not None:
+            if type(accepted_notifications_sms) != bool:
+                raise EntityError("accepted_notifications_sms")
+        self.accepted_notifications_sms = accepted_notifications_sms
+        
+        if accepted_notifications_email is not None:
+            if type(accepted_notifications_email) != bool:
+                raise EntityError("accepted_notifications_email")
+        self.accepted_notifications_email = accepted_notifications_email
 
         if certificate_with_social_name is not None:
             if type(certificate_with_social_name) != bool:
@@ -170,11 +176,12 @@ class User(abc.ABC):
             updated_at=user['updated_at'] if user.get('updated_at') is not None else None,
             social_name=user['social_name'].title() if user.get('social_name') is not None else None,
             accepted_terms=user['accepted_terms'] if user.get('accepted_terms') is not None else None,
-            accepted_notifications=user['accepted_notifications'] if user.get(
-                'accepted_notifications') is not None else None,
+            accepted_notifications_sms=user['accepted_notifications_sms'] if user.get(
+                'accepted_notifications_sms') is not None else None,
             certificate_with_social_name=user['certificate_with_social_name'] if user.get(
                 'certificate_with_social_name') is not None else None,
-            phone=user['phone'] if user.get('phone') is not None else None
+            phone=user['phone'] if user.get('phone') is not None else None,
+            accepted_notifications_email=user['accepted_notifications_email'] if user.get('accepted_notifications_email') is not None else None
         )
 
     def to_dict(self) -> dict:
@@ -190,7 +197,8 @@ class User(abc.ABC):
             'updated_at': self.updated_at,
             'social_name': self.social_name,
             'accepted_terms': self.accepted_terms,
-            'accepted_notifications': self.accepted_notifications,
+            'accepted_notifications_sms': self.accepted_notifications_sms,
+            'accepted_notifications_email': self.accepted_notifications_email,
             'certificate_with_social_name': self.certificate_with_social_name,
             'phone': self.phone
         }

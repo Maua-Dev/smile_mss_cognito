@@ -19,23 +19,23 @@ class UserRepositoryMock(IUserRepository):
             User(user_id='000000000000000000000000000000000001', email='zeeba@gmail.com', name='Caio soller', password='z12345',
                  ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
                  updated_at=16449777000, social_name='zeeba toledo', accepted_terms=True,
-                 accepted_notifications=True, certificate_with_social_name=True, phone="5511999451100"
+                 accepted_notifications_sms=True, certificate_with_social_name=True, phone="5511999451100", accepted_notifications_email=True
                  ),
             User(user_id='000000000000000000000000000000000002', email='vitor@maua.br', name='vitor branco', password='z12345',
                  ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.ADMIN, created_at=16449777000,
                  updated_at=16449777000, social_name='zeeba toledo', accepted_terms=True,
-                 accepted_notifications=True, certificate_with_social_name=False, phone="5511991758098"
+                 accepted_notifications_sms=True, certificate_with_social_name=False, phone="5511991758098", accepted_notifications_email=False
                  ),
             User(user_id='000000000000000000000000000000000003', email='joao@gmail.com', name='João toledo', password='z12345',
                          ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
                          updated_at=16449777000, social_name='zeeba toledo', accepted_terms=True,
-                         accepted_notifications=True, certificate_with_social_name=True, phone="5511991758098"
+                         accepted_notifications_sms=True, certificate_with_social_name=True, phone="5511991758098", accepted_notifications_email=False
                  ),
             User(user_id='000000000000000000000000000000000004', email='professorvitor@gmail.com', name='Vitor toledo',
                  password='z12345',
                  ra=None, role=ROLE.PROFESSOR, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
                  updated_at=16449777000, social_name=None, accepted_terms=True,
-                 accepted_notifications=True, certificate_with_social_name=False, phone="5511991758098"
+                 accepted_notifications_sms=True, certificate_with_social_name=False, phone="5511991758098", accepted_notifications_email=True
                  )
         ]
         self.confirmed_users = [

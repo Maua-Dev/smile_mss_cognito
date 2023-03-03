@@ -40,8 +40,8 @@ class CognitoStack(Construct):
                                              "role": aws_cognito.StringAttribute(min_len=1, max_len=2048, mutable=True),
                                              "socialName": aws_cognito.StringAttribute(min_len=1, max_len=2048, mutable=True),
                                              "acceptedTerms": aws_cognito.BooleanAttribute(mutable=True),
-                                             "acceptedNotific": aws_cognito.BooleanAttribute(mutable=True),
-
+                                             "acceptedNotificSMS": aws_cognito.BooleanAttribute(mutable=True),
+                                             "acceptedNotificMail": aws_cognito.BooleanAttribute(mutable=True),
                                          },
                                         lambda_triggers=aws_cognito.UserPoolTriggers(
                                             custom_message=lambda_.Function(

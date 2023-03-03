@@ -23,7 +23,7 @@ class Test_UpdateUserUsecase:
         assert new_user.name == "Vitor BARTOLOZZI TOLEDO"
         assert repo.confirmed_users[0].name == "Vitor BARTOLOZZI TOLEDO"
         assert repo.confirmed_users[0].social_name == old_user.social_name
-        assert repo.confirmed_users[0].accepted_notifications == old_user.accepted_notifications
+        assert repo.confirmed_users[0].accepted_notifications_sms == old_user.accepted_notifications_sms
         assert repo.confirmed_users[0].certificate_with_social_name == old_user.certificate_with_social_name
 
 
@@ -36,7 +36,7 @@ class Test_UpdateUserUsecase:
             'ra': "21014442",
             'name': 'Vitor BARTOLOZZI BASTOS GODOY DE TOLEDO',
             'social_name': 'Vitor Godoy',
-            'accepted_notifications': "True",
+            'accepted_notifications_sms': "True",
             'certificate_with_social_name': True,
             'phone': '11999999999'
         }
@@ -47,11 +47,11 @@ class Test_UpdateUserUsecase:
 
         assert new_user.name == 'Vitor BARTOLOZZI BASTOS GODOY DE TOLEDO'
         assert new_user.social_name == 'Vitor Godoy'
-        assert new_user.accepted_notifications
+        assert new_user.accepted_notifications_sms
         assert new_user.certificate_with_social_name
         assert repo.confirmed_users[0].name == 'Vitor BARTOLOZZI BASTOS GODOY DE TOLEDO'
         assert repo.confirmed_users[0].social_name == 'Vitor Godoy'
-        assert repo.confirmed_users[0].accepted_notifications
+        assert repo.confirmed_users[0].accepted_notifications_sms
         assert repo.confirmed_users[0].certificate_with_social_name
         assert repo.confirmed_users[0].phone == '11999999999'
         assert repo.confirmed_users[0].ra == old_user.ra
