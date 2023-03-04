@@ -17,7 +17,8 @@ class Test_CreateUserController:
                 'role': 'STUDENT',
                 'access_level': 'USER',
                 'accepted_terms': True,
-                'accepted_notifications': False,
+                'accepted_notifications_sms': False,
+                'accepted_notifications_email': True,
                 'certificate_with_social_name': False,
                 'phone': '11991758098'
             })
@@ -47,7 +48,8 @@ class Test_CreateUserController:
             'ra': '21014442',
             'role': 'STUDENT',
             'accepted_terms': True,
-            'accepted_notifications': False,
+            'accepted_notifications_sms': False,
+            'accepted_notifications_email': True,
             'certificate_with_social_name': False,
             'phone': '11991758098'
         })
@@ -69,7 +71,8 @@ class Test_CreateUserController:
             'role': 'STUDANT',
             'access_level': 'USER',
             'accepted_terms': True,
-            'accepted_notifications': False,
+            'accepted_notifications_sms': False,
+            'accepted_notifications_email': True,
             'certificate_with_social_name': False,
             'phone': '11991758098'
         })
@@ -91,7 +94,8 @@ class Test_CreateUserController:
             'role': 'STUDENT',
             'access_level': 'INVALIO',
             'accepted_terms': True,
-            'accepted_notifications': False,
+            'accepted_notifications_sms': False,
+            'accepted_notifications_email': True,
             'certificate_with_social_name': False,
             'phone': '11991758098'
         })
@@ -112,7 +116,8 @@ class Test_CreateUserController:
             'ra': '21014442',
             'access_level': 'USER',
             'accepted_terms': True,
-            'accepted_notifications': False,
+            'accepted_notifications_sms': False,
+            'accepted_notifications_email': True,
             'certificate_with_social_name': False,
             'phone': '11991758098'
         })
@@ -133,7 +138,8 @@ class Test_CreateUserController:
             'ra': '21014442',
             'role': 'STUDENT',
             'access_level': 'USER',
-            'accepted_notifications': False,
+            'accepted_notifications_sms': False,
+            'accepted_notifications_email': True,
             'certificate_with_social_name': False,
             'phone': '11991758098'
         })
@@ -143,7 +149,7 @@ class Test_CreateUserController:
         assert response.status_code == 400
         assert response.body == 'Parâmetro ausente: accepted_terms'
 
-    def test_create_user_controller_missing_accepted_notifications(self):
+    def test_create_user_controller_missing_accepted_notifications_sms(self):
         repo = UserRepositoryMock()
         usease = CreateUserUsecase(repo)
         controller = CreateUserController(usease)
@@ -155,6 +161,7 @@ class Test_CreateUserController:
             'role': 'STUDENT',
             'access_level': 'USER',
             'accepted_terms': True,
+            'accepted_notifications_email': True,
             'certificate_with_social_name': False,
             'phone': '11991758098'
         })
@@ -162,7 +169,30 @@ class Test_CreateUserController:
         response = controller(request)
 
         assert response.status_code == 400
-        assert response.body == 'Parâmetro ausente: accepted_notifications'
+        assert response.body == 'Parâmetro ausente: accepted_notifications_sms'
+
+    def test_create_user_controller_missing_accepted_notifications_email(self):
+        repo = UserRepositoryMock()
+        usease = CreateUserUsecase(repo)
+        controller = CreateUserController(usease)
+        request = HttpRequest(body={
+            'email': 'vitor@gmail.com',
+            'name': 'Vitor Soller',
+            'password': '123456',
+            'ra': '21014442',
+            'role': 'STUDENT',
+            'access_level': 'USER',
+            'accepted_terms': True,
+            'accepted_notifications_sms': True,
+            'certificate_with_social_name': False,
+            'phone': '11991758098'
+        })
+
+        response = controller(request)
+
+        assert response.status_code == 400
+        assert response.body == 'Parâmetro ausente: accepted_notifications_email'
+
 
     def test_create_user_controller_missing_name(self):
         repo = UserRepositoryMock()
@@ -175,7 +205,8 @@ class Test_CreateUserController:
             'role': 'STUDENT',
             'access_level': 'USER',
             'accepted_terms': True,
-            'accepted_notifications': False,
+            'accepted_notifications_sms': False,
+            'accepted_notifications_email': True,
             'certificate_with_social_name': False,
             'phone': '11991758098'
         })
@@ -197,7 +228,8 @@ class Test_CreateUserController:
             'role': 'STUDENT',
             'access_level': 'USER',
             'accepted_terms': True,
-            'accepted_notifications': False,
+            'accepted_notifications_sms': False,
+            'accepted_notifications_email': True,
             'certificate_with_social_name': False,
             'phone': '11991758098'
         })
@@ -213,7 +245,8 @@ class Test_CreateUserController:
             'role': 'STUDENT',
             'access_level': 'USER',
             'accepted_terms': True,
-            'accepted_notifications': False,
+            'accepted_notifications_sms': False,
+            'accepted_notifications_email': True,
             'certificate_with_social_name': False,
             'phone': '11991758098'
         })
@@ -235,7 +268,8 @@ class Test_CreateUserController:
             'role': 'STUDENT',
             'access_level': 'ADMIN',
             'accepted_terms': True,
-            'accepted_notifications': True,
+            'accepted_notifications_sms': True,
+            'accepted_notifications_email': True,
             'certificate_with_social_name': False,
             'phone': '11991758098'
         })
@@ -257,7 +291,8 @@ class Test_CreateUserController:
             'role': 'STUDENT',
             'access_level': 'USER',
             'accepted_terms': True,
-            'accepted_notifications': True,
+            'accepted_notifications_sms': True,
+            'accepted_notifications_email': True,
             'certificate_with_social_name': False,
             'phone': '11991758098'
         })
@@ -279,7 +314,8 @@ class Test_CreateUserController:
             'role': 'STUDENT',
             'access_level': 'ADMIN',
             'accepted_terms': True,
-            'accepted_notifications': True,
+            'accepted_notifications_sms': True,
+            'accepted_notifications_email': True,
             'phone': '11991758098'
         })
 

@@ -28,6 +28,8 @@ class Test_LoginUserController:
         assert response.body['user']['phone'] == repo.users[0].phone
         assert response.body['user']['email'] == repo.users[0].email
         assert response.body['user']['social_name'] == repo.users[0].social_name
+        assert response.body['user']['accepted_notifications_email'] == True
+        assert response.body['user']['accepted_notifications_sms'] == True
         assert response.body['user']['name'] == repo.users[0].name
         assert response.body['user']['certificate_with_social_name'] == repo.users[0].certificate_with_social_name
         assert response.body['user']['user_id'] == repo.users[0].user_id

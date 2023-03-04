@@ -9,7 +9,7 @@ class UserViewmodel:
     role: ROLE
     access_level: ACCESS_LEVEL
     social_name: str
-    accepted_notifications: bool
+    accepted_notifications_sms: bool
     certificate_with_social_name: bool
     phone: str
 
@@ -21,7 +21,8 @@ class UserViewmodel:
         self.role = user.role
         self.access_level = user.access_level
         self.social_name = user.social_name
-        self.accepted_notifications = user.accepted_notifications
+        self.accepted_notifications_sms = user.accepted_notifications_sms
+        self.accepted_notifications_email = user.accepted_notifications_email
         self.certificate_with_social_name = user.certificate_with_social_name
         self.phone = user.phone
 
@@ -34,7 +35,8 @@ class UserViewmodel:
             'role': self.role.value,
             'access_level': self.access_level.value,
             'social_name': self.social_name,
-            "accepted_notifications": self.accepted_notifications,
+            "accepted_notifications_sms": self.accepted_notifications_sms,
+            'accepted_notifications_email': self.accepted_notifications_email,
             "certificate_with_social_name": self.certificate_with_social_name,
             'phone': self.phone,
         }
