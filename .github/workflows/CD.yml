@@ -44,5 +44,5 @@ jobs:
             cdk deploy --require-approval never
 
           env:
-            FRONT_ENDPOINT: ${{ secrets.FRONT_ENDPOINT }}
+            FRONT_ENDPOINT: ${{ vars.FRONT_ENDPOINT }}
             API_ENDPOINT: ${{ secrets.API_ENDPOINT }}
