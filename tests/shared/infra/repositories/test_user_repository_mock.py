@@ -30,7 +30,7 @@ class Test_UserRepositoryMock:
                       password='r12345',
                       ra='20013459', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
                       updated_at=16449777000, social_name='Briquez romas', accepted_terms=True,
-                      accepted_notifications=True, certificate_with_social_name=True, phone="5511991758098"
+                      accepted_notifications_sms=True, certificate_with_social_name=True, phone="5511991758098", accepted_notifications_email=True
                       ))
 
         assert len(repo.users) == 5
@@ -45,7 +45,7 @@ class Test_UserRepositoryMock:
                           ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER,
                           created_at=16449777000,
                           updated_at=16449777000, social_name='zeeba toledo', accepted_terms=True,
-                          accepted_notifications=True, certificate_with_social_name=True, phone="5511991758098"
+                          accepted_notifications_sms=True, certificate_with_social_name=True, phone="5511991758098", accepted_notifications_email=True
                           ))
 
     def test_check_user_by_propriety(self):
@@ -119,7 +119,8 @@ class Test_UserRepositoryMock:
             'updated_at': 16449777000,
             'social_name': 'Zeeba Toledo',
             'accepted_terms': True,
-            'accepted_notifications': True,
+            'accepted_notifications_sms': True,
+            'accepted_notifications_email': True,
             'certificate_with_social_name': True,
             'access_token': 'valid_access_token-zeeba@gmail.com',
             'refresh_token': 'valid_refresh_token-zeeba@gmail.com',
@@ -140,7 +141,8 @@ class Test_UserRepositoryMock:
             'updated_at': 16449777000,
             'social_name': 'Zeeba Toledo',
             'accepted_terms': True,
-            'accepted_notifications': True,
+            'accepted_notifications_sms': True,
+            'accepted_notifications_email': True,
             'certificate_with_social_name': True,
             'phone': '5511999451100'
         }
@@ -187,5 +189,5 @@ class Test_UserRepositoryMock:
                  password='z12345',
                  ra=None, role=ROLE.PROFESSOR, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
                  updated_at=16449777000, social_name=None, accepted_terms=True,
-                 accepted_notifications=True, certificate_with_social_name=False, phone="5511991758098"
+                 accepted_notifications_sms=True, certificate_with_social_name=False, phone="5511991758098", accepted_notifications_email=True
                  )]

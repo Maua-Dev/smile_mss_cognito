@@ -16,7 +16,7 @@ class Test_UserRepositoryCognito:
                               name='Maria LUiza Vernasqui Vergani', password="Mauá@#123",
                               ra="21002088", role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                               updated_at=None, social_name="Maluzinha avião", accepted_terms=True,
-                              accepted_notifications=True, certificate_with_social_name=False, phone="+5511996396072"
+                              accepted_notifications_sms=True, certificate_with_social_name=False, phone="+5511996396072"
                               )
 
         new_user = repo.create_user(user_to_create)
@@ -31,7 +31,7 @@ class Test_UserRepositoryCognito:
         assert new_user.updated_at == user_to_create.updated_at
         assert new_user.social_name == user_to_create.social_name
         assert new_user.accepted_terms == user_to_create.accepted_terms
-        assert new_user.accepted_notifications == user_to_create.accepted_notifications
+        assert new_user.accepted_notifications_sms == user_to_create.accepted_notifications_sms
         assert new_user.certificate_with_social_name == user_to_create.certificate_with_social_name
         assert new_user.phone == user_to_create.phone
 
@@ -52,7 +52,7 @@ class Test_UserRepositoryCognito:
             updated_at=int(datetime.datetime(2023, 2, 3, 23, 27, 48, 713000).timestamp() * 1000),
             social_name=None,
             accepted_terms=True,
-            accepted_notifications=True,
+            accepted_notifications_sms=True,
             certificate_with_social_name=False,
             phone="+5511981643251"
         )
@@ -91,7 +91,7 @@ class Test_UserRepositoryCognito:
                 updated_at=1675521628988,
                 social_name=None,
                 accepted_terms=True,
-                accepted_notifications=True,
+                accepted_notifications_sms=True,
                 certificate_with_social_name=False,
                 phone="+5511981643251"
             ),
@@ -99,7 +99,7 @@ class Test_UserRepositoryCognito:
                  name='Enzo de Britto Pucci', password=None,
                  ra="21020930", role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=1675519954915,
                  updated_at=1675521573182, social_name=None, accepted_terms=True,
-                 accepted_notifications=True, certificate_with_social_name=False, phone="+5511981643251"
+                 accepted_notifications_sms=True, certificate_with_social_name=False, phone="+5511981643251"
                  )
         ]
 
@@ -116,7 +116,7 @@ class Test_UserRepositoryCognito:
         user_to_update = User(user_id='000000000000000000000000000000000001', email='brunovilardibueno@gmail.com', name='Caio soller', password='z12345',
                  ra='20014309', role=ROLE.INTERNATIONAL_STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
                  updated_at=16449777000, social_name='zeeba toledo', accepted_terms=True,
-                 accepted_notifications=True, certificate_with_social_name=True, phone="+5511999451100"
+                 accepted_notifications_sms=True, certificate_with_social_name=True, phone="+5511999451100"
                  )
         updated_user = repo.update_user("brunovilardibueno@gmail.com", {'social_name': 'boca roxa', 'certificate_with_social_name': "True"})
 

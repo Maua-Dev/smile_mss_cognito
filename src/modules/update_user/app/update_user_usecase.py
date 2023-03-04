@@ -8,7 +8,7 @@ class UpdateUserUsecase:
     def __init__(self, repo: IUserRepository):
         self.repo = repo
         self.immutable_fields = ['ra', 'accepted_terms', 'access_level', 'email']
-        self.mutable_fields = ['name', 'social_name', 'accepted_notifications', 'certificate_with_social_name', "phone"]
+        self.mutable_fields = ['name', 'social_name', 'accepted_notifications_sms', 'accepted_notifications_email', 'certificate_with_social_name', "phone"]
 
     def __call__(self, mew_user_data: dict, access_token: str) -> User:
 
