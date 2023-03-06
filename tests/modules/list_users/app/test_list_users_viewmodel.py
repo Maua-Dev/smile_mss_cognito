@@ -24,7 +24,7 @@ class Test_ListUsersViewmodel:
                     'role': 'STUDENT',
                     'access_level': 'USER',
                     'social_name': 'Zeeba Toledo',
-                    "phone": "5511999451100",
+                    "phone": "+5511999451100",
                 }
             },
             'message': 'the users were retrieved'
@@ -54,7 +54,7 @@ class Test_ListUsersViewmodel:
                     'role': 'STUDENT',
                     'access_level': 'USER',
                     'social_name': 'Zeeba Toledo',
-                    "phone": "5511999451100",
+                    "phone": "+5511999451100",
                 },
                 '000000000000000000000000000000000002': {
                     'user_id': '000000000000000000000000000000000002',
@@ -64,7 +64,7 @@ class Test_ListUsersViewmodel:
                     'role': 'STUDENT',
                     'access_level': 'ADMIN',
                     'social_name': 'Zeeba Toledo',
-                    "phone": "5511991758098",
+                    "phone": "+5511991758098",
                 }
             },
             'message': 'the users were retrieved'

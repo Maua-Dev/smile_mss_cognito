@@ -45,7 +45,7 @@ class Test_UserCognitoDTO:
                     password=None,
                     ra=None, role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                     updated_at=None, social_name=None, accepted_terms=None,
-                    accepted_notifications_sms=None, certificate_with_social_name=None, phone="5511991758098", accepted_notifications_email=None
+                    accepted_notifications_sms=None, certificate_with_social_name=None, phone="+5511991758098", accepted_notifications_email=None
                     )
         user_cognito_dto = UserCognitoDTO.from_entity(user)
 
@@ -98,7 +98,7 @@ class Test_UserCognitoDTO:
 
         cognito_user_data = user_cognito_dto.to_cognito_attributes()
 
-        assert cognito_user_data == [{'Name': 'email', 'Value': 'joao@gmail.com'},
+        expected = [{'Name': 'email', 'Value': 'joao@gmail.com'},
                                      {'Name': 'name', 'Value': 'João Toledo'},
                                      {'Name': 'custom:role', 'Value': 'STUDENT'},
                                      {'Name': 'custom:accessLevel', 'Value': 'USER'},
@@ -108,6 +108,8 @@ class Test_UserCognitoDTO:
                                      {'Name': 'custom:acceptedNotificMail', 'Value': 'True'},
                                      {'Name': 'custom:certWithSocialName', 'Value': 'True'},
                                      {'Name': 'phone_number', 'Value': '+5511991758098'}]
+
+        assert cognito_user_data == expected
 
     def test_from_entity_cognito_attributes(self):
         repo = UserRepositoryMock()
@@ -128,7 +130,7 @@ class Test_UserCognitoDTO:
                                     {'Name': 'custom:acceptedNotificSMS', 'Value': 'True'},
                                     {'Name': 'custom:acceptedNotificMail', 'Value': 'True'},
                                     {'Name': 'custom:certWithSocialName', 'Value': 'True'},
-                                    {'Name': 'phone_number', 'Value': '5511999451100'}]
+                                    {'Name': 'phone_number', 'Value': '+5511999451100'}]
 
         assert cognito_user_data == expected_user_attributes
 
