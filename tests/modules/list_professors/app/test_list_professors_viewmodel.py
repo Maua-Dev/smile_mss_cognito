@@ -21,7 +21,7 @@ class Test_ListProfessorsViewmodel:
                     'role': 'PROFESSOR',
                     'access_level': 'USER',
                     'social_name': None,
-                    'phone': '5511991758098'
+                    'phone': '+5511991758098'
                 }
             ],
             'message': 'the professors were retrieved'

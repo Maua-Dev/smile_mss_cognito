@@ -36,6 +36,19 @@ class Test_UpdateUserController:
         assert response.body['user']['user_id'] == repo.confirmed_users[0].user_id
         assert response.body['user']['name'] == 'Vitor'
 
+    def test_update_user_controller_phone_only(self):
+        repo = UserRepositoryMock()
+        usecase = UpdateUserUsecase(repo)
+        controller = UpdateUserController(usecase)
+
+        response = controller(HttpRequest(body={'phone': '(5511)99175-8098'}, headers={
+            'Authorization': 'Bearer ' + 'valid_access_token-' + repo.confirmed_users[0].email}))
+
+        assert response.status_code == 200
+        assert response.body['user']['user_id'] == repo.confirmed_users[0].user_id
+        assert response.body['user']['phone'] == '+5511991758098'
+
+
     def test_update_user_controller_missing_authorization(self):
         repo = UserRepositoryMock()
         usecase = UpdateUserUsecase(repo)

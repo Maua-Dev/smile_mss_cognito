@@ -1,3 +1,4 @@
+from src.shared.domain.entities.user import User
 from .update_user_usecase import UpdateUserUsecase
 from src.shared.helpers.errors.controller_errors import MissingParameters
 from src.shared.helpers.errors.domain_errors import EntityError
@@ -25,6 +26,16 @@ class UpdateUserController:
             access_token = token[1]
 
             user_data = {k: v for k, v in request.data.items() if k in self.mutable_fields}
+
+            phone = request.data.get("phone") if request.data.get("phone") != "" else None
+
+            if phone is not None:
+                phone = phone.replace(' ', '').replace('(', '').replace(')', '').replace('-', '')
+                phone = phone if phone.startswith('+') else f'+{phone}'
+                user_data["phone"] = phone
+
+                if User.validate_phone(phone) is False:
+                    raise EntityError('phone')
 
             user = self.UpdateUserUsecase(
                 mew_user_data=user_data,
