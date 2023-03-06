@@ -50,10 +50,11 @@ class CreateUserController:
             if request.data.get('certificate_with_social_name') is None:
                 raise MissingParameters('certificate_with_social_name')
 
-            phone = request.data.get("phone") if request.data.get("phone") else ""
+            phone = request.data.get("phone") if request.data.get("phone") != "" else None
 
-            phone = phone.replace(' ', '').replace('(', '').replace(')', '').replace('-', '')
-            phone = phone if phone.startswith('+') else f'+{phone}'
+            if phone is not None:
+                phone = phone.replace(' ', '').replace('(', '').replace(')', '').replace('-', '')
+                phone = phone if phone.startswith('+') else f'+{phone}'
 
             user_dict = {
                 'email': request.data.get('email').replace(' ', ''),

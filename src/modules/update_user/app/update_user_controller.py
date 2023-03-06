@@ -27,7 +27,8 @@ class UpdateUserController:
 
             user_data = {k: v for k, v in request.data.items() if k in self.mutable_fields}
 
-            phone = user_data.get("phone")
+            phone = request.data.get("phone") if request.data.get("phone") != "" else None
+
             if phone is not None:
                 phone = phone.replace(' ', '').replace('(', '').replace(')', '').replace('-', '')
                 phone = phone if phone.startswith('+') else f'+{phone}'
