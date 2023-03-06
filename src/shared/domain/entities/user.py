@@ -98,7 +98,7 @@ class User(abc.ABC):
         self.certificate_with_social_name = certificate_with_social_name
 
         if phone is not None:
-            if type(phone) != str:
+            if not User.validate_phone(phone):
                 raise EntityError("phone")
         self.phone = phone
 
@@ -157,7 +157,9 @@ class User(abc.ABC):
     def validate_phone(phone: str) -> bool:
         if type(phone) != str:
             return False
-        elif phone.isdecimal() is False:
+        elif phone[0] != "+":
+            return False
+        elif phone[1:].isdecimal() is False:
             return False
 
         return True

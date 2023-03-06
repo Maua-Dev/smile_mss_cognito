@@ -50,6 +50,11 @@ class CreateUserController:
             if request.data.get('certificate_with_social_name') is None:
                 raise MissingParameters('certificate_with_social_name')
 
+            phone = request.data.get("phone") if request.data.get("phone") else ""
+
+            phone = phone.replace(' ', '').replace('(', '').replace(')', '').replace('-', '')
+            phone = phone if phone.startswith('+') else f'+{phone}'
+
             user_dict = {
                 'email': request.data.get('email').replace(' ', ''),
                 'name': request.data.get('name'),
@@ -64,7 +69,7 @@ class CreateUserController:
                 'accepted_notifications_sms': request.data.get('accepted_notifications_sms'),
                 'accepted_notifications_email': request.data.get('accepted_notifications_email'),
                 'certificate_with_social_name': request.data.get('certificate_with_social_name'),
-                'phone': request.data.get('phone'),
+                'phone': phone,
             }
 
             new_user = User.parse_object(user_dict)

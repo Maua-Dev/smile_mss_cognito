@@ -16,7 +16,7 @@ class Test_User:
         user = User(accepted_notifications_email=True, user_id='0000-0000-00000-000000-0000000-00000', email='zeeba@gmail.com', name='Caio toledo', password='z12345',
                     ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
                     updated_at=16449777000, social_name='zeeba toledo', accepted_terms=True,
-                    accepted_notifications_sms=True, certificate_with_social_name=True, phone="5511991758098"
+                    accepted_notifications_sms=True, certificate_with_social_name=True, phone="+5511991758098"
                     )
 
         assert len(user.user_id) == 36
@@ -39,7 +39,7 @@ class Test_User:
         user = User(accepted_notifications_email=True, user_id=None, email='zeeba@maua.br', name='caio toledo', password=None,
                     ra=None, role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                     updated_at=None, social_name=None, accepted_terms=None,
-                    accepted_notifications_sms=None, certificate_with_social_name=None, phone="5511991758098"
+                    accepted_notifications_sms=None, certificate_with_social_name=None, phone="+5511991758098"
                     )
 
         assert user.user_id == None
@@ -62,7 +62,7 @@ class Test_User:
             User(accepted_notifications_email=True, user_id='1234', email='zeeba@maua.br', name='caio toledo', password=None,
                  ra=None, role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                  updated_at=None, social_name=None, accepted_terms=None,
-                 accepted_notifications_sms=None, certificate_with_social_name=None, phone="5511991758098"
+                 accepted_notifications_sms=None, certificate_with_social_name=None, phone="+5511991758098"
                  )
 
 
@@ -73,7 +73,7 @@ class Test_User:
             User(accepted_notifications_email=True, user_id='0000-0000-00000-000000-0000000-00000', email='zeebamaua.br', name='caio toledo', password=None,
                  ra=None, role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                  updated_at=None, social_name=None, accepted_terms=None,
-                 accepted_notifications_sms=None, certificate_with_social_name=None, phone="5511991758098"
+                 accepted_notifications_sms=None, certificate_with_social_name=None, phone="+5511991758098"
                  )
 
     def test_create_user_invalid_name(self):
@@ -81,7 +81,7 @@ class Test_User:
             User(accepted_notifications_email=True, user_id='0000-0000-00000-000000-0000000-00000', email='zeeba@maua.br', name='c', password=None,
                  ra=None, role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                  updated_at=None, social_name=None, accepted_terms=None,
-                 accepted_notifications_sms=None, certificate_with_social_name=None, phone="5511991758098"
+                 accepted_notifications_sms=None, certificate_with_social_name=None, phone="+5511991758098"
                  )
 
     def test_create_user_invalid_password(self):
@@ -89,7 +89,7 @@ class Test_User:
             User(accepted_notifications_email=True, user_id='0000-0000-00000-000000-0000000-00000', email='zeeba@maua.br', name='caio toledo', password=1,
                  ra=None, role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                  updated_at=None, social_name=None, accepted_terms=None,
-                 accepted_notifications_sms=None, certificate_with_social_name=None, phone="5511991758098"
+                 accepted_notifications_sms=None, certificate_with_social_name=None, phone="+5511991758098"
                  )
 
     def test_create_user_invalid_ra(self):
@@ -97,7 +97,7 @@ class Test_User:
             User(accepted_notifications_email=True, user_id='0000-0000-00000-000000-0000000-00000', email='zeeba@maua.br', name='caio toledo', password=None,
                  ra='', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                  updated_at=None, social_name=None, accepted_terms=None,
-                 accepted_notifications_sms=None, certificate_with_social_name=None, phone="5511991758098"
+                 accepted_notifications_sms=None, certificate_with_social_name=None, phone="+5511991758098"
                  )
 
     def test_create_user_invalid_role(self):
@@ -105,7 +105,7 @@ class Test_User:
             User(accepted_notifications_email=True, user_id='0000-0000-00000-000000-0000000-00000', email='zeeba@maua.br', name='caio toledo', password=None,
                  ra='12345678', role='STUDENT', access_level=ACCESS_LEVEL.USER, created_at=None,
                  updated_at=None, social_name=None, accepted_terms=None,
-                 accepted_notifications_sms=None, certificate_with_social_name=None, phone="5511991758098"
+                 accepted_notifications_sms=None, certificate_with_social_name=None, phone="+5511991758098"
                  )
 
     def test_create_user_invalid_access_level(self):
@@ -113,7 +113,7 @@ class Test_User:
             User(accepted_notifications_email=True, user_id='0000-0000-00000-000000-0000000-00000', email='zeeba@maua.br', name='caio toledo', password=None,
                  ra='12345678', role=ROLE.STUDENT, access_level='USER', created_at=None,
                  updated_at=None, social_name=None, accepted_terms=None,
-                 accepted_notifications_sms=None, certificate_with_social_name=None, phone="5511991758098"
+                 accepted_notifications_sms=None, certificate_with_social_name=None, phone="+5511991758098"
                  )
 
     def test_create_user_invalid_created_at(self):
@@ -121,7 +121,7 @@ class Test_User:
             User(accepted_notifications_email=True, user_id='0000-0000-00000-000000-0000000-00000', email='zeeba@maua.br', name='caio toledo', password=None,
                  ra='12345678', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at='16449777000',
                  updated_at=None, social_name=None, accepted_terms=None,
-                 accepted_notifications_sms=None, certificate_with_social_name=None, phone="5511991758098"
+                 accepted_notifications_sms=None, certificate_with_social_name=None, phone="+5511991758098"
                  )
 
     def test_create_user_invalid_updated_at(self):
@@ -129,7 +129,7 @@ class Test_User:
             User(accepted_notifications_email=True, user_id='0000-0000-00000-000000-0000000-00000', email='zeeba@maua.br', name='caio toledo', password=None,
                  ra='12345678', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                  updated_at='16449777000', social_name=None, accepted_terms=None,
-                 accepted_notifications_sms=None, certificate_with_social_name=None, phone="5511991758098"
+                 accepted_notifications_sms=None, certificate_with_social_name=None, phone="+5511991758098"
                  )
 
     def test_create_user_invalid_social_name(self):
@@ -137,7 +137,7 @@ class Test_User:
             User(accepted_notifications_email=True, user_id='0000-0000-00000-000000-0000000-00000', email='zeeba@maua.br', name='caio toledo', password=None,
                  ra='12345678', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
                  updated_at=None, social_name=1, accepted_terms=None,
-                 accepted_notifications_sms=None, certificate_with_social_name=None, phone="5511991758098"
+                 accepted_notifications_sms=None, certificate_with_social_name=None, phone="+5511991758098"
                  )
 
     def test_create_user_invalid_accepted_terms(self):
@@ -145,7 +145,7 @@ class Test_User:
             User(accepted_notifications_email=True, user_id='0000-0000-00000-000000-0000000-00000', email='zeeba@maua.br', name='caio toledo', password=None,
                  ra='12345678', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                  updated_at=16449777000, social_name=None, accepted_terms='True',
-                 accepted_notifications_sms=None, certificate_with_social_name=None, phone="5511991758098"
+                 accepted_notifications_sms=None, certificate_with_social_name=None, phone="+5511991758098"
                  )
 
     def test_create_user_invalid_accepted_notifications_sms(self):
@@ -153,7 +153,7 @@ class Test_User:
             User(accepted_notifications_email=True, user_id='0000-0000-00000-000000-0000000-00000', email='zeeba@maua.br', name='caio toledo', password=None,
                  ra='12345678', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                  updated_at=16449777000, social_name=None, accepted_terms=None,
-                 accepted_notifications_sms='None', certificate_with_social_name=None, phone="5511991758098"
+                 accepted_notifications_sms='None', certificate_with_social_name=None, phone="+5511991758098"
                  )
 
     def test_create_user_invalid_certificate_with_social_name(self):
@@ -161,14 +161,14 @@ class Test_User:
             User(accepted_notifications_email=True, user_id='0000-0000-00000-000000-0000000-00000', email='zeeba@maua.br', name='caio toledo', password=None,
                  ra='12345678', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                  updated_at=16449777000, social_name=None, accepted_terms=None,
-                 accepted_notifications_sms=False, certificate_with_social_name='None', phone="5511991758098"
+                 accepted_notifications_sms=False, certificate_with_social_name='None', phone="+5511991758098"
                  )
 
     def test_user_to_dict(self):
         user = User(accepted_notifications_email=True, user_id='0000-0000-00000-000000-0000000-00000', email='zeeba@gmail.com', name='Caio toledo', password='z12345',
                     ra='20014309', role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=16449777000,
                     updated_at=16449777000, social_name='zeeba toledo', accepted_terms=True,
-                    accepted_notifications_sms=True, certificate_with_social_name=True, phone="5511991758098"
+                    accepted_notifications_sms=True, certificate_with_social_name=True, phone="+5511991758098"
                     )
         data = User.to_dict(user)
 
@@ -187,7 +187,7 @@ class Test_User:
             'accepted_notifications_sms': True,
             'accepted_notifications_email': True,
             'certificate_with_social_name': True,
-            'phone': '5511991758098'
+            'phone': '+5511991758098'
         }
 
         assert data == expected_data
@@ -196,7 +196,7 @@ class Test_User:
         user = User(accepted_notifications_email=None, user_id='0000-0000-00000-000000-0000000-00000', email='zeeba@maua.br', name='caio toledo', password=None,
                     ra=None, role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
                     updated_at=None, social_name=None, accepted_terms=None,
-                    accepted_notifications_sms=None, certificate_with_social_name=None, phone="5511991758098"
+                    accepted_notifications_sms=None, certificate_with_social_name=None, phone="+5511991758098"
                     )
 
         data = User.to_dict(user)
@@ -216,7 +216,7 @@ class Test_User:
             'accepted_notifications_sms': None,
             'accepted_notifications_email': None,
             'certificate_with_social_name': None,
-            'phone': '5511991758098'
+            'phone': '+5511991758098'
         }
 
         assert data == expected_data
@@ -237,7 +237,7 @@ class Test_User:
             'accepted_notifications_sms': True,
             'accepted_notifications_email': False,
             'certificate_with_social_name': True,
-            'phone': '5511991758098'
+            'phone': '+5511991758098'
         }
 
         user = User.parse_object(data)
@@ -257,7 +257,7 @@ class Test_User:
         assert user.accepted_notifications_sms == True
         assert user.accepted_notifications_email == False
         assert user.certificate_with_social_name == True
-        assert user.phone == '5511991758098'
+        assert user.phone == '+5511991758098'
 
     def test_user_from_dict_none(self):
         data = {
@@ -275,7 +275,7 @@ class Test_User:
             'accepted_notifications_sms': None,
             'accepted_notifications_email': None,
             'certificate_with_social_name': None,
-            'phone': '5511991758098'
+            'phone': '+5511991758098'
         }
 
         user = User.parse_object(data)

@@ -20,7 +20,7 @@ class Test_CreateUserController:
                 'accepted_notifications_sms': False,
                 'accepted_notifications_email': True,
                 'certificate_with_social_name': False,
-                'phone': '11991758098'
+                'phone': '+5511991758098'
             })
 
         response = controller(request)
@@ -33,9 +33,39 @@ class Test_CreateUserController:
         assert response.body['user']['role'] == 'STUDENT'
         assert response.body['user']['access_level'] == 'USER'
         assert response.body['user']['social_name'] == None
-        assert response.body['user']['phone'] == '11991758098'
+        assert response.body['user']['phone'] == '+5511991758098'
         assert response.body['message'] == 'the user was created'
 
+    def test_create_user_controller_no_plus_in_phone(self):
+        repo = UserRepositoryMock()
+        usease = CreateUserUsecase(repo)
+        controller = CreateUserController(usease)
+        request = HttpRequest(body={
+            'email': 'vitor@gmail.com',
+            'name': 'Vitor Soller',
+            'password': '123456',
+            'ra': '21014442',
+            'role': 'STUDENT',
+            'access_level': 'USER',
+            'accepted_terms': True,
+            'accepted_notifications_sms': False,
+            'accepted_notifications_email': True,
+            'certificate_with_social_name': False,
+            'phone': '5511991758098'
+        })
+
+        response = controller(request)
+
+        assert response.status_code == 201
+        assert response.body['user']['user_id'] == '00000000000000000000000000000000000' + str(len(repo.users))
+        assert response.body['user']['name'] == 'Vitor Soller'
+        assert response.body['user']['email'] == 'vitor@gmail.com'
+        assert response.body['user']['ra'] == '21014442'
+        assert response.body['user']['role'] == 'STUDENT'
+        assert response.body['user']['access_level'] == 'USER'
+        assert response.body['user']['social_name'] == None
+        assert response.body['user']['phone'] == '+5511991758098'
+        assert response.body['message'] == 'the user was created'
 
     def test_create_user_controller_missing_access_level(self):
         repo = UserRepositoryMock()
@@ -51,7 +81,7 @@ class Test_CreateUserController:
             'accepted_notifications_sms': False,
             'accepted_notifications_email': True,
             'certificate_with_social_name': False,
-            'phone': '11991758098'
+            'phone': '+5511991758098'
         })
 
         response = controller(request)
@@ -74,7 +104,7 @@ class Test_CreateUserController:
             'accepted_notifications_sms': False,
             'accepted_notifications_email': True,
             'certificate_with_social_name': False,
-            'phone': '11991758098'
+            'phone': '+5511991758098'
         })
 
         response = controller(request)
@@ -97,7 +127,7 @@ class Test_CreateUserController:
             'accepted_notifications_sms': False,
             'accepted_notifications_email': True,
             'certificate_with_social_name': False,
-            'phone': '11991758098'
+            'phone': '+5511991758098'
         })
 
         response = controller(request)
@@ -119,7 +149,7 @@ class Test_CreateUserController:
             'accepted_notifications_sms': False,
             'accepted_notifications_email': True,
             'certificate_with_social_name': False,
-            'phone': '11991758098'
+            'phone': '+5511991758098'
         })
 
         response = controller(request)
@@ -141,7 +171,7 @@ class Test_CreateUserController:
             'accepted_notifications_sms': False,
             'accepted_notifications_email': True,
             'certificate_with_social_name': False,
-            'phone': '11991758098'
+            'phone': '+5511991758098'
         })
 
         response = controller(request)
@@ -163,7 +193,7 @@ class Test_CreateUserController:
             'accepted_terms': True,
             'accepted_notifications_email': True,
             'certificate_with_social_name': False,
-            'phone': '11991758098'
+            'phone': '+5511991758098'
         })
 
         response = controller(request)
@@ -185,7 +215,7 @@ class Test_CreateUserController:
             'accepted_terms': True,
             'accepted_notifications_sms': True,
             'certificate_with_social_name': False,
-            'phone': '11991758098'
+            'phone': '+5511991758098'
         })
 
         response = controller(request)
@@ -208,7 +238,7 @@ class Test_CreateUserController:
             'accepted_notifications_sms': False,
             'accepted_notifications_email': True,
             'certificate_with_social_name': False,
-            'phone': '11991758098'
+            'phone': '+5511991758098'
         })
 
         response = controller(request)
@@ -231,7 +261,7 @@ class Test_CreateUserController:
             'accepted_notifications_sms': False,
             'accepted_notifications_email': True,
             'certificate_with_social_name': False,
-            'phone': '11991758098'
+            'phone': '+5511991758098'
         })
 
     def test_create_user_controller_missing_password(self):
@@ -248,7 +278,7 @@ class Test_CreateUserController:
             'accepted_notifications_sms': False,
             'accepted_notifications_email': True,
             'certificate_with_social_name': False,
-            'phone': '11991758098'
+            'phone': '+5511991758098'
         })
 
         response = controller(request)
@@ -271,7 +301,7 @@ class Test_CreateUserController:
             'accepted_notifications_sms': True,
             'accepted_notifications_email': True,
             'certificate_with_social_name': False,
-            'phone': '11991758098'
+            'phone': '+5511991758098'
         })
 
         response = controller(request)
@@ -294,7 +324,7 @@ class Test_CreateUserController:
             'accepted_notifications_sms': True,
             'accepted_notifications_email': True,
             'certificate_with_social_name': False,
-            'phone': '11991758098'
+            'phone': '+5511991758098'
         })
 
         response = controller(request)
@@ -316,7 +346,7 @@ class Test_CreateUserController:
             'accepted_terms': True,
             'accepted_notifications_sms': True,
             'accepted_notifications_email': True,
-            'phone': '11991758098'
+            'phone': '+5511991758098'
         })
 
         response = controller(request)
