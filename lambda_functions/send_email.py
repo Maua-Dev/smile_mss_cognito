@@ -382,7 +382,6 @@ def lambda_handler(event, context):
         </tbody>
         </table>
         </body>
-        <p style="visibility: hidden"> &#128098; &#127871; &#9898; &#x1F3D9; &#9728; </p>
         </html>
         """
 
