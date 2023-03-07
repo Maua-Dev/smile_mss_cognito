@@ -40,6 +40,24 @@ class IacStack(Stack):
 
         self.cognito_stack = CognitoStack(self, "smile_cognito_stack")
 
+        custom_message_function = lambda_.Function(
+            self, "pre_sign_up-smile-cognito",
+            code=lambda_.Code.from_asset(f"../lambda_functions"),
+            handler=f"send_email.lambda_handler",
+            environment={
+                "API_ENDPOINT": self.rest_api.url,
+                "FRONT_ENDPOINT": self.front_endpoint,
+            },
+            runtime=lambda_.Runtime.PYTHON_3_9,
+            timeout=Duration.seconds(15)
+        )
+
+        self.cognito_stack.user_pool.add_trigger(
+            aws_cognito.UserPoolOperation.CUSTOM_MESSAGE,
+            custom_message_function
+        )
+
+
         api_gateway_resource = self.rest_api.root.add_resource("mss-cognito", default_cors_preflight_options=
         {
             "allow_origins": Cors.ALL_ORIGINS,
@@ -72,20 +90,4 @@ class IacStack(Stack):
         for f in self.lambda_stack.functions_that_need_cognito_permissions:
             f.add_to_role_policy(cognito_admin_policy)
 
-        custom_message_funciton = lambda_.Function(
-            self, "pre_sign_up-smile-cognito",
-            code=lambda_.Code.from_asset(f"../lambda_functions"),
-            handler=f"send_email.lambda_handler",
-            environment={
-                "API_ENDPOINT": self.rest_api.url,
-                "FRONT_ENDPOINT": self.front_endpoint,
-            },
-            runtime=lambda_.Runtime.PYTHON_3_9,
-            timeout=Duration.seconds(15)
-        )
-
-        self.cognito_stack.user_pool.add_trigger(
-            aws_cognito.UserPoolOperation.CUSTOM_MESSAGE,
-            custom_message_funciton
-        )
 
