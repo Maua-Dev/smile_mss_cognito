@@ -26,6 +26,7 @@ class IacStack(Stack):
     github_ref = os.environ.get("GITHUB_REF")
     hosted_zone_id = os.environ.get("HOSTED_ZONE_ID")
     alternative_domain_name = os.environ.get("ALTERNATIVE_DOMAIN_NAME")
+    zone_name = os.environ.get("ZONE_NAME")
 
 
     # lambda_stack: LambdaStack
@@ -47,7 +48,8 @@ class IacStack(Stack):
         self.cognito_stack = CognitoStack(self, f"smile_cognito_stack_{self.github_ref}")
 
         zone = route53.HostedZone.from_hosted_zone_attributes(self, f'hosted_zone_{self.github_ref}',
-                                                              hosted_zone_id=self.hosted_zone_id)
+                                                              hosted_zone_id=self.hosted_zone_id,
+                                                              zone_name=self.zone_name)
         record = route53.ARecord(self, f"api-record_{self.github_ref}", zone=zone, record_name=self.alternative_domain_name, target=route53.RecordTarget.from_alias(
                                      targets.ApiGateway(self.rest_api)))
 
