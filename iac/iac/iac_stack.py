@@ -79,7 +79,7 @@ class IacStack(Stack):
             code=lambda_.Code.from_asset(f"../lambda_functions"),
             handler=f"send_email.lambda_handler",
             environment={
-                "FRONT_ENDPOINT": self.alternative_domain_name,
+                "FRONT_ENDPOINT": self.front_endpoint,
             },
             runtime=lambda_.Runtime.PYTHON_3_9,
             timeout=Duration.seconds(15)
