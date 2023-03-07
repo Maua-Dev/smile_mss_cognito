@@ -72,10 +72,11 @@ class IacStack(Stack):
         for f in self.lambda_stack.functions_that_need_cognito_permissions:
             f.add_to_role_policy(cognito_admin_policy)
             f.add_environment(
-                value={
-                    "USER_POOL_ID": self.cognito_stack.user_pool.user_pool_id,
-                    "CLIENT_ID": self.cognito_stack.client.user_pool_client_id,
-                }
+                key="USER_POOL_ID",
+                value=self.cognito_stack.user_pool.user_pool_id)
+            f.add_environment(
+                key="CLIENT_ID",
+                value=self.cognito_stack.client.user_pool_client_id
             )
 
         custom_message_function = lambda_.Function(
