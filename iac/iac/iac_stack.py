@@ -5,6 +5,8 @@ from aws_cdk import (
     Stack,
     # aws_sqs as sqs,
     aws_iam, aws_cognito,
+    aws_route53 as route53,
+    aws_route53_targets as targets,
     aws_lambda as lambda_, Duration,
 )
 from constructs import Construct
@@ -21,13 +23,17 @@ class IacStack(Stack):
 
     front_endpoint = os.environ.get('FRONT_ENDPOINT')
     # rest_api_url = os.environ.get('API_ENDPOINT')
+    github_ref = os.environ.get("GITHUB_REF")
+    hosted_zone_id = os.environ.get("HOSTED_ZONE_ID")
+    alternative_domain_name = os.environ.get("ALTERNATIVE_DOMAIN_NAME")
+
 
     # lambda_stack: LambdaStack
 
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
-        self.rest_api = RestApi(self, "smile_auth_rest_api",
+        self.rest_api = RestApi(self, f"smile_auth_rest_api_{self.github_ref}",
                                 rest_api_name="Smile_Cognito_RestApi",
                                 description="This is the Smile RestApi",
                                 default_cors_preflight_options=
@@ -38,25 +44,12 @@ class IacStack(Stack):
                                 },
                                 )
 
-        self.cognito_stack = CognitoStack(self, "smile_cognito_stack")
+        self.cognito_stack = CognitoStack(self, f"smile_cognito_stack_{self.github_ref}")
 
-        custom_message_function = lambda_.Function(
-            self, "pre_sign_up-smile-cognito",
-            code=lambda_.Code.from_asset(f"../lambda_functions"),
-            handler=f"send_email.lambda_handler",
-            environment={
-                "API_ENDPOINT": self.rest_api.url,
-                "FRONT_ENDPOINT": self.front_endpoint,
-            },
-            runtime=lambda_.Runtime.PYTHON_3_9,
-            timeout=Duration.seconds(15)
-        )
-
-        self.cognito_stack.user_pool.add_trigger(
-            aws_cognito.UserPoolOperation.CUSTOM_MESSAGE,
-            custom_message_function
-        )
-
+        zone = route53.HostedZone.from_hosted_zone_attributes(self, f'hosted_zone_{self.github_ref}',
+                                                              hosted_zone_id=self.hosted_zone_id)
+        record = route53.ARecord(self, f"api-record_{self.github_ref}", zone=zone, record_name=self.alternative_domain_name, target=route53.RecordTarget.from_alias(
+                                     targets.ApiGateway(self.rest_api)))
 
         api_gateway_resource = self.rest_api.root.add_resource("mss-cognito", default_cors_preflight_options=
         {
@@ -89,5 +82,22 @@ class IacStack(Stack):
 
         for f in self.lambda_stack.functions_that_need_cognito_permissions:
             f.add_to_role_policy(cognito_admin_policy)
+
+        custom_message_function = lambda_.Function(
+            self, "pre_sign_up-smile-cognito",
+            code=lambda_.Code.from_asset(f"../lambda_functions"),
+            handler=f"send_email.lambda_handler",
+            environment={
+                "API_ENDPOINT": self.rest_api.url,
+                "FRONT_ENDPOINT": self.alternative_domain_name,
+            },
+            runtime=lambda_.Runtime.PYTHON_3_9,
+            timeout=Duration.seconds(15)
+        )
+
+        self.cognito_stack.user_pool.add_trigger(
+            aws_cognito.UserPoolOperation.CUSTOM_MESSAGE,
+            custom_message_function
+        )
 
 
