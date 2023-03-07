@@ -4,7 +4,8 @@ from aws_cdk import (
     # Duration,
     Stack,
     # aws_sqs as sqs,
-    aws_iam
+    aws_iam, aws_cognito,
+    aws_lambda as lambda_, Duration,
 )
 from constructs import Construct
 
@@ -37,7 +38,7 @@ class IacStack(Stack):
                                 },
                                 )
 
-        self.cognito_stack = CognitoStack(self, "smile_cognito_stack", api_endpoint=self.rest_api.url, front_endpoint=self.front_endpoint)
+        self.cognito_stack = CognitoStack(self, "smile_cognito_stack")
 
         api_gateway_resource = self.rest_api.root.add_resource("mss-cognito", default_cors_preflight_options=
         {
@@ -70,3 +71,20 @@ class IacStack(Stack):
 
         for f in self.lambda_stack.functions_that_need_cognito_permissions:
             f.add_to_role_policy(cognito_admin_policy)
+
+        custom_message_funciton = lambda_.Function(
+            self, "pre_sign_up-smile-cognito",
+            code=lambda_.Code.from_asset(f"../lambda_functions"),
+            handler=f"send_email.lambda_handler",
+            environment={
+                "API_ENDPOINT": self.rest_api.url,
+                "FRONT_ENDPOINT": self.front_endpoint,
+            },
+            runtime=lambda_.Runtime.PYTHON_3_9,
+            timeout=Duration.seconds(15)
+        )
+
+        self.cognito_stack.user_pool.lambda_triggers = aws_cognito.UserPoolTriggers(
+                                            custom_message=custom_message_funciton
+                                         )
+
