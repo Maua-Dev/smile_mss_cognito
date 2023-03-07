@@ -81,7 +81,7 @@ class IacStack(Stack):
             code=lambda_.Code.from_asset(f"../lambda_functions"),
             handler=f"send_email.lambda_handler",
             environment={
-                "API_ENDPOINT": self.rest_api.url[f"rest_api_{self.github_ref}"],
+                "API_ENDPOINT": self.rest_api.outputs[f"rest_api_{self.github_ref}"],
                 "FRONT_ENDPOINT": self.alternative_domain_name,
             },
             runtime=lambda_.Runtime.PYTHON_3_9,
