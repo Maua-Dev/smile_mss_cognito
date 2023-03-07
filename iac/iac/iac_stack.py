@@ -52,8 +52,6 @@ class IacStack(Stack):
 
         ENVIRONMENT_VARIABLES = {
             "STAGE": "DEV",
-            "USER_POOL_ID": self.cognito_stack.user_pool.user_pool_id,
-            "CLIENT_ID": self.cognito_stack.client.user_pool_client_id,
             "REGION": self.region,
             "FRONT_ENDPOINT": self.front_endpoint,
         }
@@ -73,13 +71,19 @@ class IacStack(Stack):
 
         for f in self.lambda_stack.functions_that_need_cognito_permissions:
             f.add_to_role_policy(cognito_admin_policy)
+            f.add_environment(
+                {
+                    "USER_POOL_ID": self.cognito_stack.user_pool.user_pool_id,
+                    "CLIENT_ID": self.cognito_stack.client.user_pool_client_id,
+                }
+            )
 
         custom_message_function = lambda_.Function(
             self, "pre_sign_up-smile-cognito",
             code=lambda_.Code.from_asset(f"../lambda_functions"),
             handler=f"send_email.lambda_handler",
             environment={
-                "API_ENDPOINT": api_gateway.RestApi.from_rest_api_id(self, "MyRestApi", f"smile_auth_rest_api_{self.github_ref}").url,
+                "API_ENDPOINT": self.rest_api.url,
                 "FRONT_ENDPOINT": self.alternative_domain_name,
             },
             runtime=lambda_.Runtime.PYTHON_3_9,
