@@ -39,9 +39,6 @@ class IacStack(Stack):
                                 },
                                 )
 
-        CfnOutput(self, f"rest_api_{self.github_ref}", value=self.rest_api.url)
-
-
         self.cognito_stack = CognitoStack(self, f"smile_cognito_stack_{self.github_ref}")
 
         api_gateway_resource = self.rest_api.root.add_resource("mss-cognito", default_cors_preflight_options=
@@ -81,7 +78,7 @@ class IacStack(Stack):
             code=lambda_.Code.from_asset(f"../lambda_functions"),
             handler=f"send_email.lambda_handler",
             environment={
-                "API_ENDPOINT": self.rest_api.outputs[f"rest_api_{self.github_ref}"],
+                "API_ENDPOINT": self.apigateway.RestApi.from_rest_api_id(self, "MyRestApi", f"smile_auth_rest_api_{self.github_ref}").url,
                 "FRONT_ENDPOINT": self.alternative_domain_name,
             },
             runtime=lambda_.Runtime.PYTHON_3_9,
