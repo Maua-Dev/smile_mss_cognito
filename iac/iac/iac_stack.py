@@ -72,7 +72,7 @@ class IacStack(Stack):
         for f in self.lambda_stack.functions_that_need_cognito_permissions:
             f.add_to_role_policy(cognito_admin_policy)
             f.add_environment(
-                {
+                value={
                     "USER_POOL_ID": self.cognito_stack.user_pool.user_pool_id,
                     "CLIENT_ID": self.cognito_stack.client.user_pool_client_id,
                 }
