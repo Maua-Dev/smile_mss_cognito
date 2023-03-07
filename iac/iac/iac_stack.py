@@ -5,6 +5,7 @@ from aws_cdk import (
     Stack,
     # aws_sqs as sqs,
     aws_iam, aws_cognito,
+    aws_apigateway as api_gateway,
     aws_route53 as route53,
     aws_route53_targets as targets,
     aws_lambda as lambda_, Duration,
@@ -78,7 +79,7 @@ class IacStack(Stack):
             code=lambda_.Code.from_asset(f"../lambda_functions"),
             handler=f"send_email.lambda_handler",
             environment={
-                "API_ENDPOINT": self.apigateway.RestApi.from_rest_api_id(self, "MyRestApi", f"smile_auth_rest_api_{self.github_ref}").url,
+                "API_ENDPOINT": api_gateway.RestApi.from_rest_api_id(self, "MyRestApi", f"smile_auth_rest_api_{self.github_ref}").url,
                 "FRONT_ENDPOINT": self.alternative_domain_name,
             },
             runtime=lambda_.Runtime.PYTHON_3_9,
