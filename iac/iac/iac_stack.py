@@ -19,7 +19,7 @@ from .lambda_stack import LambdaStack
 class IacStack(Stack):
 
     front_endpoint = os.environ.get('FRONT_ENDPOINT')
-    rest_api_url = os.environ.get('API_ENDPOINT')
+    # rest_api_url = os.environ.get('API_ENDPOINT')
 
     # lambda_stack: LambdaStack
 
@@ -37,7 +37,7 @@ class IacStack(Stack):
                                 },
                                 )
 
-        self.cognito_stack = CognitoStack(self, "smile_cognito_stack", api_endpoint=self.rest_api_url, front_endpoint=self.front_endpoint)
+        self.cognito_stack = CognitoStack(self, "smile_cognito_stack", api_endpoint=self.rest_api.url, front_endpoint=self.front_endpoint)
 
         api_gateway_resource = self.rest_api.root.add_resource("mss-cognito", default_cors_preflight_options=
         {
