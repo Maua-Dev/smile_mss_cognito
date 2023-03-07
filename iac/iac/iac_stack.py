@@ -84,7 +84,7 @@ class IacStack(Stack):
             timeout=Duration.seconds(15)
         )
 
-        self.cognito_stack.user_pool.addTrigger(
+        self.cognito_stack.user_pool.add_trigger(
             aws_cognito.UserPoolOperation.CUSTOM_MESSAGE,
             custom_message_funciton
         )
