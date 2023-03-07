@@ -8,6 +8,7 @@ from aws_cdk import (
     aws_route53 as route53,
     aws_route53_targets as targets,
     aws_lambda as lambda_, Duration,
+    CfnOutput
 )
 from constructs import Construct
 
@@ -22,14 +23,7 @@ from .lambda_stack import LambdaStack
 class IacStack(Stack):
 
     front_endpoint = os.environ.get('FRONT_ENDPOINT')
-    # rest_api_url = os.environ.get('API_ENDPOINT')
     github_ref = os.environ.get("GITHUB_REF")
-    hosted_zone_id = os.environ.get("HOSTED_ZONE_ID")
-    alternative_domain_name = os.environ.get("ALTERNATIVE_DOMAIN_NAME")
-    zone_name = os.environ.get("ZONE_NAME")
-
-
-    # lambda_stack: LambdaStack
 
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
@@ -45,13 +39,10 @@ class IacStack(Stack):
                                 },
                                 )
 
-        self.cognito_stack = CognitoStack(self, f"smile_cognito_stack_{self.github_ref}")
+        CfnOutput(self, f"rest_api_{self.github_ref}", value=self.rest_api.url)
 
-        zone = route53.HostedZone.from_hosted_zone_attributes(self, f'hosted_zone_{self.github_ref}',
-                                                              hosted_zone_id=self.hosted_zone_id,
-                                                              zone_name=self.zone_name)
-        record = route53.ARecord(self, f"api-record_{self.github_ref}", zone=zone, record_name=self.alternative_domain_name, target=route53.RecordTarget.from_alias(
-                                     targets.ApiGateway(self.rest_api)))
+
+        self.cognito_stack = CognitoStack(self, f"smile_cognito_stack_{self.github_ref}")
 
         api_gateway_resource = self.rest_api.root.add_resource("mss-cognito", default_cors_preflight_options=
         {
@@ -90,7 +81,7 @@ class IacStack(Stack):
             code=lambda_.Code.from_asset(f"../lambda_functions"),
             handler=f"send_email.lambda_handler",
             environment={
-                "API_ENDPOINT": self.rest_api.url,
+                "API_ENDPOINT": self.rest_api.url[f"rest_api_{self.github_ref}"],
                 "FRONT_ENDPOINT": self.alternative_domain_name,
             },
             runtime=lambda_.Runtime.PYTHON_3_9,
