@@ -85,6 +85,11 @@ class IacStack(Stack):
             timeout=Duration.seconds(15)
         )
 
+        custom_message_function.add_environment(
+            key="API_ENDPOINT",
+            value=self.rest_api.url
+        )
+
         self.cognito_stack.user_pool.add_trigger(
             aws_cognito.UserPoolOperation.CUSTOM_MESSAGE,
             custom_message_function
