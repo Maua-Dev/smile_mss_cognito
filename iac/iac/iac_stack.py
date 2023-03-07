@@ -25,6 +25,7 @@ class IacStack(Stack):
 
     front_endpoint = os.environ.get('FRONT_ENDPOINT')
     github_ref = os.environ.get("GITHUB_REF")
+    rest_api_url = os.environ.get("API_ENDPOINT")
 
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
@@ -87,7 +88,7 @@ class IacStack(Stack):
 
         custom_message_function.add_environment(
             key="API_ENDPOINT",
-            value=self.rest_api.url
+            value=self.rest_api_url
         )
 
         self.cognito_stack.user_pool.add_trigger(

@@ -48,9 +48,6 @@ jobs:
 
           env:
             FRONT_ENDPOINT: ${{ vars.FRONT_ENDPOINT }}
-            API_ENDPOINT: ${{ secrets.API_ENDPOINT }}
+            API_ENDPOINT: ${{ vars.API_ENDPOINT }}
             STACK_NAME: ${{ env.STACK_NAME }}
             GITHUB_REF: ${{ github.ref_name }}
-            HOSTED_ZONE_ID: ${{secrets.HOSTED_ZONE_ID}}
-            ALTERNATIVE_DOMAIN_NAME: ${{vars.ALTERNATIVE_DOMAIN_NAME}}
-            ZONE_NAME: ${{ vars.ZONE_NAME }}
