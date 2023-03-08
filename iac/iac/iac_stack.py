@@ -4,7 +4,12 @@ from aws_cdk import (
     # Duration,
     Stack,
     # aws_sqs as sqs,
-    aws_iam
+    aws_iam, aws_cognito,
+    aws_apigateway as api_gateway,
+    aws_route53 as route53,
+    aws_route53_targets as targets,
+    aws_lambda as lambda_, Duration,
+    CfnOutput
 )
 from constructs import Construct
 
@@ -19,14 +24,13 @@ from .lambda_stack import LambdaStack
 class IacStack(Stack):
 
     front_endpoint = os.environ.get('FRONT_ENDPOINT')
-    rest_api_url = os.environ.get('API_ENDPOINT')
-
-    # lambda_stack: LambdaStack
+    github_ref = os.environ.get("GITHUB_REF")
+    rest_api_url = os.environ.get("API_ENDPOINT")
 
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
-        self.rest_api = RestApi(self, "smile_auth_rest_api",
+        self.rest_api = RestApi(self, f"smile_auth_rest_api_{self.github_ref}",
                                 rest_api_name="Smile_Cognito_RestApi",
                                 description="This is the Smile RestApi",
                                 default_cors_preflight_options=
@@ -37,7 +41,7 @@ class IacStack(Stack):
                                 },
                                 )
 
-        self.cognito_stack = CognitoStack(self, "smile_cognito_stack", api_endpoint=self.rest_api_url, front_endpoint=self.front_endpoint)
+        self.cognito_stack = CognitoStack(self, f"smile_cognito_stack_{self.github_ref}")
 
         api_gateway_resource = self.rest_api.root.add_resource("mss-cognito", default_cors_preflight_options=
         {
@@ -70,3 +74,26 @@ class IacStack(Stack):
 
         for f in self.lambda_stack.functions_that_need_cognito_permissions:
             f.add_to_role_policy(cognito_admin_policy)
+
+        custom_message_function = lambda_.Function(
+            self, "pre_sign_up-smile-cognito",
+            code=lambda_.Code.from_asset(f"../lambda_functions"),
+            handler=f"send_email.lambda_handler",
+            environment={
+                "FRONT_ENDPOINT": self.front_endpoint,
+            },
+            runtime=lambda_.Runtime.PYTHON_3_9,
+            timeout=Duration.seconds(15)
+        )
+
+        custom_message_function.add_environment(
+            key="API_ENDPOINT",
+            value=self.rest_api_url
+        )
+
+        self.cognito_stack.user_pool.add_trigger(
+            aws_cognito.UserPoolOperation.CUSTOM_MESSAGE,
+            custom_message_function
+        )
+
+
