@@ -165,6 +165,16 @@ class User(abc.ABC):
         return True
 
     @staticmethod
+    def validate_email_maua_professor(email: str) -> bool:
+        if email == None:
+            return False
+
+        regex = re.compile(
+            r"^(?!\d{2}\.\d{5}-\d)[\w.-]+@maua\.br$")
+
+        return bool(re.fullmatch(regex, email))
+
+    @staticmethod
     def parse_object(user: dict) -> 'User':
         return User(
             user_id=user.get("user_id"),

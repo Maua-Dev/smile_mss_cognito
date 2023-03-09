@@ -44,3 +44,8 @@ class InvalidTokenError(BaseError):
 class InvalidAdminError(BaseError):
     def __init__(self, message: str):
         super().__init__(message)
+
+
+class InvalidProfessorError(BaseError):
+    def __init__(self, message: str):
+        super().__init__(message)

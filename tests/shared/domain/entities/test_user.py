@@ -296,4 +296,12 @@ class Test_User:
         assert user.accepted_notifications_email == None
         assert user.certificate_with_social_name == None
 
+    def test_user_professor_maua(self):
+        email = "vitor@maua.br"
 
+        assert User.validate_email_maua_professor(email)
+
+    def test_user_professor_maua_invalid(self):
+        email = "21.01444-2@maua.br"
+
+        assert not User.validate_email_maua_professor(email)
