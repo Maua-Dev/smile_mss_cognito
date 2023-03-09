@@ -134,8 +134,8 @@ class User(abc.ABC):
             return False
         elif len(name) < User.MIN_NAME_LENGTH:
             return False
-
-        return True
+        name_regex = re.compile(r'^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$')
+        return bool(re.fullmatch(name_regex, name))
 
     @staticmethod
     def validate_password(name: str) -> bool:
@@ -163,6 +163,16 @@ class User(abc.ABC):
             return False
 
         return True
+
+    @staticmethod
+    def validate_email_maua_professor(email: str) -> bool:
+        if email == None:
+            return False
+
+        regex = re.compile(
+            r"^(?!\d{2}\.\d{5}-\d)[\w.-]+@maua\.br$")
+
+        return bool(re.fullmatch(regex, email))
 
     @staticmethod
     def parse_object(user: dict) -> 'User':

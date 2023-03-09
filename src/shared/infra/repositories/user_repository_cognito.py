@@ -102,19 +102,22 @@ class UserRepositoryCognito(IUserRepository):
         return user
 
     def update_user(self, user_email: str, kvp_to_update: dict) -> User:
-        response = self.client.admin_update_user_attributes(
-            UserPoolId=self.user_pool_id,
-            Username=user_email,
-            UserAttributes=[{'Name': UserCognitoDTO.TO_COGNITO_DICT[key], 'Value': value} for key, value in kvp_to_update.items()]
-        )
+        try:
+            response = self.client.admin_update_user_attributes(
+                UserPoolId=self.user_pool_id,
+                Username=user_email,
+                UserAttributes=[{'Name': UserCognitoDTO.TO_COGNITO_DICT[key], 'Value': value} for key, value in kvp_to_update.items()]
+            )
 
-        user = self.get_user_by_email(user_email)
+            user = self.get_user_by_email(user_email)
 
-        if user.phone is not None:
-            self.force_verify_user_phone_number(user.email)
+            if user.phone is not None:
+                self.force_verify_user_phone_number(user.email)
 
-        return user
+            return user
 
+        except self.client.exceptions.InvalidParameterException as e:
+            raise EntityError(e.response.get('Error').get('Message'))
 
     def delete_user(self, user_email: str):
         self.client.admin_delete_user(

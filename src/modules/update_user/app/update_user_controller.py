@@ -56,6 +56,9 @@ class UpdateUserController:
 
         except EntityError as err:
 
+            if "phone" in err.message:
+                return BadRequest(body=f"Número de telefone inválido")
+
             return BadRequest(body=f"Parâmetro inválido: {err.message}")
 
         except InvalidTokenError as err:
