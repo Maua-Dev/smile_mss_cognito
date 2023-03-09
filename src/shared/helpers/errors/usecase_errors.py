@@ -49,3 +49,8 @@ class InvalidAdminError(BaseError):
 class InvalidProfessorError(BaseError):
     def __init__(self, message: str):
         super().__init__(message)
+
+
+class InvalidStudentError(BaseError):
+    def __init__(self, message: str):
+        super().__init__(message)

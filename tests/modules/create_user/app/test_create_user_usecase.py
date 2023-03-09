@@ -12,7 +12,7 @@ class Test_CreateUserUsecase:
     def test_create_user_usecase(self):
 
         user = User(user_id='000000000000000000000000000000000000', email='vitor@gmail.com', name='Vitor soller', password='z12345',
-                    ra=None, role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
+                    ra=None, role=ROLE.EXTERNAL, access_level=ACCESS_LEVEL.USER, created_at=None,
                     updated_at=None, social_name=None, accepted_terms=True,
                     accepted_notifications_sms=True, certificate_with_social_name=False, phone="+5511991758098", accepted_notifications_email=True)
         repo = UserRepositoryMock()
@@ -26,7 +26,7 @@ class Test_CreateUserUsecase:
         assert new_user.name == 'Vitor Soller'
         assert new_user.email == 'vitor@gmail.com'
         assert new_user.ra == None
-        assert new_user.role == ROLE.STUDENT
+        assert new_user.role == ROLE.EXTERNAL
         assert new_user.access_level == ACCESS_LEVEL.USER
         assert new_user.social_name == None
         assert new_user.accepted_terms == True
@@ -52,7 +52,7 @@ class Test_CreateUserUsecase:
         usecase = CreateUserUsecase(repo)
 
         user = User(user_id='000000000000000000000000000000000000', email='zeeba@gmail.com', name='Vitor soller',
-                    password="z12345", ra=None, role=ROLE.STUDENT, access_level=ACCESS_LEVEL.USER, created_at=None,
+                    password="z12345", ra=None, role=ROLE.EXTERNAL, access_level=ACCESS_LEVEL.USER, created_at=None,
                     updated_at=None, social_name=None, accepted_terms=True, accepted_notifications_sms=True,
                     certificate_with_social_name=False, phone="+5511991758098", accepted_notifications_email=True)
 
