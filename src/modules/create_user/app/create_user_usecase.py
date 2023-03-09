@@ -16,7 +16,7 @@ class CreateUserUsecase:
         if user.access_level != ACCESS_LEVEL.USER:
             raise EntityError('access_level')
 
-        if user.role == ROLE.PROFESSOR and User.validate_email_maua_professor(user.email):
+        if user.role == ROLE.PROFESSOR and not User.validate_email_maua_professor(user.email):
             raise InvalidProfessorError('email')
 
         if user.role == ROLE.STUDENT and not User.validate_ra(user.ra):
