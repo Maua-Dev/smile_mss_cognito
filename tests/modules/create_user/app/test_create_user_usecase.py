@@ -4,7 +4,7 @@ from src.modules.create_user.app.create_user_usecase import CreateUserUsecase
 from src.shared.domain.entities.enums import ACCESS_LEVEL, ROLE
 from src.shared.domain.entities.user import User
 from src.shared.helpers.errors.domain_errors import EntityError
-from src.shared.helpers.errors.usecase_errors import ForbiddenAction, DuplicatedItem
+from src.shared.helpers.errors.usecase_errors import ForbiddenAction, DuplicatedItem, TermsNotAcceptedError
 from src.shared.infra.repositories.user_repository_mock import UserRepositoryMock
 
 
@@ -57,5 +57,17 @@ class Test_CreateUserUsecase:
                     certificate_with_social_name=False, phone="+5511991758098", accepted_notifications_email=True)
 
         with pytest.raises(DuplicatedItem):
+            new_user = usecase(user)
+
+    def test_create_user_usecase_terms_not_accepted(self):
+        repo = UserRepositoryMock()
+        usecase = CreateUserUsecase(repo)
+
+        user = User(user_id='000000000000000000000000000000000000', email='zeeba@gmail.com', name='Vitor soller',
+                    password="z12345", ra=None, role=ROLE.EXTERNAL, access_level=ACCESS_LEVEL.USER, created_at=None,
+                    updated_at=None, social_name=None, accepted_terms=False, accepted_notifications_sms=True,
+                    certificate_with_social_name=False, phone="+5511991758098", accepted_notifications_email=True)
+
+        with pytest.raises(TermsNotAcceptedError):
             new_user = usecase(user)
 

@@ -2,7 +2,8 @@ from src.shared.domain.entities.enums import ACCESS_LEVEL, ROLE
 from src.shared.domain.entities.user import User
 from src.shared.domain.repositories.user_repository_interface import IUserRepository
 from src.shared.helpers.errors.domain_errors import EntityError
-from src.shared.helpers.errors.usecase_errors import InvalidAdminError, InvalidProfessorError, InvalidStudentError
+from src.shared.helpers.errors.usecase_errors import InvalidAdminError, InvalidProfessorError, InvalidStudentError, \
+    TermsNotAcceptedError
 
 
 class CreateUserUsecase:
@@ -23,6 +24,9 @@ class CreateUserUsecase:
 
         if user.role == ROLE.ADMIN:
             raise InvalidAdminError('access_level')
+
+        if not user.accepted_terms:
+            raise TermsNotAcceptedError('accepted_terms')
 
         user.email = user.email.lower()
 
