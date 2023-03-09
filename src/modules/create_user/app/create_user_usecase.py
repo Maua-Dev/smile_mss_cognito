@@ -25,6 +25,9 @@ class CreateUserUsecase:
         if user.role == ROLE.ADMIN:
             raise InvalidAdminError('access_level')
 
+        if user.social_name is None and user.certificate_with_social_name:
+            raise EntityError('certificate_with_social_name')
+
         if not user.accepted_terms:
             raise TermsNotAcceptedError('accepted_terms')
 

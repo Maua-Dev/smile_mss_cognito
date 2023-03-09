@@ -91,3 +91,14 @@ class Test_CreateUserUsecase:
                         updated_at=None, social_name="1=1", accepted_terms=False, accepted_notifications_sms=True,
                         certificate_with_social_name=False, phone="+5511991758098", accepted_notifications_email=True)
 
+    def test_create_user_usecase_social_name(self):
+
+        user = User(user_id='000000000000000000000000000000000000', email='vitor@gmail.com', name='Vitor soller', password='z12345',
+                    ra=None, role=ROLE.EXTERNAL, access_level=ACCESS_LEVEL.USER, created_at=None,
+                    updated_at=None, social_name=None, accepted_terms=True,
+                    accepted_notifications_sms=True, certificate_with_social_name=True, phone="+5511991758098", accepted_notifications_email=True)
+        repo = UserRepositoryMock()
+        usecase = CreateUserUsecase(repo)
+
+        with pytest.raises(EntityError):
+            new_user = usecase(user)
