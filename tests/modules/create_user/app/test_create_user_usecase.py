@@ -71,3 +71,23 @@ class Test_CreateUserUsecase:
         with pytest.raises(TermsNotAcceptedError):
             new_user = usecase(user)
 
+    def test_create_user_strange_name(self):
+        repo = UserRepositoryMock()
+        usecase = CreateUserUsecase(repo)
+
+        with pytest.raises(EntityError):
+            user = User(user_id='000000000000000000000000000000000000', email='zeeba@gmail.com', name='1=1vitor',
+                        password="z12345", ra=None, role=ROLE.EXTERNAL, access_level=ACCESS_LEVEL.USER, created_at=None,
+                        updated_at=None, social_name=None, accepted_terms=False, accepted_notifications_sms=True,
+                        certificate_with_social_name=False, phone="+5511991758098", accepted_notifications_email=True)
+
+    def test_create_user_strange_social_name(self):
+        repo = UserRepositoryMock()
+        usecase = CreateUserUsecase(repo)
+
+        with pytest.raises(EntityError):
+            user = User(user_id='000000000000000000000000000000000000', email='zeeba@gmail.com', name='Vitor soller',
+                        password="z12345", ra=None, role=ROLE.EXTERNAL, access_level=ACCESS_LEVEL.USER, created_at=None,
+                        updated_at=None, social_name="1=1", accepted_terms=False, accepted_notifications_sms=True,
+                        certificate_with_social_name=False, phone="+5511991758098", accepted_notifications_email=True)
+

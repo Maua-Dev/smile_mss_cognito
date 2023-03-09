@@ -134,8 +134,8 @@ class User(abc.ABC):
             return False
         elif len(name) < User.MIN_NAME_LENGTH:
             return False
-
-        return True
+        name_regex = re.compile(r'^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$')
+        return bool(re.fullmatch(name_regex, name))
 
     @staticmethod
     def validate_password(name: str) -> bool:
