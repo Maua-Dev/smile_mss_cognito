@@ -57,6 +57,9 @@ class CreateUserController:
                 phone = phone.replace(' ', '').replace('(', '').replace(')', '').replace('-', '')
                 phone = phone if phone.startswith('+') else f'+{phone}'
 
+            if request.data.get('accepted_notifications_sms') == True and phone is None:
+                raise MissingParameters("phone")
+
             user_dict = {
                 'email': request.data.get('email').replace(' ', ''),
                 'name': request.data.get('name'),
