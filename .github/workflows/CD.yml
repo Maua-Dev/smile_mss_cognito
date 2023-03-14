@@ -51,3 +51,4 @@ jobs:
             API_ENDPOINT: ${{ vars.API_ENDPOINT }}
             STACK_NAME: ${{ env.STACK_NAME }}
             GITHUB_REF: ${{ github.ref_name }}
+            FROM_EMAIL: ${{ vars.FROM_EMAIL }}
