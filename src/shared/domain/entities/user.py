@@ -150,6 +150,8 @@ class User(abc.ABC):
             return False
         elif len(ra) != 8:
             return False
+        elif not ra.isdecimal():
+            return False
 
         return True
 

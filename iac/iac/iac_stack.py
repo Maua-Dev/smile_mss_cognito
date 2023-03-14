@@ -91,6 +91,11 @@ class IacStack(Stack):
             value=self.rest_api_url
         )
 
+        custom_message_function.add_environment(
+            key="FROM_EMAIL",
+            value=os.environ.get("FROM_EMAIL")
+        )
+
         self.cognito_stack.user_pool.add_trigger(
             aws_cognito.UserPoolOperation.CUSTOM_MESSAGE,
             custom_message_function

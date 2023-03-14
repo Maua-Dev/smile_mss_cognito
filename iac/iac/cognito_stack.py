@@ -1,3 +1,5 @@
+import os
+
 from aws_cdk import (
     aws_cognito, RemovalPolicy,
     aws_lambda as lambda_,
@@ -13,6 +15,12 @@ class CognitoStack(Construct):
 
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
+
+        self.email = aws_cognito.UserPoolEmail.with_ses(
+            ses_region="sa-east-1",
+            from_email=os.environ.get("FROM_EMAIL"),
+            from_name="Semana Mauá de Inovação Liderança e Empreendedorismo 2023",
+        )
 
         self.user_pool = aws_cognito.UserPool(self, "smile_user_pool",
                                          removal_policy=RemovalPolicy.DESTROY,
@@ -43,6 +51,7 @@ class CognitoStack(Construct):
                                              "acceptedNotificSMS": aws_cognito.BooleanAttribute(mutable=True),
                                              "acceptedNotificMail": aws_cognito.BooleanAttribute(mutable=True),
                                          },
+                                        email=self.email
                                         )
 
 
