@@ -17,7 +17,7 @@ class CognitoStack(Construct):
         super().__init__(scope, construct_id, **kwargs)
 
         self.email = aws_cognito.UserPoolEmail.with_ses(
-            ses_region="sa-east-1",
+            ses_region=os.environ.get("SES_EMAIL"),
             from_email=os.environ.get("FROM_EMAIL"),
             from_name="Semana Mauá de Inovação Liderança e Empreendedorismo 2023",
         )
