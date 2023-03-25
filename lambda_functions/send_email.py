@@ -684,7 +684,7 @@ def lambda_handler(event, context):
                 <div class="v-font-size" style="font-size: 15px; line-height: 140%; text-align: justify; word-wrap: break-word;">
                 <p style="line-height: 140%; font-size: 14px;"><span style="font-family: 'Open Sans', sans-serif; font-size: 16px; line-height: 21px;"><strong>Olá, {name}</strong></span></p>
                 <p style="line-height: 140%;">&nbsp;</p>
-                <p style="line-height: 140%;">Você solicitou para trocar sua senha, se não foi você, apenas ignore esta mensagem</p>
+                <p style="line-height: 140%;">Você solicitou troca de senha, se não foi você, apenas ignore esta mensagem</p>
                 <p style="line-height: 140%;">&nbsp;</p>
                 <p style="line-height: 140%;">Para criar uma nova senha em seu cadastro da SMILE 2023 clique:</p>
                 </div>
