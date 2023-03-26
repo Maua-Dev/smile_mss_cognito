@@ -45,10 +45,10 @@ jobs:
             cd iac
             cdk synth
             cdk deploy --require-approval never
+            python add_env_variables.py
 
           env:
             FRONT_ENDPOINT: ${{ vars.FRONT_ENDPOINT }}
-            API_ENDPOINT: ${{ vars.API_ENDPOINT }}
             STACK_NAME: ${{ env.STACK_NAME }}
             GITHUB_REF: ${{ github.ref_name }}
             FROM_EMAIL: ${{ vars.FROM_EMAIL }}

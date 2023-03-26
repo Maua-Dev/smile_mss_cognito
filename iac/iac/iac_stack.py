@@ -25,7 +25,6 @@ class IacStack(Stack):
 
     front_endpoint = os.environ.get('FRONT_ENDPOINT')
     github_ref = os.environ.get("GITHUB_REF")
-    rest_api_url = os.environ.get("API_ENDPOINT")
 
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
@@ -79,21 +78,8 @@ class IacStack(Stack):
             self, "pre_sign_up-smile-cognito",
             code=lambda_.Code.from_asset(f"../lambda_functions"),
             handler=f"send_email.lambda_handler",
-            environment={
-                "FRONT_ENDPOINT": self.front_endpoint,
-            },
             runtime=lambda_.Runtime.PYTHON_3_9,
             timeout=Duration.seconds(15)
-        )
-
-        custom_message_function.add_environment(
-            key="API_ENDPOINT",
-            value=self.rest_api_url
-        )
-
-        custom_message_function.add_environment(
-            key="FROM_EMAIL",
-            value=os.environ.get("FROM_EMAIL")
         )
 
         self.cognito_stack.user_pool.add_trigger(
@@ -101,4 +87,12 @@ class IacStack(Stack):
             custom_message_function
         )
 
+        CfnOutput(self,
+                  f"AuthRestApiUrl-{self.github_ref}",
+                  value=f"{self.rest_api.url}mss-cognito",
+                  export_name=f"AuthRestApiUrlValue")
 
+        CfnOutput(self,
+                  f"CustomMessageFunction-{self.github_ref}",
+                    value=custom_message_function.function_name,
+                    export_name=f"CustomMessageFunctionValue")
