@@ -71,10 +71,10 @@ class CreateUserController:
                 'updated_at': None,
                 'social_name': request.data.get('social_name') if request.data.get('social_name') else None,
                 'accepted_terms': request.data.get('accepted_terms'),
-                'accepted_notifications_sms': request.data.get('accepted_notifications_sms'),
+                'accepted_notifications_sms': False,
                 'accepted_notifications_email': request.data.get('accepted_notifications_email'),
                 'certificate_with_social_name': request.data.get('certificate_with_social_name'),
-                'phone': phone,
+                'phone': None,
             }
 
             new_user = User.parse_object(user_dict)

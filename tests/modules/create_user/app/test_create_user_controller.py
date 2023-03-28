@@ -33,7 +33,7 @@ class Test_CreateUserController:
         assert response.body['user']['role'] == 'STUDENT'
         assert response.body['user']['access_level'] == 'USER'
         assert response.body['user']['social_name'] == None
-        assert response.body['user']['phone'] == '+5511991758098'
+        assert response.body['user']['phone'] == None
         assert response.body['message'] == 'the user was created'
 
     def test_create_user_controller_no_plus_in_phone(self):
@@ -64,7 +64,7 @@ class Test_CreateUserController:
         assert response.body['user']['role'] == 'STUDENT'
         assert response.body['user']['access_level'] == 'USER'
         assert response.body['user']['social_name'] == None
-        assert response.body['user']['phone'] == '+5511991758098'
+        assert response.body['user']['phone'] == None
         assert response.body['message'] == 'the user was created'
 
     def test_create_user_controller_missing_access_level(self):
