@@ -33,8 +33,8 @@ class CreateUserController:
             if request.data.get('accepted_terms') is None:
                 raise MissingParameters('accepted_terms')
 
-            if request.data.get('accepted_notifications_sms') is None:
-                raise MissingParameters('accepted_notifications_sms')
+            # if request.data.get('accepted_notifications_sms') is None:
+            #     raise MissingParameters('accepted_notifications_sms')
 
             if request.data.get('accepted_notifications_email') is None:
                 raise MissingParameters('accepted_notifications_email')
