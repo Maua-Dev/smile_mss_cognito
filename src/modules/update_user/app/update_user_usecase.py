@@ -30,6 +30,9 @@ class UpdateUserUsecase:
 
         kvp_to_update = {k: str(v) for k, v in kvp_to_update.items()}
 
+        kvp_to_update['phone'] = None
+
+
         new_user = self.repo.update_user(user_email=old_user.email, kvp_to_update=kvp_to_update)
 
         return new_user

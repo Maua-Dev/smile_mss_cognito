@@ -12,7 +12,7 @@ class UpdateUserController:
 
     def __init__(self, usecase: UpdateUserUsecase):
         self.UpdateUserUsecase = usecase
-        self.mutable_fields = ['name', 'social_name', 'accepted_notifications_sms', 'accepted_notifications_email', 'certificate_with_social_name', "phone"]
+        self.mutable_fields = ['name', 'social_name', 'accepted_notifications_sms', 'accepted_notifications_email', 'certificate_with_social_name']
 
     def __call__(self, request: IRequest) -> IResponse:
         try:
@@ -33,9 +33,13 @@ class UpdateUserController:
                 phone = phone.replace(' ', '').replace('(', '').replace(')', '').replace('-', '')
                 phone = phone if phone.startswith('+') else f'+{phone}'
                 user_data["phone"] = phone
+                user_data["phone"] = None
 
                 if User.validate_phone(phone) is False:
                     raise EntityError('phone')
+
+            if "accepted_notifications_sms" in user_data:
+                user_data["accepted_notifications_sms"] = str(False)
 
             user = self.UpdateUserUsecase(
                 mew_user_data=user_data,
