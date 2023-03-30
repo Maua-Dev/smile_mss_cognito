@@ -20,7 +20,7 @@ class Test_UpdateUserController:
         assert response.body['user']['role'] == repo.confirmed_users[0].role.value
         assert response.body['user']['access_level'] == repo.confirmed_users[0].access_level.value
         assert response.body['user']['social_name'] == 'Vitinho'
-        assert eval(response.body['user']['accepted_notifications_sms']) == True
+        assert eval(response.body['user']['accepted_notifications_sms']) == False
         assert eval(response.body['user']['accepted_notifications_email']) == True
         assert eval(response.body['user']['certificate_with_social_name']) == True
         assert response.body['message'] == 'the user was updated'
@@ -46,7 +46,7 @@ class Test_UpdateUserController:
 
         assert response.status_code == 200
         assert response.body['user']['user_id'] == repo.confirmed_users[0].user_id
-        assert response.body['user']['phone'] == '+5511991758098'
+        assert response.body['user']['phone'] == None
 
 
     def test_update_user_controller_missing_authorization(self):

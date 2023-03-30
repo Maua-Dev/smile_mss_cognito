@@ -24,11 +24,14 @@ class UpdateUserUsecase:
         kvp_to_update = {k: eval(v.title()) if User.__annotations__[k] in bool_items and type(v) == str else v for k, v in kvp_to_update.items()}
 
         for k, v in kvp_to_update.items():
-            old_user_data[k] = v
+            old_user_data[k] = v if v != "" else None
 
         old_user = User.parse_object(old_user_data)
 
         kvp_to_update = {k: str(v) for k, v in kvp_to_update.items()}
+
+        kvp_to_update['phone'] = None
+
 
         new_user = self.repo.update_user(user_email=old_user.email, kvp_to_update=kvp_to_update)
 

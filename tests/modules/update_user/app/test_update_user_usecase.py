@@ -53,7 +53,7 @@ class Test_UpdateUserUsecase:
         assert repo.confirmed_users[0].social_name == 'Vitor Godoy'
         assert repo.confirmed_users[0].accepted_notifications_sms
         assert repo.confirmed_users[0].certificate_with_social_name
-        assert repo.confirmed_users[0].phone == '+5511999999999'
+        assert repo.confirmed_users[0].phone == None
         assert repo.confirmed_users[0].ra == old_user.ra
         assert repo.confirmed_users[0].accepted_terms == old_user.accepted_terms
 

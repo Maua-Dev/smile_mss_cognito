@@ -2,7 +2,7 @@ from .refresh_token_usecase import RefreshTokenUsecase
 from .refresh_token_viewmodel import RefreshTokenViewmodel
 from src.shared.helpers.errors.controller_errors import MissingParameters
 from src.shared.helpers.errors.domain_errors import EntityError
-from src.shared.helpers.errors.usecase_errors import ForbiddenAction
+from src.shared.helpers.errors.usecase_errors import ForbiddenAction, InvalidTokenError
 from src.shared.helpers.external_interfaces.external_interface import IRequest, IResponse
 from src.shared.helpers.external_interfaces.http_codes import OK, BadRequest, Forbidden, InternalServerError
 
@@ -40,6 +40,10 @@ class RefreshTokenController:
         except EntityError as err:
 
             return BadRequest(body=f"Parâmetro inválido: {err.message}")
+
+        except InvalidTokenError as err:
+
+            return BadRequest(body=f"Token inválido, favor fazer login novamente")
 
         except Exception as err:
 

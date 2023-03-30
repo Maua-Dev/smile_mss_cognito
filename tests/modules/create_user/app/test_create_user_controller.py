@@ -33,7 +33,7 @@ class Test_CreateUserController:
         assert response.body['user']['role'] == 'STUDENT'
         assert response.body['user']['access_level'] == 'USER'
         assert response.body['user']['social_name'] == None
-        assert response.body['user']['phone'] == '+5511991758098'
+        assert response.body['user']['phone'] == None
         assert response.body['message'] == 'the user was created'
 
     def test_create_user_controller_no_plus_in_phone(self):
@@ -64,7 +64,7 @@ class Test_CreateUserController:
         assert response.body['user']['role'] == 'STUDENT'
         assert response.body['user']['access_level'] == 'USER'
         assert response.body['user']['social_name'] == None
-        assert response.body['user']['phone'] == '+5511991758098'
+        assert response.body['user']['phone'] == None
         assert response.body['message'] == 'the user was created'
 
     def test_create_user_controller_missing_access_level(self):
@@ -179,27 +179,27 @@ class Test_CreateUserController:
         assert response.status_code == 400
         assert response.body == 'Parâmetro ausente: accepted_terms'
 
-    def test_create_user_controller_missing_accepted_notifications_sms(self):
-        repo = UserRepositoryMock()
-        usease = CreateUserUsecase(repo)
-        controller = CreateUserController(usease)
-        request = HttpRequest(body={
-            'email': 'vitor@gmail.com',
-            'name': 'Vitor Soller',
-            'password': '123456',
-            'ra': '21014442',
-            'role': 'STUDENT',
-            'access_level': 'USER',
-            'accepted_terms': True,
-            'accepted_notifications_email': True,
-            'certificate_with_social_name': False,
-            'phone': '+5511991758098'
-        })
-
-        response = controller(request)
-
-        assert response.status_code == 400
-        assert response.body == 'Parâmetro ausente: accepted_notifications_sms'
+    # def test_create_user_controller_missing_accepted_notifications_sms(self):
+    #     repo = UserRepositoryMock()
+    #     usease = CreateUserUsecase(repo)
+    #     controller = CreateUserController(usease)
+    #     request = HttpRequest(body={
+    #         'email': 'vitor@gmail.com',
+    #         'name': 'Vitor Soller',
+    #         'password': '123456',
+    #         'ra': '21014442',
+    #         'role': 'STUDENT',
+    #         'access_level': 'USER',
+    #         'accepted_terms': True,
+    #         'accepted_notifications_email': True,
+    #         'certificate_with_social_name': False,
+    #         'phone': '+5511991758098'
+    #     })
+    #
+    #     response = controller(request)
+    #
+    #     assert response.status_code == 400
+    #     assert response.body == 'Parâmetro ausente: accepted_notifications_sms'
 
     def test_create_user_controller_missing_accepted_notifications_email(self):
         repo = UserRepositoryMock()

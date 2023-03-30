@@ -103,6 +103,12 @@ class UserRepositoryCognito(IUserRepository):
 
     def update_user(self, user_email: str, kvp_to_update: dict) -> User:
         try:
+
+            kvp_to_update["phone"] = ''
+
+            if kvp_to_update.get("social_name") is None:
+                kvp_to_update["social_name"] = ''
+
             response = self.client.admin_update_user_attributes(
                 UserPoolId=self.user_pool_id,
                 Username=user_email,
