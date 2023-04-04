@@ -21,8 +21,8 @@ def lambda_handler(event, context):
                 <p>&nbsp;</p>
                 <p>Para confirmar seu cadastro na SMILE 2023 clique:</p>
 
-                <a href="{API_ENDPOINT}/confirm-user-creation?confirmation_code={code}&amp;email={email}" target="_blank" class="v-button v-font-size" style="box-sizing: border-box;display: inline-block;font-family:'Open Sans',sans-serif;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #FFFFFF; background-color: #ed731a; border-radius: 4px;-webkit-border-radius: 4px; -moz-border-radius: 4px; width:auto; max-width:100%; overflow-wrap: break-word; word-break: break-word; word-wrap:break-word; mso-border-alt: none;font-size: 20px;"><span style="display:block;padding:10px 20px;line-height:120%;">Confirmar inscrição!</span></a>
-
+                <a href="{API_ENDPOINT}/confirm-user-creation?confirmation_code={code}&amp;email={email}" target="_blank">Confirmar inscrição!</a>
+                
                 <p>Atenciosamente,</p>
                 <p>&nbsp;</p>
                 <p><strong>Equipe SMILE 2023</strong></p>
@@ -48,7 +48,7 @@ def lambda_handler(event, context):
                 <p>&nbsp;</p>
                 <p>Para criar uma nova senha em seu cadastro da SMILE 2023 clique:</p>
 
-                <a href="{FRONT_ENDPOINT}/#/login/esqueci-minha-senha/escolher-senha?code={code}&email={email_before_at}&emailProvider={email_provider}" target="_blank" class="v-button v-font-size" style="box-sizing: border-box;display: inline-block;font-family:'Open Sans',sans-serif;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #FFFFFF; background-color: #ed731a; border-radius: 4px;-webkit-border-radius: 4px; -moz-border-radius: 4px; width:auto; max-width:100%; overflow-wrap: break-word; word-break: break-word; word-wrap:break-word; mso-border-alt: none;font-size: 20px;"><span style="display:block;padding:10px 20px;line-height:120%;">Recuperar senha</span></a>
+                <a href="{FRONT_ENDPOINT}/#/login/esqueci-minha-senha/escolher-senha?code={code}&email={email_before_at}&emailProvider={email_provider}" target="_blank">Recuperar senha</a>
 
                 <p>Atenciosamente,</p>
                 <p>&nbsp;</p>
