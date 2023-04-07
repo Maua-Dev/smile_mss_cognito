@@ -54,3 +54,4 @@ jobs:
             GITHUB_REF: ${{ github.ref_name }}
             FROM_EMAIL: ${{ vars.FROM_EMAIL }}
             SES_EMAIL: ${{ vars.SES_EMAIL }}
+            REPLY_TO_EMAIL: ${{ vars.REPLY_TO_EMAIL }}

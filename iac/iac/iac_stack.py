@@ -77,6 +77,7 @@ class IacStack(Stack):
         custom_message_function = lambda_.Function(
             self, "pre_sign_up-smile-cognito",
             code=lambda_.Code.from_asset(f"../lambda_functions"),
+            memory_size=512,
             handler=f"send_email.lambda_handler",
             runtime=lambda_.Runtime.PYTHON_3_9,
             timeout=Duration.seconds(15)
