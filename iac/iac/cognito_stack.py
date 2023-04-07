@@ -19,7 +19,6 @@ class CognitoStack(Construct):
         self.email = aws_cognito.UserPoolEmail.with_ses(
             ses_region=os.environ.get("SES_EMAIL"),
             from_email=os.environ.get("FROM_EMAIL"),
-            from_name="SMILE 2023",
         )
 
         self.user_pool = aws_cognito.UserPool(self, "smile_user_pool",
