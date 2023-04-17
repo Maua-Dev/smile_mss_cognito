@@ -3,7 +3,7 @@ import os
 from aws_cdk import (
     aws_cognito, RemovalPolicy,
     aws_lambda as lambda_,
-    Duration
+    Duration, CfnOutput
 )
 from constructs import Construct
 from aws_cdk.aws_apigateway import Resource, LambdaIntegration
@@ -22,9 +22,12 @@ class CognitoStack(Construct):
             reply_to=os.environ.get("REPLY_TO_EMAIL"),
         )
 
-        self.user_pool = aws_cognito.UserPool(self, "smile_user_pool",
-                                         removal_policy=RemovalPolicy.DESTROY,
+        self.github_ref = os.environ.get("GITHUB_REF")
 
+        REMOVAL_POLICY = RemovalPolicy.RETAIN if 'prod' in self.github_ref else RemovalPolicy.DESTROY
+
+        self.user_pool = aws_cognito.UserPool(self, "smile_user_pool",
+                                         removal_policy=REMOVAL_POLICY,
                                          self_sign_up_enabled=True,
                                          auto_verify=aws_cognito.AutoVerifiedAttrs(email=True),
                                          user_verification=aws_cognito.UserVerificationConfig(
@@ -64,3 +67,8 @@ class CognitoStack(Construct):
                                  user_srp=True
                              )
                              )
+
+        CfnOutput(self, 'CognitoRemovalPolicy',
+                  value=REMOVAL_POLICY.value,
+                  export_name='CognitoRemovalPolicyValue')
+
