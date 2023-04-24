@@ -1,4 +1,6 @@
 import json
+import urllib.parse
+
 from src.shared.domain.observability.observability_interface import IObservability
 from .confirm_change_password_usecase import ConfirmChangePasswordUsecase
 from .confirm_change_password_viewmodel import ConfirmChangePasswordViewmodel
@@ -28,8 +30,10 @@ class ConfirmChangePasswordController:
             if request.data.get('confirmation_code') is None:
                 raise MissingParameters('confirmation_code')
 
+            email = urllib.parse.unquote(request.data.get('email'))
+
             resp = self.usecase(
-                email=request.data.get('email'),
+                email=email,
                 confirmation_code=request.data.get('confirmation_code'),
                 new_password=request.data.get('new_password')
             )
