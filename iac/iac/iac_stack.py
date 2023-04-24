@@ -26,8 +26,11 @@ class IacStack(Stack):
     front_endpoint = os.environ.get('FRONT_ENDPOINT')
     github_ref = os.environ.get("GITHUB_REF")
 
+
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
+
+        self.mss_name = os.environ.get("MSS_NAME")
 
         self.rest_api = RestApi(self, f"smile_auth_rest_api_{self.github_ref}",
                                 rest_api_name="Smile_Cognito_RestApi",
@@ -56,6 +59,7 @@ class IacStack(Stack):
             "CLIENT_ID": self.cognito_stack.client.user_pool_client_id,
             "REGION": self.region,
             "FRONT_ENDPOINT": self.front_endpoint,
+            "MSS_NAME": self.mss_name
         }
 
         self.lambda_stack = LambdaStack(self, api_gateway_resource=api_gateway_resource,

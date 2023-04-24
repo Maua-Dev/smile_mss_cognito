@@ -1,15 +1,17 @@
 from src.modules.get_user.app.get_user_controller import GetUserController
 from src.modules.get_user.app.get_user_usecase import GetUserUsecase
 from src.shared.helpers.external_interfaces.http_models import HttpRequest
+from src.shared.infra.external.observability.observability_mock import ObservabilityMock
 from src.shared.infra.repositories.user_repository_mock import UserRepositoryMock
 
+observability = ObservabilityMock(module_name="get_user")
 
 class Test_GetUserController:
 
     def test_get_user_controller(self):
         repo = UserRepositoryMock()
-        usecase = GetUserUsecase(repo)
-        controller = GetUserController(usecase)
+        usecase = GetUserUsecase(repo, observability=observability)
+        controller = GetUserController(usecase, observability=observability)
 
         response = controller(HttpRequest(query_params={'email': "zeeba@gmail.com"}))
 
@@ -25,8 +27,8 @@ class Test_GetUserController:
 
     def test_get_user_missing_email(self):
         repo = UserRepositoryMock()
-        usecase = GetUserUsecase(repo)
-        controller = GetUserController(usecase)
+        usecase = GetUserUsecase(repo, observability=observability)
+        controller = GetUserController(usecase, observability=observability)
 
         response = controller(HttpRequest(query_params={}))
 
@@ -35,8 +37,8 @@ class Test_GetUserController:
 
     def test_get_user_entity_error(self):
         repo = UserRepositoryMock()
-        usecase = GetUserUsecase(repo)
-        controller = GetUserController(usecase)
+        usecase = GetUserUsecase(repo, observability=observability)
+        controller = GetUserController(usecase, observability=observability)
 
         response = controller(HttpRequest(query_params={'email': 'invalid_email'}))
 
@@ -45,8 +47,8 @@ class Test_GetUserController:
 
     def test_get_user_no_items_found(self):
         repo = UserRepositoryMock()
-        usecase = GetUserUsecase(repo)
-        controller = GetUserController(usecase)
+        usecase = GetUserUsecase(repo, observability=observability)
+        controller = GetUserController(usecase, observability=observability)
 
         response = controller(HttpRequest(query_params={'email': 'vitor@vitinho.com'}))
 
