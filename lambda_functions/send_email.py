@@ -785,3 +785,11 @@ def send_email_presenter(event, context):
     observability.log_simple_lambda_out()
     
     return event
+
+@observability.handler_decorators
+def lambda_handler(event, context):
+    
+    response = send_email_presenter(event, context)
+    
+    
+    return response
