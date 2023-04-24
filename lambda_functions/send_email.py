@@ -1,4 +1,5 @@
 import os
+import urllib.parse
 
 from src.shared.environments import Environments
 
@@ -392,7 +393,8 @@ def send_email_presenter(event, context):
         </html>
         """
 
-        message = message.format(name=name, code=code, email=email, API_ENDPOINT=API_ENDPOINT)
+        email_encoded = urllib.parse.quote(email)
+        message = message.format(name=name, code=code, email=email_encoded, API_ENDPOINT=API_ENDPOINT)
 
         event["response"]["emailMessage"] = message
         event["response"]["emailSubject"] = 'Confirme seu cadastro - SMILE 2023'
@@ -775,11 +777,12 @@ def send_email_presenter(event, context):
                 </html>
         """
 
-        message = message.format(name=name, FRONT_ENDPOINT=FRONT_ENDPOINT, code=code, email_before_at=email_before_at, email_provider=email_provider)
+        email_before_at_encoded = urllib.parse.quote(email_before_at)
+
+        message = message.format(name=name, FRONT_ENDPOINT=FRONT_ENDPOINT, code=code, email_before_at=email_before_at_encoded, email_provider=email_provider)
 
         event["response"]["emailMessage"] = message
         event["response"]["emailSubject"] = 'Criar nova senha - SMILE 2023'
-
 
     print(event)
     observability.log_simple_lambda_out()
