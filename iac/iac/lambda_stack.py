@@ -12,7 +12,7 @@ from aws_cdk.aws_apigateway import Resource, LambdaIntegration
 class LambdaStack(Construct):
 
     functions_that_need_cognito_permissions = []
-
+#confia em mim
     def createLambdaApiGatewayIntegration(self, module_name: str, method: str, mss_student_api_resource: Resource, environment_variables: dict = {"STAGE": "TEST"}):
         function = lambda_.Function(
             self, module_name.title(),
