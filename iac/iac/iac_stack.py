@@ -65,6 +65,8 @@ class IacStack(Stack):
         self.lambda_stack = LambdaStack(self, api_gateway_resource=api_gateway_resource,
                                         environment_variables=ENVIRONMENT_VARIABLES)
 
+    
+
         cognito_admin_policy = aws_iam.PolicyStatement(
             effect=aws_iam.Effect.ALLOW,
             actions=[
@@ -84,7 +86,8 @@ class IacStack(Stack):
             memory_size=512,
             handler=f"send_email.lambda_handler",
             runtime=lambda_.Runtime.PYTHON_3_9,
-            timeout=Duration.seconds(15)
+            timeout=Duration.seconds(15),
+            layers=[self.lambda_stack.lambda_power_tools],
         )
 
         self.cognito_stack.user_pool.add_trigger(
