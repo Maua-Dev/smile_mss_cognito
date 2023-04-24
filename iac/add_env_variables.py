@@ -12,7 +12,7 @@ def addEnviromentVariable(api_endpoint: str, function_name: str):
                     'FROM_EMAIL': os.environ.get("FROM_EMAIL"),
                     'FRONT_ENDPOINT': os.environ.get("FRONT_ENDPOINT"),
                     'MSS_NAME': os.environ.get("MSS_NAME"),
-                    'STAGE': os.environ.get("STAGE")
+                    'STAGE': "DEV"
             }
         },
     )
