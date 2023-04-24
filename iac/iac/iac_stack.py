@@ -26,8 +26,11 @@ class IacStack(Stack):
     front_endpoint = os.environ.get('FRONT_ENDPOINT')
     github_ref = os.environ.get("GITHUB_REF")
 
+
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
+
+        self.mss_name = os.environ.get("MSS_NAME")
 
         self.rest_api = RestApi(self, f"smile_auth_rest_api_{self.github_ref}",
                                 rest_api_name="Smile_Cognito_RestApi",
@@ -56,10 +59,13 @@ class IacStack(Stack):
             "CLIENT_ID": self.cognito_stack.client.user_pool_client_id,
             "REGION": self.region,
             "FRONT_ENDPOINT": self.front_endpoint,
+            "MSS_NAME": self.mss_name
         }
 
         self.lambda_stack = LambdaStack(self, api_gateway_resource=api_gateway_resource,
                                         environment_variables=ENVIRONMENT_VARIABLES)
+
+    
 
         cognito_admin_policy = aws_iam.PolicyStatement(
             effect=aws_iam.Effect.ALLOW,
@@ -80,7 +86,9 @@ class IacStack(Stack):
             memory_size=512,
             handler=f"send_email.lambda_handler",
             runtime=lambda_.Runtime.PYTHON_3_9,
-            timeout=Duration.seconds(15)
+            timeout=Duration.seconds(15),
+            layers=[self.lambda_stack.lambda_power_tools],
+            environment={"MSS_NAME":self.mss_name}
         )
 
         self.cognito_stack.user_pool.add_trigger(

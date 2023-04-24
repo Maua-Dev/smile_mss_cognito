@@ -1,4 +1,5 @@
 from src.shared.domain.entities.user import User
+from src.shared.domain.observability.observability_interface import IObservability
 from src.shared.domain.repositories.user_repository_interface import IUserRepository
 from src.shared.helpers.errors.controller_errors import MissingParameters
 from src.shared.helpers.errors.domain_errors import EntityError
@@ -7,10 +8,13 @@ from src.shared.helpers.errors.usecase_errors import ForbiddenAction, InvalidCre
 
 class LoginUserUsecase:
 
-    def __init__(self, repo: IUserRepository):
+    def __init__(self, repo: IUserRepository, observability: IObservability):
         self.repo = repo
+        self.observability = observability
 
     def __call__(self, email: str, password: str) -> dict:
+        self.observability.log_usecase_in()
+        
         login_response_fields = ['email', 'access_token',
                                  'refresh_token', 'email', 'role', 'access_level']
 
@@ -25,4 +29,7 @@ class LoginUserUsecase:
             raise InvalidCredentials("email or password")
         if not set(login_response_fields) <= set(data.keys()):
             raise MissingParameters(f'{login_response_fields}')
+        
+        self.observability.log_usecase_out()
+        
         return data

@@ -1,14 +1,16 @@
 from src.modules.create_user.app.create_user_controller import CreateUserController
 from src.modules.create_user.app.create_user_usecase import CreateUserUsecase
 from src.shared.helpers.external_interfaces.http_models import HttpRequest
+from src.shared.infra.external.observability.observability_mock import ObservabilityMock
 from src.shared.infra.repositories.user_repository_mock import UserRepositoryMock
 
+observability = ObservabilityMock(module_name="create_user")
 
 class Test_CreateUserController:
     def test_create_user_controller(self):
         repo = UserRepositoryMock()
-        usease = CreateUserUsecase(repo)
-        controller = CreateUserController(usease)
+        usease = CreateUserUsecase(repo, observability=observability)
+        controller = CreateUserController(usease, observability=observability)
         request = HttpRequest(body={
                 'email': 'vitor@gmail.com',
                 'name': 'Vitor Soller',
@@ -38,8 +40,8 @@ class Test_CreateUserController:
 
     def test_create_user_controller_no_plus_in_phone(self):
         repo = UserRepositoryMock()
-        usease = CreateUserUsecase(repo)
-        controller = CreateUserController(usease)
+        usease = CreateUserUsecase(repo, observability=observability)
+        controller = CreateUserController(usease, observability=observability)
         request = HttpRequest(body={
             'email': 'vitor@gmail.com',
             'name': 'Vitor Soller',
@@ -69,8 +71,8 @@ class Test_CreateUserController:
 
     def test_create_user_controller_missing_access_level(self):
         repo = UserRepositoryMock()
-        usease = CreateUserUsecase(repo)
-        controller = CreateUserController(usease)
+        usease = CreateUserUsecase(repo, observability=observability)
+        controller = CreateUserController(usease, observability=observability)
         request = HttpRequest(body={
             'email': 'vitor@gmail.com',
             'name': 'Vitor Soller',
@@ -91,8 +93,8 @@ class Test_CreateUserController:
 
     def test_create_user_controller_invalid_role(self):
         repo = UserRepositoryMock()
-        usease = CreateUserUsecase(repo)
-        controller = CreateUserController(usease)
+        usease = CreateUserUsecase(repo, observability=observability)
+        controller = CreateUserController(usease, observability=observability)
         request = HttpRequest(body={
             'email': 'vitor@gmail.com',
             'name': 'Vitor Soller',
@@ -114,8 +116,8 @@ class Test_CreateUserController:
 
     def test_create_user_controller_invalid_access_level(self):
         repo = UserRepositoryMock()
-        usease = CreateUserUsecase(repo)
-        controller = CreateUserController(usease)
+        usease = CreateUserUsecase(repo, observability=observability)
+        controller = CreateUserController(usease, observability=observability)
         request = HttpRequest(body={
             'email': 'vitor@gmail.com',
             'name': 'Vitor Soller',
@@ -137,8 +139,8 @@ class Test_CreateUserController:
 
     def test_create_user_controller_missing_role(self):
         repo = UserRepositoryMock()
-        usease = CreateUserUsecase(repo)
-        controller = CreateUserController(usease)
+        usease = CreateUserUsecase(repo, observability=observability)
+        controller = CreateUserController(usease, observability=observability)
         request = HttpRequest(body={
             'email': 'vitor@gmail.com',
             'name': 'Vitor Soller',
@@ -159,8 +161,8 @@ class Test_CreateUserController:
 
     def test_create_user_controller_missing_accepted_terms(self):
         repo = UserRepositoryMock()
-        usease = CreateUserUsecase(repo)
-        controller = CreateUserController(usease)
+        usease = CreateUserUsecase(repo, observability=observability)
+        controller = CreateUserController(usease, observability=observability)
         request = HttpRequest(body={
             'email': 'vitor@gmail.com',
             'name': 'Vitor Soller',
@@ -181,8 +183,8 @@ class Test_CreateUserController:
 
     # def test_create_user_controller_missing_accepted_notifications_sms(self):
     #     repo = UserRepositoryMock()
-    #     usease = CreateUserUsecase(repo)
-    #     controller = CreateUserController(usease)
+    #     usease = CreateUserUsecase(repo, observability=observability)
+    #     controller = CreateUserController(usease, observability=observability)
     #     request = HttpRequest(body={
     #         'email': 'vitor@gmail.com',
     #         'name': 'Vitor Soller',
@@ -203,8 +205,8 @@ class Test_CreateUserController:
 
     def test_create_user_controller_missing_accepted_notifications_email(self):
         repo = UserRepositoryMock()
-        usease = CreateUserUsecase(repo)
-        controller = CreateUserController(usease)
+        usease = CreateUserUsecase(repo, observability=observability)
+        controller = CreateUserController(usease, observability=observability)
         request = HttpRequest(body={
             'email': 'vitor@gmail.com',
             'name': 'Vitor Soller',
@@ -226,8 +228,8 @@ class Test_CreateUserController:
 
     def test_create_user_controller_missing_name(self):
         repo = UserRepositoryMock()
-        usease = CreateUserUsecase(repo)
-        controller = CreateUserController(usease)
+        usease = CreateUserUsecase(repo, observability=observability)
+        controller = CreateUserController(usease, observability=observability)
         request = HttpRequest(body={
             'email': 'vitor@gmail.com',
             'password': '123456',
@@ -248,9 +250,9 @@ class Test_CreateUserController:
 
     def test_create_user_controller_missing_email(self):
         repo = UserRepositoryMock()
-        usease = CreateUserUsecase(repo)
+        usease = CreateUserUsecase(repo, observability=observability)
 
-        controller = CreateUserController(usease)
+        controller = CreateUserController(usease, observability=observability)
 
         request = HttpRequest(body={
             'password': '123456',
@@ -266,8 +268,8 @@ class Test_CreateUserController:
 
     def test_create_user_controller_missing_password(self):
         repo = UserRepositoryMock()
-        usease = CreateUserUsecase(repo)
-        controller = CreateUserController(usease)
+        usease = CreateUserUsecase(repo, observability=observability)
+        controller = CreateUserController(usease, observability=observability)
         request = HttpRequest(body={
             'name': "Vitor sOLLER",
             'email': 'vitor@gmail.com',
@@ -288,8 +290,8 @@ class Test_CreateUserController:
 
     def test_create_user_controller_wrong_access_level(self):
         repo = UserRepositoryMock()
-        usease = CreateUserUsecase(repo)
-        controller = CreateUserController(usease)
+        usease = CreateUserUsecase(repo, observability=observability)
+        controller = CreateUserController(usease, observability=observability)
         request = HttpRequest(body={
             'name': 'Vitor Soller',
             'email': 'vitor@gmail.com',
@@ -311,8 +313,8 @@ class Test_CreateUserController:
 
     def test_create_user_controller_duplicated_item(self):
         repo = UserRepositoryMock()
-        usease = CreateUserUsecase(repo)
-        controller = CreateUserController(usease)
+        usease = CreateUserUsecase(repo, observability=observability)
+        controller = CreateUserController(usease, observability=observability)
         request = HttpRequest(body={
             'name': 'Vitor Soller',
             'email': 'vitor@maua.br',
@@ -334,8 +336,8 @@ class Test_CreateUserController:
 
     def test_create_user_controller_missing_certificate(self):
         repo = UserRepositoryMock()
-        usease = CreateUserUsecase(repo)
-        controller = CreateUserController(usease)
+        usease = CreateUserUsecase(repo, observability=observability)
+        controller = CreateUserController(usease, observability=observability)
         request = HttpRequest(body={
             'name': 'Vitor Soller',
             'email': 'vitor@gmail.com',

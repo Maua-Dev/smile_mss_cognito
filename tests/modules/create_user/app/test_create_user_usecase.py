@@ -5,8 +5,10 @@ from src.shared.domain.entities.enums import ACCESS_LEVEL, ROLE
 from src.shared.domain.entities.user import User
 from src.shared.helpers.errors.domain_errors import EntityError
 from src.shared.helpers.errors.usecase_errors import ForbiddenAction, DuplicatedItem, TermsNotAcceptedError
+from src.shared.infra.external.observability.observability_mock import ObservabilityMock
 from src.shared.infra.repositories.user_repository_mock import UserRepositoryMock
 
+observability = ObservabilityMock(module_name="create_user")
 
 class Test_CreateUserUsecase:
     def test_create_user_usecase(self):
@@ -17,7 +19,7 @@ class Test_CreateUserUsecase:
                     accepted_notifications_sms=True, certificate_with_social_name=False, phone="+5511991758098", accepted_notifications_email=True)
         repo = UserRepositoryMock()
         len_before = len(repo.users)
-        usecase = CreateUserUsecase(repo)
+        usecase = CreateUserUsecase(repo, observability=observability)
 
         new_user = usecase(user)
 
@@ -38,7 +40,7 @@ class Test_CreateUserUsecase:
 
     def test_create_user_usecase_wrong_access_level(self):
         repo = UserRepositoryMock()
-        usecase = CreateUserUsecase(repo)
+        usecase = CreateUserUsecase(repo, observability=observability)
 
         user = User(user_id='000000000000000000000000000000000000', email='vitor@gmail.com', name='Vitor soller',
                     password="z12345",ra=None, role=ROLE.STUDENT, access_level=ACCESS_LEVEL.ADMIN, created_at=None,
@@ -49,7 +51,7 @@ class Test_CreateUserUsecase:
 
     def test_create_user_usecase_duplicated_item(self):
         repo = UserRepositoryMock()
-        usecase = CreateUserUsecase(repo)
+        usecase = CreateUserUsecase(repo, observability=observability)
 
         user = User(user_id='000000000000000000000000000000000000', email='zeeba@gmail.com', name='Vitor soller',
                     password="z12345", ra=None, role=ROLE.EXTERNAL, access_level=ACCESS_LEVEL.USER, created_at=None,
@@ -61,7 +63,7 @@ class Test_CreateUserUsecase:
 
     def test_create_user_usecase_terms_not_accepted(self):
         repo = UserRepositoryMock()
-        usecase = CreateUserUsecase(repo)
+        usecase = CreateUserUsecase(repo, observability=observability)
 
         user = User(user_id='000000000000000000000000000000000000', email='zeeba@gmail.com', name='Vitor soller',
                     password="z12345", ra=None, role=ROLE.EXTERNAL, access_level=ACCESS_LEVEL.USER, created_at=None,
@@ -73,7 +75,7 @@ class Test_CreateUserUsecase:
 
     def test_create_user_strange_name(self):
         repo = UserRepositoryMock()
-        usecase = CreateUserUsecase(repo)
+        usecase = CreateUserUsecase(repo, observability=observability)
 
         with pytest.raises(EntityError):
             user = User(user_id='000000000000000000000000000000000000', email='zeeba@gmail.com', name='1=1vitor',
@@ -83,7 +85,7 @@ class Test_CreateUserUsecase:
 
     def test_create_user_strange_social_name(self):
         repo = UserRepositoryMock()
-        usecase = CreateUserUsecase(repo)
+        usecase = CreateUserUsecase(repo, observability=observability)
 
         with pytest.raises(EntityError):
             user = User(user_id='000000000000000000000000000000000000', email='zeeba@gmail.com', name='Vitor soller',
@@ -98,7 +100,7 @@ class Test_CreateUserUsecase:
                     updated_at=None, social_name=None, accepted_terms=True,
                     accepted_notifications_sms=True, certificate_with_social_name=True, phone="+5511991758098", accepted_notifications_email=True)
         repo = UserRepositoryMock()
-        usecase = CreateUserUsecase(repo)
+        usecase = CreateUserUsecase(repo, observability=observability)
 
         with pytest.raises(EntityError):
             new_user = usecase(user)

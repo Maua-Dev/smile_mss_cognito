@@ -1,10 +1,17 @@
 import os
 
+from src.shared.environments import Environments
+
+observability = Environments.get_observability()(module_name="send_email")
+
 FRONT_ENDPOINT = os.environ['FRONT_ENDPOINT']
 API_ENDPOINT = os.environ['API_ENDPOINT']
 
 
-def lambda_handler(event, context):
+@observability.presenter_decorators
+def send_email_presenter(event, context):
+    observability.log_simple_lambda_in() 
+    
     user = event['request']['userAttributes']
     email = user['email']
     name = user["custom:socialName"].split(' ')[0] if user.get("custom:socialName") is not None else user['name'].split(' ')[0]
@@ -775,4 +782,6 @@ def lambda_handler(event, context):
 
 
     print(event)
+    observability.log_simple_lambda_out()
+    
     return event
