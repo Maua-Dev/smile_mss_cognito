@@ -88,6 +88,7 @@ class IacStack(Stack):
             runtime=lambda_.Runtime.PYTHON_3_9,
             timeout=Duration.seconds(15),
             layers=[self.lambda_stack.lambda_power_tools],
+            environment={"MSS_NAME":self.mss_name}
         )
 
         self.cognito_stack.user_pool.add_trigger(
