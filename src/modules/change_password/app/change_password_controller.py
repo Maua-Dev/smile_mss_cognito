@@ -1,4 +1,6 @@
 import json
+import urllib.parse
+
 from src.shared.domain.observability.observability_interface import IObservability
 from .change_password_usecase import ChangePasswordUsecase
 from .change_password_viewmodel import ChangePasswordViewmodel
@@ -27,8 +29,10 @@ class ChangePasswordController:
             if request.data.get('email') is None:
                 raise MissingParameters('email')
 
+            email = urllib.parse.unquote(request.data.get('email'))
+
             resp = self.ChangePasswordUsecase(
-                email=request.data.get('email')
+                email=email
             )
 
             viewmodel = ChangePasswordViewmodel(resp)
