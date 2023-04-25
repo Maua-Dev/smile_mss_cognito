@@ -25,7 +25,7 @@ class IObservability(ABC):
         pass
     
     @abstractmethod    
-    def log_usecase_in(self) -> None:
+    def log_usecase_in(self, input:str, status_code: int) -> None:
         pass
     
     @abstractmethod    

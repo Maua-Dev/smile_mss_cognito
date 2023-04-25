@@ -29,7 +29,7 @@ class LoginUserController:
             login_user_viewmodel = LoginUserViewmodel(data)
             response = OK(login_user_viewmodel.to_dict())
 
-            self.observability.log_controller_out(input=json.dumps(response.body))
+            self.observability.log_controller_out(input=json.dumps(response.body), status_code=response.status_code)
             
             
             return response

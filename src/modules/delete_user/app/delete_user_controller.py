@@ -26,7 +26,7 @@ class DeleteUserController:
             self.usecase(req.data.get('email'))
             response = OK('User deleted.')
 
-            self.observability.log_controller_out(input=json.dumps(response.body))
+            self.observability.log_controller_out(input=json.dumps(response.body), status_code=response.status_code)
             return response
 
         except MissingParameters as err:
