@@ -7,7 +7,7 @@ class ObservabilityAWS(IObservability):
     logger: Logger
     metrics: Metrics
     module_name: str
-    mss_name: str
+    mss_name: str 
      
     def __init__(self, module_name: str):
         self.logger = Logger(service=module_name)
@@ -53,6 +53,9 @@ class ObservabilityAWS(IObservability):
             
     def _add_metric(self, name: str, unit: str, value: float) -> None:
         self.metrics.add_metric(name, unit, value)
+        
+    def add_error_count_metric(self, statusCode:int) -> None:
+        self._add_metric(name="ErrorCount", unit="Count", value=1) if statusCode not in [200, 201] else None
         
     def presenter_decorators(self, presenter) -> None:
         @self.tracer.capture_method

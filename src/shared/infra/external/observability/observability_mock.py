@@ -7,7 +7,7 @@ class ObservabilityMock(IObservability):
     
     def __init__(self, module_name: str) -> None:
         super().__init__(module_name=module_name)
-    
+     
     def _log_info(self, message: str) -> None:
         print(message)
         
@@ -40,6 +40,9 @@ class ObservabilityMock(IObservability):
     def _add_metric(self, name: str, unit: str, value: float) -> None:
         print(f"Metric {name} added with value {value} in {unit}")
             
+    def add_error_count_metric(self, statusCode:int) -> None:
+        self._add_metric(name="ErrorCount", unit="Count", value=1) if statusCode not in [200, 201] else None    
+        
     def presenter_decorators(self, presenter) -> None:
         def presenter_wrapper(event, context):    
             response = presenter(event, context)

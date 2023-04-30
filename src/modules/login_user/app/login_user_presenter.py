@@ -22,6 +22,6 @@ def login_user_presenter(event, context):
 def lambda_handler(event, context):
     
     response = login_user_presenter(event, context)
-    
+    observability.add_error_count_metric(statusCode=response.get('statusCode', 500))
     
     return response

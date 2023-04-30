@@ -21,8 +21,8 @@ def change_password_presenter(event, context):
 
 @observability.handler_decorators
 def lambda_handler(event, context):
-    
     response = change_password_presenter(event, context)
+    observability.add_error_count_metric(statusCode=response.get('statusCode', 500))
     
     
     return response
