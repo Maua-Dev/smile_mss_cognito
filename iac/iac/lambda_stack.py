@@ -75,13 +75,13 @@ class LambdaStack(Construct):
             environment_variables=environment_variables
 
         )
-        self.delete_user_function = self.createLambdaApiGatewayIntegration(
-            module_name="delete_user",
-            method="POST",
-            mss_student_api_resource=api_gateway_resource,
-            environment_variables=environment_variables
-
-        )
+        # self.delete_user_function = self.createLambdaApiGatewayIntegration(
+        #     module_name="delete_user",
+        #     method="POST",
+        #     mss_student_api_resource=api_gateway_resource,
+        #     environment_variables=environment_variables
+        #
+        # )
         self.get_user_function = self.createLambdaApiGatewayIntegration(
             module_name="get_user",
             method="GET",
@@ -89,13 +89,13 @@ class LambdaStack(Construct):
             environment_variables=environment_variables
 
         )
-        self.list_users_function = self.createLambdaApiGatewayIntegration(
-            module_name="list_users",
-            method="GET",
-            mss_student_api_resource=api_gateway_resource,
-            environment_variables=environment_variables
-
-        )
+        # self.list_users_function = self.createLambdaApiGatewayIntegration(
+        #     module_name="list_users",
+        #     method="GET",
+        #     mss_student_api_resource=api_gateway_resource,
+        #     environment_variables=environment_variables
+        #
+        # )
         self.login_user_function = self.createLambdaApiGatewayIntegration(
             module_name="login_user",
             method="POST",
@@ -138,9 +138,9 @@ class LambdaStack(Construct):
             self.confirm_change_password_function,
             self.confirm_user_creation_function,
             self.create_user_function,
-            self.delete_user_function,
+            # self.delete_user_function,
             self.get_user_function,
-            self.list_users_function,
+            # self.list_users_function,
             self.login_user_function,
             self.refresh_token_function,
             self.resend_creation_confirmation_function,
