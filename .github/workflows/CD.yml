@@ -55,3 +55,4 @@ jobs:
             FROM_EMAIL: ${{ vars.FROM_EMAIL }}
             SES_EMAIL: ${{ vars.SES_EMAIL }}
             REPLY_TO_EMAIL: ${{ vars.REPLY_TO_EMAIL }}
+            MSS_NAME: ${{ github.event.repository.name }}

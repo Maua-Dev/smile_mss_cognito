@@ -1,5 +1,6 @@
 from src.shared.domain.entities.enums import ACCESS_LEVEL, ROLE
 from src.shared.domain.entities.user import User
+from src.shared.domain.observability.observability_interface import IObservability
 from src.shared.domain.repositories.user_repository_interface import IUserRepository
 from src.shared.helpers.errors.domain_errors import EntityError
 from src.shared.helpers.errors.usecase_errors import InvalidAdminError, InvalidProfessorError, InvalidStudentError, \
@@ -8,8 +9,9 @@ from src.shared.helpers.errors.usecase_errors import InvalidAdminError, InvalidP
 
 class CreateUserUsecase:
 
-    def __init__(self, repo: IUserRepository):
+    def __init__(self, repo: IUserRepository, observability: IObservability):
         self.repo = repo
+        self.observability = observability
 
     def __call__(self, user: User) -> User:
 
@@ -32,5 +34,8 @@ class CreateUserUsecase:
             raise TermsNotAcceptedError('accepted_terms')
 
         user.email = user.email.lower()
+        
+        user_response = self.repo.create_user(user)
+        self.observability.log_usecase_out()
 
-        return self.repo.create_user(user)
+        return user_response

@@ -1,10 +1,18 @@
 import os
+import urllib.parse
+
+from src.shared.environments import Environments
+
+observability = Environments.get_observability()(module_name="send_email")
 
 FRONT_ENDPOINT = os.environ['FRONT_ENDPOINT']
 API_ENDPOINT = os.environ['API_ENDPOINT']
 
 
-def lambda_handler(event, context):
+@observability.presenter_decorators
+def send_email_presenter(event, context):
+    observability.log_simple_lambda_in() 
+    
     user = event['request']['userAttributes']
     email = user['email']
     name = user["custom:socialName"].split(' ')[0] if user.get("custom:socialName") is not None else user['name'].split(' ')[0]
@@ -385,7 +393,8 @@ def lambda_handler(event, context):
         </html>
         """
 
-        message = message.format(name=name, code=code, email=email, API_ENDPOINT=API_ENDPOINT)
+        email_encoded = urllib.parse.quote(email)
+        message = message.format(name=name, code=code, email=email_encoded, API_ENDPOINT=API_ENDPOINT)
 
         event["response"]["emailMessage"] = message
         event["response"]["emailSubject"] = 'Confirme seu cadastro - SMILE 2023'
@@ -768,11 +777,22 @@ def lambda_handler(event, context):
                 </html>
         """
 
-        message = message.format(name=name, FRONT_ENDPOINT=FRONT_ENDPOINT, code=code, email_before_at=email_before_at, email_provider=email_provider)
+        email_before_at_encoded = urllib.parse.quote(email_before_at)
+
+        message = message.format(name=name, FRONT_ENDPOINT=FRONT_ENDPOINT, code=code, email_before_at=email_before_at_encoded, email_provider=email_provider)
 
         event["response"]["emailMessage"] = message
         event["response"]["emailSubject"] = 'Criar nova senha - SMILE 2023'
 
-
     print(event)
+    observability.log_simple_lambda_out()
+    
     return event
+
+@observability.handler_decorators
+def lambda_handler(event, context):
+    
+    response = send_email_presenter(event, context)
+    
+    
+    return response
