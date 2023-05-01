@@ -9,7 +9,7 @@ class Test_ListProfessorsViewmodel:
     def test_list_professors(self):
         repo = UserRepositoryMock()
         usecase = ListProfessorsUsecase(repo, observability=observability)
-        professors = usecase()
+        professors = usecase(access_token="valid_access_token-vitor@maua.br")
 
         viewmodel = ListProfessorsViewmodel(professors)
 
