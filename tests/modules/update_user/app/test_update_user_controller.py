@@ -1,14 +1,16 @@
 from src.modules.update_user.app.update_user_controller import UpdateUserController
 from src.modules.update_user.app.update_user_usecase import UpdateUserUsecase
 from src.shared.helpers.external_interfaces.http_models import HttpRequest
+from src.shared.infra.external.observability.observability_mock import ObservabilityMock
 from src.shared.infra.repositories.user_repository_mock import UserRepositoryMock
 
+observability = ObservabilityMock(module_name="update_user")
 
 class Test_UpdateUserController:
     def test_update_user_controller(self):
         repo = UserRepositoryMock()
-        usecase = UpdateUserUsecase(repo)
-        controller = UpdateUserController(usecase)
+        usecase = UpdateUserUsecase(repo, observability=observability)
+        controller = UpdateUserController(usecase, observability=observability)
 
         response = controller(HttpRequest(body={'name': 'Vitor', 'social_name': 'Vitinho', 'accepted_notifications_sms': True, 'certificate_with_social_name': True, "accepted_notifications_email": True}, headers={'Authorization': 'Bearer ' + 'valid_access_token-' + repo.confirmed_users[0].email}))
 
@@ -27,8 +29,8 @@ class Test_UpdateUserController:
 
     def test_update_user_controller_one_field_only(self):
         repo = UserRepositoryMock()
-        usecase = UpdateUserUsecase(repo)
-        controller = UpdateUserController(usecase)
+        usecase = UpdateUserUsecase(repo, observability=observability)
+        controller = UpdateUserController(usecase, observability=observability)
 
         response = controller(HttpRequest(body={'name': 'Vitor'}, headers={'Authorization': 'Bearer ' + 'valid_access_token-' + repo.confirmed_users[0].email}))
 
@@ -38,8 +40,8 @@ class Test_UpdateUserController:
 
     def test_update_user_controller_phone_only(self):
         repo = UserRepositoryMock()
-        usecase = UpdateUserUsecase(repo)
-        controller = UpdateUserController(usecase)
+        usecase = UpdateUserUsecase(repo, observability=observability)
+        controller = UpdateUserController(usecase, observability=observability)
 
         response = controller(HttpRequest(body={'phone': '(5511)99175-8098'}, headers={
             'Authorization': 'Bearer ' + 'valid_access_token-' + repo.confirmed_users[0].email}))
@@ -51,8 +53,8 @@ class Test_UpdateUserController:
 
     def test_update_user_controller_missing_authorization(self):
         repo = UserRepositoryMock()
-        usecase = UpdateUserUsecase(repo)
-        controller = UpdateUserController(usecase)
+        usecase = UpdateUserUsecase(repo, observability=observability)
+        controller = UpdateUserController(usecase, observability=observability)
 
         response = controller(HttpRequest(body={'name': 'Vitor', 'social_name': 'Vitinho', 'accepted_notifications_sms': True, 'certificate_with_social_name': True}))
 
@@ -61,8 +63,8 @@ class Test_UpdateUserController:
 
     def test_update_user_controller_invalid_token(self):
         repo = UserRepositoryMock()
-        usecase = UpdateUserUsecase(repo)
-        controller = UpdateUserController(usecase)
+        usecase = UpdateUserUsecase(repo, observability=observability)
+        controller = UpdateUserController(usecase, observability=observability)
 
         response = controller(HttpRequest(
             body={'name': 'Vitor', 'social_name': 'Vitinho', 'accepted_notifications_sms': True,
@@ -74,8 +76,8 @@ class Test_UpdateUserController:
 
     def test_update_user_controller_no_items_found(self):
         repo = UserRepositoryMock()
-        usecase = UpdateUserUsecase(repo)
-        controller = UpdateUserController(usecase)
+        usecase = UpdateUserUsecase(repo, observability=observability)
+        controller = UpdateUserController(usecase, observability=observability)
 
         response = controller(HttpRequest(body={'name': 'Vitor', 'social_name': 'Vitinho', 'accepted_notifications_sms': True, 'certificate_with_social_name': True}, headers={'Authorization': 'Bearer ' + 'valid_access_token-' + "vitor@vitor.com"}))
 

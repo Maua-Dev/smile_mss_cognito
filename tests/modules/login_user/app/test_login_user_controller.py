@@ -1,15 +1,17 @@
 from src.modules.login_user.app.login_user_controller import LoginUserController
 from src.modules.login_user.app.login_user_usecase import LoginUserUsecase
 from src.shared.helpers.external_interfaces.http_models import HttpRequest
+from src.shared.infra.external.observability.observability_mock import ObservabilityMock
 from src.shared.infra.repositories.user_repository_mock import UserRepositoryMock
 
+observability = ObservabilityMock(module_name="login_user")
 
 class Test_LoginUserController:
     def test_login_user_controller(self):
         repo = UserRepositoryMock()
-        usecase = LoginUserUsecase(repo)
+        usecase = LoginUserUsecase(repo, observability=observability)
 
-        controller = LoginUserController(usecase)
+        controller = LoginUserController(usecase, observability=observability)
 
         request = HttpRequest(body={
           'login': repo.users[0].email,
@@ -37,9 +39,9 @@ class Test_LoginUserController:
 
     def test_login_user_controller_with_missing_login(self):
         repo = UserRepositoryMock()
-        usecase = LoginUserUsecase(repo)
+        usecase = LoginUserUsecase(repo, observability=observability)
 
-        controller = LoginUserController(usecase)
+        controller = LoginUserController(usecase, observability=observability)
 
         request = HttpRequest(body={
           'password': repo.users[0].password
@@ -52,9 +54,9 @@ class Test_LoginUserController:
 
     def test_login_user_controller_with_missing_password(self):
         repo = UserRepositoryMock()
-        usecase = LoginUserUsecase(repo)
+        usecase = LoginUserUsecase(repo, observability=observability)
 
-        controller = LoginUserController(usecase)
+        controller = LoginUserController(usecase, observability=observability)
 
         request = HttpRequest(body={
           'login': repo.users[0].email
@@ -67,9 +69,9 @@ class Test_LoginUserController:
 
     def test_login_controller_invalid_email(self):
         repo = UserRepositoryMock()
-        usecase = LoginUserUsecase(repo)
+        usecase = LoginUserUsecase(repo, observability=observability)
 
-        controller = LoginUserController(usecase)
+        controller = LoginUserController(usecase, observability=observability)
 
         request = HttpRequest(body={
           'login': 'invalid_email',
@@ -83,9 +85,9 @@ class Test_LoginUserController:
 
     def test_login_controller_invalid_password_not_match(self):
         repo = UserRepositoryMock()
-        usecase = LoginUserUsecase(repo)
+        usecase = LoginUserUsecase(repo, observability=observability)
 
-        controller = LoginUserController(usecase)
+        controller = LoginUserController(usecase, observability=observability)
 
         request = HttpRequest(body={
           'login': repo.users[0].email,
@@ -100,9 +102,9 @@ class Test_LoginUserController:
 
     def test_login_controller_invalid_password(self):
         repo = UserRepositoryMock()
-        usecase = LoginUserUsecase(repo)
+        usecase = LoginUserUsecase(repo, observability=observability)
 
-        controller = LoginUserController(usecase)
+        controller = LoginUserController(usecase, observability=observability)
 
         request = HttpRequest(body={
           'login': repo.users[0].email,

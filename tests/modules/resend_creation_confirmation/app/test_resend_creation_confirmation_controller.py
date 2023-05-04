@@ -3,15 +3,17 @@ from src.modules.resend_creation_confirmation.app.resend_creation_confirmation_c
 from src.modules.resend_creation_confirmation.app.resend_creation_confirmation_usecase import \
     ResendCreationConfirmationUsecase
 from src.shared.helpers.external_interfaces.http_models import HttpRequest
+from src.shared.infra.external.observability.observability_mock import ObservabilityMock
 from src.shared.infra.repositories.user_repository_mock import UserRepositoryMock
 
+observability = ObservabilityMock(module_name="resend_creation_confirmation")
 
 class Test_ResendCreationConfirmationController:
 
     def test_resend_confirmation_controller(self):
         repo = UserRepositoryMock()
-        usecase = ResendCreationConfirmationUsecase(repo)
-        controller = ResendCreationConfirmationController(usecase)
+        usecase = ResendCreationConfirmationUsecase(repo, observability=observability)
+        controller = ResendCreationConfirmationController(usecase, observability=observability)
 
         request = HttpRequest(body={'email': 'vitor@maua.br'})
 
@@ -22,8 +24,8 @@ class Test_ResendCreationConfirmationController:
 
     def test_resend_confirmation_controller_missing_email(self):
         repo = UserRepositoryMock()
-        usecase = ResendCreationConfirmationUsecase(repo)
-        controller = ResendCreationConfirmationController(usecase)
+        usecase = ResendCreationConfirmationUsecase(repo, observability=observability)
+        controller = ResendCreationConfirmationController(usecase, observability=observability)
 
         request = HttpRequest(body={})
 
@@ -34,8 +36,8 @@ class Test_ResendCreationConfirmationController:
 
     def test_resend_confirmation_controller_invalid_email(self):
         repo = UserRepositoryMock()
-        usecase = ResendCreationConfirmationUsecase(repo)
-        controller = ResendCreationConfirmationController(usecase)
+        usecase = ResendCreationConfirmationUsecase(repo, observability=observability)
+        controller = ResendCreationConfirmationController(usecase, observability=observability)
 
         request = HttpRequest(body={'email': 'vitor@maua'})
 
@@ -46,8 +48,8 @@ class Test_ResendCreationConfirmationController:
 
     def test_resend_confirmation_controller_nonexistent_email(self):
         repo = UserRepositoryMock()
-        usecase = ResendCreationConfirmationUsecase(repo)
-        controller = ResendCreationConfirmationController(usecase)
+        usecase = ResendCreationConfirmationUsecase(repo, observability=observability)
+        controller = ResendCreationConfirmationController(usecase, observability=observability)
 
         request = HttpRequest(body={'email': 'vitor@gmail.com'})
 

@@ -15,7 +15,7 @@ class Test_ListProfessorPresenter:
                 "cookie2"
             ],
             "headers": {
-                "Authorization": "Bearer valid_access_token-zeeba@gmail.com",
+                "Authorization": "Bearer valid_access_token-vitor@maua.br",
             },
             "requestContext": {
                 "accountId": "123456789012",

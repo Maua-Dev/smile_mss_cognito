@@ -3,14 +3,16 @@ import pytest
 from src.modules.update_user.app.update_user_usecase import UpdateUserUsecase
 from src.shared.helpers.errors.domain_errors import EntityError
 from src.shared.helpers.errors.usecase_errors import NoItemsFound
+from src.shared.infra.external.observability.observability_mock import ObservabilityMock
 from src.shared.infra.repositories.user_repository_mock import UserRepositoryMock
 
+observability = ObservabilityMock(module_name="update_user")
 
 class Test_UpdateUserUsecase:
 
     def test_update_user_usecase(self):
         repo = UserRepositoryMock()
-        usecase = UpdateUserUsecase(repo)
+        usecase = UpdateUserUsecase(repo, observability=observability)
 
         user_to_update = {
             'email': 'zeeba@gmail.com',
@@ -29,7 +31,7 @@ class Test_UpdateUserUsecase:
 
     def test_update_user_usecase_more_fields(self):
         repo = UserRepositoryMock()
-        usecase = UpdateUserUsecase(repo)
+        usecase = UpdateUserUsecase(repo, observability=observability)
 
         user_to_update = {
             'email': 'zeeba@gmail.com',
@@ -59,7 +61,7 @@ class Test_UpdateUserUsecase:
 
     def test_update_user_usecase_invalid_access_token(self):
         repo = UserRepositoryMock()
-        usecase = UpdateUserUsecase(repo)
+        usecase = UpdateUserUsecase(repo, observability=observability)
 
         user_to_update = {
             'email': 'zeeba@gmail.com',
@@ -72,7 +74,7 @@ class Test_UpdateUserUsecase:
 
     def test_update_user_usecase_i(self):
         repo = UserRepositoryMock()
-        usecase = UpdateUserUsecase(repo)
+        usecase = UpdateUserUsecase(repo, observability=observability)
 
         user_to_update = {
             'email': 'vitor@vitor.com',
