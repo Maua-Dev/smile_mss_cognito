@@ -43,6 +43,18 @@ class IacStack(Stack):
                                 },
                                 )
 
+        if 'prod' in self.github_ref:
+            stage = 'PROD'
+
+        elif 'homolog' in self.github_ref:
+            stage = 'HOMOLOG'
+
+        elif 'dev' in self.github_ref:
+            stage = 'DEV'
+
+        else:
+            stage = 'TEST'
+
         self.cognito_stack = CognitoStack(self, f"smile_cognito_stack_{self.github_ref}")
 
         api_gateway_resource = self.rest_api.root.add_resource("mss-cognito", default_cors_preflight_options=
@@ -54,7 +66,7 @@ class IacStack(Stack):
                                                                )
 
         ENVIRONMENT_VARIABLES = {
-            "STAGE": "DEV",
+            "STAGE": stage,
             "USER_POOL_ID": self.cognito_stack.user_pool.user_pool_id,
             "CLIENT_ID": self.cognito_stack.client.user_pool_client_id,
             "REGION": self.region,
